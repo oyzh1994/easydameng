@@ -404,56 +404,25 @@ public class DamengClient {
      * @return 表数量
      */
     public int tableSize(String dbName) {
+        int size = 0;
         try {
-            int size = 0;
             Connection connection = this.connection(dbName);
-            DatabaseMetaData metaData = connection.getMetaData();
-            ResultSet resultSet = metaData.getTables(null, dbName, "%", TABLE_TYPES);
+            String sql = "SELECT COUNT(*) FROM ALL_TABLES WHERE OWNER = ?";
+            DBUtil.printSql(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, dbName);
+            ResultSet resultSet = statement.executeQuery();
             DBUtil.printMetaData(resultSet);
-            while (resultSet.next()) {
-                if (DBUtil.checkTableType(resultSet, dbName)) {
-                    size++;
-                }
+            if (resultSet.next()) {
+                size = resultSet.getInt(1);
             }
             DBUtil.close(resultSet);
-            return size;
+            DBUtil.close(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new DBException(ex);
         }
-        // int size = 0;
-        // try {
-        //     Connection connection = this.connection(dbName);
-        //     String sql = """
-        //             SELECT
-        //                 COUNT(*)
-        //             FROM
-        //                 ALL_TABLES
-        //             WHERE
-        //                 OWNER = ?
-        //             AND
-        //                 TABLE_TYPE = 'BASE TABLE'
-        //             OR
-        //                 TABLE_TYPE = 'TABLE'
-        //             OR
-        //                 TABLE_TYPE = 'SYSTEM VIEW'
-        //             OR
-        //                 TABLE_TYPE = 'SYSTEM TABLE'
-        //             """;
-        //     DBUtil.printSql(sql);
-        //     PreparedStatement statement = connection.prepareStatement(sql);
-        //     statement.setString(1, dbName);
-        //     ResultSet resultSet = statement.executeQuery();
-        //     DBUtil.printMetaData(resultSet);
-        //     if (resultSet.next()) {
-        //         size = resultSet.getInt(1);
-        //     }
-        //     DBUtil.close(resultSet);
-        // } catch (Exception ex) {
-        //     ex.printStackTrace();
-        //     throw new DBException(ex);
-        // }
-        // return size;
+        return size;
     }
 
     /**
@@ -463,23 +432,25 @@ public class DamengClient {
      * @return 视图数量
      */
     public int viewSize(String dbName) {
+        int size = 0;
         try {
-            int size = 0;
             Connection connection = this.connection(dbName);
-            DatabaseMetaData metaData = connection.getMetaData();
-            ResultSet resultSet = metaData.getTables(null, dbName, "%", VIEW_TYPES);
+            String sql = "SELECT COUNT(*) FROM ALL_VIEWS WHERE OWNER = ?";
+            DBUtil.printSql(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, dbName);
+            ResultSet resultSet = statement.executeQuery();
             DBUtil.printMetaData(resultSet);
-            while (resultSet.next()) {
-                if (DBUtil.checkViewType(resultSet, dbName)) {
-                    size++;
-                }
+            if (resultSet.next()) {
+                size = resultSet.getInt(1);
             }
             DBUtil.close(resultSet);
-            return size;
+            DBUtil.close(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new DBException(ex);
         }
+        return size;
     }
 
     public DamengQueryResults<DamengExecuteResult> executeSql(String dbName, String sql) {
@@ -850,20 +821,23 @@ public class DamengClient {
                 DBUtil.close(resultSet);
                 DBUtil.close(statement);
             } else {
-                DatabaseMetaData metaData = connection.getMetaData();
-                ResultSet resultSet = metaData.getTables(null, null, "%", TABLE_TYPES);
+                String sql = "SELECT TABLE_NAME, COMMENTS AS REMARKS FROM ALL_TAB_COMMENTS WHERE OWNER = ?";
+                DBUtil.printSql(sql);
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, dbName);
+                ResultSet resultSet = statement.executeQuery();
+                DBUtil.printMetaData(resultSet);
                 while (resultSet.next()) {
-                    if (DBUtil.checkTableType(resultSet, dbName)) {
-                        DamengTable table = new DamengTable();
-                        table.setDbName(dbName);
-                        String remarks = resultSet.getString("REMARKS");
-                        String tableName = resultSet.getString("TABLE_NAME");
-                        table.setName(tableName);
-                        table.setComment(remarks);
-                        tables.add(table);
-                    }
+                    DamengTable table = new DamengTable();
+                    table.setDbName(dbName);
+                    String remarks = resultSet.getString("REMARKS");
+                    String tableName = resultSet.getString("TABLE_NAME");
+                    table.setName(tableName);
+                    table.setComment(remarks);
+                    tables.add(table);
                 }
                 DBUtil.close(resultSet);
+                DBUtil.close(statement);
             }
 
 
@@ -885,11 +859,13 @@ public class DamengClient {
                         C.DATA_TYPE AS "Type",
                         CC.COMMENTS AS "Comment",
                         C.DATA_DEFAULT AS "Default",
-                        CASE WHEN EXISTS(SELECT 1 FROM ALL_CONS_COLUMNS CC2 JOIN ALL_CONSTRAINTS C2 ON CC2.CONSTRAINT_NAME=C2.CONSTRAINT_NAME WHERE C2.CONSTRAINT_TYPE='P' AND CC2.OWNER=C.OWNER AND CC2.TABLE_NAME=C.TABLE_NAME AND CC2.COLUMN_NAME=C.COLUMN_NAME) THEN 'PRI' ELSE '' END AS "Key",
-                        CASE WHEN C.IDENTITY_COLUMN='YES' THEN 'auto_increment' ELSE '' END AS "Extra",
+                        CASE WHEN CONS.COLUMN_NAME IS NOT NULL THEN 'PRI' ELSE '' END AS "Key",
+                        '' AS "Extra",
                         NULL AS "COLLATION"
                     FROM ALL_TAB_COLUMNS C
                     LEFT JOIN ALL_COL_COMMENTS CC ON C.OWNER=CC.OWNER AND C.TABLE_NAME=CC.TABLE_NAME AND C.COLUMN_NAME=CC.COLUMN_NAME
+                    LEFT JOIN ALL_CONS_COLUMNS CONS ON C.OWNER=CONS.OWNER AND C.TABLE_NAME=CONS.TABLE_NAME AND C.COLUMN_NAME=CONS.COLUMN_NAME
+                        AND EXISTS (SELECT 1 FROM ALL_CONSTRAINTS AC WHERE AC.OWNER=CONS.OWNER AND AC.CONSTRAINT_NAME=CONS.CONSTRAINT_NAME AND AC.CONSTRAINT_TYPE='P')
                     WHERE C.OWNER=? AND C.TABLE_NAME=?
                     ORDER BY C.COLUMN_ID
                     """;
@@ -1328,7 +1304,7 @@ public class DamengClient {
     public List<DBDatabase> databases() {
         try {
             Statement statement = this.connection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT USERNAME FROM ALL_USERS ORDER BY USERNAME");
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT OWNER FROM ALL_TABLES ORDER BY OWNER");
             List<DBDatabase> list = new ArrayList<>();
             while (resultSet.next()) {
                 DBDatabase databases = new DBDatabase();
@@ -1397,15 +1373,19 @@ public class DamengClient {
                 DBUtil.close(resultSet);
                 DBUtil.close(statement);
             } else {
-                DatabaseMetaData metaData = connection.getMetaData();
-                ResultSet resultSet = metaData.getTables(null, null, tableName, TABLE_TYPES);
+                String sql = "SELECT COMMENTS AS REMARKS FROM ALL_TAB_COMMENTS WHERE OWNER = ? AND TABLE_NAME = ?";
+                DBUtil.printSql(sql);
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, dbName);
+                statement.setString(2, tableName);
+                ResultSet resultSet = statement.executeQuery();
+                DBUtil.printMetaData(resultSet);
                 while (resultSet.next()) {
-                    if (DBUtil.checkTableType(resultSet, dbName)) {
-                        String remarks = resultSet.getString("REMARKS");
-                        table.setComment(remarks);
-                    }
+                    String remarks = resultSet.getString("REMARKS");
+                    table.setComment(remarks);
                 }
                 DBUtil.close(resultSet);
+                DBUtil.close(statement);
             }
             return table;
         } catch (Exception ex) {
@@ -1545,10 +1525,14 @@ public class DamengClient {
     public boolean existView(String dbName, String viewName) {
         boolean result;
         try {
-            DatabaseMetaData metaData = this.connection(dbName).getMetaData();
-            ResultSet resultSet = metaData.getTables(null, dbName, viewName, new String[]{"VIEW"});
-            result = resultSet.next();
+            String sql = "SELECT COUNT(*) FROM ALL_VIEWS WHERE OWNER = ? AND VIEW_NAME = ?";
+            PreparedStatement statement = this.connection().prepareStatement(sql);
+            statement.setString(1, dbName);
+            statement.setString(2, viewName);
+            ResultSet resultSet = statement.executeQuery();
+            result = resultSet.next() && resultSet.getInt(1) > 0;
             DBUtil.close(resultSet);
+            DBUtil.close(statement);
         } catch (Exception ex) {
             throw new DBException(ex);
         }
@@ -1948,11 +1932,15 @@ public class DamengClient {
     public boolean existTable(String dbName, String tableName) {
         boolean result;
         try {
-            DatabaseMetaData metaData = this.connection(dbName).getMetaData();
-            ResultSet resultSet = metaData.getTables(null, dbName, tableName, TABLE_TYPES);
+            String sql = "SELECT COUNT(*) FROM ALL_TABLES WHERE OWNER = ? AND TABLE_NAME = ?";
+            PreparedStatement statement = this.connection().prepareStatement(sql);
+            statement.setString(1, dbName);
+            statement.setString(2, tableName);
+            ResultSet resultSet = statement.executeQuery();
             DBUtil.printMetaData(resultSet);
-            result = resultSet.next();
+            result = resultSet.next() && resultSet.getInt(1) > 0;
             DBUtil.close(resultSet);
+            DBUtil.close(statement);
         } catch (Exception ex) {
             throw new DBException(ex);
         }
@@ -2097,17 +2085,15 @@ public class DamengClient {
     public boolean existDatabase(String dbName) {
         boolean result = false;
         try {
-            DatabaseMetaData metaData = this.connection().getMetaData();
-            // 执行查询操作，检查数据库是否存在
-            ResultSet resultSet = metaData.getCatalogs();
-            while (resultSet.next()) {
-                String catalogName = resultSet.getString("TABLE_CAT");
-                if (catalogName.equals(dbName)) {
-                    result = true;
-                    break;
-                }
+            String sql = "SELECT COUNT(*) FROM ALL_USERS WHERE USERNAME = ?";
+            PreparedStatement statement = this.connection().prepareStatement(sql);
+            statement.setString(1, dbName);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                result = resultSet.getInt(1) > 0;
             }
             DBUtil.close(resultSet);
+            DBUtil.close(statement);
         } catch (Exception ex) {
             throw new DBException(ex);
         }
