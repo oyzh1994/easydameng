@@ -1,0 +1,41 @@
+package cn.oyzh.easydameng.terminal.basic;
+
+import cn.oyzh.easydameng.terminal.DamengTerminalCommandHandler;
+import cn.oyzh.easydameng.terminal.DamengTerminalPane;
+import cn.oyzh.fx.terminal.command.TerminalCommand;
+import cn.oyzh.fx.terminal.execute.TerminalExecuteResult;
+
+/**
+ * @author oyzh
+ * @since 2024-12-30
+ */
+public class DamengShowTablesTerminalCommandHandler extends DamengTerminalCommandHandler<TerminalCommand> {
+
+    @Override
+    protected TerminalCommand parseCommand(String line, String[] args) {
+        TerminalCommand terminalCommand = new TerminalCommand();
+        terminalCommand.setArgs(args);
+        terminalCommand.setCommand(line);
+        return terminalCommand;
+    }
+
+    @Override
+    protected boolean checkArgs(String[] args) throws RuntimeException {
+        return args != null && args.length == 2;
+    }
+
+    @Override
+    public String commandName() {
+        return "show";
+    }
+
+    @Override
+    public String commandSubName() {
+        return "tables;";
+    }
+
+    @Override
+    public TerminalExecuteResult execute(TerminalCommand command, DamengTerminalPane terminal) {
+        return terminal.eval("SHOW TABLES;");
+    }
+}

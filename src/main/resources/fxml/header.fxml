@@ -1,0 +1,49 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<?import javafx.geometry.Insets?>-->
+<!--<?import javafx.scene.layout.FlowPane?>-->
+<!--<?import cn.oyzh.fx.plus.controls.pane.FXFlowPane?>-->
+<!--<?import cn.oyzh.fx.gui.svg.label.SearchSVGLabel?>-->
+<!--<?import cn.oyzh.fx.gui.svg.label.TransportSVGLabel?>-->
+<!--<?import cn.oyzh.fx.gui.svg.label.SettingSVGLabel?>-->
+<!--<?import cn.oyzh.fx.gui.svg.label.AboutSVGLabel?>-->
+<!--<?import cn.oyzh.fx.gui.svg.label.CollapseSVGLabel?>-->
+<!--<?import cn.oyzh.fx.gui.svg.label.ExpandSVGLabel?>-->
+<!--<?import cn.oyzh.fx.gui.svg.label.QuitSVGLabel?>-->
+<!--<FXFlowPane styleClass="root" xmlns:fx="http://javafx.com/fxml/1"-->
+<!--              fx:controller="cn.oyzh.easydameng.controller.HeaderController" flexWidth="100%" realHeight="30">-->
+<!--&lt;!&ndash;    <SearchSVGLabel onMousePrimaryClicked="#search" tipText="%base.searchTip5" size="14">&ndash;&gt;-->
+<!--&lt;!&ndash;        <FlowPane.margin>&ndash;&gt;-->
+<!--&lt;!&ndash;            <Insets left="8" top="5" bottom="5"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        </FlowPane.margin>&ndash;&gt;-->
+<!--&lt;!&ndash;    </SearchSVGLabel>&ndash;&gt;-->
+<!--    <TransportSVGLabel onMousePrimaryClicked="#transport" size="12">-->
+<!--        <FlowPane.margin>-->
+<!--            <Insets left="10" top="5" bottom="5"/>-->
+<!--        </FlowPane.margin>-->
+<!--    </TransportSVGLabel>-->
+<!--    <SettingSVGLabel onMousePrimaryClicked="#setting" size="14">-->
+<!--        <FlowPane.margin>-->
+<!--            <Insets left="10" top="5" bottom="5"/>-->
+<!--        </FlowPane.margin>-->
+<!--    </SettingSVGLabel>-->
+<!--    <AboutSVGLabel onMousePrimaryClicked="#about" size="14">-->
+<!--        <FlowPane.margin>-->
+<!--            <Insets left="10" top="5" bottom="5"/>-->
+<!--        </FlowPane.margin>-->
+<!--    </AboutSVGLabel>-->
+<!--    <CollapseSVGLabel fx:id="collapseTree" onMousePrimaryClicked="#collapseTree" size="12">-->
+<!--        <FlowPane.margin>-->
+<!--            <Insets left="10" top="5" bottom="5"/>-->
+<!--        </FlowPane.margin>-->
+<!--    </CollapseSVGLabel>-->
+<!--    <ExpandSVGLabel visible="false" managed="false" fx:id="expandTree" onMousePrimaryClicked="#expandTree" size="12">-->
+<!--        <FlowPane.margin>-->
+<!--            <Insets left="10" top="5" bottom="5"/>-->
+<!--        </FlowPane.margin>-->
+<!--    </ExpandSVGLabel>-->
+<!--    <QuitSVGLabel onMousePrimaryClicked="#quit" size="12">-->
+<!--        <FlowPane.margin>-->
+<!--            <Insets left="10" top="5" bottom="5"/>-->
+<!--        </FlowPane.margin>-->
+<!--    </QuitSVGLabel>-->
+<!--</FXFlowPane>-->

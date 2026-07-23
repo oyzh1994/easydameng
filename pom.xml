@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.oyzh1994</groupId>
+        <artifactId>fx-base</artifactId>
+        <version>1.3.7</version>
+    </parent>
+
+    <artifactId>easydameng</artifactId>
+    <version>0.1.0</version>
+
+    <properties>
+        <dameng.jdbc.version>8.1.3.140</dameng.jdbc.version>
+        <druid.version>1.2.27</druid.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- 存储模块 -->
+        <dependency>
+            <groupId>io.github.oyzh1994</groupId>
+            <artifactId>base-store</artifactId>
+        </dependency>
+
+        <!-- 事件模块 -->
+        <dependency>
+            <groupId>io.github.oyzh1994</groupId>
+            <artifactId>base-event</artifactId>
+        </dependency>
+
+        <!-- i18n模块 -->
+        <dependency>
+            <groupId>io.github.oyzh1994</groupId>
+            <artifactId>base-i18n</artifactId>
+        </dependency>
+
+        <!-- ssh模块 -->
+        <dependency>
+            <groupId>io.github.oyzh1994</groupId>
+            <artifactId>base-ssh</artifactId>
+        </dependency>
+
+        <!-- fx-终端模块 -->
+        <dependency>
+            <groupId>io.github.oyzh1994</groupId>
+            <artifactId>fx-terminal</artifactId>
+        </dependency>
+
+        <!-- fx-编辑器模块 -->
+        <dependency>
+            <groupId>io.github.oyzh1994</groupId>
+            <artifactId>fx-editor</artifactId>
+        </dependency>
+
+        <!-- 达梦数据库JDBC驱动 -->
+        <!-- 安装方式: mvn install:install-file -Dfile=DmJdbcDriver18.jar -DgroupId=com.dameng -DartifactId=DmJdbcDriver18 -Dversion=8.1.3.140 -Dpackaging=jar -->
+        <dependency>
+            <groupId>com.dameng</groupId>
+            <artifactId>DmJdbcDriver18</artifactId>
+            <version>${dameng.jdbc.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+        <!-- Apache POI -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <!-- 内存数据库 -->
+        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

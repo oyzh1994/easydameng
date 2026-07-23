@@ -1,0 +1,59 @@
+package cn.oyzh.easydameng.dameng.record;
+
+
+/**
+ * @author oyzh
+ * @since 2024-09-13
+ */
+public class DamengDeleteRecordParam {
+
+    private String dbName;
+
+    private String schema;
+
+    private String tableName;
+
+    private DamengRecordData record;
+
+    private DamengRecordPrimaryKey primaryKey;
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
+
+    public String getSchema() {
+        return schema;
+    }
+
+    public void setSchema(String schema) {
+        this.schema = schema;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public DamengRecordData getRecord() {
+        return record;
+    }
+
+    public void setRecord(DamengRecordData record) {
+        this.record = record;
+    }
+
+    public DamengRecordPrimaryKey getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public void setPrimaryKey(DamengRecordPrimaryKey primaryKey) {
+        this.primaryKey = primaryKey;
+    }
+}

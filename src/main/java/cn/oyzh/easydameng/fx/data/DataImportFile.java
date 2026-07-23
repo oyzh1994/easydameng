@@ -1,0 +1,106 @@
+package cn.oyzh.easydameng.fx.data;
+
+import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.fx.table.DamengTableComboBox;
+import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.fx.gui.text.field.ChooseFileTextField;
+import cn.oyzh.fx.plus.tableview.TableViewUtil;
+import cn.oyzh.fx.plus.window.StageManager;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
+import java.io.File;
+
+/**
+ * @author oyzh
+ * @since 2024/08/30
+ */
+public class DataImportFile {
+
+    private String dbName;
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
+
+    private DamengClient dbClient;
+
+    public void setDbClient(DamengClient dbClient) {
+        this.dbClient = dbClient;
+    }
+
+    /**
+     * 文件路径属性
+     */
+    private ObjectProperty<File> fileProperty;
+
+    /**
+     * 目标表名称
+     */
+    private String targetTableName;
+
+    public ObjectProperty<File> fileProperty() {
+        if (fileProperty == null) {
+            this.fileProperty = new SimpleObjectProperty<>();
+        }
+        return this.fileProperty;
+    }
+
+    public File getFile() {
+        return fileProperty == null ? null : fileProperty.get();
+    }
+
+    public String getFilePath() {
+        File file = getFile();
+        return file == null ? null : file.getPath();
+    }
+
+    public String getFileName() {
+        File file = getFile();
+        return file == null ? null : file.getName();
+    }
+
+    public void setFile(File file) {
+        this.fileProperty().set(file);
+    }
+
+    public ChooseFileTextField getFilePathControl() {
+        ChooseFileTextField textField = new ChooseFileTextField();
+        textField.setText(this.getFilePath());
+        textField.setOnSelectedFile(this::setFile);
+        this.fileProperty().addListener((observable, oldValue, newValue) -> textField.setText(newValue.getPath()));
+        TableViewUtil.selectRowOnMouseClicked(textField);
+        return textField;
+    }
+
+    public DamengTableComboBox getTargetTableControl() {
+        DamengTableComboBox comboBox = new DamengTableComboBox();
+        //String dbName = CacheHelper.get("dameng:dbName");
+        //ShellDamengClient dbClient = CacheHelper.get("dameng:dbClient");
+        StageManager.showMask(() -> comboBox.init(this.dbName, this.getTableName(), this.dbClient));
+        comboBox.selectedItemChanged((observable, oldValue, newValue) -> {
+            this.setTargetTableName(newValue);
+        });
+        TableViewUtil.selectRowOnMouseClicked(comboBox);
+        return comboBox;
+    }
+
+    public String getTableName() {
+        String fileName = this.getFileName();
+        if (StringUtil.isBlank(fileName)) {
+            return fileName;
+        }
+        return fileName.substring(0, fileName.lastIndexOf("."));
+    }
+
+    public String getTargetTableName() {
+        if (this.targetTableName == null) {
+            return this.getTableName();
+        }
+        return this.targetTableName;
+    }
+
+    public void setTargetTableName(String targetTableName) {
+        this.targetTableName = targetTableName;
+    }
+}

@@ -1,0 +1,263 @@
+package cn.oyzh.easydameng.trees.view;
+
+import cn.oyzh.common.dto.Paging;
+import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.column.DamengColumn;
+import cn.oyzh.easydameng.dameng.column.DamengColumns;
+import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
+import cn.oyzh.easydameng.dameng.record.DamengInsertRecordParam;
+import cn.oyzh.easydameng.dameng.record.DamengRecord;
+import cn.oyzh.easydameng.dameng.record.DamengRecordData;
+import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
+import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
+import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
+import cn.oyzh.easydameng.dameng.record.DamengUpdateRecordParam;
+import cn.oyzh.easydameng.dameng.view.DamengView;
+import cn.oyzh.easydameng.domain.DamengConnect;
+import cn.oyzh.easydameng.event.DamengEventUtil;
+import cn.oyzh.easydameng.trees.DBTreeItem;
+import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.fx.gui.menu.MenuItemHelper;
+import cn.oyzh.fx.gui.tree.view.RichTreeView;
+import cn.oyzh.fx.plus.information.MessageBox;
+import cn.oyzh.fx.plus.menu.FXMenuItem;
+import cn.oyzh.i18n.I18nHelper;
+import javafx.scene.control.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * db树视图节点
+ *
+ * @author oyzh
+ * @since 2024/12/27
+ */
+public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
+
+    /**
+     * 当前值
+     */
+    private final DamengView value;
+
+    public DamengView value() {
+        return value;
+    }
+
+    public DamengViewTreeItem(DamengView view, RichTreeView treeView) {
+        super(treeView);
+        super.setFilterable(true);
+        this.value = view;
+        this.setValue(new DamengViewTreeItemValue(this));
+    }
+
+    @Override
+    public DamengViewsTreeItem parent() {
+        return (DamengViewsTreeItem) super.parent();
+    }
+
+
+    public DamengClient client() {
+        return this.parent().client();
+    }
+
+    public String dbName() {
+        return this.parent().dbName();
+    }
+
+    /**
+     * 获取redis信息
+     *
+     * @return redis信息
+     */
+    public DamengConnect info() {
+        return this.parent().info();
+    }
+
+    public DamengColumns viewColumns() {
+        this.value.setColumns(new DamengColumns(this.columns()));
+        return this.value.getColumns();
+    }
+
+    @Override
+    public List<MenuItem> getMenuItems() {
+        List<MenuItem> items = new ArrayList<>();
+        FXMenuItem open = MenuItemHelper.openView( this::onPrimaryDoubleClick);
+        items.add(open);
+        FXMenuItem design = MenuItemHelper.designView( this::designView);
+        items.add(design);
+        FXMenuItem renameView = MenuItemHelper.renameView( this::rename);
+        items.add(renameView);
+        // FXMenuItem info = MenuItemHelper.viewInfo( this::viewInfo);
+        // items.add(info);
+        FXMenuItem delete = MenuItemHelper.deleteView( this::delete);
+        items.add(delete);
+        return items;
+    }
+
+    // private void viewInfo() {
+    //     StageAdapter fxView = StageManager.parseStage(DamengViewInfoController.class, this.window());
+    //     fxView.setProp("item", this);
+    //     fxView.display();
+    // }
+
+    private void designView() {
+        DamengEventUtil.designView(this.value, this.dbItem());
+    }
+
+    @Override
+    public void delete() {
+        if (!MessageBox.confirm(I18nHelper.deleteView() + " " + this.value.getName() + "?")) {
+            return;
+        }
+        try {
+            this.dbItem().dropView(this.value);
+            super.remove();
+        } catch (Exception ex) {
+            MessageBox.exception(ex);
+        }
+    }
+
+    public DamengDatabaseTreeItem dbItem() {
+        return this.parent().parent();
+    }
+
+    public Paging<DamengRecord> recordPage(long pageNo, long limit, List<DamengRecordFilter> filters, List<DamengColumn> columns) {
+        DamengSelectRecordParam param = new DamengSelectRecordParam();
+        param.setLimit(limit);
+        param.setFilters(filters);
+        param.setColumns(columns);
+        param.setStart(pageNo * limit);
+        param.setDbName(this.dbName());
+        param.setTableName(this.viewName());
+        List<DamengRecord> records = this.client().viewRecords(this.dbName(), this.viewName(), pageNo * limit, limit, filters);
+        long count = this.client().selectRecordCount(param);
+        Paging<DamengRecord> paging = new Paging<>(records, limit, count);
+        paging.currentPage(pageNo);
+        return paging;
+    }
+
+    public String infoName() {
+        return this.parent().infoName();
+    }
+
+    public DamengColumns columns() {
+        return new DamengColumns(this.client().viewColumns(this.dbName(), this.viewName()));
+    }
+
+    @Override
+    public void onPrimaryDoubleClick() {
+        DamengEventUtil.viewOpen(this, this.dbItem());
+    }
+
+    /**
+     * 获取主键列，优先返回自动递增列
+     *
+     * @return 主键列
+     */
+    public DamengColumn getPrimaryKey() {
+        if (this.value.getColumns() == null) {
+            this.viewColumns();
+        }
+        DamengColumn dbColumn = null;
+        if (this.value.columns() != null) {
+            for (DamengColumn column : this.value.columns()) {
+                if (column.isAutoIncrement()) {
+                    dbColumn = column;
+                    break;
+                }
+            }
+        }
+        return dbColumn;
+    }
+
+    public boolean isUpdatable() {
+        return this.value.isUpdatable();
+    }
+
+    public String viewName() {
+        return this.value.getName();
+    }
+
+    public int insertRecord(DamengRecordData recordData) {
+        return this.insertRecord(recordData, null);
+    }
+
+    public int insertRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
+        DamengInsertRecordParam param = new DamengInsertRecordParam();
+        param.setRecord(recordData);
+        param.setDbName(this.dbName());
+        param.setPrimaryKey(primaryKey);
+        param.setTableName(this.viewName());
+        return this.client().insertRecord(param);
+    }
+
+    public int deleteRecord(DamengRecordData recordData) {
+        DamengDeleteRecordParam param = new DamengDeleteRecordParam();
+        param.setRecord(recordData);
+        param.setDbName(this.dbName());
+        param.setTableName(this.viewName());
+        return this.client().deleteRecord(param);
+    }
+
+    public int deleteRecord(DamengRecordPrimaryKey primaryKey) {
+        DamengDeleteRecordParam param = new DamengDeleteRecordParam();
+        param.setDbName(this.dbName());
+        param.setTableName(this.viewName());
+        param.setPrimaryKey(primaryKey);
+        return this.client().deleteRecord(param);
+    }
+
+    public DamengRecord selectRecord(DamengRecordPrimaryKey primaryKey) {
+        DamengSelectRecordParam param = new DamengSelectRecordParam();
+        param.setDbName(this.dbName());
+        param.setTableName(this.viewName());
+        param.setPrimaryKey(primaryKey);
+        return this.client().selectRecord(param);
+    }
+
+    public int updateRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
+        DamengUpdateRecordParam param = new DamengUpdateRecordParam();
+        param.setDbName(this.dbName());
+        param.setTableName(this.viewName());
+        param.setPrimaryKey(primaryKey);
+        param.setUpdateRecord(recordData);
+        return this.client().updateRecord(param);
+    }
+
+    public int updateRecord(DamengRecordData recordData, DamengRecordData originalRecordData) {
+        DamengUpdateRecordParam param = new DamengUpdateRecordParam();
+        param.setDbName(this.dbName());
+        param.setTableName(this.viewName());
+        param.setUpdateRecord(recordData);
+        param.setRecord(originalRecordData);
+        return this.client().updateRecord(param);
+    }
+
+    @Override
+    public void rename() {
+        try {
+            String viewName = MessageBox.prompt(I18nHelper.pleaseInputName(), this.viewName());
+            // 名称为null或者跟当前名称相同，则忽略
+            if (viewName == null || Objects.equals(viewName, this.viewName())) {
+                return;
+            }
+            // 检查名称
+            if (StringUtil.isBlank(viewName)) {
+                MessageBox.warn(I18nHelper.pleaseInputContent());
+                return;
+            }
+            String oldName = this.viewName();
+            // 修改名称
+            this.dbItem().renameTable(oldName, viewName);
+            this.value.setName(viewName);
+            this.refresh();
+            DamengEventUtil.viewRenamed(this, this.dbItem());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            MessageBox.exception(ex);
+        }
+    }
+}

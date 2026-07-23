@@ -1,0 +1,101 @@
+// package cn.oyzh.easydameng.tabs.table;
+//
+// import cn.hutool.core.util.StrUtil;
+// import cn.oyzh.easydameng.tabs.DamengTab;
+// import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+// import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
+// import cn.oyzh.fx.plus.information.MessageBox;
+// import cn.oyzh.fx.plus.window.StageManager;
+// import cn.oyzh.i18n.I18nHelper;
+// import javafx.event.Event;
+// import javafx.scene.Cursor;
+//
+// /**
+//  * db表设计tab
+//  *
+//  * @author oyzh
+//  * @since 2024/08/07
+//  */
+// public class DamengTableUpdateTab extends DamengTab {
+//
+//     {
+//         this.setClosable(true);
+//     }
+//
+//     @Override
+//     protected String url() {
+//         return super.getBasePath() + "table/damengTableUpdateTab.fxml";
+//     }
+//
+//     @Override
+//     public void flushGraphic() {
+//         SVGGlyph graphic = (SVGGlyph) this.getGraphic();
+//         if (graphic == null) {
+//             graphic = new SVGGlyph("/font/table.svg", "13");
+//             graphic.setCursor(Cursor.DEFAULT);
+//             this.setGraphic(graphic);
+//         }
+//     }
+//
+//     @Override
+//     public void flushTitle() {
+//         String name = this.tableName();
+//         if (StrUtil.isBlank(name)) {
+//             name = I18nHelper.unnamedTable();
+//         }
+//         // 设置提示文本
+//         if (this.isUnsaved()) {
+//             this.setText("* " + this.dbName() + "-" + name);
+//         } else {
+//             this.setText(this.dbName() + "-" + name);
+//         }
+//     }
+//
+//     public String tableName() {
+//         return this.controller().tableName();
+//     }
+//
+//     public String dbName() {
+//         return this.controller().dbName();
+//     }
+//
+//     /**
+//      * 初始化
+//      *
+//      * @param tableName db表
+//      * @param dbItem    db数据库树节点
+//      */
+//     public void init(String tableName, DamengDatabaseTreeItem dbItem) throws Exception {
+//         StageManager.showMask(() -> {
+//             try {
+//                 this.controller().init(tableName, dbItem);
+//                 this.flush();
+//             } catch (Exception ex) {
+//                 MessageBox.exception(ex);
+//             }
+//         });
+//     }
+//
+//     @Override
+//     public DamengTableDesignTabController controller() {
+//         return (DamengTableDesignTabController) super.controller();
+//     }
+//
+//     public boolean isUnsaved() {
+//         return this.controller().isUnsaved();
+//     }
+//
+//     @Override
+//     protected void onTabCloseRequest(Event event) {
+//         if (this.isUnsaved() && !MessageBox.confirm(I18nHelper.unsavedAndContinue())) {
+//             event.consume();
+//         } else {
+//             this.closeTab();
+//         }
+//     }
+//
+//     @Override
+//     public DamengDatabaseTreeItem dbItem() {
+//         return this.controller().getDbItem();
+//     }
+// }

@@ -1,0 +1,164 @@
+package cn.oyzh.easydameng.condition;
+
+import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.dameng.column.DamengColumn;
+import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
+import cn.oyzh.easydameng.util.DBNodeUtil;
+import cn.oyzh.easydameng.util.DBUtil;
+import cn.oyzh.fx.gui.text.field.ClearableTextField;
+import javafx.scene.Node;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 条件工具类
+ *
+ * @author oyzh
+ * @since 2024/6/26
+ */
+public class DamengConditionUtil {
+
+    /**
+     * 获取条件
+     *
+     * @return 条件列表
+     */
+    public static List<DamengCondition> conditions() {
+        List<DamengCondition> conditions = new ArrayList<>();
+        conditions.add(DamengContainsCondition.INSTANCE);
+        conditions.add(DamengNotContainsCondition.INSTANCE);
+        conditions.add(DamengEqCondition.INSTANCE);
+        conditions.add(DamengGtCondition.INSTANCE);
+        conditions.add(DamengLtCondition.INSTANCE);
+        conditions.add(DamengNotEqCondition.INSTANCE);
+        conditions.add(DamengNullCondition.INSTANCE);
+        conditions.add(DamengNotNullCondition.INSTANCE);
+        conditions.add(DamengEmptyCondition.INSTANCE);
+        conditions.add(DamengNotEmptyCondition.INSTANCE);
+        conditions.add(DamengLtEqCondition.INSTANCE);
+        conditions.add(DamengGtEqCondition.INSTANCE);
+        conditions.add(DamengInListCondition.INSTANCE);
+        conditions.add(DamengNotInListCondition.INSTANCE);
+        conditions.add(DamengBetweenCondition.INSTANCE);
+        conditions.add(DamengNotBetweenCondition.INSTANCE);
+        conditions.add(DamengStartWithCondition.INSTANCE);
+        conditions.add(DamengEndWithCondition.INSTANCE);
+        conditions.add(DamengNotStartWithCondition.INSTANCE);
+        conditions.add(DamengNotEndWithCondition.INSTANCE);
+        return conditions;
+    }
+
+    /**
+     * 构建条件
+     *
+     * @param filters 过滤条件
+     * @return 条件
+     */
+    public static String buildCondition(List<DamengRecordFilter> filters) throws Exception {
+        if (filters == null || filters.isEmpty()) {
+            return "";
+        }
+        StringBuilder conditions = new StringBuilder();
+        for (int i = 0; i < filters.size(); i++) {
+            DamengRecordFilter filter = filters.get(i);
+            String condition = filter.condition();
+            if (StringUtil.isNotBlank(condition)) {
+                conditions.append(DBUtil.wrap(filter.column(), DBDialect.MYSQL))
+                        .append(" ")
+                        .append(condition)
+                        .append(" ");
+            }
+            if (i != filters.size() - 1) {
+                conditions.append(filter.getJoinSymbol()).append(" ");
+            }
+        }
+        return conditions.toString();
+    }
+
+    /**
+     * 是否in条件
+     *
+     * @param condition 条件
+     * @return 结果
+     */
+    public static boolean isInCondition(DamengCondition condition) {
+        return condition == DamengInListCondition.INSTANCE || condition == DamengNotInListCondition.INSTANCE;
+    }
+
+    /**
+     * 是否介于条件
+     *
+     * @param condition 条件
+     * @return 结果
+     */
+    public static boolean isBetweenCondition(DamengCondition condition) {
+        return condition == DamengBetweenCondition.INSTANCE || condition == DamengNotBetweenCondition.INSTANCE;
+    }
+
+    /**
+     * 生成节点
+     *
+     * @param column    字段
+     * @param condition 条件
+     * @return 节点
+     */
+    public static List<Node> generateNode(DamengColumn column, DamengCondition condition) {
+        condition = condition == null ? conditions().getFirst() : condition;
+        List<Node> list = new ArrayList<>();
+        if (isInCondition(condition)) {
+            ClearableTextField node = new ClearableTextField();
+            node.setDisable(!condition.isRequireCondition());
+            list.add(node);
+        } else if (isBetweenCondition(condition)) {
+            Node node1 = DBNodeUtil.generateNode(column, false);
+            Node node2 = DBNodeUtil.generateNode(column, false);
+            node1.setDisable(!condition.isRequireCondition());
+            node2.setDisable(!condition.isRequireCondition());
+            list.add(node1);
+            list.add(node2);
+        } else {
+            Node node = DBNodeUtil.generateNode(column, false);
+            node.setDisable(!condition.isRequireCondition());
+            list.add(node);
+        }
+        return list;
+    }
+
+    /**
+     * 设置节点值
+     *
+     * @param controls 组件
+     * @param value    值
+     */
+    public static void setNodeVal(List<Node> controls, Object value) {
+        for (int i = 0; i < controls.size(); i++) {
+            if (value instanceof List<?> list) {
+                DBNodeUtil.setNodeVal(controls.get(i), list.get(i));
+            } else {
+                DBNodeUtil.setNodeVal(controls.get(i), value);
+            }
+        }
+    }
+
+    /**
+     * 获取节点值
+     *
+     * @param controls 组件
+     * @return 值
+     */
+    public static Object getNodeVal(List<Node> controls) throws Exception {
+        if (controls == null || controls.isEmpty()) {
+            return null;
+        }
+        if (controls.size() == 1) {
+            return DBNodeUtil.getNodeVal(controls.getFirst());
+        }
+        List<Object> list = new ArrayList<>();
+        for (Node control : controls) {
+            list.add(DBNodeUtil.getNodeVal(control));
+        }
+        return list;
+    }
+}

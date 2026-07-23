@@ -1,0 +1,26 @@
+package cn.oyzh.easydameng.event.procedure;
+
+import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
+import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.event.Event;
+
+/**
+ * @author oyzh
+ * @since 2024/06/29
+ */
+public class DamengProcedureDesignEvent extends Event<DamengProcedure> {
+
+    private DamengDatabaseTreeItem dbItem;
+
+    public String procedureName() {
+        return this.data().getName();
+    }
+
+    public DamengDatabaseTreeItem getDbItem() {
+        return dbItem;
+    }
+
+    public void setDbItem(DamengDatabaseTreeItem dbItem) {
+        this.dbItem = dbItem;
+    }
+}
