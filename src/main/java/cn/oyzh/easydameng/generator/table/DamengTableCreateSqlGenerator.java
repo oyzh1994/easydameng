@@ -79,9 +79,9 @@ public class DamengTableCreateSqlGenerator {
                     .append(trigger.getPolicy())
                     .append(" ON ")
                     .append(DBUtil.wrap(param.tableName(), DAMENG))
-                    .append(" FOR EACH ROW ")
-                    .append(trigger.getDefinition())
-                    .append(";");
+                    .append(" FOR EACH ROW\nBEGIN\n")
+                    .append(trigger.getDefinition().endsWith(";") ? trigger.getDefinition() : trigger.getDefinition() + ";")
+                    .append("\nEND;");
         }
     }
 

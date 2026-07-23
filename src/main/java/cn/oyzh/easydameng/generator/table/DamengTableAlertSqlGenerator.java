@@ -141,15 +141,16 @@ public class DamengTableAlertSqlGenerator {
             }
             if (DamengTriggers.isChanged(trigger) || DamengTriggers.isCreated(trigger)) {
                 StringBuilder builder = new StringBuilder();
-                builder.append("CREATE TRIGGER ")
+                String body = trigger.getDefinition();
+                if (!body.endsWith(";")) body = body + ";";
+                builder.append("CREATE OR REPLACE TRIGGER ")
                         .append(DBUtil.wrap(trigger.getName(), DBDialect.DAMENG))
                         .append(" ")
                         .append(trigger.getPolicy())
                         .append(" ON ")
                         .append(DBUtil.wrap(param.tableName(), DBDialect.DAMENG))
-                        .append(" FOR EACH ROW ")
-                        .append(trigger.getDefinition())
-                        .append(";");
+                        .append(" FOR EACH ROW BEGIN ")
+                        .append(body).append(" END;");
                 this.sqlList.add(builder.toString());
             }
         }

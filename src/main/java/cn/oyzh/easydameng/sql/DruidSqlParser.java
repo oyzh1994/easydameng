@@ -124,14 +124,20 @@ public class DruidSqlParser extends DBSqlParser {
             this.select = true;
             return sqlList;
         }
-        this.sqlStatements = SQLUtils.parseStatements(sqlContent, this.dbType, SQLParserFeature.SkipComments);
-        for (SQLStatement sqlStatement : this.sqlStatements) {
-            String sql = sqlStatement.toString();
-            sql = sql.replace("\n", " ");
-            sqlList.add(sql);
+        try {
+
+            this.sqlStatements = SQLUtils.parseStatements(sqlContent, this.dbType, SQLParserFeature.SkipComments);
+            for (SQLStatement sqlStatement : this.sqlStatements) {
+                String sql = sqlStatement.toString();
+                sql = sql.replace("\n", " ");
+                sqlList.add(sql);
+            }
+            this.single = null;
+            this.select = null;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            sqlList.add(this.sqlContent);
         }
-        this.single = null;
-        this.select = null;
         return sqlList;
     }
 
