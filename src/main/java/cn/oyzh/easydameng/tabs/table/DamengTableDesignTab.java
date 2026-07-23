@@ -96,10 +96,4 @@ public class DamengTableDesignTab extends DamengTab {
         return this.controller().getDbItem();
     }
 
-
-    @Override
-    public void initNode() {
-        this.setClosable(false);
-        super.initNode();
-    }
 }

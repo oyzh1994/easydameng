@@ -10,6 +10,7 @@ import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.util.DBDataUtil;
 import cn.oyzh.easydameng.util.DBNodeUtil;
 import cn.oyzh.easydameng.util.DBRecordUtil;
+import cn.oyzh.fx.gui.text.field.BinaryTextFiled;
 import cn.oyzh.fx.plus.node.NodeDestroyUtil;
 import cn.oyzh.fx.plus.node.NodeUtil;
 import cn.oyzh.fx.plus.tableview.TableViewUtil;
@@ -117,19 +118,25 @@ public class DamengRecordProperty extends SimpleObjectProperty<Object> implement
      */
     private Node node;
 
-//    private static LongAdder adder = new LongAdder();
+//    /**
+//     * 内存泄露计数器
+//     */
+//    private final static LongAdder ADDER = new LongAdder();
 
     @Override
     public Object getValue() {
-        if (this.readonly || !this.record.isEditable()) {
+        if (this.readonly) {
+//            if (this.readonly || !this.record.isEditable()) {
             return DBRecordUtil.formatValue(super.getValue(), this.column);
         }
         if (this.node == null) {
             this.node = DBRecordUtil.getNode(this, super.get(), this.column);
             TableViewUtil.rowOnCtrlS(this.node);
             TableViewUtil.selectRowOnMouseClicked(this.node);
-//            adder.increment();
-//            System.out.println("adder:" + adder.longValue());
+//            if (!JarUtil.isInJar()) {
+//                ADDER.increment();
+//                System.out.println("adder:" + ADDER.longValue());
+//            }
         }
         return this.node;
     }
@@ -165,6 +172,10 @@ public class DamengRecordProperty extends SimpleObjectProperty<Object> implement
         }
         if (listener != null) {
             listener.changed(null, null, null);
+        }
+        // 重新格式化值
+        if (!changed && this.node instanceof BinaryTextFiled filed) {
+            filed.setText(BinaryTextFiled.format(filed.getValue(), filed.getScale()));
         }
         this.setToNullFlag = false;
     }
@@ -284,17 +295,20 @@ public class DamengRecordProperty extends SimpleObjectProperty<Object> implement
     }
 
     @Override
-    public synchronized void destroy() {
+    public void destroy() {
         if (this.node != null) {
             NodeDestroyUtil.destroyObject(this.node);
             this.node = null;
+            this.column.destroy();
             this.column = null;
             this.record = null;
             this.original = null;
+            this.changedProperty.unbind();
             this.changedProperty = null;
-//            adder.decrement();
-//            System.out.println("adder:" + adder.longValue());
+//            if (!JarUtil.isInJar()) {
+//                ADDER.decrement();
+//                System.out.println("adder:" + ADDER.longValue());
+//            }
         }
-
     }
 }

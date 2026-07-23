@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.db;
 
-import cn.oyzh.common.log.JulLog;
+import cn.oyzh.common.object.Destroyable;
 import cn.oyzh.common.util.BooleanUtil;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author oyzh
  * @since 2024/07/13
  */
-public class DBObjectStatus {
+public class DBObjectStatus implements Destroyable {
 
     /**
      * 对象是否变更
@@ -92,7 +92,7 @@ public class DBObjectStatus {
     }
 
     protected void putOriginalData(String key, Object value) {
-        JulLog.info("putOriginalData: key={}, value={}", key, value);
+        // JulLog.info("putOriginalData: key={}, value={}", key, value);
         if (this.originalData().containsKey(key)) {
             Object val = this.getOriginalData(key);
             this.setChangedFlag(key, !Objects.equals(val, value));
@@ -108,13 +108,29 @@ public class DBObjectStatus {
         return this.originalData().get(key);
     }
 
+    /**
+     * 是否有原始数据
+     *
+     * @param key 键
+     * @return 结果
+     */
+    protected boolean hasOriginalData(String key) {
+        if (this.originalData == null) {
+            return false;
+        }
+        return this.originalData().containsKey(key);
+    }
+
     public void clearOriginalData() {
         if (this.originalData != null) {
             this.originalData().clear();
         }
     }
 
-    protected Boolean checkOriginalData(String key, Object currentData) {
+    protected boolean checkOriginalData(String key, Object currentData) {
+        if (!this.hasOriginalData(key)) {
+            return false;
+        }
         return !Objects.equals(this.getOriginalData(key), currentData);
     }
 
@@ -183,5 +199,33 @@ public class DBObjectStatus {
 
     public String getStatus() {
         return this.statusProperty().get();
+    }
+
+    @Override
+    public void destroy() {
+        if (this.changedProperty != null) {
+            this.changedProperty.unbind();
+            this.changedProperty = null;
+        }
+        if (this.deletedProperty != null) {
+            this.deletedProperty.unbind();
+            this.deletedProperty = null;
+        }
+        if (this.createdProperty != null) {
+            this.createdProperty.unbind();
+            this.createdProperty = null;
+        }
+        if (this.statusProperty != null) {
+            this.statusProperty.unbind();
+            this.statusProperty = null;
+        }
+        if (this.changedFlag != null) {
+            this.changedFlag.clear();
+            this.changedFlag = null;
+        }
+        if (this.originalData != null) {
+            this.originalData.clear();
+            this.originalData = null;
+        }
     }
 }

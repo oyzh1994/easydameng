@@ -1,7 +1,10 @@
 package cn.oyzh.easydameng.dameng.column;
 
+import cn.oyzh.common.object.Destroyable;
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.common.util.BooleanUtil;
+import cn.oyzh.common.util.NumberUtil;
+import cn.oyzh.common.util.RegexUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.db.DBObjectStatus;
 import cn.oyzh.easydameng.util.DBColumnUtil;
@@ -19,7 +22,7 @@ import java.util.Map;
  * @author oyzh
  * @since 2023/12/20
  */
-public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengColumn> {
+public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengColumn>, Destroyable {
 
     /**
      * 库名称
@@ -44,12 +47,12 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
     /**
      * 字段类型
      */
-    private final StringProperty typeProperty = new SimpleStringProperty();
+    private StringProperty typeProperty;
 
     /**
      * 字段值
      */
-    private String value;
+    private StringProperty valueProperty;
 
     /**
      * 注释
@@ -141,7 +144,7 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         if (type != null) {
             type = type.toUpperCase();
         }
-        this.typeProperty.set(type);
+        this.typeProperty().set(type);
         super.putOriginalData("type", type);
     }
 
@@ -168,6 +171,36 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
     public String getDefaultValueString() {
         Object defaultValue = this.defaultValue;
         return defaultValue == null ? null : defaultValue.toString();
+    }
+
+    public Object getDefaultValueFix() {
+        Object defaultValue = this.defaultValue;
+        if (defaultValue == null) {
+            return null;
+        }
+        String valStr = defaultValue.toString();
+        if (this.supportInteger()) {
+            if (StringUtil.isBlank(valStr) || StringUtil.equalsIgnoreCase(valStr, "null")) {
+                return null;
+            }
+            if (RegexUtil.isNumber(valStr)) {
+                return NumberUtil.toLong(valStr);
+            }
+        }
+        if (this.supportDigits()) {
+            if (StringUtil.isBlank(valStr) || StringUtil.equalsIgnoreCase(valStr, "null")) {
+                return null;
+            }
+            if (RegexUtil.isDecimal(valStr)) {
+                return NumberUtil.toDouble(valStr);
+            }
+        }
+        if (this.supportEnum()) {
+            if (StringUtil.isBlank(valStr) || StringUtil.equalsIgnoreCase(valStr, "null")) {
+                return null;
+            }
+        }
+        return defaultValue;
     }
 
     public void setAutoIncrement(Boolean autoIncrement) {
@@ -198,7 +231,7 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.valueProperty().setValue(value);
         super.putOriginalData("value", value);
     }
 
@@ -426,25 +459,36 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return false;
     }
 
+    /**
+     * 主键是否变更
+     *
+     * @return 结果
+     */
     public boolean isPrimaryKeyChanged() {
+        // 判断1
         boolean checked1 = super.checkOriginalData("primaryKey", this.isPrimaryKey());
         if (checked1) {
             return true;
         }
+        // 判断2
         boolean checked2 = super.checkOriginalData("primaryKeySize", this.getPrimaryKeySize());
         if (checked2) {
             return true;
         }
+        // 判断3
         if (this.isCreated() && this.isPrimaryKey()) {
             return true;
         }
+        // 判断4
         if (this.isNameChanged() && this.isPrimaryKey()) {
             return true;
         }
+        // 判断5
         if (this.isDeleted() && this.isPrimaryKey()) {
             return true;
         }
-        return this.isDeleted();
+        // return this.isDeleted();
+        return false;
     }
 
     public void setZeroFill(Boolean zeroFill) {
@@ -484,6 +528,10 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return DBColumnUtil.isDateType(this.getType());
     }
 
+    public boolean isDateTimeType() {
+        return DBColumnUtil.isDateTimeType(this.getType());
+    }
+
     public boolean isGeometryType() {
         return DBColumnUtil.isGeometryType(this.getType());
     }
@@ -505,7 +553,7 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         if (this.size == null) {
             this.setSize(null);
         }
-        if (this.value == null) {
+        if (this.getValue() == null) {
             this.setValue(null);
         }
         if (this.digits == null) {
@@ -635,7 +683,7 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
             this.setSize(column.size);
             this.setName(column.name);
             this.setType(column.getType());
-            this.setValue(column.value);
+            this.setValue(column.getValue());
             this.setDbName(column.dbName);
             this.setDigits(column.digits);
             this.setComment(column.comment);
@@ -691,15 +739,25 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
     }
 
     public String getType() {
-        return typeProperty.get();
+        return this.typeProperty == null ? null : this.typeProperty.get();
     }
 
     public StringProperty typeProperty() {
+        if (this.typeProperty == null) {
+            this.typeProperty = new SimpleStringProperty();
+        }
         return typeProperty;
     }
 
     public String getValue() {
-        return value;
+        return this.valueProperty == null ? null : this.valueProperty.getValue();
+    }
+
+    public StringProperty valueProperty() {
+        if (this.valueProperty == null) {
+            this.valueProperty = new SimpleStringProperty();
+        }
+        return valueProperty;
     }
 
     public String getComment() {
@@ -730,17 +788,17 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         this.position = position;
     }
 
-    public boolean isPrimaryKeyProperty() {
-        return primaryKeyProperty.get();
-    }
-
-    public SimpleBooleanProperty primaryKeyPropertyProperty() {
-        return primaryKeyProperty;
-    }
-
-    public void setPrimaryKeyProperty(boolean primaryKeyProperty) {
-        this.primaryKeyProperty.set(primaryKeyProperty);
-    }
+//    public boolean isPrimaryKeyProperty() {
+//        return primaryKeyProperty.get();
+//    }
+//
+//    public SimpleBooleanProperty primaryKeyPropertyProperty() {
+//        return primaryKeyProperty;
+//    }
+//
+//    public void setPrimaryKeyProperty(boolean primaryKeyProperty) {
+//        this.primaryKeyProperty.set(primaryKeyProperty);
+//    }
 
     public Integer getPrimaryKeySize() {
         return primaryKeySize;
@@ -768,5 +826,19 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
 
     public String getCollation() {
         return collation;
+    }
+
+    @Override
+    public void destroy() {
+        if (this.typeProperty != null) {
+            this.typeProperty.unbind();
+        }
+        if (this.valueProperty != null) {
+            this.valueProperty.unbind();
+        }
+        if (this.primaryKeyProperty != null) {
+            this.primaryKeyProperty.unbind();
+        }
+        super.destroy();
     }
 }

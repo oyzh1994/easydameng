@@ -600,7 +600,7 @@ public class DamengClient {
         try {
             String sql = """
                         SELECT
-                            TRIGGER_NAME, TRIGGER_BODY AS ACTION_STATEMENT, TRIGGER_TYPE AS ACTION_TIMING, TRIGGERING_EVENT AS EVENT_MANIPULATION, TABLE_NAME AS EVENT_OBJECT_TABLE
+                            TRIGGER_NAME, TRIGGERING_EVENT AS EVENT_MANIPULATION, TABLE_NAME AS EVENT_OBJECT_TABLE
                         FROM
                             ALL_TRIGGERS
                         WHERE
@@ -614,14 +614,12 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengTrigger trigger = new DamengTrigger();
                 String name = resultSet.getString("TRIGGER_NAME");
-                String timing = resultSet.getString("ACTION_TIMING");
                 String tableName = resultSet.getString("EVENT_OBJECT_TABLE");
                 String manipulation = resultSet.getString("EVENT_MANIPULATION");
-                String actionStatement = resultSet.getString("ACTION_STATEMENT");
                 trigger.setName(name);
                 trigger.setTableName(tableName);
-                trigger.setDefinition(actionStatement);
-                trigger.setPolicy(timing, manipulation);
+                trigger.setDefinition("-- 请通过 DBMS_METADATA.GET_DDL 查看触发器定义");
+                trigger.setPolicy("BEFORE", manipulation);
                 list.add(trigger);
             }
             DBUtil.close(resultSet);
@@ -636,7 +634,7 @@ public class DamengClient {
         try {
             String sql = """
                         SELECT
-                            TRIGGER_NAME, TRIGGER_BODY AS ACTION_STATEMENT, TRIGGER_TYPE AS ACTION_TIMING, TRIGGERING_EVENT AS EVENT_MANIPULATION
+                            TRIGGER_NAME, TRIGGERING_EVENT AS EVENT_MANIPULATION, TABLE_NAME AS EVENT_OBJECT_TABLE
                         FROM
                             ALL_TRIGGERS
                         WHERE
@@ -653,12 +651,10 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengTrigger trigger = new DamengTrigger();
                 String name = resultSet.getString("TRIGGER_NAME");
-                String timing = resultSet.getString("ACTION_TIMING");
                 String manipulation = resultSet.getString("EVENT_MANIPULATION");
-                String actionStatement = resultSet.getString("ACTION_STATEMENT");
                 trigger.setName(name);
-                trigger.setDefinition(actionStatement);
-                trigger.setPolicy(timing, manipulation);
+                trigger.setDefinition("-- 请通过 DBMS_METADATA.GET_DDL 查看触发器定义");
+                trigger.setPolicy("BEFORE", manipulation);
                 list.add(trigger);
             }
             DBUtil.close(resultSet);
