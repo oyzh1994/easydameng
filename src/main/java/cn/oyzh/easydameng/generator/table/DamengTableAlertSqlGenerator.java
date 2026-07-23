@@ -101,7 +101,7 @@ public class DamengTableAlertSqlGenerator {
         if (param.hasTrigger()) {
             this.triggerHandle(param);
         }
-        return this.buildSqlNoComma();
+        return this.buildSql();
     }
 
     private void endStatement() {
@@ -112,14 +112,6 @@ public class DamengTableAlertSqlGenerator {
         this.sqlBuilder.append(";\n");
     }
 
-
-    private String buildSqlNoComma() {
-        String result = this.sqlBuilder.toString();
-        result = result.replaceAll(",\n", "\n");
-        result = result.replaceAll(",;", ";");
-        return result.trim();
-    }
-
     private String buildSql() {
         StringBuilder builder = new StringBuilder();
         builder.append(this.sqlBuilder);
@@ -127,6 +119,14 @@ public class DamengTableAlertSqlGenerator {
             builder.append("\n").append(sql);
         }
         return builder.toString().trim();
+    }
+
+
+    private String buildSqlNoComma() {
+        String result = this.sqlBuilder.toString();
+        result = result.replaceAll(",\n", "\n");
+        result = result.replaceAll(",;", ";");
+        return result.trim();
     }
 
     protected void triggerHandle(DamengAlertTableParam param) {
