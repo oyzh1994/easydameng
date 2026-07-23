@@ -787,7 +787,7 @@ public class DamengClient {
             List<DamengTable> tables = new ArrayList<>();
             Connection connection = this.connection(dbName);
             if (param.isFull()) {
-                String sql = "SELECT NULL AS \"AUTO_INCREMENT\", NULL AS \"ROW_FORMAT\", NULL AS \"TABLE_COLLATION\", T.TABLE_NAME, C.COMMENTS AS \"TABLE_COMMENT\", T.TABLESPACE_NAME AS \"ENGINE\" FROM ALL_TABLES T LEFT JOIN ALL_TAB_COMMENTS C ON T.OWNER = C.OWNER AND T.TABLE_NAME = C.TABLE_NAME WHERE T.OWNER = ? AND T.TABLE_TYPE != 'VIEW'";
+                String sql = "SELECT NULL AS \"AUTO_INCREMENT\", NULL AS \"ROW_FORMAT\", NULL AS \"TABLE_COLLATION\", T.TABLE_NAME, C.COMMENTS AS \"TABLE_COMMENT\", T.TABLESPACE_NAME AS \"ENGINE\" FROM ALL_TABLES T LEFT JOIN ALL_TAB_COMMENTS C ON T.OWNER = C.OWNER AND T.TABLE_NAME = C.TABLE_NAME WHERE T.OWNER = ?";
                 DBUtil.printSql(sql);
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, dbName);
@@ -1350,7 +1350,7 @@ public class DamengClient {
             table.setName(tableName);
             Connection connection = this.connection(dbName);
             if (param.isFull()) {
-                String sql = "SELECT NULL AS \"AUTO_INCREMENT\", NULL AS \"ROW_FORMAT\", NULL AS \"TABLE_COLLATION\", C.COMMENTS AS \"TABLE_COMMENT\", T.TABLESPACE_NAME AS \"ENGINE\" FROM ALL_TABLES T LEFT JOIN ALL_TAB_COMMENTS C ON T.OWNER = C.OWNER AND T.TABLE_NAME = C.TABLE_NAME WHERE T.OWNER = ? AND T.TABLE_NAME = ? AND T.TABLE_TYPE = 'TABLE'";
+                String sql = "SELECT NULL AS \"AUTO_INCREMENT\", NULL AS \"ROW_FORMAT\", NULL AS \"TABLE_COLLATION\", C.COMMENTS AS \"TABLE_COMMENT\", T.TABLESPACE_NAME AS \"ENGINE\" FROM ALL_TABLES T LEFT JOIN ALL_TAB_COMMENTS C ON T.OWNER = C.OWNER AND T.TABLE_NAME = C.TABLE_NAME WHERE T.OWNER = ? AND T.TABLE_NAME = ?";
                 DBUtil.printSql(sql);
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, dbName);
@@ -1403,7 +1403,7 @@ public class DamengClient {
             table.setDbName(dbName);
             table.setName(tableName);
             Connection connection = this.connection(dbName);
-            String sql = "SELECT NULL AS \"AUTO_INCREMENT\", NULL AS \"ROW_FORMAT\", NULL AS \"TABLE_COLLATION\", C.COMMENTS AS \"TABLE_COMMENT\", T.TABLESPACE_NAME AS \"ENGINE\" FROM ALL_TABLES T LEFT JOIN ALL_TAB_COMMENTS C ON T.OWNER = C.OWNER AND T.TABLE_NAME = C.TABLE_NAME WHERE T.OWNER = ? AND T.TABLE_NAME = ? AND T.TABLE_TYPE = 'TABLE'";
+            String sql = "SELECT NULL AS \"AUTO_INCREMENT\", NULL AS \"ROW_FORMAT\", NULL AS \"TABLE_COLLATION\", C.COMMENTS AS \"TABLE_COMMENT\", T.TABLESPACE_NAME AS \"ENGINE\" FROM ALL_TABLES T LEFT JOIN ALL_TAB_COMMENTS C ON T.OWNER = C.OWNER AND T.TABLE_NAME = C.TABLE_NAME WHERE T.OWNER = ? AND T.TABLE_NAME = ?";
             DBUtil.printSql(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, dbName);
