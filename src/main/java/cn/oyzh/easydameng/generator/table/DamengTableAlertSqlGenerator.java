@@ -205,10 +205,7 @@ public class DamengTableAlertSqlGenerator {
                     builder.append(" IDENTITY(1,1)");
                 }
 
-                // 注释
-                if (column.hasComment()) {
-                    builder.append(" COMMENT ").append(DBUtil.wrapData(column.getComment()));
-                }
+                // 达梦列注释使用独立COMMENT ON COLUMN语句，ALTER TABLE中跳过
                 builder.append(",");
             } else if (DamengColumns.isDeleted(column)) {// 删除字段
                 builder.append(" DROP COLUMN ")
