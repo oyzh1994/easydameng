@@ -88,8 +88,8 @@ public class DamengTableCreateSqlGenerator {
     protected void columnHandle(StringBuilder builder, DamengCreateTableParam param) {
         for (DamengColumn column : param.getColumns()) {
             builder.append(DBUtil.wrap(column.getName(), DAMENG));
-            // 字段类型
-            builder.append(" ").append(column.getType());
+            // 字段类型（达梦不支持MySQL式显示宽度如INT(10)）
+            builder.append(" ").append(normalizeType(column.getType()));
             // 字段长度
             if (column.supportSize() && column.getSize() != null) {
                 builder.append("(").append(column.getSize());
@@ -190,6 +190,18 @@ public class DamengTableCreateSqlGenerator {
                     .append(")");
             builder.append(",");
         }
+    }
+
+    /**
+     * 规范化字段类型，移除MySQL式显示宽度（如INT(10)→INT）
+     */
+    private static String normalizeType(String type) {
+        if (type == null) return "";
+        String upper = type.toUpperCase();
+        if (upper.matches("(TINYINT|SMALLINT|INT|INTEGER|BIGINT|MEDIUMINT)\\s*\\(\\s*\\d+\\s*\\)")) {
+            return upper.replaceAll("\\(.*\\)", "").trim();
+        }
+        return type;
     }
 
     public static String generateSql(DamengCreateTableParam param) {
