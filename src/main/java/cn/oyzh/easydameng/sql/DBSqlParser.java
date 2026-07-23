@@ -2,6 +2,7 @@ package cn.oyzh.easydameng.sql;
 
 import cn.oyzh.easydameng.db.DBDialect;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +43,19 @@ public abstract class DBSqlParser {
     }
 
     public static List<String> parseSql(String sql, DBDialect dialect) throws Exception {
-        return getParser(sql, dialect).parseSql();
+        try {
+            return getParser(sql, dialect).parseSql();
+        } catch (Exception e) {
+            // Druid解析失败时，降级为简单的分号分割
+            List<String> list = new ArrayList<>();
+            for (String s : sql.split(";")) {
+                s = s.trim();
+                if (!s.isEmpty()) {
+                    list.add(s);
+                }
+            }
+            return list;
+        }
     }
 
     public static DBSqlParser getParser(String sql, DBDialect dialect) throws Exception {
