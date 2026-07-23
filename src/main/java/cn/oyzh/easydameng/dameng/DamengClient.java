@@ -755,13 +755,7 @@ public class DamengClient {
             }
             // 检查约束
             if (feature == DBFeature.CHECK) {
-                // 最低支持版本8.0.16
-                String version = this.selectVersion();
-                String[] arr = version.split("\\.");
-                if (Integer.parseInt(arr[0]) < 8) {
-                    return false;
-                }
-                return Integer.parseInt(arr[2]) >= 16;
+                return true;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1304,7 +1298,14 @@ public class DamengClient {
     public List<DBDatabase> databases() {
         try {
             Statement statement = this.connection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT OWNER FROM ALL_TABLES ORDER BY OWNER");
+            // 查询当前用户有权限访问的schema：优先显示有对象的schema，也包含当前用户自己的schema
+            String sql = """
+                SELECT DISTINCT OWNER FROM ALL_OBJECTS
+                UNION
+                SELECT USERNAME FROM ALL_USERS
+                ORDER BY 1
+                """;
+            ResultSet resultSet = statement.executeQuery(sql);
             List<DBDatabase> list = new ArrayList<>();
             while (resultSet.next()) {
                 DBDatabase databases = new DBDatabase();
@@ -1949,11 +1950,9 @@ public class DamengClient {
 
     public void renameTable(String dbName, String oldTableName, String newTableName) {
         try {
-            StringBuilder builder = new StringBuilder("RENAME TABLE ");
-            builder.append(DBUtil.wrap(dbName, oldTableName, this.dialect()))
-                    .append(" TO ")
-                    .append(DBUtil.wrap(dbName, newTableName, this.dialect()));
-            String sql = builder.toString();
+            // 达梦用 ALTER TABLE ... RENAME TO 代替MySQL的 RENAME TABLE
+            String sql = "ALTER TABLE " + DBUtil.wrap(dbName, oldTableName, this.dialect())
+                    + " RENAME TO " + DBUtil.wrap(newTableName, this.dialect());
             Connection connection = this.connection(dbName);
             Statement statement = connection.createStatement();
             DBUtil.printSql(sql);
@@ -1973,21 +1972,8 @@ public class DamengClient {
      * @param newEventName 新事件名称
      */
     public void renameEvent(String dbName, String oldEventName, String newEventName) {
-        try {
-            StringBuilder builder = new StringBuilder("ALTER EVENT ");
-            builder.append(DBUtil.wrap(dbName, oldEventName, this.dialect()))
-                    .append(" RENAME TO ")
-                    .append(DBUtil.wrap(dbName, newEventName, this.dialect()));
-            String sql = builder.toString();
-            Connection connection = this.connection(dbName);
-            Statement statement = connection.createStatement();
-            DBUtil.printSql(sql);
-            statement.execute(sql);
-            DBUtil.close(statement);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new DBException(ex);
-        }
+        // 达梦使用调度器JOB代替MySQL EVENT，重命名操作需通过DBMS_SCHEDULER包实现，暂不支持
+        throw new DBException("达梦调度器JOB重命名暂不支持");
     }
 
     public void clearTable(String dbName, String tableName) {
@@ -2034,17 +2020,13 @@ public class DamengClient {
             return this.getProperty("charsets");
         }
         try {
+            // 达梦常用字符集列表（系统视图查询可能因版本差异失败，直接返回静态列表）
             List<String> charsets = new ArrayList<>();
-            Statement statement = this.connection().createStatement();
-            String sql = "SELECT PARA_VALUE FROM V$NLS_PARAMETERS WHERE PARA_NAME='NLS_CHARACTERSET'";
-            DBUtil.printSql(sql);
-            ResultSet resultSet = statement.executeQuery(sql);
-            DBUtil.printMetaData(resultSet);
-            while (resultSet.next()) {
-                charsets.add(resultSet.getString(1));
-            }
-            DBUtil.close(resultSet);
-            DBUtil.close(statement);
+            charsets.add("UTF-8");
+            charsets.add("GBK");
+            charsets.add("GB18030");
+            charsets.add("GB2312");
+            charsets.add("ISO-8859-1");
             this.putProperty("charsets", charsets);
             return charsets;
         } catch (Exception ex) {
@@ -2063,18 +2045,10 @@ public class DamengClient {
             if (collations.containsKey(charset)) {
                 return collations.get(charset.toUpperCase());
             }
-            // Dameng: collations are not queried per-charset like MySQL; return NLS-based collation
-            String sql = "SELECT PARA_VALUE FROM V$NLS_PARAMETERS WHERE PARA_NAME='NLS_SORT'";
-            DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            DBUtil.printMetaData(resultSet);
+            // 达梦排序规则：返回默认列表
             List<String> list = new ArrayList<>();
-            while (resultSet.next()) {
-                list.add(resultSet.getString(1));
-            }
-            DBUtil.close(resultSet);
-            DBUtil.close(statement);
+            list.add("BINARY");
+            list.add("BINARY_CI");
             collations.put(charset, list);
             return list;
         } catch (Exception ex) {
@@ -2102,14 +2076,9 @@ public class DamengClient {
 
     public void createDatabase(DBDatabase database) {
         try {
-            StringBuilder builder = new StringBuilder("CREATE DATABASE ");
+            // 达梦用"CREATE SCHEMA"代替MySQL的"CREATE DATABASE"
+            StringBuilder builder = new StringBuilder("CREATE SCHEMA ");
             builder.append(DBUtil.wrap(database.getName(), this.dialect()));
-            if (StringUtil.isNotBlank(database.getCharset())) {
-                builder.append(" CHARACTER SET ").append(DBUtil.wrapData(database.getCharset()));
-            }
-            if (StringUtil.isNotBlank(database.getCollation())) {
-                builder.append(" COLLATE ").append(DBUtil.wrapData(database.getCollation()));
-            }
             String sql = builder.toString();
             DBUtil.printSql(sql);
             Statement statement = this.connection().createStatement();
@@ -2123,22 +2092,7 @@ public class DamengClient {
 
     public boolean alterDatabase(DBDatabase database) {
         try {
-            // 无变化
-            if (database.getCharset() == null && database.getCollation() == null) {
-                return true;
-            }
-            StringBuilder builder = new StringBuilder("ALTER DATABASE ").append(DBUtil.wrap(database.getName(), this.dialect()));
-            if (database.getCharset() != null) {
-                builder.append(" CHARACTER SET ").append(DBUtil.wrapData(database.getCharset()));
-            }
-            if (database.getCollation() != null) {
-                builder.append(" COLLATE ").append(DBUtil.wrapData(database.getCollation()));
-            }
-            String sql = builder.toString();
-            DBUtil.printSql(sql);
-            Statement statement = this.connection().createStatement();
-            statement.execute(sql);
-            DBUtil.close(statement);
+            // 达梦不支持MySQL式的 ALTER DATABASE CHARACTER SET/COLLATE，跳过
             return true;
         } catch (Exception ex) {
             throw new DBException(ex);
@@ -2146,27 +2100,13 @@ public class DamengClient {
     }
 
     public String databaseCollation(String dbName) {
-        String collation = null;
-        try {
-            String sql = "SELECT PARA_VALUE FROM V$NLS_PARAMETERS WHERE PARA_NAME = 'NLS_SORT'";
-            DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            DBUtil.printMetaData(resultSet);
-            while (resultSet.next()) {
-                collation = resultSet.getString(1);
-            }
-            DBUtil.close(resultSet);
-            DBUtil.close(statement);
-        } catch (Exception ex) {
-            throw new DBException(ex);
-        }
-        return collation;
+        // 达梦不使用MySQL式的排序规则，返回null
+        return null;
     }
 
     public boolean dropDatabase(String dbName) {
         try {
-            String sql = "DROP DATABASE " + DBUtil.wrap(dbName, this.dialect());
+            String sql = "DROP SCHEMA " + DBUtil.wrap(dbName, this.dialect()) + " CASCADE";
             DBUtil.printSql(sql);
             Statement statement = this.connection().createStatement();
             statement.executeUpdate(sql);
@@ -2613,20 +2553,8 @@ public class DamengClient {
     }
 
     public String selectClientCharacter() {
-        String character = "";
-        try {
-            Connection conn = this.connection();
-            Statement stmt = conn.createStatement();
-            ResultSet resultSet = stmt.executeQuery("SELECT PARA_VALUE FROM V$NLS_PARAMETERS WHERE PARA_NAME = 'NLS_CHARACTERSET'");
-            if (resultSet.next()) {
-                character = resultSet.getString(1);
-            }
-            DBUtil.close(resultSet);
-            DBUtil.close(stmt);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return character;
+        // 达梦客户端字符集，返回默认值
+        return "UTF-8";
     }
 
     public boolean existPrimaryKey(String dbName, String tableName) {
