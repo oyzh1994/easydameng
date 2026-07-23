@@ -188,8 +188,11 @@ public class DamengTableAlertSqlGenerator {
 
                 // 达梦不支持 UNSIGNED / ZEROFILL / CHARACTER SET / COLLATE，跳过
 
-                // 默认值
-                if (column.supportDefaultValue() && column.getDefaultValue() != null) {
+                // 达梦自增列使用 IDENTITY
+                boolean isIdentity = column.supportAutoIncrement() && column.isAutoIncrement();
+
+                // 默认值（达梦自增列不能有DEFAULT约束）
+                if (!isIdentity && column.supportDefaultValue() && column.getDefaultValue() != null) {
                     builder.append(" DEFAULT ").append(DBUtil.wrapData(column.getDefaultValueString()));
                 }
 
@@ -201,7 +204,7 @@ public class DamengTableAlertSqlGenerator {
                 }
 
                 // 达梦自增列使用 IDENTITY
-                if (column.supportAutoIncrement() && column.isAutoIncrement()) {
+                if (isIdentity) {
                     builder.append(" IDENTITY(1,1)");
                 }
 
