@@ -249,53 +249,37 @@ public class DamengTableAlertSqlGenerator {
     }
 
     protected void indexHandle(StringBuilder builder, DamengAlertTableParam param) {
-        // if(!builder.toString().endsWith(",")){
-        //     builder.append(",");
-        // }
         DamengIndexes indexes = param.getIndexes();
+        String tableFullName = DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.DAMENG);
         for (DamengIndex index : indexes) {
-            // 索引删除、变更
+            // 索引删除在ALTER TABLE中
             if (DamengIndexes.isDeleted(index) || DamengIndexes.isChanged(index)) {
                 builder.append("DROP INDEX ")
                         .append(DBUtil.wrap(index.originalName(), DBDialect.DAMENG))
                         .append(",");
             }
-            // 索引新增、变更
+            // 索引新增用独立CREATE INDEX语句
             if (DamengIndexes.isCreated(index) || DamengIndexes.isChanged(index)) {
-                // 新增索引
-                builder.append(" ADD");
-                // 类型名称
+                StringBuilder idxBuilder = new StringBuilder("CREATE ");
                 if (index.typeName() != null) {
-                    builder.append(" ").append(index.typeName());
+                    idxBuilder.append(index.typeName()).append(" ");
                 }
-                builder.append(" INDEX ")
+                idxBuilder.append("INDEX ")
                         .append(DBUtil.wrap(index.getName(), DBDialect.DAMENG))
+                        .append(" ON ").append(tableFullName)
                         .append(" (");
                 for (DamengIndex.IndexColumn column : index.getColumns()) {
-                    builder.append(DBUtil.wrap(column.getColumnName(), DBDialect.DAMENG));
+                    idxBuilder.append(DBUtil.wrap(column.getColumnName(), DBDialect.DAMENG));
                     if (column.getSubPart() != null && column.getSubPart() > 0) {
-                        builder.append("(").append(column.getSubPart()).append(")");
+                        idxBuilder.append("(").append(column.getSubPart()).append(")");
                     }
-                    builder.append(",");
+                    idxBuilder.append(",");
                 }
-                // 删除最后一个字符
-                StringUtil.deleteLast(builder);
-                builder.append(") ");
-                // 方法名称
-                if (index.methodName() != null) {
-                    builder.append(" USING ").append(index.methodName());
-                }
-                if (index.getComment() != null) {
-                    builder.append(" COMMENT ").append(DBUtil.wrapData(index.getComment()));
-                }
-                // 拼接,
-                builder.append(",");
+                StringUtil.deleteLast(idxBuilder);
+                idxBuilder.append(")");
+                this.sqlList.add(idxBuilder.toString() + ";");
             }
         }
-        // // 删除最后一个字符
-        // if (builder.toString().endsWith(",")) {
-        //     builder.deleteCharAt(builder.length() - 1);
-        // }
     }
 
     protected void foreignKeyHandle1(StringBuilder builder, DamengAlertTableParam table) {
