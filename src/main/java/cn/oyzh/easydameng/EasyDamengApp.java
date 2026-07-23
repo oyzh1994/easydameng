@@ -3,6 +3,7 @@ package cn.oyzh.easydameng;
 import cn.oyzh.common.SysConst;
 import cn.oyzh.common.dto.Project;
 import cn.oyzh.common.log.JulLog;
+import cn.oyzh.common.object.ObjectWatcherManager;
 import cn.oyzh.common.system.SystemUtil;
 import cn.oyzh.easydameng.controller.MainController;
 import cn.oyzh.easydameng.controller.SettingController2;
@@ -101,10 +102,11 @@ public class EasyDamengApp extends FXApplication {
     public void start(Stage primaryStage) {
         try {
             super.start(primaryStage);
+            ObjectWatcherManager.disable();
             // 注册终端处理器
             TerminalManager.setLoadHandler(DamengTerminalPane.TERMINAL_NAME, DamengTerminalManager::registerHandlers);
             // 开启定期gc
-            SystemUtil.gcInterval(5_000);
+            SystemUtil.gcInterval(30_000);
         } catch (Exception ex) {
             ex.printStackTrace();
             JulLog.warn("start error", ex);
@@ -122,42 +124,42 @@ public class EasyDamengApp extends FXApplication {
         }
     }
 
-    @Override
-    protected void initSystemTray() {
-        try {
-            if (!TrayManager.supported()) {
-                JulLog.warn("tray is not supported.");
-                return;
-            }
-            if (TrayManager.exist()) {
-                return;
-            }
-            // 初始化
-            TrayManager.init(DamengConst.TRAY_ICON_PATH);
-            // 设置标题
-            TrayManager.setTitle(PROJECT.getName() + " v" + PROJECT.getVersion());
-            // 打开主页
-            TrayManager.addMenuItem(new DesktopTrayItem( this::showMain));
-            // 打开设置
-            TrayManager.addMenuItem(new SettingTrayItem( this::showSetting));
-            // 退出程序
-            TrayManager.addMenuItem(new QuitTrayItem( () -> {
-                JulLog.warn("exit app by tray.");
-                StageManager.exit();
-            }));
-            // 鼠标事件
-            TrayManager.onMouseClicked(e -> {
-                // 单击鼠标主键，显示主页
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    this.showMain();
-                }
-            });
-            // 显示托盘
-            TrayManager.show();
-        } catch (Exception ex) {
-            JulLog.warn("不支持系统托盘!", ex);
-        }
-    }
+//    @Override
+//    protected void initSystemTray() {
+//        try {
+//            if (!TrayManager.supported()) {
+//                JulLog.warn("tray is not supported.");
+//                return;
+//            }
+//            if (TrayManager.exist()) {
+//                return;
+//            }
+//            // 初始化
+//            TrayManager.init(DamengConst.TRAY_ICON_PATH);
+//            // 设置标题
+//            TrayManager.setTitle(PROJECT.getName() + " v" + PROJECT.getVersion());
+//            // 打开主页
+//            TrayManager.addMenuItem(new DesktopTrayItem( this::showMain));
+//            // 打开设置
+//            TrayManager.addMenuItem(new SettingTrayItem( this::showSetting));
+//            // 退出程序
+//            TrayManager.addMenuItem(new QuitTrayItem( () -> {
+//                JulLog.warn("exit app by tray.");
+//                StageManager.exit();
+//            }));
+//            // 鼠标事件
+//            TrayManager.onMouseClicked(e -> {
+//                // 单击鼠标主键，显示主页
+//                if (e.getButton() == MouseEvent.BUTTON1) {
+//                    this.showMain();
+//                }
+//            });
+//            // 显示托盘
+//            TrayManager.show();
+//        } catch (Exception ex) {
+//            JulLog.warn("不支持系统托盘!", ex);
+//        }
+//    }
 
     /**
      * 显示主页

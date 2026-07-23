@@ -43,29 +43,54 @@ public class DamengTableAlertSqlGenerator {
         }
         // 修改列、主键、索引、外键、检查 — 每个操作生成独立 ALTER TABLE 语句
         if (param.columnChanged()) {
+            int beforeAll = this.sqlBuilder.length();
             this.sqlBuilder.append("ALTER TABLE ").append(tableFullName).append(" ");
             this.columnHandle(this.sqlBuilder, param);
-            this.endStatement();
+            if (this.sqlBuilder.length() == beforeAll + ("ALTER TABLE " + tableFullName + " ").length()) {
+                this.sqlBuilder.setLength(beforeAll);
+            } else {
+                this.endStatement();
+            }
         }
         if (param.primaryKeyChanged()) {
+            int beforeAll = this.sqlBuilder.length();
             this.sqlBuilder.append("ALTER TABLE ").append(tableFullName).append(" ");
             this.primaryKeyHandle(this.sqlBuilder, param);
-            this.endStatement();
+            if (this.sqlBuilder.length() == beforeAll + ("ALTER TABLE " + tableFullName + " ").length()) {
+                this.sqlBuilder.setLength(beforeAll);
+            } else {
+                this.endStatement();
+            }
         }
         if (param.hasIndex()) {
+            int beforeAll = this.sqlBuilder.length();
             this.sqlBuilder.append("ALTER TABLE ").append(tableFullName).append(" ");
             this.indexHandle(this.sqlBuilder, param);
-            this.endStatement();
+            if (this.sqlBuilder.length() == beforeAll + ("ALTER TABLE " + tableFullName + " ").length()) {
+                this.sqlBuilder.setLength(beforeAll);
+            } else {
+                this.endStatement();
+            }
         }
         if (param.hasForeignKey()) {
+            int beforeAll = this.sqlBuilder.length();
             this.sqlBuilder.append("ALTER TABLE ").append(tableFullName).append(" ");
             this.foreignKeyHandle1(this.sqlBuilder, param);
-            this.endStatement();
+            if (this.sqlBuilder.length() == beforeAll + ("ALTER TABLE " + tableFullName + " ").length()) {
+                this.sqlBuilder.setLength(beforeAll);
+            } else {
+                this.endStatement();
+            }
         }
         if (param.hasCheck()) {
+            int beforeAll = this.sqlBuilder.length();
             this.sqlBuilder.append("ALTER TABLE ").append(tableFullName).append(" ");
             this.checkHandle(this.sqlBuilder, param);
-            this.endStatement();
+            if (this.sqlBuilder.length() == beforeAll + ("ALTER TABLE " + tableFullName + " ").length()) {
+                this.sqlBuilder.setLength(beforeAll);
+            } else {
+                this.endStatement();
+            }
         }
         // 达梦表注释
         if (table.hasComment()) {
@@ -81,12 +106,12 @@ public class DamengTableAlertSqlGenerator {
 
     private void endStatement() {
         String str = this.sqlBuilder.toString();
-        // 移除末尾逗号并加分号
         if (str.endsWith(",")) {
             this.sqlBuilder.setLength(this.sqlBuilder.length() - 1);
         }
         this.sqlBuilder.append(";\n");
     }
+
 
     private String buildSqlNoComma() {
         String result = this.sqlBuilder.toString();
