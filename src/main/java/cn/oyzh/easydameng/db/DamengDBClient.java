@@ -1641,7 +1641,7 @@
 //
 //     @Override
 //     public DBDialect dialect() {
-//         return DBDialect.MYSQL;
+//         return DBDialect.DAMENG;
 //     }
 //
 //     @Override

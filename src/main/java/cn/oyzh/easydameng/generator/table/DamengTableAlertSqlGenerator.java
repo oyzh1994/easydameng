@@ -40,7 +40,7 @@ public class DamengTableAlertSqlGenerator {
             this.foreignKeyHandle2(this.sqlBuilder, param);
         }
         this.sqlBuilder.append("ALTER TABLE ")
-                .append(DBUtil.wrap(dbName, tableName, DBDialect.MYSQL))
+                .append(DBUtil.wrap(dbName, tableName, DBDialect.DAMENG))
                 .append(" \n");
         // 字段
         if (param.columnChanged()) {
@@ -62,29 +62,9 @@ public class DamengTableAlertSqlGenerator {
         if (param.hasCheck()) {
             this.checkHandle(this.sqlBuilder, param);
         }
-        // 表字符集
-        if (table.hasCharset()) {
-            this.sqlBuilder.append(" CHARACTER SET = ").append(table.getCharset()).append(",");
-        }
-        // 表排序
-        if (table.hasCollation()) {
-            this.sqlBuilder.append(" COLLATE = ").append(table.getCollation()).append(",");
-        }
-        // 表引擎
-        if (table.hasEngine()) {
-            this.sqlBuilder.append(" ENGINE = ").append(table.getEngine()).append(",");
-        }
-        // 表注释
+        // 达梦表注释
         if (table.hasComment()) {
             this.sqlBuilder.append(" COMMENT = ").append(DBUtil.wrapData(table.getComment())).append(",");
-        }
-        // 行格式
-        if (table.hasRowFormat()) {
-            this.sqlBuilder.append(" NULL AS ROW_FORMAT = ").append(table.getRowFormat()).append(",");
-        }
-        // 表自动递增
-        if (table.hasAutoIncrement()) {
-            this.sqlBuilder.append(" NULL AS AUTO_INCREMENT = ").append(table.getAutoIncrement()).append(",");
         }
         this.sqlBuilder.append(";");
         // 表触发器
@@ -109,18 +89,18 @@ public class DamengTableAlertSqlGenerator {
             if (DamengTriggers.isDeleted(trigger) || DamengTriggers.isChanged(trigger)) {
                 StringBuilder builder = new StringBuilder();
                 builder.append("DROP TRIGGER ")
-                        .append(DBUtil.wrap(trigger.originalName(), DBDialect.MYSQL))
+                        .append(DBUtil.wrap(trigger.originalName(), DBDialect.DAMENG))
                         .append(";");
                 this.sqlList.add(builder.toString());
             }
             if (DamengTriggers.isChanged(trigger) || DamengTriggers.isCreated(trigger)) {
                 StringBuilder builder = new StringBuilder();
                 builder.append("CREATE TRIGGER ")
-                        .append(DBUtil.wrap(trigger.getName(), DBDialect.MYSQL))
+                        .append(DBUtil.wrap(trigger.getName(), DBDialect.DAMENG))
                         .append(" ")
                         .append(trigger.getPolicy())
                         .append(" ON ")
-                        .append(DBUtil.wrap(param.tableName(), DBDialect.MYSQL))
+                        .append(DBUtil.wrap(param.tableName(), DBDialect.DAMENG))
                         .append(" FOR EACH ROW ")
                         .append(trigger.getDefinition())
                         .append(";");
@@ -135,15 +115,15 @@ public class DamengTableAlertSqlGenerator {
             if (DamengColumns.isChanged(column) || DamengColumns.isCreated(column)) {
                 if (column.isCreated()) {
                     builder.append(" ADD COLUMN ")
-                            .append(DBUtil.wrap(column.getName(), DBDialect.MYSQL));
+                            .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
                 } else if (column.isNameChanged()) {
-                    builder.append(" CHANGE COLUMN ")
-                            .append(DBUtil.wrap(column.originalName(), DBDialect.MYSQL))
-                            .append(" ")
-                            .append(DBUtil.wrap(column.getName(), DBDialect.MYSQL));
+                    builder.append(" RENAME COLUMN ")
+                            .append(DBUtil.wrap(column.originalName(), DBDialect.DAMENG))
+                            .append(" TO ")
+                            .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
                 } else {
-                    builder.append(" MODIFY COLUMN ")
-                            .append(DBUtil.wrap(column.getName(), DBDialect.MYSQL));
+                    builder.append(" MODIFY ")
+                            .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
                 }
                 // 字段类型
                 builder.append(" ").append(column.getType());
@@ -160,25 +140,7 @@ public class DamengTableAlertSqlGenerator {
                     builder.append("(").append(column.getValue()).append(")");
                 }
 
-                // 无符号
-                if (column.supportUnsigned() && column.isUnsigned()) {
-                    builder.append(" UNSIGNED ");
-                }
-
-                // 填充零
-                if (column.supportZeroFill() && column.isZeroFill()) {
-                    builder.append(" ZEROFILL ");
-                }
-
-                // 字符集及排序
-                if (column.supportCharset()) {
-                    if (column.getCharset() != null) {
-                        builder.append(" CHARACTER SET ").append(column.getCharset());
-                    }
-                    if (column.getCollation() != null) {
-                        builder.append(" COLLATE ").append(column.getCollation());
-                    }
-                }
+                // 达梦不支持 UNSIGNED / ZEROFILL / CHARACTER SET / COLLATE，跳过
 
                 // 默认值
                 if (column.supportDefaultValue() && column.getDefaultValue() != null) {
@@ -192,14 +154,9 @@ public class DamengTableAlertSqlGenerator {
                     builder.append(" NOT NULL");
                 }
 
-                // 根据时间戳更新
-                if (column.supportTimestamp() && column.isUpdateOnCurrentTimestamp()) {
-                    builder.append(" ON UPDATE CURRENT_TIMESTAMP(0)");
-                }
-
-                // 自动递增
+                // 达梦自增列使用 IDENTITY
                 if (column.supportAutoIncrement() && column.isAutoIncrement()) {
-                    builder.append(" NULL AS AUTO_INCREMENT ");
+                    builder.append(" IDENTITY(1,1)");
                 }
 
                 // 注释
@@ -209,7 +166,7 @@ public class DamengTableAlertSqlGenerator {
                 builder.append(",");
             } else if (DamengColumns.isDeleted(column)) {// 删除字段
                 builder.append(" DROP COLUMN ")
-                        .append(DBUtil.wrap(column.getName(), DBDialect.MYSQL))
+                        .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG))
                         .append(",");
             }
         }
@@ -228,7 +185,7 @@ public class DamengTableAlertSqlGenerator {
         if (!keyList.isEmpty()) {
             builder.append(" ADD PRIMARY KEY (");
             for (DamengColumn column : keyList) {
-                builder.append(DBUtil.wrap(column.getName(), DBDialect.MYSQL));
+                builder.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
                 if (column.supportKeySize()) {
                     if (column.getPrimaryKeySize() != null) {
                         builder.append("(").append(column.getPrimaryKeySize()).append(")");
@@ -257,7 +214,7 @@ public class DamengTableAlertSqlGenerator {
             // 索引删除、变更
             if (DamengIndexes.isDeleted(index) || DamengIndexes.isChanged(index)) {
                 builder.append("DROP INDEX ")
-                        .append(DBUtil.wrap(index.originalName(), DBDialect.MYSQL))
+                        .append(DBUtil.wrap(index.originalName(), DBDialect.DAMENG))
                         .append(",");
             }
             // 索引新增、变更
@@ -269,10 +226,10 @@ public class DamengTableAlertSqlGenerator {
                     builder.append(" ").append(index.typeName());
                 }
                 builder.append(" INDEX ")
-                        .append(DBUtil.wrap(index.getName(), DBDialect.MYSQL))
+                        .append(DBUtil.wrap(index.getName(), DBDialect.DAMENG))
                         .append(" (");
                 for (DamengIndex.IndexColumn column : index.getColumns()) {
-                    builder.append(DBUtil.wrap(column.getColumnName(), DBDialect.MYSQL));
+                    builder.append(DBUtil.wrap(column.getColumnName(), DBDialect.DAMENG));
                     if (column.getSubPart() != null && column.getSubPart() > 0) {
                         builder.append("(").append(column.getSubPart()).append(")");
                     }
@@ -309,18 +266,18 @@ public class DamengTableAlertSqlGenerator {
         for (DamengForeignKey foreignKey : foreignKeys.filterList(DBObjectList.TYPE_CHANGED, DBObjectList.TYPE_CREATED)) {
             // 新增外键
             builder.append(" ADD CONSTRAINT ")
-                    .append(DBUtil.wrap(foreignKey.getName(), DBDialect.MYSQL))
+                    .append(DBUtil.wrap(foreignKey.getName(), DBDialect.DAMENG))
                     .append(" FOREIGN KEY (");
             for (String column : foreignKey.getColumns()) {
-                builder.append(DBUtil.wrap(column, DBDialect.MYSQL)).append(",");
+                builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(",");
             }
             StringUtil.deleteLast(builder, ",");
             builder.append(")")
                     .append(" REFERENCES ")
-                    .append(DBUtil.wrap(foreignKey.getPrimaryKeyDatabase(), foreignKey.getPrimaryKeyTable(), DBDialect.MYSQL))
+                    .append(DBUtil.wrap(foreignKey.getPrimaryKeyDatabase(), foreignKey.getPrimaryKeyTable(), DBDialect.DAMENG))
                     .append(" (");
             for (String column : foreignKey.getPrimaryKeyColumns()) {
-                builder.append(DBUtil.wrap(column, DBDialect.MYSQL)).append(",");
+                builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(",");
             }
             StringUtil.deleteLast(builder, ",");
             builder.append(")")
@@ -339,13 +296,13 @@ public class DamengTableAlertSqlGenerator {
         }
         // StringBuilder builder = new StringBuilder();
         builder.append("ALTER TABLE ")
-                .append(DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.MYSQL));
+                .append(DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.DAMENG));
         for (DamengForeignKey foreignKey : foreignKeys.filterList(DBObjectList.TYPE_DELETED, DBObjectList.TYPE_CHANGED)) {
             String fkName = foreignKey.originalName();
             // 名称为null是临时数据
             if (StringUtil.isNotBlank(fkName)) {
-                this.sqlBuilder.append(" DROP FOREIGN KEY ")
-                        .append(DBUtil.wrap(foreignKey.originalName(), DBDialect.MYSQL))
+                this.sqlBuilder.append(" DROP CONSTRAINT ")
+                        .append(DBUtil.wrap(foreignKey.originalName(), DBDialect.DAMENG))
                         .append(",");
             }
         }
@@ -362,13 +319,13 @@ public class DamengTableAlertSqlGenerator {
             // 检查删除、变更
             if (DamengChecks.isDeleted(check) || DamengChecks.isChanged(check)) {
                 builder.append("DROP CONSTRAINT ")
-                        .append(DBUtil.wrap(check.originalName(), DBDialect.MYSQL))
+                        .append(DBUtil.wrap(check.originalName(), DBDialect.DAMENG))
                         .append(",");
             }
             // 检查新增、变更
             if (DamengChecks.isCreated(check) || DamengChecks.isChanged(check)) {
                 builder.append(" ADD CONSTRAINT ")
-                        .append(DBUtil.wrap(check.getName(), DBDialect.MYSQL))
+                        .append(DBUtil.wrap(check.getName(), DBDialect.DAMENG))
                         .append(" CHECK (")
                         .append(check.getClause())
                         .append(")");

@@ -327,13 +327,13 @@
 //         List<String> list = new ArrayList<>();
 //         String tableName = columns.tableName();
 //         List<DamengColumn> columnList = columns.sortOfPosition();
-//         final String sqlBase = "INSERT INTO " + DBUtil.wrap(tableName, DBDialect.MYSQL);
+//         final String sqlBase = "INSERT INTO " + DBUtil.wrap(tableName, DBDialect.DAMENG);
 //         for (DamengRecord record : records) {
 //             StringBuilder sql = new StringBuilder(sqlBase);
 //             if (config.isIncludeFields()) {
 //                 sql.append("(");
 //                 for (DamengColumn dbColumn : columnList) {
-//                     sql.append(DBUtil.wrap(dbColumn.getName(), DBDialect.MYSQL)).append(", ");
+//                     sql.append(DBUtil.wrap(dbColumn.getName(), DBDialect.DAMENG)).append(", ");
 //                 }
 //                 if (sql.toString().endsWith(", ")) {
 //                     sql.delete(sql.length() - 2, sql.length());

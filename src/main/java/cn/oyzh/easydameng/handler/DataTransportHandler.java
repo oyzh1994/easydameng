@@ -158,7 +158,7 @@ public abstract class DataTransportHandler extends DataHandler {
      */
     public static DataTransportHandler newHandler(DBDialect dialect) {
         DataTransportHandler handler = switch (dialect) {
-            case MYSQL -> new DamengDataTransportHandler();
+            case DAMENG -> new DamengDataTransportHandler();
             default -> null;
         };
         if (handler != null) {

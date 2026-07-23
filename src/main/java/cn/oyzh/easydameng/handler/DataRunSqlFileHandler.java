@@ -147,7 +147,7 @@ public abstract class DataRunSqlFileHandler extends DataHandler {
      */
     public static DataRunSqlFileHandler newHandler(DamengClient dbClient, String dbName) {
         DataRunSqlFileHandler handler = switch (dbClient.dialect()) {
-            case MYSQL -> new DamengDataRunSqlFileHandler(dbClient, dbName);
+            case DAMENG -> new DamengDataRunSqlFileHandler(dbClient, dbName);
             default -> null;
         };
         if (handler != null) {

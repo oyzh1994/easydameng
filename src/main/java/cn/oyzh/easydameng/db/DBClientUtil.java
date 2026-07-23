@@ -13,7 +13,7 @@ import cn.oyzh.easydameng.dameng.DamengClient;
 public class DBClientUtil {
 
     public static DamengClient newClient(DamengConnect info) {
-        if (StringUtil.isBlank(info.getType()) || DBDialect.valueOf(info.getType()) == DBDialect.MYSQL) {
+        if (StringUtil.isBlank(info.getType()) || DBDialect.valueOf(info.getType()) == DBDialect.DAMENG) {
             return new DamengClient(info);
         }
         if (DBDialect.valueOf(info.getType()) == DBDialect.DAMENG) {

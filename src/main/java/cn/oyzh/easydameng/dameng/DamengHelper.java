@@ -134,24 +134,16 @@ public class DamengHelper {
     }
 
     public static String getProcedureDefiner(Connection connection, String procedureName) throws Exception {
-        String sql = "SHOW CREATE PROCEDURE " + DBUtil.wrap(procedureName, DBDialect.MYSQL);
-        Statement statement = connection.createStatement();
-        // 执行SQL查询并获取结果集
-        ResultSet resultSet = statement.executeQuery(sql);
-        String definer = null;
-        if (resultSet.next()) {
-            String createDefinition = resultSet.getString("Create Procedure");
-            String[] arr = createDefinition.split(" ");
-            for (String string : arr) {
-                if (StringUtil.startWithIgnoreCase(string, "DEFINER=")) {
-                    definer = string.substring(8);
-                    break;
-                }
+        // 达梦通过ALL_PROCEDURES查询定义者，而非SHOW CREATE PROCEDURE
+        String sql = "SELECT OWNER FROM ALL_PROCEDURES WHERE OBJECT_NAME = ? AND OWNER = (SELECT USERNAME FROM USER_USERS)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, procedureName);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
             }
         }
-        DBUtil.close(resultSet);
-        DBUtil.close(statement);
-        return definer;
+        return null;
     }
 
     public static boolean isViewUpdatable(Connection connection, String dbName, String viewName) throws Exception {

@@ -11,7 +11,7 @@ import cn.oyzh.easydameng.util.DBUtil;
 public class DamengEventAlertSqlGenerator extends EventAlertSqlGenerator {
 
     public DamengEventAlertSqlGenerator() {
-        super(DBDialect.MYSQL);
+        super(DBDialect.DAMENG);
     }
 
     protected DamengEventAlertSqlGenerator(DBDialect dialect) {
@@ -27,7 +27,7 @@ public class DamengEventAlertSqlGenerator extends EventAlertSqlGenerator {
             sql += " DEFINER = " + event.getDefiner();
         }
         // 名称
-        sql += " EVENT " + DBUtil.wrap(event.getDbName(), event.getName(), DBDialect.MYSQL);
+        sql += " EVENT " + DBUtil.wrap(event.getDbName(), event.getName(), DBDialect.DAMENG);
         // 执行时间
         sql += "\nON SCHEDULE ";
         if (event.isOnTimeType()) {

@@ -25,7 +25,7 @@ public class DamengFunctionSqlGenerator {
         if (StringUtil.isNotBlank(function.getDefiner())) {
             sql += " DEFINER = " + function.getDefiner();
         }
-        sql += " FUNCTION " + DBUtil.wrap(function.getName(), DBDialect.MYSQL);
+        sql += " FUNCTION " + DBUtil.wrap(function.getName(), DBDialect.DAMENG);
         // 参数
         sql += " (";
         List<DamengRoutineParam> params = function.getParams();

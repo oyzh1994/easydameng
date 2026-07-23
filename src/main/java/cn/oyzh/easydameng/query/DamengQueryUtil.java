@@ -370,7 +370,7 @@ public class DamengQueryUtil {
                     item.setType((byte) 3);
                     item.setCorrelation(corr);
                     item.setContent(column.getName());
-                    item.setExtContent(DBUtil.wrap(column.getDbName(), column.getTableName(), DBDialect.MYSQL));
+                    item.setExtContent(DBUtil.wrap(column.getDbName(), column.getTableName(), DBDialect.DAMENG));
                     items.add(item);
                 }
             }));

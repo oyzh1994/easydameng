@@ -298,7 +298,7 @@ public class DamengRoutineParam extends DBObjectStatus {
     public String getDefinition() {
         String definition = "";
         if (StringUtil.isNotBlank(this.getName())) {
-            definition += DBUtil.wrap(this.getName(), DBDialect.MYSQL);
+            definition += DBUtil.wrap(this.getName(), DBDialect.DAMENG);
         }
         definition += " " + this.getType();
         definition += " (";

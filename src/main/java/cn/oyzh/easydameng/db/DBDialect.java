@@ -14,17 +14,14 @@ import java.util.List;
  * @since 2024/2/20
  */
 public enum DBDialect {
-    MYSQL,
     DAMENG;
 
     public DbType dbType() {
         switch (this) {
-            case MYSQL:
-                return DbType.mysql;
             case DAMENG:
                 return DbType.dm;
             default:
-                return DbType.mysql;
+                return DbType.dm;
         }
     }
 

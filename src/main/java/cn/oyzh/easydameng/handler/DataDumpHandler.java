@@ -155,7 +155,7 @@ public abstract class DataDumpHandler extends DataHandler {
      */
     public static DataDumpHandler newHandler(DamengClient dbClient, String dbName) {
         DataDumpHandler handler = switch (dbClient.dialect()) {
-            case MYSQL -> new DamengDataDumpHandler( dbClient, dbName);
+            case DAMENG -> new DamengDataDumpHandler( dbClient, dbName);
             default -> null;
         };
         if (handler != null) {

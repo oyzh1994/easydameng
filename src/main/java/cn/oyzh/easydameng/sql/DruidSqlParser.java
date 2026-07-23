@@ -26,11 +26,7 @@ public class DruidSqlParser extends DBSqlParser {
 
     public DruidSqlParser(String sqlContent, DBDialect dialect) {
         super(sqlContent, dialect);
-        this.dbType = switch (dialect) {
-            case MYSQL -> DbType.mysql;
-            case DAMENG -> DbType.dm;
-            default -> null;
-        };
+        this.dbType = dialect.dbType();
     }
 
     @Override

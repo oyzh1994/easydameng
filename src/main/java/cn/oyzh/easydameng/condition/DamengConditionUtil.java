@@ -65,7 +65,7 @@ public class DamengConditionUtil {
             DamengRecordFilter filter = filters.get(i);
             String condition = filter.condition();
             if (StringUtil.isNotBlank(condition)) {
-                conditions.append(DBUtil.wrap(filter.column(), DBDialect.MYSQL))
+                conditions.append(DBUtil.wrap(filter.column(), DBDialect.DAMENG))
                         .append(" ")
                         .append(condition)
                         .append(" ");

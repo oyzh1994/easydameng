@@ -237,15 +237,7 @@ public class DBUtil {
 
     public static String wrap(String name, DBDialect dialect) {
         StringBuilder builder = new StringBuilder();
-        if (dialect == DBDialect.MYSQL) {
-            if (!name.startsWith("`")) {
-                builder.append("`");
-            }
-            builder.append(name);
-            if (!name.endsWith("`")) {
-                builder.append("`");
-            }
-        } else if (dialect == DBDialect.DAMENG) {
+         if (dialect == DBDialect.DAMENG) {
             if (!name.startsWith("\"")) {
                 builder.append("\"");
             }
@@ -265,10 +257,7 @@ public class DBUtil {
     // }
 
     public static String wrap(String dbName, String tableName, DBDialect dialect) {
-        if (dialect == DBDialect.MYSQL) {
-            return wrap(dbName, dialect) + "." + wrap(tableName, dialect);
-        }
-        if (dialect == DBDialect.DAMENG) {
+        if ( dialect == DBDialect.DAMENG) {
             return wrap(dbName, dialect) + "." + wrap(tableName, dialect);
         }
         return dbName + "." + tableName;

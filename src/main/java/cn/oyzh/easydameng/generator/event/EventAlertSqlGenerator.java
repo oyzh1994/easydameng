@@ -19,7 +19,7 @@ public abstract class EventAlertSqlGenerator {
 
     public static String generate(DBDialect dialect, DamengEvent event) {
         return switch (dialect) {
-            case MYSQL -> new DamengEventAlertSqlGenerator().generate(event);
+            case DAMENG -> new DamengEventAlertSqlGenerator().generate(event);
             default -> null;
         };
     }

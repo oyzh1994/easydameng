@@ -19,7 +19,7 @@ public abstract class EventCreateSqlGenerator {
 
     public static String generate(DBDialect dialect, DamengEvent event) {
         return switch (dialect) {
-            case MYSQL -> new DamengEventCreateSqlGenerator().generate(event);
+            case DAMENG -> new DamengEventCreateSqlGenerator().generate(event);
             default -> null;
         };
     }

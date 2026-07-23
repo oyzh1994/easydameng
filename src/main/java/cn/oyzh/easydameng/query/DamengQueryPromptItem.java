@@ -103,7 +103,7 @@ public class DamengQueryPromptItem {
 
     public String wrapContent( ) {
         if(this.isColumnType()){
-            return DBUtil.wrap(this.content, DBDialect.MYSQL);
+            return DBUtil.wrap(this.content, DBDialect.DAMENG);
         }
         return this.content;
     }

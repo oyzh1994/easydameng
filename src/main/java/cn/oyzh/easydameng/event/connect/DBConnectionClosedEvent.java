@@ -22,6 +22,6 @@ public class DBConnectionClosedEvent extends Event<DamengClient> implements Even
     }
 
     public boolean isDamengType() {
-        return this.data().dialect() == DBDialect.MYSQL;
+        return this.data().dialect() == DBDialect.DAMENG;
     }
 }

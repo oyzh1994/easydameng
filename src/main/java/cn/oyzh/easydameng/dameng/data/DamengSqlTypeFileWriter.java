@@ -48,12 +48,12 @@ public class DamengSqlTypeFileWriter extends DamengTypeFileWriter {
     public void writeObject(Map<String, Object> object) throws Exception {
         String tableName = this.columns.tableName();
         List<DamengColumn> columnList = this.columns.sortOfPosition();
-        final String sqlBase = "INSERT INTO " + DBUtil.wrap(tableName, DBDialect.MYSQL);
+        final String sqlBase = "INSERT INTO " + DBUtil.wrap(tableName, DBDialect.DAMENG);
         StringBuilder sql = new StringBuilder(sqlBase);
         if (this.config.isIncludeFields()) {
             sql.append("(");
             for (DamengColumn dbColumn : columnList) {
-                sql.append(DBUtil.wrap(dbColumn.getName(), DBDialect.MYSQL)).append(", ");
+                sql.append(DBUtil.wrap(dbColumn.getName(), DBDialect.DAMENG)).append(", ");
             }
             if (sql.toString().endsWith(", ")) {
                 sql.delete(sql.length() - 2, sql.length());

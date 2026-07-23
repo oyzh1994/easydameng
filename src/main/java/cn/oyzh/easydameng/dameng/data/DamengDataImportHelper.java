@@ -67,10 +67,10 @@ public class DamengDataImportHelper {
         List<String> insertSql = new ArrayList<>();
         for (DamengRecord record : records) {
             StringBuilder sql = new StringBuilder("INSERT INTO ");
-            sql.append(DBUtil.wrap(columns.tableName(), DBDialect.MYSQL));
+            sql.append(DBUtil.wrap(columns.tableName(), DBDialect.DAMENG));
             sql.append("(");
             for (DamengColumn column : columns) {
-                sql.append(DBUtil.wrap(column.getName(), DBDialect.MYSQL)).append(", ");
+                sql.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG)).append(", ");
             }
             sql.deleteCharAt(sql.length() - 2);
             sql.append(") VALUES (");
