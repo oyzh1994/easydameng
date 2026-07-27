@@ -105,12 +105,12 @@
         </NumberTextField>
     </FXHBox>
     <FXHBox flexWidth="100%" realHeight="25">
-        <SubmitSVGGlyph onMousePrimaryClicked="#submit" sizeStr="15,11">
+        <SubmitSVGGlyph onMousePrimaryClicked="#submit">
             <HBox.margin>
                 <Insets left="95" top="5"/>
             </HBox.margin>
         </SubmitSVGGlyph>
-        <CancelSVGGlyph onMousePrimaryClicked="#close" sizeStr="11">
+        <CancelSVGGlyph onMousePrimaryClicked="#close">
             <HBox.margin>
                 <Insets left="30" top="5"/>
             </HBox.margin>

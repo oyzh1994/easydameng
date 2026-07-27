@@ -18,7 +18,7 @@
     </graphic>
     <FXVBox flexHeight="100%" flexWidth="100%">
         <FXHBox realHeight="30" flexWidth="100%">
-            <AddSVGGlyph size="15" onMousePrimaryClicked="#addConnect">
+            <AddSVGGlyph onMousePrimaryClicked="#addConnect">
                 <HBox.margin>
                     <Insets left="5" top="10"/>
                 </HBox.margin>
@@ -28,12 +28,12 @@
             <!--         <Insets left="5" top="10"/> -->
             <!--     </HBox.margin> -->
             <!-- </TerminalSVGGlyph> -->
-            <ImportSVGGlyph size="15" onMousePrimaryClicked="#importConnect" tipText="%base.importConnect">
+            <ImportSVGGlyph onMousePrimaryClicked="#importConnect" tipText="%base.importConnect">
                 <HBox.margin>
                     <Insets left="5" top="10"/>
                 </HBox.margin>
             </ImportSVGGlyph>
-            <ExportSVGGlyph size="15" onMousePrimaryClicked="#exportConnect" tipText="%base.exportConnect">
+            <ExportSVGGlyph onMousePrimaryClicked="#exportConnect" tipText="%base.exportConnect">
                 <HBox.margin>
                     <Insets left="5" top="10"/>
                 </HBox.margin>
@@ -41,12 +41,12 @@
         </FXHBox>
         <DBTreeView fx:id="tree" flexHeight="100% - 60" flexWidth="100%"/>
         <FXHBox realHeight="30" flexWidth="100%">
-            <SortSVGPane fx:id="sortPane" size="15" onMousePrimaryClicked="#sortTree">
+            <SortSVGPane fx:id="sortPane" onMousePrimaryClicked="#sortTree">
                 <HBox.margin>
                     <Insets left="5" top="5"/>
                 </HBox.margin>
             </SortSVGPane>
-            <PositioningSVGGlyph size="17" onMousePrimaryClicked="#positionNode">
+            <PositioningSVGGlyph onMousePrimaryClicked="#positionNode">
                 <HBox.margin>
                     <Insets left="5" top="5"/>
                 </HBox.margin>

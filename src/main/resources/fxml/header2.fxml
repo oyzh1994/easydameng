@@ -12,27 +12,27 @@
 <?import javafx.scene.layout.VBox?>
 <FXVBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="cn.oyzh.easydameng.controller.HeaderController2" flexWidth="100%" flexHeight="100%">
-    <TransportSVGGlyph onMousePrimaryClicked="#transport" size="12">
+    <TransportSVGGlyph onMousePrimaryClicked="#transport">
         <VBox.margin>
             <Insets left="10" top="60"/>
         </VBox.margin>
     </TransportSVGGlyph>
-    <ToolsSVGGlyph onMousePrimaryClicked="#tool" size="13">
+    <ToolsSVGGlyph onMousePrimaryClicked="#tool">
         <VBox.margin>
             <Insets left="10" top="15"/>
         </VBox.margin>
     </ToolsSVGGlyph>
-    <AboutSVGLabel onMousePrimaryClicked="#about" size="14">
+    <AboutSVGLabel onMousePrimaryClicked="#about">
         <VBox.margin>
             <Insets left="10" top="15"/>
         </VBox.margin>
     </AboutSVGLabel>
-    <Layout1SVGGlyph onMousePrimaryClicked="#layout1" size="12">
+    <Layout1SVGGlyph onMousePrimaryClicked="#layout1">
         <VBox.margin>
             <Insets left="10" top="15"/>
         </VBox.margin>
     </Layout1SVGGlyph>
-    <Layout2SVGGlyph onMousePrimaryClicked="#layout2" size="12">
+    <Layout2SVGGlyph onMousePrimaryClicked="#layout2">
         <VBox.margin>
             <Insets left="10" top="15"/>
         </VBox.margin>
@@ -40,12 +40,12 @@
     <FXPane flexWidth="100%" flexHeight="100% - 254">
 
     </FXPane>
-    <QuitSVGGlyph onMousePrimaryClicked="#quit" size="12">
+    <QuitSVGGlyph onMousePrimaryClicked="#quit">
         <VBox.margin>
             <Insets left="10" top="15"/>
         </VBox.margin>
     </QuitSVGGlyph>
-    <SettingSVGGlyph onMousePrimaryClicked="#setting" size="14">
+    <SettingSVGGlyph onMousePrimaryClicked="#setting">
         <VBox.margin>
             <Insets left="10" top="15"/>
         </VBox.margin>

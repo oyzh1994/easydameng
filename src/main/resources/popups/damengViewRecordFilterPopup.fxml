@@ -21,22 +21,22 @@
         </columns>
     </FXTableView>
     <FXHBox realHeight="30" flexWidth="100%">
-        <Apply1SVGGlyph onMousePrimaryClicked="#apply" sizeStr="16,13">
+        <Apply1SVGGlyph onMousePrimaryClicked="#apply">
             <HBox.margin>
                 <Insets left="5" top="5"/>
             </HBox.margin>
         </Apply1SVGGlyph>
-        <AddSVGGlyph onMousePrimaryClicked="#addFilter" size="14">
+        <AddSVGGlyph onMousePrimaryClicked="#addFilter">
             <HBox.margin>
                 <Insets left="15" top="5"/>
             </HBox.margin>
         </AddSVGGlyph>
-        <DeleteSVGGlyph onMousePrimaryClicked="#deleteFilter" size="14">
+        <DeleteSVGGlyph onMousePrimaryClicked="#deleteFilter">
             <HBox.margin>
                 <Insets left="15" top="5"/>
             </HBox.margin>
         </DeleteSVGGlyph>
-        <CloseSVGGlyph onMousePrimaryClicked="#close" sizeStr="12">
+        <CloseSVGGlyph onMousePrimaryClicked="#close">
             <HBox.margin>
                 <Insets left="15" top="5"/>
             </HBox.margin>

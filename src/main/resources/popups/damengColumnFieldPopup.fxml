@@ -14,22 +14,22 @@
     <DamengColumnListView flexWidth="100%" flexHeight="100% - 25" fx:id="listView">
     </DamengColumnListView>
     <FXHBox flexWidth="100%" realHeight="25">
-        <SubmitSVGGlyph onMousePrimaryClicked="#submit" sizeStr="15,11">
+        <SubmitSVGGlyph onMousePrimaryClicked="#submit">
             <HBox.margin>
                 <Insets left="10" top="5"/>
             </HBox.margin>
         </SubmitSVGGlyph>
-        <CancelSVGGlyph onMousePrimaryClicked="#close" sizeStr="11">
+        <CancelSVGGlyph onMousePrimaryClicked="#close">
             <HBox.margin>
                 <Insets left="15" top="5"/>
             </HBox.margin>
         </CancelSVGGlyph>
-        <MoveUpSVGGlyph sizeStr="14" onMousePrimaryClicked="#moveUpRow">
+        <MoveUpSVGGlyph onMousePrimaryClicked="#moveUpRow">
             <HBox.margin>
                 <Insets left="15" top="3"/>
             </HBox.margin>
         </MoveUpSVGGlyph>
-        <MoveDownSVGGlyph sizeStr="14" onMousePrimaryClicked="#moveDownRow">
+        <MoveDownSVGGlyph onMousePrimaryClicked="#moveDownRow">
             <HBox.margin>
                 <Insets left="15" top="3"/>
             </HBox.margin>

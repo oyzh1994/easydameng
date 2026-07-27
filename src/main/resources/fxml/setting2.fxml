@@ -95,7 +95,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FXSlider>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetOpacity">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetOpacity">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -112,7 +112,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FXSlider>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetTitleBarOpacity">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetTitleBarOpacity">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -132,7 +132,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontFamilyComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetFontFamily">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetFontFamily">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -149,7 +149,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontSizeComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetFontSize">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetFontSize">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -166,7 +166,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontWeightComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetFontWeight">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetFontWeight">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -186,7 +186,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontFamilyComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetEditorFontFamily">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetEditorFontFamily">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -203,7 +203,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontSizeComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetEditorFontSize">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetEditorFontSize">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -220,7 +220,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontWeightComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetEditorFontWeight">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetEditorFontWeight">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -240,7 +240,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontFamilyComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetTerminalFontFamily">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetTerminalFontFamily">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -257,7 +257,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontSizeComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetTerminalFontSize">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetTerminalFontSize">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -274,7 +274,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontWeightComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetTerminalFontWeight">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetTerminalFontWeight">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -294,7 +294,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontFamilyComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetQueryFontFamily">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetQueryFontFamily">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -311,7 +311,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontSizeComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetQueryFontSize">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetQueryFontSize">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -328,7 +328,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FontWeightComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetQueryFontWeight">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetQueryFontWeight">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -360,7 +360,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FXColorPicker>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetFgColor">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetFgColor">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -378,7 +378,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FXColorPicker>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetBgColor">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetBgColor">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -396,7 +396,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </FXColorPicker>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetAccentColor">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetAccentColor">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
@@ -416,7 +416,7 @@
                             <Insets left="30" top="5"/>
                         </HBox.margin>
                     </LocaleComboBox>
-                    <UndoSVGGlyph size="16" onMousePrimaryClicked="#resetLocale">
+                    <UndoSVGGlyph onMousePrimaryClicked="#resetLocale">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
