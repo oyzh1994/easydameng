@@ -24,8 +24,4 @@ public class DamengEngineComboBox extends FXComboBox<String> {
             super.select(engine.toUpperCase());
         }
     }
-
-    public boolean isInnoDB() {
-        return "innoDB".equalsIgnoreCase(this.getSelectedItem());
-    }
 }

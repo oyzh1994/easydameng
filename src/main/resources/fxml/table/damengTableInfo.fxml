@@ -39,54 +39,6 @@
                         <Insets left="30" top="5"/>
                     </VBox.margin>
                 </ReadOnlyTextField>
-                <InfoLabel text="%base.charset">
-                    <VBox.margin>
-                        <Insets left="30" top="10"/>
-                    </VBox.margin>
-                </InfoLabel>
-                <ReadOnlyTextField tipText="%base.charset" fx:id="tableCharset"
-                                   realHeight="30" flexWidth="100% - 180">
-                    <VBox.margin>
-                        <Insets left="30" top="5"/>
-                    </VBox.margin>
-                </ReadOnlyTextField>
-                <InfoLabel text="%base.collation">
-                    <VBox.margin>
-                        <Insets left="30" top="10"/>
-                    </VBox.margin>
-                </InfoLabel>
-                <ReadOnlyTextField tipText="%base.collation" fx:id="tableCollation"
-                                   realHeight="30" flexWidth="100% - 180">
-                    <VBox.margin>
-                        <Insets left="30" top="5"/>
-                    </VBox.margin>
-                </ReadOnlyTextField>
-                <FXVBox managed="false" visible="false" fx:id="tableRowFormatBox">
-                    <InfoLabel text="%base.rowFormat">
-                        <VBox.margin>
-                            <Insets left="30" top="10"/>
-                        </VBox.margin>
-                    </InfoLabel>
-                    <ReadOnlyTextField tipText="%base.rowFormat" fx:id="tableRowFormat" realHeight="30"
-                                       flexWidth="100% - 180">
-                        <VBox.margin>
-                            <Insets left="30" top="5"/>
-                        </VBox.margin>
-                    </ReadOnlyTextField>
-                </FXVBox>
-                <FXVBox managed="false" visible="false" fx:id="tableAutoIncrementBox">
-                    <InfoLabel text="%base.autoIncrement">
-                        <VBox.margin>
-                            <Insets left="30" top="10"/>
-                        </VBox.margin>
-                    </InfoLabel>
-                    <ReadOnlyTextField tipText="%base.autoIncrement" fx:id="tableAutoIncrement" realHeight="30"
-                                       flexWidth="100% - 180">
-                        <VBox.margin>
-                            <Insets left="30" top="5"/>
-                        </VBox.margin>
-                    </ReadOnlyTextField>
-                </FXVBox>
                 <InfoLabel text="%base.comment">
                     <VBox.margin>
                         <Insets left="30" top="10"/>

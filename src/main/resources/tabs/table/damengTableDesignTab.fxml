@@ -137,60 +137,6 @@
                         </HBox.margin>
                     </DamengEngineComboBox>
                 </FXHBox>
-                <FXHBox flexWidth="100%" realHeight="50">
-                    <AccentLabel realHeight="30" realWidth="85" text="%base.charset">
-                        <HBox.margin>
-                            <Insets left="20" top="10"/>
-                        </HBox.margin>
-                    </AccentLabel>
-                    <DBCharsetComboBox tipText="%base.charset" fx:id="tableCharset" realHeight="30"
-                                       flexWidth="100% - 140">
-                        <HBox.margin>
-                            <Insets left="10" top="10"/>
-                        </HBox.margin>
-                    </DBCharsetComboBox>
-                </FXHBox>
-                <FXHBox flexWidth="100%" realHeight="50">
-                    <AccentLabel realHeight="30" realWidth="85" text="%base.collation">
-                        <HBox.margin>
-                            <Insets left="20" top="10"/>
-                        </HBox.margin>
-                    </AccentLabel>
-                    <DBCollationComboBox tipText="%base.collation" fx:id="tableCollation" realHeight="30"
-                                         flexWidth="100% - 140">
-                        <HBox.margin>
-                            <Insets left="10" top="10"/>
-                        </HBox.margin>
-                    </DBCollationComboBox>
-                </FXHBox>
-                <FXHBox flexWidth="100%" realHeight="50" managed="false" visible="false" fx:id="tableRowFormatBox">
-                    <AccentLabel realHeight="30" realWidth="85" text="%base.rowFormat">
-                        <HBox.margin>
-                            <Insets left="20" top="10"/>
-                        </HBox.margin>
-                    </AccentLabel>
-                    <DamengRowFormatComboBox tipText="%base.rowFormat" fx:id="tableRowFormat" realHeight="30"
-                                            flexWidth="100% - 140" managedBindVisible="true">
-                        <HBox.margin>
-                            <Insets left="10" top="10"/>
-                        </HBox.margin>
-                    </DamengRowFormatComboBox>
-                </FXHBox>
-                <FXHBox flexWidth="100%" realHeight="50" managed="false" visible="false"
-                        fx:id="tableAutoIncrementBox" managedBindVisible="true">
-                    <AccentLabel realHeight="30" realWidth="85" text="%base.autoIncrement">
-                        <HBox.margin>
-                            <Insets left="20" top="10"/>
-                        </HBox.margin>
-                    </AccentLabel>
-                    <NumberTextField tipText="%base.autoIncrement" fx:id="tableAutoIncrement" realHeight="30"
-                                     flexWidth="100% - 140">
-                        <HBox.margin>
-                            <Insets left="10" top="10"/>
-                        </HBox.margin>
-                    </NumberTextField>
-                </FXHBox>
-
             </FXVBox>
         </FixedTab>
         <FixedTab text="%base.comment">

@@ -40,42 +40,6 @@ public class DamengTableInfoController extends StageController {
     private ReadOnlyTextField tableEngine;
 
     /**
-     * 字符集
-     */
-    @FXML
-    private ReadOnlyTextField tableCharset;
-
-    /**
-     * 排序方式
-     */
-    @FXML
-    private ReadOnlyTextField tableCollation;
-
-    /**
-     * 行格式组件
-     */
-    @FXML
-    private FXVBox tableRowFormatBox;
-
-    /**
-     * 行格式
-     */
-    @FXML
-    private ReadOnlyTextField tableRowFormat;
-
-    /**
-     * 自动递增组件
-     */
-    @FXML
-    private FXVBox tableAutoIncrementBox;
-
-    /**
-     * 自动递增
-     */
-    @FXML
-    private ReadOnlyTextField tableAutoIncrement;
-
-    /**
      * 注释
      */
     @FXML
@@ -94,27 +58,9 @@ public class DamengTableInfoController extends StageController {
         this.tableName.setText(table.getName());
         this.tableEngine.setText(table.getEngine());
         this.tableComment.setText(table.getComment());
-        this.tableCharset.setText(table.getCharset());
-        this.tableCollation.setText(table.getCollation());
         this.tableDefinition.setText(table.getCreateDefinition());
-        if (table.isInnoDB()) {
-            this.tableRowFormatBox.display();
-            this.tableRowFormat.setText(table.getRowFormat());
-        }
-        if (table.hasAutoIncrement()) {
-            this.tableAutoIncrementBox.display();
-            this.tableAutoIncrement.setText(table.getAutoIncrement() + "");
-        }
         super.onWindowShown(event);
         this.stage.hideOnEscape();
-    }
-
-    @Override
-    public void onStageInitialize(StageAdapter stage) {
-        super.onStageInitialize(stage);
-        // 组件管理
-        this.tableRowFormatBox.managedBindVisible();
-        this.tableAutoIncrementBox.managedBindVisible();
     }
 
     @Override

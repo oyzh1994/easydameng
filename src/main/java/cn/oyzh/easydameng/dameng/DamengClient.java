@@ -4,13 +4,6 @@ import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.condition.DamengConditionUtil;
-import cn.oyzh.easydameng.db.DBConnConfig;
-import cn.oyzh.easydameng.db.DBConnState;
-import cn.oyzh.easydameng.db.DBConnectionManager;
-import cn.oyzh.easydameng.db.DBDatabase;
-import cn.oyzh.easydameng.db.DBDialect;
-import cn.oyzh.easydameng.db.DBFeature;
-import cn.oyzh.easydameng.generator.routine.DamengFunctionSqlGenerator;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
@@ -37,17 +30,24 @@ import cn.oyzh.easydameng.dameng.record.DamengUpdateRecordParam;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.easydameng.dameng.table.DamengAlertTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengCreateTableParam;
-import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.table.DamengSelectTableParam;
+import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.dameng.view.DamengView;
+import cn.oyzh.easydameng.db.DBConnConfig;
+import cn.oyzh.easydameng.db.DBConnState;
+import cn.oyzh.easydameng.db.DBConnectionManager;
+import cn.oyzh.easydameng.db.DBDatabase;
+import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.db.DBFeature;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.exception.ReadonlyOperationException;
 import cn.oyzh.easydameng.generator.event.EventAlertSqlGenerator;
 import cn.oyzh.easydameng.generator.event.EventCreateSqlGenerator;
+import cn.oyzh.easydameng.generator.routine.DamengFunctionSqlGenerator;
 import cn.oyzh.easydameng.generator.routine.DamengProcedureSqlGenerator;
 import cn.oyzh.easydameng.generator.table.DamengTableAlertSqlGenerator;
 import cn.oyzh.easydameng.generator.table.DamengTableCreateSqlGenerator;
@@ -59,7 +59,6 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,7 +67,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,10 +85,10 @@ public class DamengClient {
      */
     protected final DamengConnect dbConnect;
 
-//    /**
-//     * ssh端口转发器
-//     */
-//    private SSHForwarder sshForwarder;
+    //    /**
+    //     * ssh端口转发器
+    //     */
+    //    private SSHForwarder sshForwarder;
 
     /**
      * 数据库连接管理器
@@ -337,10 +335,10 @@ public class DamengClient {
     public void close() {
         try {
             this.connectionManager.destroy();
-//            // 销毁端口转发
-//            if (this.dbConnect.isSSHForward()) {
-//                this.sshForwarder.destroy();
-//            }
+            //            // 销毁端口转发
+            //            if (this.dbConnect.isSSHForward()) {
+            //                this.sshForwarder.destroy();
+            //            }
             JulLog.info("dbClient closed.");
             this.state.set(DBConnState.CLOSED);
         } catch (Exception ex) {
@@ -767,10 +765,6 @@ public class DamengClient {
         return this.isSupportFeature(DBFeature.EVENT);
     }
 
-    public static final String[] TABLE_TYPES = new String[]{"TABLE", "SYSTEM TABLE", "SYSTEM VIEW", "GLOBAL TEMPORARY", "LOCAL TEMPORARY", "ALIAS", "SYNONYM"};
-
-    public static final String[] VIEW_TYPES = new String[]{"VIEW"};
-
     public List<DamengTable> selectTables(String dbName) {
         DamengSelectTableParam param = new DamengSelectTableParam();
         param.setDbName(dbName);
@@ -783,7 +777,19 @@ public class DamengClient {
             List<DamengTable> tables = new ArrayList<>();
             Connection connection = this.connection(dbName);
             if (param.isFull()) {
-                String sql = "SELECT NULL AS \"AUTO_INCREMENT\", NULL AS \"ROW_FORMAT\", NULL AS \"TABLE_COLLATION\", T.TABLE_NAME, C.COMMENTS AS \"TABLE_COMMENT\", T.TABLESPACE_NAME AS \"ENGINE\" FROM ALL_TABLES T LEFT JOIN ALL_TAB_COMMENTS C ON T.OWNER = C.OWNER AND T.TABLE_NAME = C.TABLE_NAME WHERE T.OWNER = ?";
+                String sql = """
+                            SELECT 
+                                T.TABLE_NAME, C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "ENGINE" 
+                            FROM 
+                                ALL_TABLES T 
+                            LEFT JOIN 
+                                ALL_TAB_COMMENTS C 
+                            ON T.OWNER = C.OWNER 
+                            AND 
+                               T.TABLE_NAME = C.TABLE_NAME 
+                            WHERE 
+                                T.OWNER = ?
+                        """;
                 DBUtil.printSql(sql);
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, dbName);
@@ -793,25 +799,26 @@ public class DamengClient {
                     DamengTable table = new DamengTable();
                     String tableEngine = resultSet.getString("ENGINE");
                     String tableName = resultSet.getString("TABLE_NAME");
-                    String rowFormat = resultSet.getString("ROW_FORMAT");
-                    Long autoIncrement = resultSet.getLong("AUTO_INCREMENT");
                     String tableComment = resultSet.getString("TABLE_COMMENT");
-                    String tableCollation = resultSet.getString("TABLE_COLLATION");
                     String showCreateTable = this.showCreateTable(dbName, tableName);
                     table.setDbName(dbName);
                     table.setName(tableName);
                     table.setEngine(tableEngine);
-                    table.setRowFormat(rowFormat);
                     table.setComment(tableComment);
-                    table.setAutoIncrement(autoIncrement);
                     table.setCreateDefinition(showCreateTable);
-                    table.setCharsetAndCollation(tableCollation);
                     tables.add(table);
                 }
                 DBUtil.close(resultSet);
                 DBUtil.close(statement);
             } else {
-                String sql = "SELECT TABLE_NAME, COMMENTS AS REMARKS FROM ALL_TAB_COMMENTS WHERE OWNER = ?";
+                String sql = """
+                            SELECT 
+                                TABLE_NAME, COMMENTS AS REMARKS 
+                            FROM 
+                                ALL_TAB_COMMENTS 
+                            WHERE 
+                                OWNER = ?
+                        """;
                 DBUtil.printSql(sql);
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, dbName);
@@ -1296,11 +1303,11 @@ public class DamengClient {
             Statement statement = this.connection().createStatement();
             // 查询当前用户有权限访问的schema：优先显示有对象的schema，也包含当前用户自己的schema
             String sql = """
-                SELECT DISTINCT OWNER FROM ALL_OBJECTS
-                UNION
-                SELECT USERNAME FROM ALL_USERS
-                ORDER BY 1
-                """;
+                    SELECT DISTINCT OWNER FROM ALL_OBJECTS
+                    UNION
+                    SELECT USERNAME FROM ALL_USERS
+                    ORDER BY 1
+                    """;
             ResultSet resultSet = statement.executeQuery(sql);
             List<DBDatabase> list = new ArrayList<>();
             while (resultSet.next()) {
@@ -1346,7 +1353,22 @@ public class DamengClient {
             table.setName(tableName);
             Connection connection = this.connection(dbName);
             if (param.isFull()) {
-                String sql = "SELECT NULL AS \"AUTO_INCREMENT\", NULL AS \"ROW_FORMAT\", NULL AS \"TABLE_COLLATION\", C.COMMENTS AS \"TABLE_COMMENT\", T.TABLESPACE_NAME AS \"ENGINE\" FROM ALL_TABLES T LEFT JOIN ALL_TAB_COMMENTS C ON T.OWNER = C.OWNER AND T.TABLE_NAME = C.TABLE_NAME WHERE T.OWNER = ? AND T.TABLE_NAME = ?";
+                String sql = """
+                    SELECT 
+                        C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "ENGINE" 
+                    FROM 
+                        ALL_TABLES T 
+                    LEFT JOIN 
+                        ALL_TAB_COMMENTS C
+                    ON 
+                        T.OWNER = C.OWNER 
+                    AND 
+                        T.TABLE_NAME = C.TABLE_NAME 
+                    WHERE 
+                        T.OWNER = ? 
+                    AND 
+                        T.TABLE_NAME = ?
+                """;
                 DBUtil.printSql(sql);
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, dbName);
@@ -1356,16 +1378,10 @@ public class DamengClient {
                 String showCreateTable = this.showCreateTable(dbName, tableName);
                 while (resultSet.next()) {
                     String tableEngine = resultSet.getString("ENGINE");
-                    String rowFormat = resultSet.getString("ROW_FORMAT");
-                    Long autoIncrement = resultSet.getLong("AUTO_INCREMENT");
                     String tableComment = resultSet.getString("TABLE_COMMENT");
-                    String tableCollation = resultSet.getString("TABLE_COLLATION");
                     table.setEngine(tableEngine);
-                    table.setRowFormat(rowFormat);
                     table.setComment(tableComment);
-                    table.setAutoIncrement(autoIncrement);
                     table.setCreateDefinition(showCreateTable);
-                    table.setCharsetAndCollation(tableCollation);
                 }
                 DBUtil.close(resultSet);
                 DBUtil.close(statement);
@@ -1399,7 +1415,22 @@ public class DamengClient {
             table.setDbName(dbName);
             table.setName(tableName);
             Connection connection = this.connection(dbName);
-            String sql = "SELECT NULL AS \"AUTO_INCREMENT\", NULL AS \"ROW_FORMAT\", NULL AS \"TABLE_COLLATION\", C.COMMENTS AS \"TABLE_COMMENT\", T.TABLESPACE_NAME AS \"ENGINE\" FROM ALL_TABLES T LEFT JOIN ALL_TAB_COMMENTS C ON T.OWNER = C.OWNER AND T.TABLE_NAME = C.TABLE_NAME WHERE T.OWNER = ? AND T.TABLE_NAME = ?";
+            String sql = """
+                            SELECT 
+                                C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "ENGINE" 
+                            FROM 
+                                ALL_TABLES T 
+                            LEFT JOIN 
+                                ALL_TAB_COMMENTS C 
+                            ON 
+                                T.OWNER = C.OWNER 
+                            AND 
+                                T.TABLE_NAME = C.TABLE_NAME 
+                            WHERE 
+                                T.OWNER = ? 
+                            AND 
+                                T.TABLE_NAME = ?
+                    """;
             DBUtil.printSql(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, dbName);
@@ -1409,16 +1440,10 @@ public class DamengClient {
             String showCreateTable = this.showCreateTable(dbName, tableName);
             while (resultSet.next()) {
                 String tableEngine = resultSet.getString("ENGINE");
-                String rowFormat = resultSet.getString("ROW_FORMAT");
-                Long autoIncrement = resultSet.getLong("AUTO_INCREMENT");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
-                String tableCollation = resultSet.getString("TABLE_COLLATION");
                 table.setEngine(tableEngine);
-                table.setRowFormat(rowFormat);
                 table.setComment(tableComment);
-                table.setAutoIncrement(autoIncrement);
                 table.setCreateDefinition(showCreateTable);
-                table.setCharsetAndCollation(tableCollation);
             }
             DBUtil.close(resultSet);
             DBUtil.close(statement);

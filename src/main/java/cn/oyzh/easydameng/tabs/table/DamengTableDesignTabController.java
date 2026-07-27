@@ -99,42 +99,6 @@ public class DamengTableDesignTabController extends ParentTabController {
     private DamengEngineComboBox tableEngine;
 
     /**
-     * 字符集
-     */
-    @FXML
-    private DBCharsetComboBox tableCharset;
-
-    /**
-     * 排序方式
-     */
-    @FXML
-    private DBCollationComboBox tableCollation;
-
-    /**
-     * 行格式组件
-     */
-    @FXML
-    private FXHBox tableRowFormatBox;
-
-    /**
-     * 行格式
-     */
-    @FXML
-    private DamengRowFormatComboBox tableRowFormat;
-
-    /**
-     * 自动递增组件
-     */
-    @FXML
-    private FXHBox tableAutoIncrementBox;
-
-    /**
-     * 自动递增
-     */
-    @FXML
-    private NumberTextField tableAutoIncrement;
-
-    /**
      * 注释
      */
     @FXML
@@ -432,34 +396,6 @@ public class DamengTableDesignTabController extends ParentTabController {
             tempTable.setEngine(engine);
         }
 
-        // 字符集
-        String charset = this.tableCharset.getSelectedItem();
-        if (!StringUtil.equalsIgnoreCase(charset, this.damengTable.getCharset())) {
-            tempTable.setCharset(charset);
-        }
-
-        // 排序
-        String collation = this.tableCollation.getSelectedItem();
-        if (!StringUtil.equalsIgnoreCase(collation, this.damengTable.getCollation())) {
-            tempTable.setCollation(collation);
-        }
-
-        // 行格式
-        if (this.tableRowFormatBox.isVisible()) {
-            String rowFormat = this.tableRowFormat.getValue();
-            if (!StringUtil.equalsIgnoreCase(rowFormat, this.damengTable.getRowFormat())) {
-                tempTable.setRowFormat(rowFormat);
-            }
-        }
-
-        // 自动递增
-        if (this.tableAutoIncrementBox.isVisible()) {
-            Long autoIncrement = this.tableAutoIncrement.getValue();
-            if (!Objects.equals(autoIncrement, this.damengTable.getAutoIncrement())) {
-                tempTable.setAutoIncrement(autoIncrement);
-            }
-        }
-
         // 字段处理
         DamengColumns columns = new DamengColumns();
         for (DamengColumn column : this.columnTable.getItems()) {
@@ -689,10 +625,6 @@ public class DamengTableDesignTabController extends ParentTabController {
         NodeGroupUtil.display(this.getTab(), "action2");
         // 重载表数据
         this.tableEngine.select("innoDB");
-        // 字符集
-        if (this.tableCharset.isItemEmpty()) {
-            this.tableCharset.init(this.dbItem.client());
-        }
     }
 
     /**
@@ -705,14 +637,6 @@ public class DamengTableDesignTabController extends ParentTabController {
         // 基本信息
         this.tableEngine.select(this.damengTable.getEngine());
         this.tableComment.setText(this.damengTable.getComment());
-        // 字符集
-        if (this.tableCharset.isItemEmpty()) {
-            this.tableCharset.init(this.dbItem.client());
-        }
-        this.tableCharset.select(this.damengTable.getCharset());
-        // 排序规则
-        this.tableCollation.init(this.damengTable.getCharset(), this.dbItem.client());
-        this.tableCollation.select(this.damengTable.getCollation());
 
         // 检查器
         if (this.dbItem.isSupportCheckFeature()) {
@@ -726,18 +650,6 @@ public class DamengTableDesignTabController extends ParentTabController {
         this.triggerTable.setItem(DamengTriggerControl.of(this.dbItem.triggers(this.tableName())));
         // 外键
         this.foreignKeyTable.setItem(DamengForeignKeyControl.of(this.dbItem.foreignKeys(this.tableName())));
-
-        // 行格式
-        if (this.damengTable.isInnoDB()) {
-            this.tableRowFormatBox.display();
-            this.tableRowFormat.select(this.damengTable.getRowFormat());
-        }
-
-        // 表自动递增
-        if (this.damengTable.hasAutoIncrement()) {
-            this.tableAutoIncrementBox.display();
-            this.tableAutoIncrement.setValue(this.damengTable.getAutoIncrement());
-        }
     }
 
     /**
@@ -1128,7 +1040,6 @@ public class DamengTableDesignTabController extends ParentTabController {
         // 监听事件
         NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
         NodeUtil.nodeOnCtrlS(this.tableComment, this::save);
-        NodeUtil.nodeOnCtrlS(this.tableAutoIncrement, this::save);
 
         // 更新字段列表
         this.columnTable.itemsProperty().get().addListener((ListChangeListener<DamengColumn>) c -> {
@@ -1137,56 +1048,26 @@ public class DamengTableDesignTabController extends ParentTabController {
             this.initForeignKeyTable();
         });
 
-        // // 监听列表变化
-        // this.checkTable.itemList().addListener(this.listChangeListener);
-        // this.indexTable.itemList().addListener(this.listChangeListener);
-        // this.columnTable.itemList().addListener(this.listChangeListener);
-        // this.triggerTable.itemList().addListener(this.listChangeListener);
-        // this.foreignKeyTable.itemList().addListener(this.listChangeListener);
     }
 
-//    @Override
-//    public void onTabClosed(Event event) {
-//        super.onTabClosed(event);
-//        CacheHelper.clear();
-//    }
 
     @Override
     protected void bindListeners() {
         super.bindListeners();
-        // 字符集选中事件
-        this.tableCharset.selectedItemChanged((observable, oldValue, newValue) -> {
-            this.tableCollation.init(newValue, this.dbItem.client());
-            this.tableCollation.selectFirst();
-        });
         // 引擎选中事件
         this.tableEngine.selectedItemChanged((observable, oldValue, newValue) -> {
-            if (this.tableEngine.isInnoDB()) {
-                this.tableRowFormatBox.display();
-                if (StringUtil.isBlank(this.damengTable.getRowFormat())) {
-                    this.tableRowFormat.select(this.damengTable.getRowFormat());
-                } else {
-                    this.tableRowFormat.select(3);
-                }
-            } else {
-                this.tableRowFormatBox.disappear();
-            }
         });
         // 表格下标监听
         this.tabPane.selectedItemChanged((observable, oldValue, newValue) -> {
             String tabId = newValue == null ? null : newValue.getId();
             if (StringUtil.equalsAny(tabId, "columnTab", "indexTab", "foreignKeyTab", "triggerTab", "checkTab")) {
-                // this.add.display();
                 NodeGroupUtil.display(this.getTab(), "action1");
                 if (this.newData) {
-                    // this.moveUp.display();
                     NodeGroupUtil.display(this.getTab(), "action2");
                 }
             } else {
-                // this.add.disappear();
                 NodeGroupUtil.disappear(this.getTab(), "action1");
                 if (this.newData) {
-                    // this.moveUp.disappear();
                     NodeGroupUtil.disappear(this.getTab(), "action2");
                 }
             }
@@ -1266,13 +1147,6 @@ public class DamengTableDesignTabController extends ParentTabController {
         super.initialize(location, resourceBundle);
         // 初始化表单
         this.initTable();
-        // // 组件管理
-        // this.delete.visibleProperty().bind(this.add.visibleProperty());
-        // this.delete.managedProperty().bind(this.add.managedProperty());
-        // this.moveDown.visibleProperty().bind(this.moveUp.visibleProperty());
-        // this.moveDown.managedProperty().bind(this.moveUp.managedProperty());
-        // this.tableRowFormat.managedBindVisible();
-        // this.tableAutoIncrementBox.managedBindVisible();
     }
 
     /**
@@ -1287,23 +1161,12 @@ public class DamengTableDesignTabController extends ParentTabController {
         // 初始化引擎
         this.tableEngine.init(this.dbItem.client());
 
-        // 设置缓存
-        //CacheHelper.set("dameng:dbName", this.dbItem.dbName());
-        //CacheHelper.set("dameng:dbClient", this.dbItem.client());
-
         // 初始化信息
         this.initInfo(table);
 
-        // // 初始化监听器
-        // this.initDBListener();
-
         // 监听组件
         DBStatusListenerManager.bindListener(this.tableEngine, this.listener);
-        DBStatusListenerManager.bindListener(this.tableCharset, this.listener);
         DBStatusListenerManager.bindListener(this.tableComment, this.listener);
-        DBStatusListenerManager.bindListener(this.tableRowFormat, this.listener);
-        DBStatusListenerManager.bindListener(this.tableCollation, this.listener);
-        DBStatusListenerManager.bindListener(this.tableAutoIncrement, this.listener);
 
         // 移除tab
         if (!this.dbItem.isSupportCheckFeature()) {
@@ -1418,15 +1281,7 @@ public class DamengTableDesignTabController extends ParentTabController {
         return dbItem;
     }
 
-    // public void setDbItem(DamengDatabaseTreeItem dbItem) {
-    //     this.dbItem = dbItem;
-    // }
-
     public boolean isUnsaved() {
         return unsaved;
     }
-
-    // public void setUnsaved(boolean unsaved) {
-    //     this.unsaved = unsaved;
-    // }
 }
