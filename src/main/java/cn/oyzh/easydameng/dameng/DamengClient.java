@@ -851,20 +851,40 @@ public class DamengClient {
             String tableName = param.getTableName();
             DamengColumns columns = new DamengColumns();
             String sql = """
-                    SELECT C.COLUMN_NAME AS "Field",
+                    SELECT 
+                        C.COLUMN_NAME AS "Field",
                         CASE WHEN C.NULLABLE='Y' THEN 'YES' ELSE 'NO' END AS "Null",
                         C.DATA_TYPE AS "Type",
-                        CC.COMMENTS AS "Comment",
+                        CC.COMMENT$ AS "Comment",
                         C.DATA_DEFAULT AS "Default",
                         CASE WHEN CONS.COLUMN_NAME IS NOT NULL THEN 'PRI' ELSE '' END AS "Key",
-                        '' AS "Extra",
-                        NULL AS "COLLATION"
-                    FROM ALL_TAB_COLUMNS C
-                    LEFT JOIN ALL_COL_COMMENTS CC ON C.OWNER=CC.OWNER AND C.TABLE_NAME=CC.TABLE_NAME AND C.COLUMN_NAME=CC.COLUMN_NAME
-                    LEFT JOIN ALL_CONS_COLUMNS CONS ON C.OWNER=CONS.OWNER AND C.TABLE_NAME=CONS.TABLE_NAME AND C.COLUMN_NAME=CONS.COLUMN_NAME
-                        AND EXISTS (SELECT 1 FROM ALL_CONSTRAINTS AC WHERE AC.OWNER=CONS.OWNER AND AC.CONSTRAINT_NAME=CONS.CONSTRAINT_NAME AND AC.CONSTRAINT_TYPE='P')
-                    WHERE C.OWNER=? AND C.TABLE_NAME=?
-                    ORDER BY C.COLUMN_ID
+                        '' AS "Extra"
+                    FROM 
+                        ALL_TAB_COLUMNS C
+                    LEFT JOIN 
+                        SYS.SYSCOLUMNCOMMENTS CC 
+                    ON 
+                        C.OWNER=CC.SCHNAME 
+                    AND 
+                        C.TABLE_NAME=CC.TVNAME 
+                    AND 
+                        C.COLUMN_NAME=CC.COLNAME
+                    LEFT JOIN 
+                        ALL_CONS_COLUMNS CONS 
+                    ON 
+                        C.OWNER=CONS.OWNER 
+                    AND 
+                        C.TABLE_NAME=CONS.TABLE_NAME 
+                    AND 
+                        C.COLUMN_NAME=CONS.COLUMN_NAME
+                    AND 
+                        EXISTS (SELECT 1 FROM ALL_CONSTRAINTS AC WHERE AC.OWNER=CONS.OWNER AND AC.CONSTRAINT_NAME=CONS.CONSTRAINT_NAME AND AC.CONSTRAINT_TYPE='P')
+                    WHERE 
+                        C.OWNER=? 
+                    AND 
+                        C.TABLE_NAME=?
+                    ORDER BY 
+                        C.COLUMN_ID
                     """;
             PreparedStatement statement = this.connection().prepareStatement(sql);
             statement.setString(1, dbName);
@@ -880,13 +900,11 @@ public class DamengClient {
                 String extra = resultSet.getString("Extra");
                 String nullable = resultSet.getString("Null");
                 String comment = resultSet.getString("Comment");
-                String collation = resultSet.getString("COLLATION");
 
                 DamengColumn column = new DamengColumn();
                 column.parseKey(key);
                 column.parseType(type);
                 column.parseExtra(extra);
-                column.parseCollation(collation);
 
                 column.setName(field);
                 column.setDbName(dbName);
@@ -1354,21 +1372,21 @@ public class DamengClient {
             Connection connection = this.connection(dbName);
             if (param.isFull()) {
                 String sql = """
-                    SELECT 
-                        C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "ENGINE" 
-                    FROM 
-                        ALL_TABLES T 
-                    LEFT JOIN 
-                        ALL_TAB_COMMENTS C
-                    ON 
-                        T.OWNER = C.OWNER 
-                    AND 
-                        T.TABLE_NAME = C.TABLE_NAME 
-                    WHERE 
-                        T.OWNER = ? 
-                    AND 
-                        T.TABLE_NAME = ?
-                """;
+                            SELECT 
+                                C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "ENGINE" 
+                            FROM 
+                                ALL_TABLES T 
+                            LEFT JOIN 
+                                ALL_TAB_COMMENTS C
+                            ON 
+                                T.OWNER = C.OWNER 
+                            AND 
+                                T.TABLE_NAME = C.TABLE_NAME 
+                            WHERE 
+                                T.OWNER = ? 
+                            AND 
+                                T.TABLE_NAME = ?
+                        """;
                 DBUtil.printSql(sql);
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, dbName);
@@ -1808,9 +1826,7 @@ public class DamengClient {
                 column.setComment(remarks);
                 column.setDefaultValue(def);
                 column.setPosition(position);
-                column.setCharset(charsetName);
                 column.setTableName(viewName);
-                column.setCollation(collationName);
                 column.setNullable("yes".equalsIgnoreCase(nullable));
                 // column.setPrimaryKey("pri".equalsIgnoreCase(columnKey));
                 columns.put(columnName, column);
@@ -1909,19 +1925,22 @@ public class DamengClient {
     public void alertTable(DamengAlertTableParam param) {
         Connection connection = null;
         try {
-            String sql = DamengTableAlertSqlGenerator.generateSql(param);
+            List<String> sqlList = DamengTableAlertSqlGenerator.generateSql(param);
             // 无变化
-            if (StringUtil.isBlank(sql)) {
+            if (CollectionUtil.isEmpty(sqlList)) {
                 return;
             }
             String dbName = param.getTable().getDbName();
             connection = this.connection(dbName);
             connection.setAutoCommit(false);
             Statement statement = connection.createStatement();
-            DBUtil.printSql(sql);
-            List<String> sqlList = DBSqlParser.parseSql(sql, this.dialect());
-            for (String sqlStr : sqlList) {
-                statement.executeUpdate(sqlStr);
+            //            List<String> sqlList = DBSqlParser.parseSql(sql, this.dialect());
+            for (String sql : sqlList) {
+                DBUtil.printSql(sql);
+                if (StringUtil.isBlank(sql)) {
+                    continue;
+                }
+                statement.executeUpdate(sql);
             }
             connection.commit();
             DBUtil.close(statement);

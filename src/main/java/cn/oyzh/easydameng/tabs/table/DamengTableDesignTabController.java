@@ -1137,7 +1137,7 @@ public class DamengTableDesignTabController extends ParentTabController {
             sql = DamengTableCreateSqlGenerator.generateSql(param);
         } else {
             DamengAlertTableParam param = this.initAlertParam();
-            sql = DamengTableAlertSqlGenerator.generateSql(param);
+            sql = DamengTableAlertSqlGenerator.generateSqlSingle(param);
         }
         this.sqlPreview.text(sql);
     }

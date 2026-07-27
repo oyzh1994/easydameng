@@ -43,30 +43,6 @@
             </HBox.margin>
         </FXCheckBox>
     </FXHBox>
-    <FXHBox flexWidth="100%" realHeight="30" fx:id="charsetBox" managed="false" visible="false">
-        <AccentLabel realHeight="25" realWidth="80" text="%base.charset">
-            <HBox.margin>
-                <Insets left="10" top="5"/>
-            </HBox.margin>
-        </AccentLabel>
-        <DBCharsetComboBox fx:id="charset" flexWidth="100% - 140" realHeight="25" styleClass="popover-item">
-            <HBox.margin>
-                <Insets left="5" top="5"/>
-            </HBox.margin>
-        </DBCharsetComboBox>
-    </FXHBox>
-    <FXHBox flexWidth="100%" realHeight="30" fx:id="collationBox" managed="false" visible="false">
-        <AccentLabel realHeight="25" realWidth="80" text="%base.collation">
-            <HBox.margin>
-                <Insets left="10" top="5"/>
-            </HBox.margin>
-        </AccentLabel>
-        <DBCollationComboBox fx:id="collation" flexWidth="100% - 140" realHeight="25" styleClass="popover-item">
-            <HBox.margin>
-                <Insets left="5" top="5"/>
-            </HBox.margin>
-        </DBCollationComboBox>
-    </FXHBox>
     <FXHBox flexWidth="100%" realHeight="30" fx:id="autoIncrementBox" managed="false" visible="false">
         <FXCheckBox fx:id="autoIncrement" prefHeight="25" text="%base.autoIncrement">
             <HBox.margin>

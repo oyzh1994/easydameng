@@ -1,8 +1,6 @@
 package cn.oyzh.easydameng.generator.table;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBDialect;
-import cn.oyzh.easydameng.db.DBObjectList;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
@@ -15,6 +13,8 @@ import cn.oyzh.easydameng.dameng.table.DamengAlertTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
+import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.db.DBObjectList;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class DamengTableAlertSqlGenerator {
 
     private StringBuilder sqlBuilder;
 
-    public String generate(DamengAlertTableParam param) {
+    private void _generate(DamengAlertTableParam param) {
         this.sqlList = new ArrayList<>();
         this.sqlBuilder = new StringBuilder();
         String dbName = param.dbName();
@@ -101,7 +101,16 @@ public class DamengTableAlertSqlGenerator {
         if (param.hasTrigger()) {
             this.triggerHandle(param);
         }
+    }
+
+    public List<String> generate(DamengAlertTableParam param) {
+        this._generate(param);
         return this.buildSql();
+    }
+
+    public String generateSingle(DamengAlertTableParam param) {
+        this._generate(param);
+        return this.buildSqlSingle();
     }
 
     private void endStatement() {
@@ -112,7 +121,18 @@ public class DamengTableAlertSqlGenerator {
         this.sqlBuilder.append(";\n");
     }
 
-    private String buildSql() {
+    private List<String> buildSql() {
+        //        StringBuilder builder = new StringBuilder();
+        //        builder.append(this.sqlBuilder);
+        //        for (String sql : sqlList) {
+        //            builder.append("\n").append(sql);
+        //        }
+        //        return builder.toString().trim();
+        this.sqlList.add(this.sqlBuilder.toString().trim());
+        return this.sqlList;
+    }
+
+    private String buildSqlSingle() {
         StringBuilder builder = new StringBuilder();
         builder.append(this.sqlBuilder);
         for (String sql : sqlList) {
@@ -120,7 +140,6 @@ public class DamengTableAlertSqlGenerator {
         }
         return builder.toString().trim();
     }
-
 
     private String buildSqlNoComma() {
         String result = this.sqlBuilder.toString();
@@ -142,7 +161,8 @@ public class DamengTableAlertSqlGenerator {
             if (DamengTriggers.isChanged(trigger) || DamengTriggers.isCreated(trigger)) {
                 StringBuilder builder = new StringBuilder();
                 String body = trigger.getDefinition();
-                if (!body.endsWith(";")) body = body + ";";
+                if (!body.endsWith(";"))
+                    body = body + ";";
                 builder.append("CREATE OR REPLACE TRIGGER ")
                         .append(DBUtil.wrap(trigger.getName(), DBDialect.DAMENG))
                         .append(" ")
@@ -210,6 +230,16 @@ public class DamengTableAlertSqlGenerator {
                 }
 
                 // 达梦列注释使用独立COMMENT ON COLUMN语句，ALTER TABLE中跳过
+                if (column.hasComment()) {
+                    String commentSql = """
+                            COMMENT ON COLUMN "$1"."$2"."$3" IS '$4';
+                            """;
+                    commentSql = commentSql.replace("$1", column.getDbName());
+                    commentSql = commentSql.replace("$2", column.getTableName());
+                    commentSql = commentSql.replace("$3", column.getName());
+                    commentSql = commentSql.replace("$4", column.getComment());
+                    this.sqlList.add(commentSql);
+                }
                 builder.append(",");
             } else if (DamengColumns.isDeleted(column)) {// 删除字段
                 builder.append(" DROP COLUMN ")
@@ -355,7 +385,8 @@ public class DamengTableAlertSqlGenerator {
      * 规范化字段类型，移除MySQL式显示宽度（如INT(10)→INT）
      */
     private static String normalizeType(String type) {
-        if (type == null) return "";
+        if (type == null)
+            return "";
         // 达梦不支持显示宽度的类型：INT(10), BIGINT(20), TINYINT(4), SMALLINT(6) 等
         String upper = type.toUpperCase();
         if (upper.matches("(TINYINT|SMALLINT|INT|INTEGER|BIGINT|MEDIUMINT)\\s*\\(\\s*\\d+\\s*\\)")) {
@@ -364,7 +395,12 @@ public class DamengTableAlertSqlGenerator {
         return type;
     }
 
-    public static String generateSql(DamengAlertTableParam param) {
+    public static List<String> generateSql(DamengAlertTableParam param) {
         return new DamengTableAlertSqlGenerator().generate(param);
     }
+
+    public static String generateSqlSingle(DamengAlertTableParam param) {
+        return new DamengTableAlertSqlGenerator().generateSingle(param);
+    }
+
 }

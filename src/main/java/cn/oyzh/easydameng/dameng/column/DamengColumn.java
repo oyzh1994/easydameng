@@ -114,16 +114,6 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
      */
     private String name;
 
-    /**
-     * 字段字符集
-     */
-    private String charset;
-
-    /**
-     * 字段排序规则
-     */
-    private String collation;
-
     public DamengColumn() {
 
     }
@@ -218,16 +208,6 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
 
     public boolean hasComment() {
         return this.getComment() != null;
-    }
-
-    public void setCharset(String charset) {
-        this.charset = charset;
-        super.putOriginalData("charset", charset);
-    }
-
-    public void setCollation(String collation) {
-        this.collation = collation;
-        super.putOriginalData("collation", collation);
     }
 
     public void setValue(String value) {
@@ -632,14 +612,6 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         }
     }
 
-    public void parseCollation(String collation) {
-        if (StringUtil.isEmpty(collation)) {
-            return;
-        }
-        this.setCollation(collation);
-        this.setCharset(collation.substring(0, collation.indexOf("_")));
-    }
-
     public void initColumn(String columnType, String columnExtra) {
         if (!columnType.contains("(") && !columnType.contains(" ")) {
             this.setType(columnType.toUpperCase());
@@ -687,12 +659,10 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
             this.setDbName(column.dbName);
             this.setDigits(column.digits);
             this.setComment(column.comment);
-            this.setCharset(column.charset);
             this.setNullable(column.nullable);
             this.setUnsigned(column.unsigned);
             this.setZeroFill(column.zeroFill);
             this.setTableName(column.tableName);
-            this.setCollation(column.collation);
             this.setDefaultValue(column.defaultValue);
             this.setPrimaryKey(column.isPrimaryKey());
             this.setAutoIncrement(column.autoIncrement);
@@ -818,14 +788,6 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
 
     public String getName() {
         return name;
-    }
-
-    public String getCharset() {
-        return charset;
-    }
-
-    public String getCollation() {
-        return collation;
     }
 
     @Override

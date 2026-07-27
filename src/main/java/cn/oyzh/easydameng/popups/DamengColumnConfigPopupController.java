@@ -113,30 +113,6 @@ public class DamengColumnConfigPopupController extends PopupController {
     private FXCheckBox currentTimestamp;
 
     /**
-     * 字符集组件
-     */
-    @FXML
-    private FXHBox charsetBox;
-
-    /**
-     * 字符集
-     */
-    @FXML
-    private DBCharsetComboBox charset;
-
-    /**
-     * 排序方式组件
-     */
-    @FXML
-    private FXHBox collationBox;
-
-    /**
-     * 排序方式
-     */
-    @FXML
-    private DBCollationComboBox collation;
-
-    /**
      * db字段
      */
     private DamengColumn dbColumn;
@@ -155,11 +131,6 @@ public class DamengColumnConfigPopupController extends PopupController {
             // 值处理
             if (this.valueBox.isVisible()) {
                 this.dbColumn.setValue(this.value.getTextTrim());
-            }
-            // 字符集、排序处理
-            if (this.charsetBox.isVisible()) {
-                this.dbColumn.setCharset(this.charset.getValue());
-                this.dbColumn.setCollation(this.collation.getValue());
             }
             // 填充零处理
             if (this.zeroFillBox.isVisible()) {
@@ -200,16 +171,6 @@ public class DamengColumnConfigPopupController extends PopupController {
     }
 
     @Override
-    protected void bindListeners() {
-        super.bindListeners();
-        // 字符集选中事件
-        this.charset.selectedItemChanged((observable, oldValue, newValue) -> {
-            this.collation.init(newValue, this.dbClient);
-            this.collation.select(0);
-        });
-    }
-
-    @Override
     public void onWindowShowing(WindowEvent event) {
         super.onWindowShowing(event);
         this.dbColumn = this.getProp("dbColumn");
@@ -240,14 +201,6 @@ public class DamengColumnConfigPopupController extends PopupController {
             this.unsignedBox.display();
             this.unsigned.setSelected(this.dbColumn.isUnsigned());
         }
-        // 字符集及排序
-        if (this.dbColumn.supportCharset()) {
-            this.charsetBox.display();
-            this.collationBox.display();
-            this.charset.init(this.dbClient);
-            this.charset.select(this.dbColumn.getCharset());
-            this.collation.select(this.dbColumn.getCollation());
-        }
         // 主键长度
         if (this.dbColumn.isPrimaryKey() && this.dbColumn.supportKeySize()) {
             this.primaryKeySizeBox.display();
@@ -266,10 +219,8 @@ public class DamengColumnConfigPopupController extends PopupController {
     public void onPopupInitialize(PopupAdapter window) {
         super.onPopupInitialize(window);
         this.valueBox.managedBindVisible();
-        this.charsetBox.managedBindVisible();
         this.unsignedBox.managedBindVisible();
         this.zeroFillBox.managedBindVisible();
-        this.collationBox.managedBindVisible();
         this.autoIncrementBox.managedBindVisible();
         this.primaryKeySizeBox.managedBindVisible();
         this.currentTimestampBox.managedBindVisible();

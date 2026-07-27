@@ -110,30 +110,6 @@ public class DamengTableColumnExtraController extends SubTabController {
     private FXCheckBox currentTimestamp;
 
     /**
-     * 字符集组件
-     */
-    @FXML
-    private FXHBox charsetBox;
-
-    /**
-     * 字符集
-     */
-    @FXML
-    private DBCharsetComboBox charset;
-
-    /**
-     * 排序方式组件
-     */
-    @FXML
-    private FXHBox collationBox;
-
-    /**
-     * 排序方式
-     */
-    @FXML
-    private DBCollationComboBox collation;
-
-    /**
      * db字段
      */
     private DamengColumn column;
@@ -154,11 +130,6 @@ public class DamengTableColumnExtraController extends SubTabController {
             // 值处理
             if (this.valueBox.isVisible()) {
                 this.column.setValue(this.value.getTextTrim());
-            }
-            // 字符集、排序处理
-            if (this.charsetBox.isVisible()) {
-                this.column.setCharset(this.charset.getValue());
-                this.column.setCollation(this.collation.getValue());
             }
             // 填充零处理
             if (this.zeroFillBox.isVisible()) {
@@ -194,22 +165,12 @@ public class DamengTableColumnExtraController extends SubTabController {
     @Override
     protected void bindListeners() {
         super.bindListeners();
-        // 字符集选中事件
-        this.charset.selectedItemChanged((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                this.collation.init(newValue, this.dbClient);
-                this.collation.selectFirst();
-            }
-            this.apply();
-        });
         // 填充零变化事件
         this.zeroFill.selectedChanged((observable, oldValue, newValue) -> this.apply());
         // 无符号变化事件
         this.unsigned.selectedChanged((observable, oldValue, newValue) -> this.apply());
         // 值变化事件
         this.value.addTextChangeListener((observable, oldValue, newValue) -> this.apply());
-        // 排序选中事件
-        this.collation.selectedItemChanged((observable, oldValue, newValue) -> this.apply());
         // 自动递增变化事件
         this.autoIncrement.selectedChanged((observable, oldValue, newValue) -> this.apply());
         // 当前时间戳变化事件
@@ -286,20 +247,6 @@ public class DamengTableColumnExtraController extends SubTabController {
             this.unsignedBox.disappear();
         }
 
-        // 字符集及排序
-        if (this.column.supportCharset()) {
-            this.charsetBox.display();
-            this.collationBox.display();
-            if (this.charset.isItemEmpty()) {
-                this.charset.init(this.dbClient);
-            }
-            this.charset.select(this.column.getCharset());
-            this.collation.select(this.column.getCollation());
-        } else {
-            this.charsetBox.disappear();
-            this.collationBox.disappear();
-        }
-
         // 主键长度
         if (this.column.isPrimaryKey() && this.column.supportKeySize()) {
             this.primaryKeySizeBox.display();
@@ -323,10 +270,8 @@ public class DamengTableColumnExtraController extends SubTabController {
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
         this.valueBox.managedBindVisible();
-        this.charsetBox.managedBindVisible();
         this.unsignedBox.managedBindVisible();
         this.zeroFillBox.managedBindVisible();
-        this.collationBox.managedBindVisible();
         this.defaultValueBox.managedBindVisible();
         this.autoIncrementBox.managedBindVisible();
         this.primaryKeySizeBox.managedBindVisible();
