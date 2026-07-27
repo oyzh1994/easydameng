@@ -522,7 +522,7 @@ public class DamengDataTransportController extends StageController {
             this.tableList.of(this.sourceClient.selectTables(this.sourceDatabase.getSelectedItem()));
         }
         if (this.triggerList.isItemEmpty()) {
-            this.triggerList.of(this.sourceClient.triggers(this.sourceDatabase.getSelectedItem()));
+            this.triggerList.of(this.sourceClient.selectTriggers(this.sourceDatabase.getSelectedItem()));
         }
         if (this.functionList.isItemEmpty()) {
             this.functionList.of(this.sourceClient.functions(this.sourceDatabase.getSelectedItem()));

@@ -594,7 +594,7 @@ public class DamengClient {
         }
     }
 
-    public List<DamengTrigger> triggers(String dbName) {
+    public List<DamengTrigger> selectTriggers(String dbName) {
         try {
             String sql = """
                         SELECT
@@ -616,8 +616,8 @@ public class DamengClient {
                 String manipulation = resultSet.getString("EVENT_MANIPULATION");
                 trigger.setName(name);
                 trigger.setTableName(tableName);
-                trigger.setDefinition("-- 请通过 DBMS_METADATA.GET_DDL 查看触发器定义");
                 trigger.setPolicy("BEFORE", manipulation);
+                trigger.setDefinition(this.getTriggerDefinition(dbName, name));
                 list.add(trigger);
             }
             DBUtil.close(resultSet);
@@ -628,7 +628,7 @@ public class DamengClient {
         }
     }
 
-    public DamengTriggers triggers(String dbName, String tableName) {
+    public DamengTriggers selectTriggers(String dbName, String tableName) {
         try {
             String sql = """
                         SELECT
@@ -651,8 +651,9 @@ public class DamengClient {
                 String name = resultSet.getString("TRIGGER_NAME");
                 String manipulation = resultSet.getString("EVENT_MANIPULATION");
                 trigger.setName(name);
-                trigger.setDefinition("-- 请通过 DBMS_METADATA.GET_DDL 查看触发器定义");
+                trigger.setTableName(tableName);
                 trigger.setPolicy("BEFORE", manipulation);
+                trigger.setDefinition(this.getTriggerDefinition(dbName, name));
                 list.add(trigger);
             }
             DBUtil.close(resultSet);
@@ -660,6 +661,32 @@ public class DamengClient {
             return list;
         } catch (Exception ex) {
             ex.printStackTrace();
+            throw new DBException(ex);
+        }
+    }
+
+    public String getTriggerDefinition(String dbName, String triggerName) {
+        try {
+            String sql = """
+                        SELECT 
+                            TO_CHAR(DBMS_METADATA.GET_DDL('TRIGGER', ?, ?)) 
+                        AS 
+                            TRIGGER_DDL
+                    """;
+            DBUtil.printSql(sql);
+            PreparedStatement statement = this.connection().prepareStatement(sql);
+            statement.setString(1, triggerName);
+            statement.setString(2, dbName);
+            ResultSet resultSet = statement.executeQuery();
+            List<DamengTrigger> list = new ArrayList<>();
+            String definition = null;
+            if (resultSet.next()) {
+                definition = resultSet.getString(1);
+            }
+            DBUtil.close(resultSet);
+            DBUtil.close(statement);
+            return definition;
+        } catch (Exception ex) {
             throw new DBException(ex);
         }
     }
@@ -956,10 +983,10 @@ public class DamengClient {
                 DamengRecord record = new DamengRecord(columns, param.isReadonly());
                 for (DamengColumn column : columns) {
                     Object data = resultSet.getObject(column.getName());
-//                    // 获取几何值
-//                    if (column.supportGeometry()) {
-//                        data = DamengHelper.getGeometryString(connection, data);
-//                    }
+                    //                    // 获取几何值
+                    //                    if (column.supportGeometry()) {
+                    //                        data = DamengHelper.getGeometryString(connection, data);
+                    //                    }
                     record.putValue(column, data);
                 }
                 records.add(record);
@@ -1013,11 +1040,11 @@ public class DamengClient {
             builder.append(")");
             builder.append(" VALUES(");
             for (String column : param.getRecord().columns()) {
-//                if (param.getRecord().isTypeGeometry(column)) {
-//                    builder.append("ST_GeomFromText(?),");
-//                } else {
-                    builder.append("?,");
-//                }
+                //                if (param.getRecord().isTypeGeometry(column)) {
+                //                    builder.append("ST_GeomFromText(?),");
+                //                } else {
+                builder.append("?,");
+                //                }
             }
             builder.append(")");
             String sql = builder.toString();
@@ -1110,11 +1137,11 @@ public class DamengClient {
                     .append(DBUtil.wrap(dbName, tableName, this.dialect()))
                     .append(" SET ");
             for (String column : recordData.columns()) {
-//                if (recordData.isTypeGeometry(column)) {
-//                    builder.append(DBUtil.wrap(column, this.dialect())).append(" = ST_GeomFromText(?),");
-//                } else {
-                    builder.append(DBUtil.wrap(column, this.dialect())).append(" = ?,");
-//                }
+                //                if (recordData.isTypeGeometry(column)) {
+                //                    builder.append(DBUtil.wrap(column, this.dialect())).append(" = ST_GeomFromText(?),");
+                //                } else {
+                builder.append(DBUtil.wrap(column, this.dialect())).append(" = ?,");
+                //                }
             }
             builder.deleteCharAt(builder.length() - 1);
             builder.append(" WHERE ");
@@ -1733,9 +1760,12 @@ public class DamengClient {
                         ac.CONSTRAINT_NAME AS "FK_NAME",
                         NULL AS "UPDATE_RULE",
                         ac.DELETE_RULE
-                    FROM ALL_CONSTRAINTS ac
-                    JOIN ALL_CONS_COLUMNS acc ON ac.CONSTRAINT_NAME = acc.CONSTRAINT_NAME AND ac.OWNER = acc.OWNER
-                    JOIN ALL_CONSTRAINTS ac_r ON ac.R_OWNER = ac_r.OWNER AND ac.R_CONSTRAINT_NAME = ac_r.CONSTRAINT_NAME
+                    FROM 
+                        ALL_CONSTRAINTS ac
+                    JOIN 
+                        ALL_CONS_COLUMNS acc ON ac.CONSTRAINT_NAME = acc.CONSTRAINT_NAME AND ac.OWNER = acc.OWNER
+                    JOIN 
+                        ALL_CONSTRAINTS ac_r ON ac.R_OWNER = ac_r.OWNER AND ac.R_CONSTRAINT_NAME = ac_r.CONSTRAINT_NAME
                     JOIN ALL_CONS_COLUMNS acc_r ON ac_r.CONSTRAINT_NAME = acc_r.CONSTRAINT_NAME AND ac_r.OWNER = acc_r.OWNER AND acc.POSITION = acc_r.POSITION
                     WHERE ac.CONSTRAINT_TYPE = 'R'
                     AND ac.OWNER = ?
@@ -1884,10 +1914,10 @@ public class DamengClient {
                 DamengRecord record = new DamengRecord(columns, !updatable);
                 for (DamengColumn column : columns) {
                     Object data = resultSet.getObject(column.getName());
-//                    // 获取几何值
-//                    if (column.supportGeometry()) {
-//                        data = DamengHelper.getGeometryString(connection, data);
-//                    }
+                    //                    // 获取几何值
+                    //                    if (column.supportGeometry()) {
+                    //                        data = DamengHelper.getGeometryString(connection, data);
+                    //                    }
                     record.putValue(column, data);
                 }
                 records.add(record);
@@ -2559,10 +2589,10 @@ public class DamengClient {
             while (resultSet.next()) {
                 for (DamengColumn column : columns) {
                     Object data = resultSet.getObject(column.getName());
-//                    // 获取几何值
-//                    if (column.supportGeometry()) {
-//                        data = DamengHelper.getGeometryString(connection, data);
-//                    }
+                    //                    // 获取几何值
+                    //                    if (column.supportGeometry()) {
+                    //                        data = DamengHelper.getGeometryString(connection, data);
+                    //                    }
                     record.putValue(column, data);
                 }
             }
@@ -2622,7 +2652,7 @@ public class DamengClient {
         // // 查询索引
         // DamengIndexes indexes = this.indexes(dbName, tableName);
         // 查询触发器
-        DamengTriggers triggers = this.triggers(dbName, tableName);
+        DamengTriggers triggers = this.selectTriggers(dbName, tableName);
         // 查询外键
         DamengForeignKeys foreignKeys = this.foreignKeys(dbName, tableName);
         // // 查询字段
