@@ -37,7 +37,7 @@
             </HBox.margin>
         </ExplainSVGGlyph>
     </FXHBox>
-    <FXSplitPane showDivider="false" fx:id="splitPane" flexHeight="100% - 35" flexWidth="100%" dividerPositions="1">
+    <FXSplitPane orientation="VERTICAL" showDivider="false" fx:id="splitPane" flexHeight="100% - 35" flexWidth="100%" dividerPositions="1">
         <DamengQueryEditor fontSize="12" fx:id="queryArea" flexWidth="100%"
                           onKeyPressed="#queryKeyPressed"/>
         <FXTabPane fx:id="resultTabPane" flexWidth="100%" visible="false" managed="false">

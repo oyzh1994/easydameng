@@ -77,12 +77,10 @@
             <DBStatusTableView fx:id="indexTable" flexHeight="100%" flexWidth="100%">
                 <columns>
                     <DBStatusColumn/>
-                    <FXTableColumn flexWidth="20%" valueName="nameControl" text="%base.name" resizable="true"/>
-                    <FXTableColumn flexWidth="30%" valueName="columnControl" text="%base.column" resizable="true"/>
+                    <FXTableColumn flexWidth="60% - 290" valueName="nameControl" text="%base.name"/>
+                    <FXTableColumn flexWidth="40%" valueName="columnControl" text="%base.column"/>
                     <FXTableColumn realWidth="125" valueName="typeControl" text="%base.indexType"/>
                     <FXTableColumn realWidth="125" valueName="methodControl" text="%base.indexMethod"/>
-                    <FXTableColumn flexWidth="50% - 283" valueName="commentControl" text="%base.comment"
-                                   resizable="true"/>
                 </columns>
             </DBStatusTableView>
         </FixedTab>

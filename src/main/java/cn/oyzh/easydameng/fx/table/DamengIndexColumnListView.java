@@ -46,7 +46,7 @@ public class DamengIndexColumnListView extends FXListView<FXHBox> {
 
     public void addColumn(DamengIndex.IndexColumn column) {
         FXComboBox<String> comboBox = new FXComboBox<>();
-        comboBox.setRealWidth(150);
+        comboBox.setRealWidth(300);
         comboBox.setRealHeight(25);
         comboBox.setItem(this.columnNames);
         comboBox.addClass("popover-item");
@@ -55,14 +55,28 @@ public class DamengIndexColumnListView extends FXListView<FXHBox> {
         } else {
             comboBox.selectFirst();
         }
-        ListViewUtil.selectRowOnMouseClicked(comboBox, comboBox);
+//        NumberTextField textField = new NumberTextField();
+//        textField.setMinVal(0);
+//        textField.setRealHeight(25);
+//        textField.setRealWidth(145);
+//        textField.addClass("popover-item");
+//        if (column.getSubPart() != null && column.getSubPart() > 0) {
+//            textField.setValue(column.getSubPart());
+//        }
+//        FXHBox hBox = new FXHBox(comboBox);
+//        HBox.setMargin(textField, new Insets(0, 0, 0, 5));
+//        ListViewUtil.selectRowOnMouseClicked(comboBox, hBox);
+//        ListViewUtil.selectRowOnMouseClicked(textField, hBox);
         this.addItem(comboBox);
     }
 
     public List<DamengIndex.IndexColumn> getColumns() {
         List<DamengIndex.IndexColumn> list = new ArrayList<>();
         for (Node item : this.getItems()) {
-            FXComboBox<String> comboBox = (FXComboBox<String>) item;
+            FXComboBox<String> comboBox = (FXComboBox) item;
+//            FXComboBox<String> comboBox = (FXComboBox) item.getFirstChild();
+//            NumberTextField textField = (NumberTextField) item.getChild(1);
+//            DamengIndex.IndexColumn indexColumn = new DamengIndex.IndexColumn(comboBox.getValue(), textField.getIntValue());
             DamengIndex.IndexColumn indexColumn = new DamengIndex.IndexColumn(comboBox.getValue());
             list.add(indexColumn);
         }

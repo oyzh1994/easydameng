@@ -71,17 +71,6 @@ public class DamengIndexControl extends DamengIndex {
         return comboBox;
     }
 
-    public ClearableTextField getCommentControl() {
-        ClearableTextField textField = new ClearableTextField();
-        textField.setFlexWidth("100% - 12");
-        textField.setPromptText(I18nHelper.pleaseInputComment());
-        textField.setText(this.getComment());
-        textField.addTextChangeListener((observable, oldValue, newValue) -> this.setComment(newValue));
-        TableViewUtil.rowOnCtrlS(textField);
-        TableViewUtil.selectRowOnMouseClicked(textField);
-        return textField;
-    }
-
     public static DamengIndexControl of(DamengIndex index) {
         DamengIndexControl control = new DamengIndexControl();
         control.copy(index);

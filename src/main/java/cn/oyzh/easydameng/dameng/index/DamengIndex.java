@@ -26,8 +26,6 @@ public class DamengIndex extends DBObjectStatus implements ObjectCopier<DamengIn
      * 类型
      * 1. normal
      * 2. unique
-     * 3. fulltext
-     * 4. spatial
      */
     private String type;
 
@@ -38,11 +36,6 @@ public class DamengIndex extends DBObjectStatus implements ObjectCopier<DamengIn
      * 3. hash
      */
     private String method;
-
-    /**
-     * 注释
-     */
-    private String comment;
 
     /**
      * 名称
@@ -89,11 +82,6 @@ public class DamengIndex extends DBObjectStatus implements ObjectCopier<DamengIn
         super.putOriginalData("method", method);
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-        super.putOriginalData("comment", comment);
-    }
-
     public void type(String type, int noneUnique) {
         if (StringUtil.equalsIgnoreCase(type, "HASH") && noneUnique == 0) {
             this.setType("UNIQUE");
@@ -107,12 +95,6 @@ public class DamengIndex extends DBObjectStatus implements ObjectCopier<DamengIn
         } else if (StringUtil.equalsIgnoreCase(type, "BTREE") && noneUnique == 1) {
             this.setType("NORMAL");
             this.setMethod("BTREE");
-        } else if (StringUtil.equalsIgnoreCase(type, "fulltext")) {
-            this.setType("FULLTEXT");
-            this.setMethod("");
-        } else if (StringUtil.equalsIgnoreCase(type, "spatial")) {
-            this.setType("SPATIAL");
-            this.setMethod("");
         } else {
             this.setType("NORMAL");
             this.setMethod("BTREE");
@@ -136,7 +118,6 @@ public class DamengIndex extends DBObjectStatus implements ObjectCopier<DamengIn
             this.setName(t1.name);
             this.setType(t1.type);
             this.setMethod(t1.method);
-            this.setComment(t1.comment);
             this.setColumns(t1.columns);
             this.setSeqIndex(t1.seqIndex);
         }
@@ -161,10 +142,6 @@ public class DamengIndex extends DBObjectStatus implements ObjectCopier<DamengIn
 
     public String getMethod() {
         return method;
-    }
-
-    public String getComment() {
-        return comment;
     }
 
     public String getName() {

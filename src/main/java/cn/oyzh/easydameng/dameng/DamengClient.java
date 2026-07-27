@@ -1595,9 +1595,7 @@ public class DamengClient {
                         c.COLUMN_NAME AS "Column_name",
                         CASE WHEN i.UNIQUENESS='UNIQUE' THEN 0 ELSE 1 END AS "Non_unique",
                         c.COLUMN_POSITION AS "Seq_in_index",
-                        CASE WHEN i.INDEX_TYPE='NORMAL' THEN 'BTREE' ELSE i.INDEX_TYPE END AS "Index_type",
-                        NULL AS "Index_comment",
-                        NULL AS "Sub_Part"
+                        CASE WHEN i.INDEX_TYPE='NORMAL' THEN 'BTREE' ELSE i.INDEX_TYPE END AS "Index_type"
                     FROM ALL_INDEXES i
                     JOIN ALL_IND_COLUMNS c ON i.INDEX_NAME = c.INDEX_NAME AND i.OWNER = c.INDEX_OWNER
                     WHERE i.TABLE_OWNER = ? AND i.TABLE_NAME = ? AND i.INDEX_TYPE != 'PRIMARY'
@@ -1623,11 +1621,9 @@ public class DamengClient {
                     int noneUnique = resultSet.getInt("Non_unique");
                     int seqInIndex = resultSet.getInt("Seq_in_index");
                     String indexType = resultSet.getString("Index_type");
-                    String indexComment = resultSet.getString("Index_comment");
                     tableIndex = new DamengIndex();
                     tableIndex.setName(keyName);
                     tableIndex.setSeqIndex(seqInIndex);
-                    tableIndex.setComment(indexComment);
                     tableIndex.type(indexType, noneUnique);
                     indexMap.put(keyName, tableIndex);
                 }
@@ -1646,19 +1642,6 @@ public class DamengClient {
             return null;
         }
         try {
-            // String sql = """
-            //         SELECT
-            //             CHECK_CLAUSE AS 'CLAUSE',
-            //             CONSTRAINT_NAME AS 'NAME',
-            //             TABLE_NAME AS 'TABLE_NAME',
-            //             OWNER AS 'DB_NAME'
-            //         FROM
-            //             DBA_OBJECTS.CHECK_CONSTRAINTS
-            //         WHERE
-            //             OWNER = ?
-            //         AND
-            //             TABLE_NAME = ?;
-            //         """;
             String sql = """
                         SELECT
                             OWNER AS "DB_NAME",
