@@ -253,16 +253,15 @@ public class DamengTableAlertSqlGenerator {
         DamengIndexes indexes = param.getIndexes();
         String tableFullName = DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.DAMENG);
         for (DamengIndex index : indexes) {
-            // 索引删除在ALTER TABLE中
+            // 索引删除用独立DROP INDEX语句（达梦不支持 ALTER TABLE DROP INDEX）
             if (DamengIndexes.isDeleted(index) || DamengIndexes.isChanged(index)) {
-                builder.append("DROP INDEX ")
-                        .append(DBUtil.wrap(index.originalName(), DBDialect.DAMENG))
-                        .append(",");
+                this.sqlList.add("DROP INDEX " + DBUtil.wrap(index.originalName(), DBDialect.DAMENG) + ";");
             }
             // 索引新增用独立CREATE INDEX语句
             if (DamengIndexes.isCreated(index) || DamengIndexes.isChanged(index)) {
                 StringBuilder idxBuilder = new StringBuilder("CREATE ");
-                if (index.typeName() != null) {
+                // 达梦不支持 FULLTEXT/SPATIAL，仅保留 UNIQUE
+                if (index.typeName() != null && !"FULLTEXT".equalsIgnoreCase(index.typeName()) && !"SPATIAL".equalsIgnoreCase(index.typeName())) {
                     idxBuilder.append(index.typeName()).append(" ");
                 }
                 idxBuilder.append("INDEX ")
@@ -271,9 +270,6 @@ public class DamengTableAlertSqlGenerator {
                         .append(" (");
                 for (DamengIndex.IndexColumn column : index.getColumns()) {
                     idxBuilder.append(DBUtil.wrap(column.getColumnName(), DBDialect.DAMENG));
-                    if (column.getSubPart() != null && column.getSubPart() > 0) {
-                        idxBuilder.append("(").append(column.getSubPart()).append(")");
-                    }
                     idxBuilder.append(",");
                 }
                 StringUtil.deleteLast(idxBuilder);

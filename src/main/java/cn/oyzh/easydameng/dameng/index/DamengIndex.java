@@ -63,11 +63,11 @@ public class DamengIndex extends DBObjectStatus implements ObjectCopier<DamengIn
         super.putOriginalData("name", name);
     }
 
-    public void addColumn(String column, int subPart) {
+    public void addColumn(String column) {
         if (this.columns == null) {
             this.setColumns(new ArrayList<>());
         }
-        this.columns.add(new IndexColumn(column, subPart));
+        this.columns.add(new IndexColumn(column));
     }
 
     public boolean isUnique() {
@@ -185,17 +185,11 @@ public class DamengIndex extends DBObjectStatus implements ObjectCopier<DamengIn
          */
         private String columnName;
 
-        /**
-         * 子部分
-         */
-        private Integer subPart;
-
         public IndexColumn(  ) {
         }
 
-        public IndexColumn(String columnName, Integer subPart) {
+        public IndexColumn(String columnName) {
             this.columnName = columnName;
-            this.subPart = subPart;
         }
 
         @Override
@@ -204,7 +198,7 @@ public class DamengIndex extends DBObjectStatus implements ObjectCopier<DamengIn
                 return true;
             }
             if (o instanceof IndexColumn column) {
-                return Objects.equals(column.subPart, this.subPart) && StringUtil.equals(this.columnName, column.columnName);
+                return  StringUtil.equals(this.columnName, column.columnName);
             }
             return false;
         }
@@ -215,14 +209,6 @@ public class DamengIndex extends DBObjectStatus implements ObjectCopier<DamengIn
 
         public void setColumnName(String columnName) {
             this.columnName = columnName;
-        }
-
-        public Integer getSubPart() {
-            return subPart;
-        }
-
-        public void setSubPart(Integer subPart) {
-            this.subPart = subPart;
         }
     }
 }

@@ -125,7 +125,6 @@ public class DruidSqlParser extends DBSqlParser {
             return sqlList;
         }
         try {
-
             this.sqlStatements = SQLUtils.parseStatements(sqlContent, this.dbType, SQLParserFeature.SkipComments);
             for (SQLStatement sqlStatement : this.sqlStatements) {
                 String sql = sqlStatement.toString();

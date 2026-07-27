@@ -1631,8 +1631,7 @@ public class DamengClient {
                     tableIndex.type(indexType, noneUnique);
                     indexMap.put(keyName, tableIndex);
                 }
-                int subPart = resultSet.getInt("Sub_Part");
-                tableIndex.addColumn(columnName, subPart);
+                tableIndex.addColumn(columnName);
             }
             DBUtil.close(resultSet);
             DBUtil.close(statement);

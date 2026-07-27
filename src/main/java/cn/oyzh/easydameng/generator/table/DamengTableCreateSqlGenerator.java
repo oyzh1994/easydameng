@@ -146,9 +146,6 @@ public class DamengTableCreateSqlGenerator {
                     .append(" (");
             for (DamengIndex.IndexColumn column : index.getColumns()) {
                 builder.append(DBUtil.wrap(column.getColumnName(), DAMENG));
-                if (column.getSubPart() != null && column.getSubPart() > 0) {
-                    builder.append("(").append(column.getSubPart()).append(")");
-                }
                 builder.append(",");
             }
             builder.append(") ");

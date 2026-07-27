@@ -73,9 +73,6 @@ public class DamengIndexFieldTextFiled extends ChooseTextField {
             for (DamengIndex.IndexColumn column : this.columns) {
                 builder.append(",");
                 builder.append(column.getColumnName());
-                if (column.getSubPart() != null && column.getSubPart() > 0) {
-                    builder.append("(").append(column.getSubPart()).append(")");
-                }
             }
             text = builder.substring(1);
         } else {
