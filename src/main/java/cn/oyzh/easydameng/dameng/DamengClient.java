@@ -598,7 +598,7 @@ public class DamengClient {
         try {
             String sql = """
                         SELECT
-                            a.TRIGGER_NAME, a.TRIGGERING_EVENT AS EVENT_MANIPULATION, a.TABLE_NAME AS EVENT_OBJECT_TABLE , dt.TRIGGER_BODY ACTION_STATEMENT    
+                            a.TRIGGER_NAME, a.TRIGGERING_EVENT AS EVENT_MANIPULATION, a.TRIGGERING_TYPE AS TRIGGER_TYPE, a.TABLE_NAME AS EVENT_OBJECT_TABLE , dt.TRIGGER_BODY ACTION_STATEMENT    
                         FROM
                             ALL_TRIGGERS a
                         LEFT JOIN 
@@ -620,13 +620,14 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengTrigger trigger = new DamengTrigger();
                 String name = resultSet.getString("TRIGGER_NAME");
+                String type = resultSet.getString("TRIGGER_TYPE");
                 String definition = resultSet.getString("ACTION_STATEMENT");
                 String tableName = resultSet.getString("EVENT_OBJECT_TABLE");
                 String manipulation = resultSet.getString("EVENT_MANIPULATION");
                 trigger.setName(name);
-                trigger.setPolicy("BEFORE", manipulation);
                 trigger.setTableName(tableName);
                 trigger.setDefinition(DamengHelper.fixTiggerDefinition(definition));
+                trigger.setPolicy(type.contains("BEFORE") ? "BEFORE" : "AFTER", manipulation);
                 list.add(trigger);
             }
             DBUtil.close(resultSet);
@@ -641,7 +642,7 @@ public class DamengClient {
         try {
             String sql = """
                         SELECT
-                            a.TRIGGER_NAME, a.TRIGGERING_EVENT AS EVENT_MANIPULATION, a.TABLE_NAME AS EVENT_OBJECT_TABLE , dt.TRIGGER_BODY ACTION_STATEMENT    
+                            a.TRIGGER_NAME, a.TRIGGERING_EVENT AS EVENT_MANIPULATION, a.TRIGGERING_TYPE AS TRIGGER_TYPE, a.TABLE_NAME AS EVENT_OBJECT_TABLE , dt.TRIGGER_BODY ACTION_STATEMENT    
                         FROM
                             ALL_TRIGGERS a
                         LEFT JOIN 
@@ -666,12 +667,13 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengTrigger trigger = new DamengTrigger();
                 String name = resultSet.getString("TRIGGER_NAME");
+                String type = resultSet.getString("TRIGGER_TYPE");
                 String definition = resultSet.getString("ACTION_STATEMENT");
                 String manipulation = resultSet.getString("EVENT_MANIPULATION");
                 trigger.setName(name);
                 trigger.setTableName(tableName);
-                trigger.setPolicy("BEFORE", manipulation);
                 trigger.setDefinition(DamengHelper.fixTiggerDefinition(definition));
+                trigger.setPolicy(type.contains("BEFORE") ? "BEFORE" : "AFTER", manipulation);
                 list.add(trigger);
             }
             DBUtil.close(resultSet);
