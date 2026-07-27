@@ -617,7 +617,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     }
 
     public DamengTriggers triggers(String tableName) {
-        return this.client().triggers(this.dbName(), tableName);
+        return this.client().selectTriggers(this.dbName(), tableName);
     }
 
     public DamengColumns columns(String tableName) {

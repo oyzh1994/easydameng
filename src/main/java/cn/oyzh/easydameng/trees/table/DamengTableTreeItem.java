@@ -298,7 +298,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
     }
 
     public List<DamengTrigger> triggers() {
-        return this.client().triggers(this.dbName(), this.tableName());
+        return this.client().selectTriggers(this.dbName(), this.tableName());
     }
 
     @Override

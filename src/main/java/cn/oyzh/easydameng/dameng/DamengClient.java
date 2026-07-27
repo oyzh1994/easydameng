@@ -598,11 +598,19 @@ public class DamengClient {
         try {
             String sql = """
                         SELECT
-                            TRIGGER_NAME, TRIGGERING_EVENT AS EVENT_MANIPULATION, TABLE_NAME AS EVENT_OBJECT_TABLE
+                            a.TRIGGER_NAME, a.TRIGGERING_EVENT AS EVENT_MANIPULATION, a.TABLE_NAME AS EVENT_OBJECT_TABLE , dt.TRIGGER_BODY ACTION_STATEMENT    
                         FROM
-                            ALL_TRIGGERS
+                            ALL_TRIGGERS a
+                        LEFT JOIN 
+                            DBA_TRIGGERS dt
+                        ON 
+                            dt.OWNER = a.OWNER
+                        AND 
+                            dt.TABLE_NAME = a.TABLE_NAME
+                        AND
+                            dt.TRIGGER_NAME = a.TRIGGER_NAME
                         WHERE
-                            OWNER = ?
+                            a.OWNER = ?
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
@@ -612,12 +620,13 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengTrigger trigger = new DamengTrigger();
                 String name = resultSet.getString("TRIGGER_NAME");
+                String definition = resultSet.getString("ACTION_STATEMENT");
                 String tableName = resultSet.getString("EVENT_OBJECT_TABLE");
                 String manipulation = resultSet.getString("EVENT_MANIPULATION");
                 trigger.setName(name);
-                trigger.setTableName(tableName);
                 trigger.setPolicy("BEFORE", manipulation);
-                trigger.setDefinition(this.getTriggerDefinition(dbName, name));
+                trigger.setTableName(tableName);
+                trigger.setDefinition(DamengHelper.fixTiggerDefinition(definition));
                 list.add(trigger);
             }
             DBUtil.close(resultSet);
@@ -632,13 +641,21 @@ public class DamengClient {
         try {
             String sql = """
                         SELECT
-                            TRIGGER_NAME, TRIGGERING_EVENT AS EVENT_MANIPULATION, TABLE_NAME AS EVENT_OBJECT_TABLE
+                            a.TRIGGER_NAME, a.TRIGGERING_EVENT AS EVENT_MANIPULATION, a.TABLE_NAME AS EVENT_OBJECT_TABLE , dt.TRIGGER_BODY ACTION_STATEMENT    
                         FROM
-                            ALL_TRIGGERS
-                        WHERE
-                            OWNER = ?
+                            ALL_TRIGGERS a
+                        LEFT JOIN 
+                            DBA_TRIGGERS dt
+                        ON 
+                            dt.OWNER = a.OWNER
+                        AND 
+                            dt.TABLE_NAME = a.TABLE_NAME
                         AND
-                            TABLE_NAME = ?
+                            dt.TRIGGER_NAME = a.TRIGGER_NAME
+                        WHERE
+                            a.OWNER = ?
+                        AND
+                            a.TABLE_NAME = ?
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
@@ -649,11 +666,12 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengTrigger trigger = new DamengTrigger();
                 String name = resultSet.getString("TRIGGER_NAME");
+                String definition = resultSet.getString("ACTION_STATEMENT");
                 String manipulation = resultSet.getString("EVENT_MANIPULATION");
                 trigger.setName(name);
                 trigger.setTableName(tableName);
                 trigger.setPolicy("BEFORE", manipulation);
-                trigger.setDefinition(this.getTriggerDefinition(dbName, name));
+                trigger.setDefinition(DamengHelper.fixTiggerDefinition(definition));
                 list.add(trigger);
             }
             DBUtil.close(resultSet);
@@ -665,31 +683,31 @@ public class DamengClient {
         }
     }
 
-    public String getTriggerDefinition(String dbName, String triggerName) {
-        try {
-            String sql = """
-                        SELECT 
-                            TO_CHAR(DBMS_METADATA.GET_DDL('TRIGGER', ?, ?)) 
-                        AS 
-                            TRIGGER_DDL
-                    """;
-            DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
-            statement.setString(1, triggerName);
-            statement.setString(2, dbName);
-            ResultSet resultSet = statement.executeQuery();
-            List<DamengTrigger> list = new ArrayList<>();
-            String definition = null;
-            if (resultSet.next()) {
-                definition = resultSet.getString(1);
-            }
-            DBUtil.close(resultSet);
-            DBUtil.close(statement);
-            return definition;
-        } catch (Exception ex) {
-            throw new DBException(ex);
-        }
-    }
+    //    public String getTriggerDefinition(String dbName, String triggerName) {
+    //        try {
+    //            String sql = """
+    //                        SELECT
+    //                            TO_CHAR(DBMS_METADATA.GET_DDL('TRIGGER', ?, ?))
+    //                        AS
+    //                            TRIGGER_DDL
+    //                    """;
+    //            DBUtil.printSql(sql);
+    //            PreparedStatement statement = this.connection().prepareStatement(sql);
+    //            statement.setString(1, triggerName);
+    //            statement.setString(2, dbName);
+    //            ResultSet resultSet = statement.executeQuery();
+    //            List<DamengTrigger> list = new ArrayList<>();
+    //            String definition = null;
+    //            if (resultSet.next()) {
+    //                definition = resultSet.getString(1);
+    //            }
+    //            DBUtil.close(resultSet);
+    //            DBUtil.close(statement);
+    //            return definition;
+    //        } catch (Exception ex) {
+    //            throw new DBException(ex);
+    //        }
+    //    }
 
     public String selectVersion() {
         if (this.hasProperty("version")) {

@@ -1,6 +1,7 @@
 package cn.oyzh.easydameng.dameng.trigger;
 
 import cn.oyzh.common.object.ObjectCopier;
+import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.db.DBObjectStatus;
 
 /**

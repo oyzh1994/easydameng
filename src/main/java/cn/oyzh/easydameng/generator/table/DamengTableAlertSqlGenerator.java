@@ -160,9 +160,10 @@ public class DamengTableAlertSqlGenerator {
             }
             if (DamengTriggers.isChanged(trigger) || DamengTriggers.isCreated(trigger)) {
                 StringBuilder builder = new StringBuilder();
-                String body = trigger.getDefinition();
-                if (!body.endsWith(";"))
+                String body = trigger.getDefinition().trim();
+                if (!body.endsWith(";")){
                     body = body + ";";
+                }
                 builder.append("CREATE OR REPLACE TRIGGER ")
                         .append(DBUtil.wrap(trigger.getName(), DBDialect.DAMENG))
                         .append(" ")

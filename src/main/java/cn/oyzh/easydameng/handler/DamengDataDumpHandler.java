@@ -189,7 +189,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
     }
 
     protected void dumpTrigger() throws Exception {
-        List<DamengTrigger> triggers = this.dbClient.triggers(this.dbName);
+        List<DamengTrigger> triggers = this.dbClient.selectTriggers(this.dbName);
         if (CollectionUtil.isNotEmpty(triggers)) {
             for (DamengTrigger trigger : triggers) {
                 this.message("Dumping Trigger " + trigger.getName());

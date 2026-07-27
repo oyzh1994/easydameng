@@ -1,10 +1,10 @@
 package cn.oyzh.easydameng.dameng;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
+import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.sql.Connection;
@@ -415,5 +415,18 @@ public class DamengHelper {
         DBUtil.close(resultSet);
         DBUtil.close(statement);
         return createDefinition;
+    }
+
+    /**
+     * 修正触发器定义
+     *
+     * @param definition 定义
+     * @return 结果
+     */
+    public static String fixTiggerDefinition(String definition) {
+        if (StringUtil.contains(definition, " ROW BEGIN ") && StringUtil.contains(definition, "END;")) {
+            definition = definition.substring(definition.indexOf(" ROW BEGIN ") + 11, definition.lastIndexOf("END;"));
+        }
+        return definition;
     }
 }
