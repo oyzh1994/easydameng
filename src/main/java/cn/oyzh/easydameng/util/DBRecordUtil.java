@@ -16,6 +16,7 @@ import cn.oyzh.fx.gui.text.field.NumberTextField;
 import cn.oyzh.fx.gui.text.field.SelectTextFiled;
 import cn.oyzh.fx.gui.text.field.TimeTextField;
 import cn.oyzh.fx.gui.text.field.YearTextField;
+import cn.oyzh.fx.plus.controls.text.field.FXTextField;
 import cn.oyzh.fx.plus.font.FontUtil;
 import cn.oyzh.fx.plus.menu.FXMenuItem;
 import javafx.scene.Node;
@@ -77,17 +78,13 @@ public class DBRecordUtil {
             DateTimeTextField textField = new DateTimeTextField();
             textField.setValue(object);
             node = textField;
-        } else if (column.supportString()) {
-            ClearableTextField textField = new ClearableTextField();
-            textField.setValue(object);
-            node = textField;
         } else if (column.supportGeometry()) {
             ExampleTextField textField = new ExampleTextField();
             textField.setExample(column.exampleValue());
             textField.setValue(object);
             node = textField;
         } else {
-            ClearableTextField textField = new ClearableTextField();
+            FXTextField textField = new FXTextField();
             textField.setValue(object);
             node = textField;
         }
@@ -139,7 +136,7 @@ public class DBRecordUtil {
         } else if (column.supportGeometry()) {
             val = ExampleTextField.format(object);
         } else {
-            val = ClearableTextField.format(object);
+            val = FXTextField.format(object);
         }
         return val;
     }
@@ -147,49 +144,6 @@ public class DBRecordUtil {
     public static String nullPromptText() {
         return "(Null)";
     }
-
-    // public static double suitableColumnWidth(String columnType) {
-    //     if (DBColumnUtil.isGeometryType(columnType)) {
-    //         return 120;
-    //     }
-    //     if (DBColumnUtil.isPointType(columnType)) {
-    //         return 110;
-    //     }
-    //     if (DBColumnUtil.isMultiPointType(columnType)) {
-    //         return 200;
-    //     }
-    //     if (DBColumnUtil.isPolygonType(columnType)) {
-    //         return 220;
-    //     }
-    //     if (DBColumnUtil.isMultiPolygonType(columnType)) {
-    //         return 420;
-    //     }
-    //     if (DBColumnUtil.isLineStringType(columnType)) {
-    //         return 180;
-    //     }
-    //     if (DBColumnUtil.isMultiLineStringType(columnType)) {
-    //         return 320;
-    //     }
-    //     if (DBColumnUtil.isGeomCollectionType(columnType)) {
-    //         return 600;
-    //     }
-    //     if (DBColumnUtil.isYearType(columnType)) {
-    //         return 80;
-    //     }
-    //     if (DBColumnUtil.supportJson(columnType)) {
-    //         return 150;
-    //     }
-    //     if (DBColumnUtil.supportTimestamp(columnType)) {
-    //         return 160;
-    //     }
-    //     if (DBColumnUtil.supportBinary(columnType)) {
-    //         return 140;
-    //     }
-    //     if (DBColumnUtil.isDateType(columnType)) {
-    //         return 110;
-    //     }
-    //     return 100;
-    // }
 
     /**
      * 计算合适的字段宽
