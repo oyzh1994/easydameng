@@ -62,18 +62,6 @@ public class DamengTableColumnExtraController extends SubTabController {
     private NumberTextField primaryKeySize;
 
     /**
-     * 填充零组件
-     */
-    @FXML
-    private FXHBox zeroFillBox;
-
-    /**
-     * 填充零
-     */
-    @FXML
-    private FXCheckBox zeroFill;
-
-    /**
      * 自动递增组件
      */
     @FXML
@@ -131,10 +119,6 @@ public class DamengTableColumnExtraController extends SubTabController {
             if (this.valueBox.isVisible()) {
                 this.column.setValue(this.value.getTextTrim());
             }
-            // 填充零处理
-            if (this.zeroFillBox.isVisible()) {
-                this.column.setZeroFill(this.zeroFill.isSelected());
-            }
             // 无符号处理
             if (this.unsignedBox.isVisible()) {
                 this.column.setUnsigned(this.unsigned.isSelected());
@@ -165,8 +149,6 @@ public class DamengTableColumnExtraController extends SubTabController {
     @Override
     protected void bindListeners() {
         super.bindListeners();
-        // 填充零变化事件
-        this.zeroFill.selectedChanged((observable, oldValue, newValue) -> this.apply());
         // 无符号变化事件
         this.unsigned.selectedChanged((observable, oldValue, newValue) -> this.apply());
         // 值变化事件
@@ -231,14 +213,6 @@ public class DamengTableColumnExtraController extends SubTabController {
             this.autoIncrementBox.disappear();
         }
 
-        // 填充零
-        if (this.column.supportZeroFill()) {
-            this.zeroFillBox.display();
-            this.zeroFill.setSelected(this.column.isZeroFill());
-        } else {
-            this.zeroFillBox.disappear();
-        }
-
         // 无符号
         if (this.column.supportUnsigned()) {
             this.unsignedBox.display();
@@ -271,7 +245,6 @@ public class DamengTableColumnExtraController extends SubTabController {
     public void initialize(URL location, ResourceBundle resourceBundle) {
         this.valueBox.managedBindVisible();
         this.unsignedBox.managedBindVisible();
-        this.zeroFillBox.managedBindVisible();
         this.defaultValueBox.managedBindVisible();
         this.autoIncrementBox.managedBindVisible();
         this.primaryKeySizeBox.managedBindVisible();

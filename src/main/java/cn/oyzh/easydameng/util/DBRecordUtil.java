@@ -44,12 +44,12 @@ public class DBRecordUtil {
             BinaryTextFiled textField = new BinaryTextFiled();
             textField.setValue(object);
             node = textField;
-        } else if (column.supportEnum()) {
-            SelectTextFiled<String> textField = new SelectTextFiled<>();
-            textField.setEditable(false);
-            textField.setItemList(column.getValueList());
-            textField.setValue(object);
-            node = textField;
+//        } else if (column.supportEnum()) {
+//            SelectTextFiled<String> textField = new SelectTextFiled<>();
+//            textField.setEditable(false);
+//            textField.setItemList(column.getValueList());
+//            textField.setValue(object);
+//            node = textField;
         } else if (column.supportInteger()) {
             NumberTextField textField = new NumberTextField();
             textField.setValue(object);
@@ -78,11 +78,11 @@ public class DBRecordUtil {
             DateTimeTextField textField = new DateTimeTextField();
             textField.setValue(object);
             node = textField;
-        } else if (column.supportGeometry()) {
-            ExampleTextField textField = new ExampleTextField();
-            textField.setExample(column.exampleValue());
-            textField.setValue(object);
-            node = textField;
+//        } else if (column.supportGeometry()) {
+//            ExampleTextField textField = new ExampleTextField();
+//            textField.setExample(column.exampleValue());
+//            textField.setValue(object);
+//            node = textField;
         } else {
             FXTextField textField = new FXTextField();
             textField.setValue(object);
@@ -115,8 +115,8 @@ public class DBRecordUtil {
             val = JsonTextFiled.format(object);
         } else if (column.supportBinary()) {
             val = BinaryTextFiled.format(object);
-        } else if (column.supportEnum()) {
-            val = SelectTextFiled.format(object);
+//        } else if (column.supportEnum()) {
+//            val = SelectTextFiled.format(object);
         } else if (column.supportInteger()) {
             val = NumberTextField.format(object);
         } else if (column.supportDigits()) {
@@ -133,8 +133,8 @@ public class DBRecordUtil {
             val = DateTimeTextField.format(object);
         } else if (column.supportString()) {
             val = ClearableTextField.format(object);
-        } else if (column.supportGeometry()) {
-            val = ExampleTextField.format(object);
+//        } else if (column.supportGeometry()) {
+//            val = ExampleTextField.format(object);
         } else {
             val = FXTextField.format(object);
         }

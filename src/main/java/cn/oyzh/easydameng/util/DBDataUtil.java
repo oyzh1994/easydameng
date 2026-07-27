@@ -69,9 +69,9 @@ public class DBDataUtil {
         if (value == null) {
             return null;
         }
-        if (column.supportGeometry()) {
-            return "ST_GeomFromText('" + value + "')";
-        }
+//        if (column.supportGeometry()) {
+//            return "ST_GeomFromText('" + value + "')";
+//        }
         if (column.isDateType()) {
             Date date = (Date) value;
             return DateHelper.formatDate(date);
@@ -101,9 +101,9 @@ public class DBDataUtil {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-        if (column.supportEnum()) {
-            return value.toString();
-        }
+//        if (column.supportEnum()) {
+//            return value.toString();
+//        }
         if (column.supportString()) {
             return escapeQuotes((String) value);
         }
@@ -124,9 +124,9 @@ public class DBDataUtil {
         if (value == null) {
             return null;
         }
-        if (column.supportGeometry()) {
-            return "ST_GeomFromText('" + value + "')";
-        }
+//        if (column.supportGeometry()) {
+//            return "ST_GeomFromText('" + value + "')";
+//        }
         if (column.isDateType()) {
             Date date = (Date) value;
             return DateHelper.formatDate(date);
@@ -156,9 +156,9 @@ public class DBDataUtil {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-        if (column.supportEnum()) {
-            return value.toString();
-        }
+//        if (column.supportEnum()) {
+//            return value.toString();
+//        }
         if (column.supportString()) {
             return escapeQuotes((String) value);
         }
@@ -179,9 +179,9 @@ public class DBDataUtil {
         if (value == null) {
             return "";
         }
-        if (column.supportGeometry()) {
-            return "\"ST_GeomFromText('" + value + "')\"";
-        }
+//        if (column.supportGeometry()) {
+//            return "\"ST_GeomFromText('" + value + "')\"";
+//        }
         if (column.isDateType()) {
             Date date = (Date) value;
             return "\"" + DateHelper.formatDate(date) + "\"";
@@ -225,9 +225,9 @@ public class DBDataUtil {
         if (value == null) {
             return "NULL";
         }
-        if (column.supportGeometry()) {
-            return "ST_GeomFromText('" + value + "')";
-        }
+//        if (column.supportGeometry()) {
+//            return "ST_GeomFromText('" + value + "')";
+//        }
         if (column.isDateType()) {
             Date date = (Date) value;
             return "'" + DateHelper.formatDate(date) + "'";
@@ -255,9 +255,9 @@ public class DBDataUtil {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-        if (column.supportEnum()) {
-            return "'" + value + "'";
-        }
+//        if (column.supportEnum()) {
+//            return "'" + value + "'";
+//        }
         if (column.supportString()) {
             String str = escapeQuotes((String) value);
             return "'" + str + "'";
@@ -276,9 +276,9 @@ public class DBDataUtil {
         if (value == null) {
             return "";
         }
-        if (column.supportGeometry()) {
-            return "ST_GeomFromText('" + value + "')";
-        }
+//        if (column.supportGeometry()) {
+//            return "ST_GeomFromText('" + value + "')";
+//        }
         if (column.isDateType()) {
             Date date = (Date) value;
             return DateHelper.formatDate(date);
@@ -308,9 +308,9 @@ public class DBDataUtil {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-        if (column.supportEnum()) {
-            return value.toString();
-        }
+//        if (column.supportEnum()) {
+//            return value.toString();
+//        }
         if (column.supportString()) {
             return escapeQuotes((String) value);
         }
@@ -331,9 +331,9 @@ public class DBDataUtil {
         if (value == null) {
             return null;
         }
-        if (column.supportGeometry()) {
-            return "ST_GeomFromText('" + value + "')";
-        }
+//        if (column.supportGeometry()) {
+//            return "ST_GeomFromText('" + value + "')";
+//        }
         if (column.isDateType()) {
             if (value instanceof Date date) {
                 return DateHelper.formatDate(date);
@@ -364,9 +364,9 @@ public class DBDataUtil {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-        if (column.supportEnum()) {
-            return value.toString();
-        }
+//        if (column.supportEnum()) {
+//            return value.toString();
+//        }
         if (column.supportString()) {
             return escapeQuotes((String) value);
         }

@@ -24,14 +24,14 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
         return DBColumnUtil.supportSize(this.getSelectedItem());
     }
 
-    /**
-     * 是否支持字符集及排序
-     *
-     * @return 结果
-     */
-    public boolean supportCharset() {
-        return DBColumnUtil.supportCharset(this.getSelectedItem());
-    }
+//    /**
+//     * 是否支持字符集及排序
+//     *
+//     * @return 结果
+//     */
+//    public boolean supportCharset() {
+//        return DBColumnUtil.supportCharset(this.getSelectedItem());
+//    }
 
     /**
      * 是否支持无符号
@@ -78,14 +78,14 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
         return DBColumnUtil.supportTimestamp(this.getSelectedItem());
     }
 
-    /**
-     * 是否支持集合
-     *
-     * @return 结果
-     */
-    public boolean supportGeometry() {
-        return DBColumnUtil.supportGeometry(this.getSelectedItem());
-    }
+//    /**
+//     * 是否支持集合
+//     *
+//     * @return 结果
+//     */
+//    public boolean supportGeometry() {
+//        return DBColumnUtil.supportGeometry(this.getSelectedItem());
+//    }
 
     /**
      * 是否支持json
@@ -96,14 +96,14 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
         return DBColumnUtil.supportJson(this.getSelectedItem());
     }
 
-    /**
-     * 是否支持主键
-     *
-     * @return 结果
-     */
-    public boolean supportEnum() {
-        return DBColumnUtil.supportEnum(this.getSelectedItem());
-    }
+//    /**
+//     * 是否支持主键
+//     *
+//     * @return 结果
+//     */
+//    public boolean supportEnum() {
+//        return DBColumnUtil.supportEnum(this.getSelectedItem());
+//    }
 
     /**
      * 是否支持值

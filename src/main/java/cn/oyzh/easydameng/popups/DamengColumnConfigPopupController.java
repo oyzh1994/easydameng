@@ -191,11 +191,6 @@ public class DamengColumnConfigPopupController extends PopupController {
             this.autoIncrementBox.display();
             this.autoIncrement.setSelected(this.dbColumn.isAutoIncrement());
         }
-        // 填充零
-        if (this.dbColumn.supportZeroFill()) {
-            this.zeroFillBox.display();
-            this.zeroFill.setSelected(this.dbColumn.isZeroFill());
-        }
         // 无符号
         if (this.dbColumn.supportUnsigned()) {
             this.unsignedBox.display();

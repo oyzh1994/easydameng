@@ -115,19 +115,19 @@
                         </HBox.margin>
                     </NumberTextField>
                 </FXHBox>
-                <FXHBox flexWidth="100%" realHeight="50">
-                    <AccentLabel realHeight="30" realWidth="85" text="%base.charset">
-                        <HBox.margin>
-                            <Insets left="20" top="10"/>
-                        </HBox.margin>
-                    </AccentLabel>
-                    <DBCharsetComboBox disable="true" tipText="%base.contentTip2" fx:id="returnCharset" realHeight="30"
-                                       flexWidth="100% - 140">
-                        <HBox.margin>
-                            <Insets left="10" top="10"/>
-                        </HBox.margin>
-                    </DBCharsetComboBox>
-                </FXHBox>
+                <!-- <FXHBox flexWidth="100%" realHeight="50"> -->
+                <!--     <AccentLabel realHeight="30" realWidth="85" text="%base.charset"> -->
+                <!--         <HBox.margin> -->
+                <!--             <Insets left="20" top="10"/> -->
+                <!--         </HBox.margin> -->
+                <!--     </AccentLabel> -->
+                <!--     <DBCharsetComboBox disable="true" tipText="%base.contentTip2" fx:id="returnCharset" realHeight="30" -->
+                <!--                        flexWidth="100% - 140"> -->
+                <!--         <HBox.margin> -->
+                <!--             <Insets left="10" top="10"/> -->
+                <!--         </HBox.margin> -->
+                <!--     </DBCharsetComboBox> -->
+                <!-- </FXHBox> -->
                 <FXHBox flexWidth="100%" realHeight="50">
                     <AccentLabel realHeight="30" realWidth="85" text="%base.values">
                         <HBox.margin>

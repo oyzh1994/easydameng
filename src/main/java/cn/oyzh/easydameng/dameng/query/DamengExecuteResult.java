@@ -37,10 +37,10 @@ public class DamengExecuteResult extends DamengQueryResult {
             int colIndex = 1;
             for (DamengColumn dbColumn : this.columns) {
                 Object data = resultSet.getObject(colIndex++);
-                // 获取几何值
-                if (dbColumn.supportGeometry()) {
-                    data = DamengHelper.getGeometryString(connection, data);
-                }
+//                // 获取几何值
+//                if (dbColumn.supportGeometry()) {
+//                    data = DamengHelper.getGeometryString(connection, data);
+//                }
                 record.putValue(dbColumn, data);
             }
             this.records.add(record);

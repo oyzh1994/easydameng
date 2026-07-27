@@ -172,11 +172,11 @@ public class DamengFunctionDesignTabController extends RichTabController {
     @FXML
     private NumberTextField returnSize;
 
-    /**
-     * 返回值字符集
-     */
-    @FXML
-    private DBCharsetComboBox returnCharset;
+//    /**
+//     * 返回值字符集
+//     */
+//    @FXML
+//    private DBCharsetComboBox returnCharset;
 
     /**
      * 数据监听器
@@ -243,8 +243,8 @@ public class DamengFunctionDesignTabController extends RichTabController {
             this.function = this.dbItem.selectFunction(function.getName());
         }
 
-        // 初始化字符集列表
-        this.returnCharset.init(this.dbItem.client());
+//        // 初始化字符集列表
+//        this.returnCharset.init(this.dbItem.client());
 
         // 初始化监听器
         this.initDBListener();
@@ -264,7 +264,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
         DBStatusListenerManager.bindListener(this.returnDigits, this.listener);
         DBStatusListenerManager.bindListener(this.securityType, this.listener);
         DBStatusListenerManager.bindListener(this.returnValues, this.listener);
-        DBStatusListenerManager.bindListener(this.returnCharset, this.listener);
+//        DBStatusListenerManager.bindListener(this.returnCharset, this.listener);
         DBStatusListenerManager.bindListener(this.characteristic, this.listener);
         this.paramTable.setStatusListener(this.listener);
         // this.paramTable.itemList().addListener(this.listChangeListener);
@@ -323,9 +323,9 @@ public class DamengFunctionDesignTabController extends RichTabController {
             if (returnParam.getDigits() != null) {
                 this.returnDigits.setValue(returnParam.getDigits());
             }
-            if (StringUtil.isNotBlank(returnParam.getCharset())) {
-                this.returnCharset.setValue(returnParam.getCharset());
-            }
+//            if (StringUtil.isNotBlank(returnParam.getCharset())) {
+//                this.returnCharset.setValue(returnParam.getCharset());
+//            }
             if (StringUtil.isNotBlank(returnParam.getValue())) {
                 this.returnValues.setValues(returnParam.getValueList());
             }
@@ -442,9 +442,9 @@ public class DamengFunctionDesignTabController extends RichTabController {
         if (this.returnDigits.isEnable()) {
             returnParam.setDigits(this.returnDigits.getIntValue());
         }
-        if (this.returnCharset.isEnable()) {
-            returnParam.setCharset(this.returnCharset.getSelectedItem());
-        }
+//        if (this.returnCharset.isEnable()) {
+//            returnParam.setCharset(this.returnCharset.getSelectedItem());
+//        }
         tempFunction.setReturnParam(returnParam);
 
         return tempFunction;
@@ -463,7 +463,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
         NodeUtil.nodeOnCtrlS(this.returnValues, this::save);
         NodeUtil.nodeOnCtrlS(this.returnDigits, this::save);
         NodeUtil.nodeOnCtrlS(this.securityType, this::save);
-        NodeUtil.nodeOnCtrlS(this.returnCharset, this::save);
+//        NodeUtil.nodeOnCtrlS(this.returnCharset, this::save);
         NodeUtil.nodeOnCtrlS(this.characteristic, this::save);
         this.paramTable.setCtrlSAction(this::save);
         // 绑定属性
@@ -477,11 +477,11 @@ public class DamengFunctionDesignTabController extends RichTabController {
 
         // 返回值监听
         this.returnType.selectedItemChanged((observable, oldValue, newValue) -> {
-            if (this.returnType.supportCharset()) {
-                this.returnCharset.enable();
-            } else {
-                this.returnCharset.disable();
-            }
+//            if (this.returnType.supportCharset()) {
+//                this.returnCharset.enable();
+//            } else {
+//                this.returnCharset.disable();
+//            }
             if (this.returnType.supportSize()) {
                 this.returnSize.enable();
             } else {

@@ -34,9 +34,9 @@ public abstract class DamengTypeFileWriter implements Closeable {
         if (value == null) {
             return "";
         }
-        if (column.supportGeometry()) {
-            return "ST_GeomFromText('" + value + "')";
-        }
+//        if (column.supportGeometry()) {
+//            return "ST_GeomFromText('" + value + "')";
+//        }
         if (column.isDateType() || column.supportTimestamp()) {
             if (value instanceof LocalDateTime date) {
                 return DateUtil.format(date, config.getDateFormat());
@@ -62,9 +62,9 @@ public abstract class DamengTypeFileWriter implements Closeable {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-        if (column.supportEnum()) {
-            return value.toString();
-        }
+//        if (column.supportEnum()) {
+//            return value.toString();
+//        }
         if (column.supportString()) {
             return DBDataUtil.escapeQuotes((String) value);
         }

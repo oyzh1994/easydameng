@@ -68,16 +68,16 @@ public class DamengRecordData {
         return CollectionUtil.isEmpty(this.dataList);
     }
 
-    public boolean isTypeGeometry(String column) {
-        if (CollectionUtil.isEmpty(this.dataList)) {
-            return false;
-        }
-        DamengColumn dbColumn = this.column(column);
-        if (dbColumn == null) {
-            return false;
-        }
-        return dbColumn.supportGeometry();
-    }
+//    public boolean isTypeGeometry(String column) {
+//        if (CollectionUtil.isEmpty(this.dataList)) {
+//            return false;
+//        }
+//        DamengColumn dbColumn = this.column(column);
+//        if (dbColumn == null) {
+//            return false;
+//        }
+//        return dbColumn.supportGeometry();
+//    }
 
     public void remove(String column) {
         if (this.dataList != null) {

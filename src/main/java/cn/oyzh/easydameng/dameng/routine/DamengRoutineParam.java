@@ -121,34 +121,34 @@ public class DamengRoutineParam extends DBObjectStatus {
 
     private DBCharsetComboBox charsetControl;
 
-    /**
-     * 获取字符集组件
-     *
-     * @return 字符集组件
-     */
-    public DBCharsetComboBox getCharsetControl() {
-        if (this.charsetControl != null) {
-            return this.charsetControl;
-        }
-        //DamengClient dbClient = CacheHelper.get("dameng:dbClient");
-        DBCharsetComboBox comboBox = new DBCharsetComboBox();
-        this.charsetControl = comboBox;
-        comboBox.init(this.dbClient);
-        comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setCharset(newValue));
-        comboBox.select(this.getCharset());
-        // Runnable func = () -> {
-        //     if (DBColumnUtil.supportCharset(this.getType())) {
-        //         comboBox.enable();
-        //     } else {
-        //         comboBox.disable();
-        //         comboBox.clearSelection();
-        //     }
-        // };
-        // this.typeProperty.addListener((observable, oldValue, newValue) -> func.run());
-        // func.run();
-        TableViewUtil.selectRowOnMouseClicked(comboBox);
-        return comboBox;
-    }
+//    /**
+//     * 获取字符集组件
+//     *
+//     * @return 字符集组件
+//     */
+//    public DBCharsetComboBox getCharsetControl() {
+//        if (this.charsetControl != null) {
+//            return this.charsetControl;
+//        }
+//        //DamengClient dbClient = CacheHelper.get("dameng:dbClient");
+//        DBCharsetComboBox comboBox = new DBCharsetComboBox();
+//        this.charsetControl = comboBox;
+//        comboBox.init(this.dbClient);
+//        comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setCharset(newValue));
+//        comboBox.select(this.getCharset());
+//        // Runnable func = () -> {
+//        //     if (DBColumnUtil.supportCharset(this.getType())) {
+//        //         comboBox.enable();
+//        //     } else {
+//        //         comboBox.disable();
+//        //         comboBox.clearSelection();
+//        //     }
+//        // };
+//        // this.typeProperty.addListener((observable, oldValue, newValue) -> func.run());
+//        // func.run();
+//        TableViewUtil.selectRowOnMouseClicked(comboBox);
+//        return comboBox;
+//    }
 
     private NumberTextField digitsControl;
 
@@ -250,28 +250,28 @@ public class DamengRoutineParam extends DBObjectStatus {
 
     private DBCollationComboBox collationControl;
 
-    /**
-     * 获取排序组件
-     *
-     * @return 排序组件
-     */
-    public DBCollationComboBox getCollationControl() {
-        if (this.collationControl != null) {
-            return collationControl;
-        }
-        //DamengClient dbClient = CacheHelper.get("dameng:dbClient");
-        DBCollationComboBox comboBox = new DBCollationComboBox();
-        this.collationControl = comboBox;
-        comboBox.init(this.getCharset(), this.dbClient);
-        comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setCollation(newValue));
-        comboBox.select(this.getCollation());
-        // this.charsetProperty.addListener((observable, oldValue, newValue) -> {
-        //     comboBox.init(newValue, dbClient);
-        //     comboBox.selectFirst();
-        // });
-        TableViewUtil.selectRowOnMouseClicked(comboBox);
-        return comboBox;
-    }
+//    /**
+//     * 获取排序组件
+//     *
+//     * @return 排序组件
+//     */
+//    public DBCollationComboBox getCollationControl() {
+//        if (this.collationControl != null) {
+//            return collationControl;
+//        }
+//        //DamengClient dbClient = CacheHelper.get("dameng:dbClient");
+//        DBCollationComboBox comboBox = new DBCollationComboBox();
+//        this.collationControl = comboBox;
+//        comboBox.init(this.getCharset(), this.dbClient);
+//        comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setCollation(newValue));
+//        comboBox.select(this.getCollation());
+//        // this.charsetProperty.addListener((observable, oldValue, newValue) -> {
+//        //     comboBox.init(newValue, dbClient);
+//        //     comboBox.selectFirst();
+//        // });
+//        TableViewUtil.selectRowOnMouseClicked(comboBox);
+//        return comboBox;
+//    }
 
     /**
      * 获取模式组件
@@ -313,15 +313,6 @@ public class DamengRoutineParam extends DBObjectStatus {
         }
         definition += ")";
         definition = definition.replaceFirst("\\(\\)", "");
-        // 字符集、排序
-        if (DBColumnUtil.supportCharset(this.getType())) {
-            if (StringUtil.isNotBlank(this.getCharset())) {
-                definition += " CHARSET " + this.getCharset();
-            }
-            if (StringUtil.isNotBlank(this.getCollation())) {
-                definition += " COLLATE " + this.getCollation();
-            }
-        }
         return definition;
     }
 
@@ -334,9 +325,10 @@ public class DamengRoutineParam extends DBObjectStatus {
         } else {
             type = dtdIdentifier.substring(0, dtdIdentifier.indexOf("("));
             String sub1 = dtdIdentifier.substring(dtdIdentifier.indexOf("(") + 1, dtdIdentifier.lastIndexOf(")"));
-            if (DBColumnUtil.supportEnum(type)) {
-                this.setValue(sub1);
-            } else if (DBColumnUtil.supportDigits(type) && sub1.contains(",")) {
+//            if (DBColumnUtil.supportEnum(type)) {
+//                this.setValue(sub1);
+//            } else if (DBColumnUtil.supportDigits(type) && sub1.contains(",")) {
+             if (DBColumnUtil.supportDigits(type) && sub1.contains(",")) {
                 String[] arr = sub1.split(",");
                 this.setSize(Integer.parseInt(arr[0]));
                 this.setDigits(Integer.parseInt(arr[1]));
@@ -429,15 +421,15 @@ public class DamengRoutineParam extends DBObjectStatus {
         if (dbClient != null) {
             // 类型变更
             this.typeProperty.addListener((observable, oldValue, newValue) -> {
-                if (DBColumnUtil.supportCharset(this.getType())) {
-                    this.getCharsetControl().enable();
-                    this.getCollationControl().enable();
-                } else {
-                    this.getCharsetControl().disable();
-                    this.getCharsetControl().clearSelection();
-                    this.getCollationControl().disable();
-                    this.getCollationControl().clearSelection();
-                }
+//                if (DBColumnUtil.supportCharset(this.getType())) {
+//                    this.getCharsetControl().enable();
+//                    this.getCollationControl().enable();
+//                } else {
+//                    this.getCharsetControl().disable();
+//                    this.getCharsetControl().clearSelection();
+//                    this.getCollationControl().disable();
+//                    this.getCollationControl().clearSelection();
+//                }
                 if (DBColumnUtil.supportDigits(this.getType())) {
                     this.getDigitsControl().enable();
                 } else {
@@ -458,11 +450,11 @@ public class DamengRoutineParam extends DBObjectStatus {
                 }
             });
 
-            // 字符集变更
-            this.charsetProperty.addListener((observable, oldValue, newValue) -> {
-                this.getCollationControl().init(newValue, dbClient);
-                this.getCollationControl().select(this.getCollation());
-            });
+//            // 字符集变更
+//            this.charsetProperty.addListener((observable, oldValue, newValue) -> {
+//                this.getCollationControl().init(newValue, dbClient);
+//                this.getCollationControl().select(this.getCollation());
+//            });
         }
     }
 }

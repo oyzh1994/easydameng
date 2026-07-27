@@ -956,10 +956,10 @@ public class DamengClient {
                 DamengRecord record = new DamengRecord(columns, param.isReadonly());
                 for (DamengColumn column : columns) {
                     Object data = resultSet.getObject(column.getName());
-                    // 获取几何值
-                    if (column.supportGeometry()) {
-                        data = DamengHelper.getGeometryString(connection, data);
-                    }
+//                    // 获取几何值
+//                    if (column.supportGeometry()) {
+//                        data = DamengHelper.getGeometryString(connection, data);
+//                    }
                     record.putValue(column, data);
                 }
                 records.add(record);
@@ -1013,11 +1013,11 @@ public class DamengClient {
             builder.append(")");
             builder.append(" VALUES(");
             for (String column : param.getRecord().columns()) {
-                if (param.getRecord().isTypeGeometry(column)) {
-                    builder.append("ST_GeomFromText(?),");
-                } else {
+//                if (param.getRecord().isTypeGeometry(column)) {
+//                    builder.append("ST_GeomFromText(?),");
+//                } else {
                     builder.append("?,");
-                }
+//                }
             }
             builder.append(")");
             String sql = builder.toString();
@@ -1110,11 +1110,11 @@ public class DamengClient {
                     .append(DBUtil.wrap(dbName, tableName, this.dialect()))
                     .append(" SET ");
             for (String column : recordData.columns()) {
-                if (recordData.isTypeGeometry(column)) {
-                    builder.append(DBUtil.wrap(column, this.dialect())).append(" = ST_GeomFromText(?),");
-                } else {
+//                if (recordData.isTypeGeometry(column)) {
+//                    builder.append(DBUtil.wrap(column, this.dialect())).append(" = ST_GeomFromText(?),");
+//                } else {
                     builder.append(DBUtil.wrap(column, this.dialect())).append(" = ?,");
-                }
+//                }
             }
             builder.deleteCharAt(builder.length() - 1);
             builder.append(" WHERE ");
@@ -1884,10 +1884,10 @@ public class DamengClient {
                 DamengRecord record = new DamengRecord(columns, !updatable);
                 for (DamengColumn column : columns) {
                     Object data = resultSet.getObject(column.getName());
-                    // 获取几何值
-                    if (column.supportGeometry()) {
-                        data = DamengHelper.getGeometryString(connection, data);
-                    }
+//                    // 获取几何值
+//                    if (column.supportGeometry()) {
+//                        data = DamengHelper.getGeometryString(connection, data);
+//                    }
                     record.putValue(column, data);
                 }
                 records.add(record);
@@ -2559,10 +2559,10 @@ public class DamengClient {
             while (resultSet.next()) {
                 for (DamengColumn column : columns) {
                     Object data = resultSet.getObject(column.getName());
-                    // 获取几何值
-                    if (column.supportGeometry()) {
-                        data = DamengHelper.getGeometryString(connection, data);
-                    }
+//                    // 获取几何值
+//                    if (column.supportGeometry()) {
+//                        data = DamengHelper.getGeometryString(connection, data);
+//                    }
                     record.putValue(column, data);
                 }
             }

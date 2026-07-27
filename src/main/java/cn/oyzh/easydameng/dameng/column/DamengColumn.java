@@ -185,11 +185,11 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
                 return NumberUtil.toDouble(valStr);
             }
         }
-        if (this.supportEnum()) {
-            if (StringUtil.isBlank(valStr) || StringUtil.equalsIgnoreCase(valStr, "null")) {
-                return null;
-            }
-        }
+//        if (this.supportEnum()) {
+//            if (StringUtil.isBlank(valStr) || StringUtil.equalsIgnoreCase(valStr, "null")) {
+//                return null;
+//            }
+//        }
         return defaultValue;
     }
 
@@ -256,23 +256,23 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return DBColumnUtil.suggestSize(this.getType());
     }
 
-    /**
-     * 是否支持长度
-     *
-     * @return 结果
-     */
-    public boolean supportGeometry() {
-        return DBColumnUtil.supportGeometry(this.getType());
-    }
+//    /**
+//     * 是否支持长度
+//     *
+//     * @return 结果
+//     */
+//    public boolean supportGeometry() {
+//        return DBColumnUtil.supportGeometry(this.getType());
+//    }
 
-    /**
-     * 是否支持字符集及排序
-     *
-     * @return 结果
-     */
-    public boolean supportCharset() {
-        return DBColumnUtil.supportCharset(this.getType());
-    }
+//    /**
+//     * 是否支持字符集及排序
+//     *
+//     * @return 结果
+//     */
+//    public boolean supportCharset() {
+//        return DBColumnUtil.supportCharset(this.getType());
+//    }
 
     /**
      * 是否支持无符号
@@ -335,15 +335,6 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
      */
     public boolean supportValue() {
         return DBColumnUtil.supportValue(this.getType());
-    }
-
-    /**
-     * 是否支持填充零
-     *
-     * @return 结果
-     */
-    public boolean supportZeroFill() {
-        return DBColumnUtil.supportZeroFill(this.getType());
     }
 
     /**
@@ -524,9 +515,9 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return DBColumnUtil.supportBinary(this.getType());
     }
 
-    public boolean supportEnum() {
-        return DBColumnUtil.supportEnum(this.getType());
-    }
+//    public boolean supportEnum() {
+//        return DBColumnUtil.supportEnum(this.getType());
+//    }
 
     @Override
     public void initStatus() {
@@ -588,10 +579,11 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         String _type = type.substring(0, type.indexOf("("));
         this.setType(_type);
         String sub1 = type.substring(type.indexOf("(") + 1, type.lastIndexOf(")"));
-        // 枚举
-        if (this.supportEnum()) {
-            this.setValue(sub1);
-        } else if (this.supportDigits() && sub1.contains(",")) {// 小数
+//        // 枚举
+//        if (this.supportEnum()) {
+//            this.setValue(sub1);
+//        }
+        if (this.supportDigits() && sub1.contains(",")) {// 小数
             String[] arr = sub1.split(",");
             this.setSize(Integer.parseInt(arr[0]));
             this.setDigits(Integer.parseInt(arr[1]));
@@ -621,9 +613,10 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
             String type = columnType.substring(0, columnType.indexOf("("));
             this.setType(type.toUpperCase());
             String sub1 = columnType.substring(columnType.indexOf("(") + 1, columnType.lastIndexOf(")"));
-            if (this.supportEnum()) {
-                this.setValue(sub1);
-            } else if (this.supportDigits() && sub1.contains(",")) {
+//            if (this.supportEnum()) {
+//                this.setValue(sub1);
+//            }
+            if (this.supportDigits() && sub1.contains(",")) {
                 String[] arr = sub1.split(",");
                 this.setSize(Integer.parseInt(arr[0]));
                 this.setDigits(Integer.parseInt(arr[1]));

@@ -57,13 +57,6 @@
             </HBox.margin>
         </FXCheckBox>
     </FXHBox>
-    <FXHBox flexWidth="100%" realHeight="30" fx:id="zeroFillBox" managed="false" visible="false">
-        <FXCheckBox fx:id="zeroFill" prefHeight="25" text="%base.zeroFill">
-            <HBox.margin>
-                <Insets left="95" top="5"/>
-            </HBox.margin>
-        </FXCheckBox>
-    </FXHBox>
     <FXHBox flexWidth="100%" realHeight="30" fx:id="primaryKeySizeBox" managed="false" visible="false">
         <AccentLabel realHeight="25" realWidth="80" text="%base.keySize">
             <HBox.margin>

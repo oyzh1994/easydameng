@@ -29,17 +29,17 @@ public class DamengDefaultValueTextFiled extends SelectTextFiled<String> {
     public void init(DamengColumn column, String defaultValue) {
         this.clear();
         this.clearItemList();
-        if (column.supportEnum()) {
-            this.editableFlag = false;
-            this.setEditable(false);
-            this.setItemList(column.getValueList());
-            this.addItem("NULL");
-            if (defaultValue != null) {
-                this.selectItem(defaultValue);
-            } else {
-                this.selectIndex(this.getItemSize());
-            }
-        } else {
+//        if (column.supportEnum()) {
+//            this.editableFlag = false;
+//            this.setEditable(false);
+//            this.setItemList(column.getValueList());
+//            this.addItem("NULL");
+//            if (defaultValue != null) {
+//                this.selectItem(defaultValue);
+//            } else {
+//                this.selectIndex(this.getItemSize());
+//            }
+//        } else {
             this.editableFlag = true;
             this.addItem("");
             this.addItem("EMPTY STRING");
@@ -51,7 +51,7 @@ public class DamengDefaultValueTextFiled extends SelectTextFiled<String> {
                 this.setEditable(false);
                 this.selectIndex(2);
             }
-        }
+//        }
     }
 
     public String getValue() {

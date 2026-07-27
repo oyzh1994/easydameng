@@ -85,9 +85,9 @@ public class DamengSqlTypeFileWriter extends DamengTypeFileWriter {
         if (value == null) {
             return "NULL";
         }
-        if (column.supportGeometry()) {
-            return "ST_GeomFromText('" + value + "')";
-        }
+//        if (column.supportGeometry()) {
+//            return "ST_GeomFromText('" + value + "')";
+//        }
         if (column.isDateType() || column.supportTimestamp()) {
             if (value instanceof LocalDateTime date) {
                 return "'" + DateUtil.format(date, config.getDateFormat()) + "'";
@@ -113,9 +113,9 @@ public class DamengSqlTypeFileWriter extends DamengTypeFileWriter {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-        if (column.supportEnum()) {
-            return "'" + value + "'";
-        }
+//        if (column.supportEnum()) {
+//            return "'" + value + "'";
+//        }
         if (column.supportString()) {
             String str = DBDataUtil.escapeQuotes((String) value);
             return "'" + str + "'";
