@@ -78,7 +78,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
         String line1 = "-- ----------------------------";
         String line2 = "-- Table structure for " + table.getName();
         String line3 = "-- ----------------------------";
-        String dropTable = "DROP TABLE IF EXISTS " + DBUtil.wrap(table.getName(), DBDialect.DAMENG) + ";";
+        String dropTable = "DROP TABLE IF EXISTS " + DBUtil.wrap(table.getName()) + ";";
         String createDefinition = table.getCreateDefinition();
         if (!createDefinition.endsWith(";")) {
             createDefinition += ";";
@@ -135,7 +135,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
                 String line1 = "-- ----------------------------";
                 String line2 = "-- View structure for " + view.getName();
                 String line3 = "-- ----------------------------";
-                String dropTable = "DROP VIEW IF EXISTS " + DBUtil.wrap(view.getName(), DBDialect.DAMENG) + ";";
+                String dropTable = "DROP VIEW IF EXISTS " + DBUtil.wrap(view.getName()) + ";";
                 String createDefinition = this.dbClient.showCreateView(this.dbName, view.getName());
                 if (!createDefinition.endsWith(";")) {
                     createDefinition += ";";
@@ -156,7 +156,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
                 String line1 = "-- ----------------------------";
                 String line2 = "-- Function structure for " + function.getName();
                 String line3 = "-- ----------------------------";
-                String dropFunction = "DROP FUNCTION IF EXISTS " + DBUtil.wrap(function.getName(), DBDialect.DAMENG) + ";";
+                String dropFunction = "DROP FUNCTION IF EXISTS " + DBUtil.wrap(function.getName()) + ";";
                 String line4 = "delimiter ;;";
                 String line5 = ";;";
                 String line6 = "delimiter ;";
@@ -177,7 +177,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
                 String line1 = "-- ----------------------------";
                 String line2 = "-- Procedure structure for " + procedure.getName();
                 String line3 = "-- ----------------------------";
-                String dropProcedure = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(procedure.getName(), DBDialect.DAMENG) + ";";
+                String dropProcedure = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(procedure.getName()) + ";";
                 String line4 = "delimiter ;;";
                 String line5 = ";;";
                 String line6 = "delimiter ;";
@@ -197,7 +197,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
                 String line1 = "-- ----------------------------";
                 String line2 = "-- Trigger structure for " + trigger.getName();
                 String line3 = "-- ----------------------------";
-                String dropTrigger = "DROP TRIGGER IF EXISTS " + DBUtil.wrap(trigger.getName(), DBDialect.DAMENG) + ";";
+                String dropTrigger = "DROP TRIGGER IF EXISTS " + DBUtil.wrap(trigger.getName()) + ";";
                 String line4 = "delimiter ;;";
                 String line5 = ";;";
                 String line6 = "delimiter ;";
@@ -217,7 +217,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
                 String line1 = "-- ----------------------------";
                 String line2 = "-- Event structure for " + event.getName();
                 String line3 = "-- ----------------------------";
-                String dropTrigger = "DROP EVENT IF EXISTS " + DBUtil.wrap(event.getName(), DBDialect.DAMENG) + ";";
+                String dropTrigger = "DROP EVENT IF EXISTS " + DBUtil.wrap(event.getName()) + ";";
                 String line4 = "delimiter ;;";
                 String line5 = ";;";
                 String line6 = "delimiter ;";

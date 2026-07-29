@@ -76,7 +76,7 @@ public class DamengDataTransportHandler extends DataTransportHandler {
     private void transportTable(String tableName) throws InterruptedException {
         this.checkInterrupt();
         // 删除表
-        String dropTable = "DROP TABLE IF EXISTS " + DBUtil.wrap(tableName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP TABLE IF EXISTS " + DBUtil.wrap(tableName) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop Table " + tableName);
         this.processedIncr();
@@ -120,7 +120,7 @@ public class DamengDataTransportHandler extends DataTransportHandler {
     private void transportView(String viewName) throws InterruptedException {
         this.checkInterrupt();
         // 删除视图
-        String dropTable = "DROP VIEW IF EXISTS " + DBUtil.wrap(viewName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP VIEW IF EXISTS " + DBUtil.wrap(viewName) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop View " + viewName);
         this.processedIncr();
@@ -141,7 +141,7 @@ public class DamengDataTransportHandler extends DataTransportHandler {
     private void transportFunction(String functionName) throws InterruptedException {
         this.checkInterrupt();
         // 删除函数
-        String dropTable = "DROP FUNCTION IF EXISTS " + DBUtil.wrap(functionName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP FUNCTION IF EXISTS " + DBUtil.wrap(functionName) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop Function " + functionName);
         this.processedIncr();
@@ -162,7 +162,7 @@ public class DamengDataTransportHandler extends DataTransportHandler {
     private void transportProcedure(String procedureName) throws InterruptedException {
         this.checkInterrupt();
         // 删除过程
-        String dropTable = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(procedureName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(procedureName) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop Procedure " + procedureName);
         this.processedIncr();
@@ -183,7 +183,7 @@ public class DamengDataTransportHandler extends DataTransportHandler {
     private void transportTrigger(String triggerName) throws InterruptedException {
         this.checkInterrupt();
         // 删除触发器
-        String dropTable = "DROP TRIGGER IF EXISTS " + DBUtil.wrap(triggerName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP TRIGGER IF EXISTS " + DBUtil.wrap(triggerName) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop Trigger " + triggerName);
         this.processedIncr();
@@ -204,7 +204,7 @@ public class DamengDataTransportHandler extends DataTransportHandler {
     private void transportEvent(String eventName) throws InterruptedException {
         this.checkInterrupt();
         // 删除事件
-        String dropTable = "DROP EVENT IF EXISTS " + DBUtil.wrap(eventName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP EVENT IF EXISTS " + DBUtil.wrap(eventName) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop Event " + eventName);
         this.processedIncr();

@@ -3,7 +3,6 @@ package cn.oyzh.easydameng.handler;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.easydameng.dameng.DamengClient;
-import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.fx.data.DataTransportEvent;
 import cn.oyzh.easydameng.fx.data.DataTransportFunction;
 import cn.oyzh.easydameng.fx.data.DataTransportProcedure;
@@ -80,10 +79,10 @@ public abstract class DataTransportHandler extends DataHandler {
      */
     protected List<DataTransportEvent> events;
 
-    /**
-     * 方言
-     */
-    private DBDialect dialect;
+//    /**
+//     * 方言
+//     */
+//    private DBDialect dialect;
 
     /**
      * 执行传输
@@ -153,17 +152,14 @@ public abstract class DataTransportHandler extends DataHandler {
     /**
      * 创建新的处理器
      *
-     * @param dialect 方言
+//     * @param dialect 方言
      * @return DataTransportHandler
      */
-    public static DataTransportHandler newHandler(DBDialect dialect) {
-        DataTransportHandler handler = switch (dialect) {
-            case DAMENG -> new DamengDataTransportHandler();
-            default -> null;
-        };
-        if (handler != null) {
-            handler.setDialect(dialect);
-        }
+    public static DataTransportHandler newHandler() {
+        DataTransportHandler handler = new DamengDataTransportHandler();
+//        if (handler != null) {
+//            handler.setDialect(dialect);
+//        }
         return handler;
     }
 
@@ -263,12 +259,12 @@ public abstract class DataTransportHandler extends DataHandler {
         this.events = events;
     }
 
-    public DBDialect getDialect() {
-        return dialect;
-    }
-
-    public void setDialect(DBDialect dialect) {
-        this.dialect = dialect;
-    }
+//    public DBDialect getDialect() {
+//        return dialect;
+//    }
+//
+//    public void setDialect(DBDialect dialect) {
+//        this.dialect = dialect;
+//    }
 }
 

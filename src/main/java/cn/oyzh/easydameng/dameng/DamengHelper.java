@@ -288,7 +288,7 @@ public class DamengHelper {
             for (String s : colArr) {
                 s = s.trim();
                 // Check against Dameng double-quoted identifier
-                if (StringUtil.containsIgnoreCase(s, DBUtil.wrap(columnName, DBDialect.DAMENG))
+                if (StringUtil.containsIgnoreCase(s, DBUtil.wrap(columnName))
                         || StringUtil.containsIgnoreCase(s, columnName)) {
                     // Check for key size like "COL"(32)
                     int idx = s.indexOf("(");

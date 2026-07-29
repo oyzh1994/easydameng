@@ -16,11 +16,8 @@ public class DBConnConfig {
 
     private String serviceName;
 
-    public String getConnectionString(DBDialect dialect) {
-        if (dialect == DBDialect.DAMENG) {
+    public String getConnectionString( ) {
             return "jdbc:dm://" + this.host + ":" + this.port + "/";
-        }
-        return "jdbc:mysql://" + this.host + ":" + this.port + "/";
     }
 
     public String getHost() {

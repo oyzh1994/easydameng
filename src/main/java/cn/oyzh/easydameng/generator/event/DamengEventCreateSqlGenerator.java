@@ -10,13 +10,13 @@ import cn.oyzh.easydameng.util.DBUtil;
  */
 public class DamengEventCreateSqlGenerator extends EventCreateSqlGenerator {
 
-    public DamengEventCreateSqlGenerator() {
-        super(DBDialect.DAMENG);
-    }
+//    public DamengEventCreateSqlGenerator() {
+//        super(DBDialect.DAMENG);
+//    }
 
-    protected DamengEventCreateSqlGenerator(DBDialect dialect) {
-        super(dialect);
-    }
+//    protected DamengEventCreateSqlGenerator(DBDialect dialect) {
+//        super(dialect);
+//    }
 
     @Override
     public String generate(DamengEvent event) {

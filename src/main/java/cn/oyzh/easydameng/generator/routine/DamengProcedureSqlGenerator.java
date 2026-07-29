@@ -25,7 +25,7 @@ public class DamengProcedureSqlGenerator {
         if (StringUtil.isNotBlank(procedure.getDefiner())) {
             sql += " DEFINER = " + procedure.getDefiner();
         }
-        sql += " PROCEDURE " + DBUtil.wrap(procedure.getName(), DBDialect.DAMENG);
+        sql += " PROCEDURE " + DBUtil.wrap(procedure.getName());
         // 参数
         sql += " (";
         List<DamengRoutineParam> params = procedure.getParams();

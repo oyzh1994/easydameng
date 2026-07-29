@@ -650,9 +650,9 @@ public class DamengEventDesignTabController extends RichTabController {
             if (StringUtil.isBlank(temp.getName())) {
                 temp.setName("Unnamed_Event");
             }
-            sql = EventCreateSqlGenerator.generate(this.dbItem.dialect(), temp);
+            sql = EventCreateSqlGenerator.generateSql(temp);
         } else {
-            sql = EventAlertSqlGenerator.generate(this.dbItem.dialect(), temp);
+            sql = EventAlertSqlGenerator.generateSql(temp);
         }
         this.preview.text(sql);
     }

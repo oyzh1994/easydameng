@@ -4,13 +4,13 @@ import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.common.util.UUIDUtil;
-import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.record.DamengInsertRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengRecordData;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
+import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.exception.DBException;
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.SQLUtils;
@@ -235,20 +235,20 @@ public class DBUtil {
     //     return builder.toString();
     // }
 
-    public static String wrap(String name, DBDialect dialect) {
+    public static String wrap(String name) {
         StringBuilder builder = new StringBuilder();
-         if (dialect == DBDialect.DAMENG) {
-            if (!name.startsWith("\"")) {
-                builder.append("\"");
-            }
-            builder.append(name);
-            if (!name.endsWith("\"")) {
-                builder.append("\"");
-            }
-        } else {
-            builder.append(name);
+        if (!name.startsWith("\"")) {
+            builder.append("\"");
+        }
+        builder.append(name);
+        if (!name.endsWith("\"")) {
+            builder.append("\"");
         }
         return builder.toString();
+    }
+
+    public static String wrap(String name,DBDialect dialect) {
+        return wrap(name);
     }
 
     // @Deprecated
@@ -256,11 +256,8 @@ public class DBUtil {
     //     return wrap(dbName) + "." + wrap(tableName);
     // }
 
-    public static String wrap(String dbName, String tableName, DBDialect dialect) {
-        if ( dialect == DBDialect.DAMENG) {
-            return wrap(dbName, dialect) + "." + wrap(tableName, dialect);
-        }
-        return dbName + "." + tableName;
+    public static String wrap(String dbName, String tableName) {
+        return wrap(dbName) + "." + wrap(tableName);
     }
 
     public static Object wrapData(Object val) {
@@ -523,7 +520,7 @@ public class DBUtil {
      * @param dbType 数据库类型
      * @return 结果
      */
-    public static boolean isFullColumn(String sql, DbType dbType) {
+    public static boolean isFullColumn(String sql) {
         sql = removeComment(sql);
         // druid无法解析这些语句，直接返回
         if (StringUtil.startWithAnyIgnoreCase(sql,
@@ -532,6 +529,7 @@ public class DBUtil {
         )) {
             return false;
         }
+        DbType dbType = DbType.dm;
         List<SQLStatement> sqlStatements = SQLUtils.parseStatements(sql, dbType, SQLParserFeature.SkipComments);
         SQLStatement statement = sqlStatements.getFirst();
         SchemaStatVisitor visitor = new SchemaStatVisitor(dbType);
@@ -545,5 +543,9 @@ public class DBUtil {
             }
         }
         return false;
+    }
+
+    public static String wrap(String dbName, String tableName, DBDialect dbDialect) {
+        return wrap(dbName, tableName);
     }
 }

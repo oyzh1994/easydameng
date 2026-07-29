@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.generator.event;
 
-import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.dameng.event.DamengEvent;
+import cn.oyzh.easydameng.db.DBDialect;
 
 /**
  * @author oyzh
@@ -9,26 +9,23 @@ import cn.oyzh.easydameng.dameng.event.DamengEvent;
  */
 public abstract class EventCreateSqlGenerator {
 
-    private DBDialect dialect;
+    //    private DBDialect dialect;
 
-    public EventCreateSqlGenerator(DBDialect dialect) {
-        this.dialect = dialect;
-    }
+//    public EventCreateSqlGenerator(DBDialect dialect) {
+//        this.dialect = dialect;
+//    }
 
     public abstract String generate(DamengEvent event);
 
-    public static String generate(DBDialect dialect, DamengEvent event) {
-        return switch (dialect) {
-            case DAMENG -> new DamengEventCreateSqlGenerator().generate(event);
-            default -> null;
-        };
+    public static String generateSql(DamengEvent event) {
+        return new DamengEventCreateSqlGenerator().generate(event);
     }
-
-    public DBDialect getDialect() {
-        return dialect;
-    }
-
-    public void setDialect(DBDialect dialect) {
-        this.dialect = dialect;
-    }
+    //
+    //    public DBDialect getDialect() {
+    //        return dialect;
+    //    }
+    //
+    //    public void setDialect(DBDialect dialect) {
+    //        this.dialect = dialect;
+    //    }
 }
