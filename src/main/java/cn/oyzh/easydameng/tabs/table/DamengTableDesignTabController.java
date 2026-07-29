@@ -2,17 +2,6 @@ package cn.oyzh.easydameng.tabs.table;
 
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.event.DamengEventUtil;
-import cn.oyzh.easydameng.fx.DBCharsetComboBox;
-import cn.oyzh.easydameng.fx.DBCollationComboBox;
-import cn.oyzh.easydameng.fx.DBEditor;
-import cn.oyzh.easydameng.fx.DBStatusTableView;
-import cn.oyzh.easydameng.fx.table.DamengEngineComboBox;
-import cn.oyzh.easydameng.fx.table.DamengRowFormatComboBox;
-import cn.oyzh.easydameng.generator.table.DamengTableAlertSqlGenerator;
-import cn.oyzh.easydameng.generator.table.DamengTableCreateSqlGenerator;
-import cn.oyzh.easydameng.listener.DBStatusListener;
-import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.check.DamengCheckControl;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
@@ -31,11 +20,17 @@ import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggerControl;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
+import cn.oyzh.easydameng.event.DamengEventUtil;
+import cn.oyzh.easydameng.fx.DBEditor;
+import cn.oyzh.easydameng.fx.DBStatusTableView;
+import cn.oyzh.easydameng.fx.table.DamengEngineComboBox;
+import cn.oyzh.easydameng.generator.table.DamengTableAlertSqlGenerator;
+import cn.oyzh.easydameng.generator.table.DamengTableCreateSqlGenerator;
+import cn.oyzh.easydameng.listener.DBStatusListener;
+import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.fx.gui.tabs.ParentTabController;
 import cn.oyzh.fx.gui.tabs.SubTabController;
-import cn.oyzh.fx.gui.text.field.NumberTextField;
-import cn.oyzh.fx.plus.controls.box.FXHBox;
 import cn.oyzh.fx.plus.controls.tab.FXTabPane;
 import cn.oyzh.fx.plus.controls.text.area.FXTextArea;
 import cn.oyzh.fx.plus.information.MessageBox;
@@ -45,14 +40,12 @@ import cn.oyzh.fx.plus.tableview.TableViewUtil;
 import cn.oyzh.fx.plus.util.FXUtil;
 import cn.oyzh.fx.plus.window.StageManager;
 import cn.oyzh.i18n.I18nHelper;
-import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -366,11 +359,17 @@ public class DamengTableDesignTabController extends ParentTabController {
 
             // this.disableTab();
 
-//            DamengTable table = this.table;
+            //            DamengTable table = this.table;
             // 创建表
             if (this.newData) {
                 DamengCreateTableParam param = this.initCreateParam();
                 param.setTableName(tableName);
+                if (param.getColumns() != null) {
+                    for (DamengColumn column : param.getColumns()) {
+                        column.setDbName(param.dbName());
+                        column.setTableName(param.tableName());
+                    }
+                }
                 this.dbItem.createTable(param);
                 this.table = this.dbItem.selectTable(tableName);
                 this.dbItem.getTableTypeChild().addTable(table);
@@ -387,7 +386,7 @@ public class DamengTableDesignTabController extends ParentTabController {
             this.newData = false;
             // 初始化信息
             FXUtil.runWait(this::initInfo);
-//            this.initInfo();
+            //            this.initInfo();
             // 重置表格
             this.resetTable();
             // 初始化预览
@@ -705,14 +704,14 @@ public class DamengTableDesignTabController extends ParentTabController {
     }
 
     private void initIndexTable() {
-        List list= this.columnTable.getItems();
+        List list = this.columnTable.getItems();
         for (DamengIndexControl index : this.indexTable.itemList()) {
             index.setColumnList(list);
         }
     }
 
     private void initForeignKeyTable() {
-        List list= this.columnTable.getItems();
+        List list = this.columnTable.getItems();
         for (DamengForeignKeyControl foreignKey : this.foreignKeyTable.itemList()) {
             foreignKey.setColumnList(list);
             foreignKey.setDbName(this.dbItem.dbName());
@@ -730,7 +729,13 @@ public class DamengTableDesignTabController extends ParentTabController {
             if (param.tableName() == null) {
                 param.setTableName(I18nHelper.unnamedTable());
             }
-            sql = DamengTableCreateSqlGenerator.generateSql(param);
+            if (param.getColumns() != null) {
+                for (DamengColumn column : param.getColumns()) {
+                    column.setDbName(param.dbName());
+                    column.setTableName(param.tableName());
+                }
+            }
+            sql = DamengTableCreateSqlGenerator.generateSqlSingle(param);
         } else {
             DamengAlertTableParam param = this.initAlertParam();
             sql = DamengTableAlertSqlGenerator.generateSqlSingle(param);
@@ -784,15 +789,15 @@ public class DamengTableDesignTabController extends ParentTabController {
 
         // 初始化信息
         FXUtil.runWait(this::initInfo);
-//        this.initInfo();
+        //        this.initInfo();
 
-//        // 监听组件
-//        DBStatusListenerManager.bindListener(this.tableEngine, this.listener);
-//        DBStatusListenerManager.bindListener(this.tableCharset, this.listener);
-//        DBStatusListenerManager.bindListener(this.tableComment, this.listener);
-//        DBStatusListenerManager.bindListener(this.tableRowFormat, this.listener);
-//        DBStatusListenerManager.bindListener(this.tableCollation, this.listener);
-//        DBStatusListenerManager.bindListener(this.tableAutoIncrement, this.listener);
+        //        // 监听组件
+        //        DBStatusListenerManager.bindListener(this.tableEngine, this.listener);
+        //        DBStatusListenerManager.bindListener(this.tableCharset, this.listener);
+        //        DBStatusListenerManager.bindListener(this.tableComment, this.listener);
+        //        DBStatusListenerManager.bindListener(this.tableRowFormat, this.listener);
+        //        DBStatusListenerManager.bindListener(this.tableCollation, this.listener);
+        //        DBStatusListenerManager.bindListener(this.tableAutoIncrement, this.listener);
 
         // 移除tab
         if (!this.dbItem.isSupportCheckFeature()) {
@@ -945,9 +950,9 @@ public class DamengTableDesignTabController extends ParentTabController {
     //     this.unsaved = unsaved;
     // }
 
-//    @Override
-//    public void destroy() {
-//        this.sqlPreview.destroy();
-//        super.destroy();
-//    }
+    //    @Override
+    //    public void destroy() {
+    //        this.sqlPreview.destroy();
+    //        super.destroy();
+    //    }
 }

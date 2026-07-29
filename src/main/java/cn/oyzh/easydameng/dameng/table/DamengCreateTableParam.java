@@ -62,6 +62,11 @@ public class DamengCreateTableParam {
 
     public void setTableName(String tableName) {
         this.table.setName(tableName);
+//        if (this.columns != null) {
+//            for (DamengColumn column : columns) {
+//                column.setTableName(this.tableName());
+//            }
+//        }
     }
 
     public DamengTable getTable() {

@@ -1955,11 +1955,11 @@ public class DamengClient {
             String dbName = param.dbName();
             connection = this.connection(dbName);
             Statement statement = connection.createStatement();
-            String sql = DamengTableCreateSqlGenerator.generateSql(param);
-            DBUtil.printSql(sql);
-            List<String> sqlList = DBSqlParser.parseSql(sql,DBDialect.DAMENG);
+            List<String> sqlList = DamengTableCreateSqlGenerator.generateSql(param);
+//            List<String> sqlList = DBSqlParser.parseSql(sql, DBDialect.DAMENG);
             connection.setAutoCommit(false);
             for (String sqlStr : sqlList) {
+                DBUtil.printSql(sqlStr);
                 statement.executeUpdate(sqlStr);
             }
             connection.commit();
@@ -2193,7 +2193,7 @@ public class DamengClient {
         Connection connection = null;
         try {
             DBUtil.printSql(sql);
-            DBSqlParser parser = DBSqlParser.getParser(sql,DBDialect.DAMENG);
+            DBSqlParser parser = DBSqlParser.getParser(sql, DBDialect.DAMENG);
             List<String> list = parser.parseSql();
             connection = this.connection(dbName);
             connection.setAutoCommit(false);
@@ -2229,7 +2229,7 @@ public class DamengClient {
         result.setSql(sql);
         try {
             DBUtil.printSql(sql);
-            DBSqlParser parser = DBSqlParser.getParser(sql,DBDialect.DAMENG);
+            DBSqlParser parser = DBSqlParser.getParser(sql, DBDialect.DAMENG);
             String execSql = parser.parseSingleSql();
             connection = this.connection(dbName);
             Statement statement = connection.createStatement();
@@ -2316,9 +2316,9 @@ public class DamengClient {
     //        return DBDialect.DAMENG.dbType();
     //    }
     //
-        public DBDialect dialect() {
-            return DBDialect.DAMENG;
-        }
+    public DBDialect dialect() {
+        return DBDialect.DAMENG;
+    }
 
     public List<DamengFunction> functions(String dbName) {
         try {

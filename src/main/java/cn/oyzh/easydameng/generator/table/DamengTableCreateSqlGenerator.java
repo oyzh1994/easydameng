@@ -11,6 +11,8 @@ import cn.oyzh.easydameng.dameng.index.DamengIndexes;
 import cn.oyzh.easydameng.dameng.table.DamengCreateTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
+import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
+import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.util.ArrayList;
@@ -28,156 +30,115 @@ public class DamengTableCreateSqlGenerator {
 
     private StringBuilder sqlBuilder;
 
-    public String _generate(DamengCreateTableParam param) {
+    private void _generate(DamengCreateTableParam param) {
         this.sqlList = new ArrayList<>();
         this.sqlBuilder = new StringBuilder();
         String dbName = param.dbName();
         String tableName = param.tableName();
         DamengTable table = param.getTable();
-        StringBuilder builder = new StringBuilder();
-        builder.append("CREATE TABLE ")
+        String tableFullName = DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
+
+        this.sqlBuilder.append("CREATE TABLE ")
                 .append(DBUtil.wrap(dbName, tableName))
                 .append(" ( ");
         // 字段
         if (param.hasColumns()) {
-            this.columnHandle(builder, param);
+            this.columnHandle(this.sqlBuilder, param);
         }
         // 主键
-        this.primaryKeyHandle(builder, param);
+        this.primaryKeyHandle(this.sqlBuilder, param);
         // 索引
         if (param.hasIndex()) {
-            this.indexHandle(builder, param);
+            this.indexHandle(this.sqlBuilder, param);
         }
         // 外键
         if (param.hasForeignKey()) {
-            this.foreignKeyHandle(builder, param);
+            this.foreignKeyHandle(this.sqlBuilder, param);
         }
         // 检查
         if (param.hasCheck()) {
-            this.checkHandle(builder, param);
+            this.checkHandle(this.sqlBuilder, param);
         }
-        builder.append(" )");
-        builder.append(";");
-        // 表注释（达梦独立语句）
+
+        StringUtil.deleteLast(this.sqlBuilder, ",");
+
+        this.sqlBuilder.append(")");
+        // 达梦表注释
         if (table.hasComment()) {
-            builder.append("\nCOMMENT ON TABLE ")
-                    .append(DBUtil.wrap(dbName, tableName))
-                    .append(" IS ").append(DBUtil.wrapData(table.getComment()))
-                    .append(";");
+            StringBuilder builder = new StringBuilder();
+            builder.append("COMMENT ON TABLE ").append(tableFullName)
+                    .append(" IS ").append(DBUtil.wrapData(table.getComment())).append(";\n");
+            this.sqlList.add(builder.toString());
         }
         // 表触发器
         if (param.hasTrigger()) {
-            this.triggerHandle(builder, param);
+            this.triggerHandle(param);
         }
-        String sql = builder.toString();
-        sql = sql.replaceAll(",\\)", ")");
-        sql = sql.replaceAll(", \\)", ")");
-        sql = sql.replaceAll(",;", ";");
-        return sql;
     }
 
-    public String generate(DamengCreateTableParam param) {
-        String dbName = param.dbName();
-        DamengTable table = param.getTable();
-        String tableName = param.tableName();
-        StringBuilder builder = new StringBuilder();
-        builder.append("CREATE TABLE ")
-                .append(DBUtil.wrap(dbName, tableName))
-                .append(" ( ");
-        // 字段
-        if (param.hasColumns()) {
-            this.columnHandle(builder, param);
-        }
-        // 主键
-        this.primaryKeyHandle(builder, param);
-        // 索引
-        if (param.hasIndex()) {
-            this.indexHandle(builder, param);
-        }
-        // 外键
-        if (param.hasForeignKey()) {
-            this.foreignKeyHandle(builder, param);
-        }
-        // 检查
-        if (param.hasCheck()) {
-            this.checkHandle(builder, param);
-        }
-        builder.append(" )");
-        builder.append(";");
-        // 表注释（达梦独立语句）
-        if (table.hasComment()) {
-            builder.append("\nCOMMENT ON TABLE ")
-                    .append(DBUtil.wrap(dbName, tableName))
-                    .append(" IS ").append(DBUtil.wrapData(table.getComment()))
-                    .append(";");
-        }
-        // 表触发器
-        if (param.hasTrigger()) {
-            this.triggerHandle(builder, param);
-        }
-        String sql = builder.toString();
-        sql = sql.replaceAll(",\\)", ")");
-        sql = sql.replaceAll(", \\)", ")");
-        sql = sql.replaceAll(",;", ";");
-        return sql;
+    public List<String> generate(DamengCreateTableParam param) {
+        this._generate(param);
+        return this.buildSql();
     }
+
     public String generateSingle(DamengCreateTableParam param) {
-        String dbName = param.dbName();
-        DamengTable table = param.getTable();
-        String tableName = param.tableName();
-        StringBuilder builder = new StringBuilder();
-        builder.append("CREATE TABLE ")
-                .append(DBUtil.wrap(dbName, tableName))
-                .append(" ( ");
-        // 字段
-        if (param.hasColumns()) {
-            this.columnHandle(builder, param);
-        }
-        // 主键
-        this.primaryKeyHandle(builder, param);
-        // 索引
-        if (param.hasIndex()) {
-            this.indexHandle(builder, param);
-        }
-        // 外键
-        if (param.hasForeignKey()) {
-            this.foreignKeyHandle(builder, param);
-        }
-        // 检查
-        if (param.hasCheck()) {
-            this.checkHandle(builder, param);
-        }
-        builder.append(" )");
-        builder.append(";");
-        // 表注释（达梦独立语句）
-        if (table.hasComment()) {
-            builder.append("\nCOMMENT ON TABLE ")
-                    .append(DBUtil.wrap(dbName, tableName))
-                    .append(" IS ").append(DBUtil.wrapData(table.getComment()))
-                    .append(";");
-        }
-        // 表触发器
-        if (param.hasTrigger()) {
-            this.triggerHandle(builder, param);
-        }
-        String sql = builder.toString();
-        sql = sql.replaceAll(",\\)", ")");
-        sql = sql.replaceAll(", \\)", ")");
-        sql = sql.replaceAll(",;", ";");
-        return sql;
+        this._generate(param);
+        return this.buildSqlSingle();
     }
 
-    protected void triggerHandle(StringBuilder builder, DamengCreateTableParam param) {
-        for (DamengTrigger trigger : param.getTriggers()) {
-            builder.append("CREATE OR REPLACE TRIGGER ")
-                    .append(DBUtil.wrap(trigger.getName()))
-                    .append(" ")
-                    .append(trigger.getPolicy())
-                    .append(" ON ")
-                    .append(DBUtil.wrap(param.tableName()))
-                    .append(" FOR EACH ROW\nBEGIN\n")
-                    .append(trigger.getDefinition().endsWith(";") ? trigger.getDefinition() : trigger.getDefinition() + ";")
-                    .append("\nEND;");
+    private List<String> buildSql() {
+        //        StringBuilder builder = new StringBuilder();
+        //        builder.append(this.sqlBuilder);
+        //        for (String sql : sqlList) {
+        //            builder.append("\n").append(sql);
+        //        }
+        //        return builder.toString().trim();
+        this.sqlList.addFirst(this.sqlBuilder.toString().trim());
+        return this.sqlList;
+    }
+
+    private String buildSqlSingle() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(this.sqlBuilder.toString().trim());
+        for (String sql : this.sqlList) {
+            builder.append("\n").append(sql);
+        }
+        return builder.toString().trim();
+    }
+
+    private String buildSqlNoComma() {
+        String result = this.sqlBuilder.toString();
+        result = result.replaceAll(",\n", "\n");
+        result = result.replaceAll(",;", ";");
+        return result.trim();
+    }
+
+    protected void triggerHandle(DamengCreateTableParam param) {
+        DamengTriggers triggers = param.getTriggers();
+        for (DamengTrigger trigger : triggers) {
+            if (DamengTriggers.isDeleted(trigger) || DamengTriggers.isChanged(trigger)) {
+                StringBuilder builder = new StringBuilder();
+                builder.append("DROP TRIGGER ")
+                        .append(DBUtil.wrap(trigger.originalName(), DBDialect.DAMENG))
+                        .append(";");
+                this.sqlList.add(builder.toString());
+            }
+            if (DamengTriggers.isChanged(trigger) || DamengTriggers.isCreated(trigger)) {
+                StringBuilder builder = new StringBuilder();
+                String body = trigger.getDefinition().trim();
+                if (!body.endsWith(";")) {
+                    body = body + ";";
+                }
+                builder.append("CREATE OR REPLACE TRIGGER ")
+                        .append(DBUtil.wrap(trigger.getName(), DBDialect.DAMENG))
+                        .append(" ")
+                        .append(trigger.getPolicy())
+                        .append(" ON ")
+                        .append(DBUtil.wrap(param.tableName(), DBDialect.DAMENG))
+                        .append(" FOR EACH ROW BEGIN ")
+                        .append(body).append(" END;");
+                this.sqlList.add(builder.toString());
+            }
         }
     }
 
@@ -205,20 +166,24 @@ public class DamengTableCreateSqlGenerator {
             if (!isIdentity && column.supportDefaultValue() && column.getDefaultValue() != null) {
                 builder.append(" DEFAULT ").append(DBUtil.wrapData(column.getDefaultValueString()));
             }
+
             // 可为null
             if (column.isNullable()) {
                 builder.append(" NULL");
             } else {
                 builder.append(" NOT NULL");
             }
+
+            // 达梦自增列使用 IDENTITY
             if (isIdentity) {
                 builder.append(" IDENTITY(1,1)");
             }
+
             // 达梦列注释使用独立COMMENT ON COLUMN语句，ALTER TABLE中跳过
             if (column.hasComment()) {
                 String commentSql = """
-                            COMMENT ON COLUMN "$1"."$2"."$3" IS '$4';
-                            """;
+                        COMMENT ON COLUMN "$1"."$2"."$3" IS '$4';
+                        """;
                 commentSql = commentSql.replace("$1", column.getDbName());
                 commentSql = commentSql.replace("$2", column.getTableName());
                 commentSql = commentSql.replace("$3", column.getName());
@@ -227,6 +192,8 @@ public class DamengTableCreateSqlGenerator {
             }
             builder.append(",");
         }
+//        // 删除最后一个字符
+//        StringUtil.deleteLast(builder, ",");
     }
 
     protected void primaryKeyHandle(StringBuilder builder, DamengCreateTableParam param) {
@@ -246,6 +213,7 @@ public class DamengTableCreateSqlGenerator {
                 }
                 builder.append(",");
             }
+            // 删除最后一个字符
             StringUtil.deleteLast(builder, ",");
             builder.append("),");
         }
@@ -283,17 +251,18 @@ public class DamengTableCreateSqlGenerator {
                 builder.append(DBUtil.wrap(column)).append(",");
             }
             StringUtil.deleteLast(builder, ",");
-            builder.append(")");
-            builder.append(" REFERENCES ")
-                    .append(DBUtil.wrap(foreignKey.getPrimaryKeyDatabase(), foreignKey.getPrimaryKeyTable()))
+            builder.append(")")
+                    .append(" REFERENCES ")
+                    .append(DBUtil.wrap(foreignKey.getPrimaryKeyDatabase(), foreignKey.getPrimaryKeyTable(), DBDialect.DAMENG))
                     .append(" (");
             for (String column : foreignKey.getPrimaryKeyColumns()) {
                 builder.append(DBUtil.wrap(column)).append(",");
             }
             StringUtil.deleteLast(builder, ",");
             builder.append(")")
-                    .append(" ON DELETE ")
-                    .append(foreignKey.getDeletePolicy());
+                    .append(" ON DELETE ").append(foreignKey.getDeletePolicy())
+                    .append(" ON UPDATE ").append(foreignKey.getUpdatePolicy());
+            // 拼接,
             builder.append(",");
         }
     }
@@ -314,7 +283,9 @@ public class DamengTableCreateSqlGenerator {
      * 规范化字段类型，移除MySQL式显示宽度（如INT(10)→INT）
      */
     private static String normalizeType(String type) {
-        if (type == null) return "";
+        if (type == null)
+            return "";
+        // 达梦不支持显示宽度的类型：INT(10), BIGINT(20), TINYINT(4), SMALLINT(6) 等
         String upper = type.toUpperCase();
         if (upper.matches("(TINYINT|SMALLINT|INT|INTEGER|BIGINT|MEDIUMINT)\\s*\\(\\s*\\d+\\s*\\)")) {
             return upper.replaceAll("\\(.*\\)", "").trim();
@@ -322,7 +293,12 @@ public class DamengTableCreateSqlGenerator {
         return type;
     }
 
-    public static String generateSql(DamengCreateTableParam param) {
+    public static List<String> generateSql(DamengCreateTableParam param) {
         return new DamengTableCreateSqlGenerator().generate(param);
     }
+
+    public static String generateSqlSingle(DamengCreateTableParam param) {
+        return new DamengTableCreateSqlGenerator().generateSingle(param);
+    }
+
 }
