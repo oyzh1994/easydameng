@@ -2,9 +2,10 @@ package cn.oyzh.easydameng.dameng.record;
 
 
 import cn.oyzh.common.object.Destroyable;
-import cn.oyzh.easydameng.db.DBObjectStatus;
+import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
+import cn.oyzh.easydameng.db.DBObjectStatus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -210,20 +211,37 @@ public class DamengRecord extends DBObjectStatus implements Destroyable {
         }
     }
 
+    /**
+     * 获取记录数据
+     *
+     * @return 结果
+     */
     public DamengRecordData getRecordData() {
         DamengRecordData recordData = new DamengRecordData();
         for (String column : this.columns()) {
             DamengRecordProperty property = this.getProperty(column);
-            if (property != null) {
-                Object value = property.get();
-                if (value != null) {
-                    recordData.put(property.getColumn(), value);
-                }
+            if (property == null) {
+                continue;
             }
+            Object value = property.get();
+            if (value == null) {
+                continue;
+            }
+            // TODO: 时间戳处理
+            DamengColumn col = this.columns == null ? null : this.columns.column(column);
+            if (col != null && col.supportTimestamp() && StringUtil.equalsIgnoreCase(value.toString(), "CURRENT_TIMESTAMP")) {
+                continue;
+            }
+            recordData.put(property.getColumn(), value);
         }
         return recordData;
     }
 
+    /**
+     * 获取变更后记录数据
+     *
+     * @return 结果
+     */
     public DamengRecordData getChangedRecordData() {
         DamengRecordData recordData = new DamengRecordData();
         for (String column : this.columns()) {
@@ -235,6 +253,11 @@ public class DamengRecord extends DBObjectStatus implements Destroyable {
         return recordData;
     }
 
+    /**
+     * 获取原始记录数据
+     *
+     * @return 结果
+     */
     public DamengRecordData getOriginalRecordData() {
         DamengRecordData recordData = new DamengRecordData();
         for (String column : this.columns()) {
@@ -249,8 +272,15 @@ public class DamengRecord extends DBObjectStatus implements Destroyable {
         return recordData;
     }
 
+    /**
+     * 字段是否变更
+     *
+     * @param column 字段
+     * @return 结果
+     */
     public boolean isColumnChanged(String column) {
-        return false;
+        DamengRecordProperty property = this.getProperty(column);
+        return property != null && property.isChanged();
     }
 
     public Map<String, Object> toMap() {
@@ -261,9 +291,18 @@ public class DamengRecord extends DBObjectStatus implements Destroyable {
         return map;
     }
 
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
     @Override
     public void destroy() {
         if (this.properties != null) {
+            this.columns.clear();
             this.columns = null;
             for (DamengRecordProperty property : this.properties.values()) {
                 property.destroy();
@@ -271,13 +310,5 @@ public class DamengRecord extends DBObjectStatus implements Destroyable {
             this.properties.clear();
             this.properties = null;
         }
-    }
-
-    public boolean isEditable() {
-        return editable;
-    }
-
-    public void setEditable(boolean editable) {
-        this.editable = editable;
     }
 }

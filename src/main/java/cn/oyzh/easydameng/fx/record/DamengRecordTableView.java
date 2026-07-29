@@ -3,6 +3,7 @@ package cn.oyzh.easydameng.fx.record;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengRecordProperty;
 import cn.oyzh.fx.plus.controls.table.FXTableView;
+import javafx.scene.control.SelectionMode;
 
 /**
  * @author oyzh
@@ -10,9 +11,9 @@ import cn.oyzh.fx.plus.controls.table.FXTableView;
  */
 public class DamengRecordTableView extends FXTableView<DamengRecord> {
 
-//    {
-//        this.setRowFactory(param -> new DamengRecordTableRow());
-//    }
+    {
+        this.setRowFactory(param -> new DamengRecordTableRow());
+    }
 
     /**
      * 是否存在记录属性
@@ -46,9 +47,11 @@ public class DamengRecordTableView extends FXTableView<DamengRecord> {
 
     @Override
     public void initNode() {
+        this.setSelectionMode(SelectionMode.MULTIPLE);
         this.setRowFactory(param -> new DamengRecordTableRow());
-//        super.fakerMultipleSelection();
-        //        super.setHeaderHeight(45);
+        // 监听移除
+        super.destroyItemsOnRemoved();
+        //        super.fakerMultipleSelection();
         super.initNode();
     }
 }
