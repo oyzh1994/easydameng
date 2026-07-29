@@ -16,8 +16,6 @@
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="cn.oyzh.easydameng.tabs.view.DamengViewRecordTabController" flexWidth="100%" flexHeight="100%"
         fx:id="root">
-    <DamengRecordTableView fx:id="recordTable" flexHeight="100% - 40" flexWidth="100%" tableMenuButtonVisible="true">
-    </DamengRecordTableView>
     <FXHBox realHeight="40" flexWidth="100%">
         <DeleteSVGGlyph groupId="action2" onMousePrimaryClicked="#deleteRecord" managed="false"
                         visible="false" managedBindVisible="true">
@@ -68,4 +66,6 @@
             </HBox.margin>
         </PageBox>
     </FXHBox>
+    <DamengRecordTableView fixedCellSize="30" fx:id="recordTable" flexHeight="100% - 30" flexWidth="100%" tableMenuButtonVisible="true">
+    </DamengRecordTableView>
 </FXVBox>

@@ -61,22 +61,27 @@ public class DBColumnUtil {
         DBColumnField intField = new DBColumnField("INT");
         intField.supportInteger = true;
         intField.supportDefaultValue = true;
+        intField.supportAutoIncrement = true;
 
         DBColumnField integerField = new DBColumnField("INTEGER");
         integerField.supportInteger = true;
         integerField.supportDefaultValue = true;
+        integerField.supportAutoIncrement = true;
 
         DBColumnField bigintFiled = new DBColumnField("BIGINT");
         bigintFiled.supportInteger = true;
         bigintFiled.supportDefaultValue = true;
+        bigintFiled.supportAutoIncrement = true;
 
         DBColumnField smallintFiled = new DBColumnField("SMALLINT");
         smallintFiled.supportInteger = true;
         smallintFiled.supportDefaultValue = true;
+        smallintFiled.supportAutoIncrement = true;
 
         DBColumnField tinyintField = new DBColumnField("TINYINT");
         tinyintField.supportInteger = true;
         tinyintField.supportDefaultValue = true;
+        tinyintField.supportAutoIncrement = true;
 
         DBColumnField floatField = new DBColumnField("FLOAT");
         floatField.supportDigits = true;
@@ -95,6 +100,7 @@ public class DBColumnUtil {
         decimalField.supportSize = true;
         decimalField.supportDigits = true;
         decimalField.supportDefaultValue = true;
+        decimalField.supportAutoIncrement = true;
 
         DBColumnField numericField = new DBColumnField("NUMERIC");
         numericField.suggestSize = 20;

@@ -45,6 +45,7 @@ import cn.oyzh.fx.plus.tableview.TableViewUtil;
 import cn.oyzh.fx.plus.util.FXUtil;
 import cn.oyzh.fx.plus.window.StageManager;
 import cn.oyzh.i18n.I18nHelper;
+import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -116,101 +117,11 @@ public class DamengTableDesignTabController extends ParentTabController {
     @FXML
     private DBStatusTableView<DamengColumnControl> columnTable;
 
-    // /**
-    //  * 字段状态列
-    //  */
-    // @FXML
-    // private DBStatusColumn<DamengColumnControl> colStatus;
-    //
-    // /**
-    //  * 字段名称列
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengColumnControl, String> colName;
-    //
-    // /**
-    //  * 字段类型列
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengColumnControl, String> colType;
-    //
-    // /**
-    //  * 字段长度
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengColumnControl, Integer> colSize;
-    //
-    // /**
-    //  * 字段小数点列
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengColumnControl, Integer> colDigits;
-    //
-    // /**
-    //  * 字段是否主键列
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengColumnControl, Boolean> colPrimaryKey;
-    //
-    // /**
-    //  * 字段可为null列
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengColumnControl, Boolean> colNullable;
-    //
-    // /**
-    //  * 字段注释列
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengColumnControl, String> colComment;
-
-    // /**
-    //  * 字段配置
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengColumnControl, String> colConfig;
-
     /**
      * 表索引组件
      */
     @FXML
     private DBStatusTableView<DamengIndexControl> indexTable;
-
-    // /**
-    //  * 索引状态列
-    //  */
-    // @FXML
-    // private DBStatusColumn<DamengIndexControl> indexStatus;
-    //
-    // /**
-    //  * 索引名称列
-    //  */
-    // @FXML
-    // private TableColumn<DamengIndexControl, String> indexName;
-    //
-    // /**
-    //  * 索引字段列
-    //  */
-    // @FXML
-    // private TableColumn<DamengIndexControl, String> indexColumn;
-    //
-    // /**
-    //  * 索引类型列
-    //  */
-    // @FXML
-    // private TableColumn<DamengIndexControl, String> indexType;
-    //
-    // /**
-    //  * 索引方法列
-    //  */
-    // @FXML
-    // private TableColumn<DamengIndexControl, String> indexMethod;
-    //
-    // /**
-    //  * 索引注释列
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengIndexControl, String> indexComment;
 
     /**
      * 表外键组件
@@ -218,58 +129,10 @@ public class DamengTableDesignTabController extends ParentTabController {
     @FXML
     private DBStatusTableView<DamengForeignKeyControl> foreignKeyTable;
 
-    // /**
-    //  * 外键状态列
-    //  */
-    // @FXML
-    // private DBStatusColumn<DamengForeignKeyControl> foreignKeyStatus;
-    //
-    // /**
-    //  * 外键名称列
-    //  */
-    // @FXML
-    // private TableColumn<DamengForeignKeyControl, String> foreignKeyName;
-    //
-    // /**
-    //  * 外键字段列
-    //  */
-    // @FXML
-    // private TableColumn<DamengForeignKeyControl, String> foreignKeyColumn;
-    //
-    // /**
-    //  * 外键引用库
-    //  */
-    // @FXML
-    // private TableColumn<DamengForeignKeyControl, String> foreignKeyPKDatabase;
-    //
-    // /**
-    //  * 外键引用表
-    //  */
-    // @FXML
-    // private TableColumn<DamengForeignKeyControl, String> foreignKeyPKTable;
-    //
-    // /**
-    //  * 外键引用字段
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengForeignKeyControl, String> foreignKeyPKColumn;
-    //
-    // /**
-    //  * 外键删除策略
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengForeignKeyControl, String> foreignKeyDeletePolicy;
-    //
-    // /**
-    //  * 外键更新策略
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengForeignKeyControl, String> foreignKeyUpdatePolicy;
-
     /**
      * db表
      */
-    private DamengTable damengTable;
+    private DamengTable table;
 
     /**
      * 触发器组件
@@ -277,68 +140,16 @@ public class DamengTableDesignTabController extends ParentTabController {
     @FXML
     private DBStatusTableView<DamengTriggerControl> triggerTable;
 
-    // /**
-    //  * 删除的触发器
-    //  */
-    // private final List<DamengTrigger> deletedTriggers = new ArrayList<>();
-
-    // /**
-    //  * 触发器状态
-    //  */
-    // @FXML
-    // private DBStatusColumn<DamengTriggerControl> triggerStatus;
-    //
-    // /**
-    //  * 触发器名称
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengTriggerControl, String> triggerName;
-    //
-    // /**
-    //  * 触发器策略
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengTriggerControl, String> triggerPolicy;
-    //
-    // /**
-    //  * 触发器定义
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengTriggerControl, String> triggerDefinition;
-
     /**
      * 检查器组件
      */
     @FXML
     private DBStatusTableView<DamengCheckControl> checkTable;
 
-    // /**
-    //  * 检查器状态
-    //  */
-    // @FXML
-    // private DBStatusColumn<DamengCheckControl> checkStatus;
-    //
-    // /**
-    //  * 检查器名称
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengCheckControl, String> checkName;
-    //
-    // /**
-    //  * 检查器子语句
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengCheckControl, String> checkClause;
-
     /**
      * db库节点
      */
     private DamengDatabaseTreeItem dbItem;
-
-    // /**
-    //  * db库节点
-    //  */
-    // private DamengTableTreeItem tableItem;
 
     /**
      * 数据监听器
@@ -374,25 +185,29 @@ public class DamengTableDesignTabController extends ParentTabController {
         return (DamengAlertTableParam) this.initParam(false);
     }
 
+    /**
+     * 初始化参数
+     *
+     * @param isCreate 是否新建
+     * @return 结果
+     */
     private Object initParam(boolean isCreate) {
         DamengTable tempTable = new DamengTable();
         // 数据库
-        tempTable.setDbName(this.damengTable.getDbName());
+        tempTable.setDbName(this.table.getDbName());
 
         // 表名称
-        if (!this.newData) {
-            tempTable.setName(this.damengTable.getName());
-        }
+        tempTable.setName(this.table.getName());
 
         // 注释
         String comment = this.tableComment.getText();
-        if (!StringUtil.equals(comment, this.damengTable.getComment())) {
+        if (!StringUtil.equals(comment, this.table.getComment())) {
             tempTable.setComment(comment);
         }
 
         // 引擎
         String engine = this.tableEngine.getSelectedItem();
-        if (!StringUtil.equalsIgnoreCase(engine, this.damengTable.getEngine())) {
+        if (!StringUtil.equalsIgnoreCase(engine, this.table.getEngine())) {
             tempTable.setEngine(engine);
         }
 
@@ -460,12 +275,33 @@ public class DamengTableDesignTabController extends ParentTabController {
     }
 
     /**
+     * 刷新
+     */
+    @FXML
+    private void refresh() {
+        if (!MessageBox.confirm(I18nHelper.refreshData() + "?")) {
+            return;
+        }
+        try {
+            this.init(this.table, this.dbItem);
+            this.flushTab();
+        } catch (Exception ex) {
+            MessageBox.exception(ex);
+        }
+    }
+
+    /**
      * 保存db表
      */
     @FXML
     private void save() {
         StageManager.showMask(this::doSave);
     }
+
+    /**
+     * 表名称
+     */
+    private String tableName;
 
     /**
      * 执行保存
@@ -519,26 +355,24 @@ public class DamengTableDesignTabController extends ParentTabController {
                 }
             }
 
-            String tableName;
-            // 表名称
             if (this.newData) {
-                tableName = MessageBox.prompt(I18nHelper.pleaseInputTableName());
+                tableName = MessageBox.prompt(I18nHelper.pleaseInputTableName(), tableName);
                 if (tableName == null) {
                     return;
                 }
             } else {
-                tableName = this.damengTable.getName();
+                tableName = this.table.getName();
             }
 
             // this.disableTab();
 
-            DamengTable table = this.damengTable;
+//            DamengTable table = this.table;
             // 创建表
             if (this.newData) {
                 DamengCreateTableParam param = this.initCreateParam();
                 param.setTableName(tableName);
                 this.dbItem.createTable(param);
-                table = this.dbItem.selectTable(tableName);
+                this.table = this.dbItem.selectTable(tableName);
                 this.dbItem.getTableTypeChild().addTable(table);
                 DamengEventUtil.tableAdded(this.dbItem);
             } else {// 修改表
@@ -547,10 +381,13 @@ public class DamengTableDesignTabController extends ParentTabController {
                 DamengEventUtil.tableAlerted(tableName, this.dbItem);
             }
             // this.dbItem.getTableTypeChild().reloadChild();
-            // 判断结果
+            // 重置保存标志位
             this.unsaved = false;
+            // 更新新数据标志位
+            this.newData = false;
             // 初始化信息
-            this.initInfo(table);
+            FXUtil.runWait(this::initInfo);
+//            this.initInfo();
             // 重置表格
             this.resetTable();
             // 初始化预览
@@ -586,32 +423,18 @@ public class DamengTableDesignTabController extends ParentTabController {
         this.foreignKeyTable.reset();
     }
 
-    // protected void resetAllTable() throws Exception {
-    //     this.indexTable.reset();
-    //     this.checkTable.reset();
-    //     this.columnTable.reset();
-    //     this.triggerTable.reset();
-    //     this.foreignKeyTable.reset();
-    // }
-
     /**
      * 初始化信息
      */
-    protected void initInfo(DamengTable table) {
+    protected void initInfo() {
         // 更新初始化标志位
         this.initiating = true;
-        this.damengTable = table;
-        this.newData = table.isNew();
         // 新数据
-        if (table.isNew()) {
-            // this.newData = true;
-            this.damengTable = new DamengTable();
-            this.damengTable.setDbName(this.dbItem.dbName());
-            // this.damengTable.setName(I18nHelper.unnamedTable());
+        if (this.newData) {
+            this.unsaved = true;
             this.initNew();
         } else {// 已有数据
-            // this.newData = false;
-            this.damengTable = this.dbItem.selectFullTable(table.getName());
+            this.table = this.dbItem.selectFullTable(table.getName());
             this.initNormal();
         }
         // 标记为结束
@@ -623,6 +446,7 @@ public class DamengTableDesignTabController extends ParentTabController {
      */
     protected void initNew() {
         NodeGroupUtil.display(this.getTab(), "action2");
+        NodeGroupUtil.disappear(this.getTab(), "action3");
         // 重载表数据
         this.tableEngine.select("innoDB");
     }
@@ -631,12 +455,12 @@ public class DamengTableDesignTabController extends ParentTabController {
      * 初始化信息
      */
     protected void initNormal() {
-        // this.moveUp.disappear();
         NodeGroupUtil.disappear(this.getTab(), "action2");
+        NodeGroupUtil.display(this.getTab(), "action3");
 
         // 基本信息
-        this.tableEngine.select(this.damengTable.getEngine());
-        this.tableComment.setText(this.damengTable.getComment());
+        this.tableEngine.select(this.table.getEngine());
+        this.tableComment.text(this.table.getComment());
 
         // 检查器
         if (this.dbItem.isSupportCheckFeature()) {
@@ -684,28 +508,6 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
     }
 
-    // /**
-    //  * 上移字段
-    //  */
-    // private void moveColumnUp() {
-    //     try {
-    //         TableViewUtil.moveUp(this.columnTable);
-    //     } catch (Exception ex) {
-    //         MessageBox.exception(ex);
-    //     }
-    // }
-
-    // /**
-    //  * 下移字段
-    //  */
-    // private void moveColumnDown() {
-    //     try {
-    //         TableViewUtil.moveDown(this.columnTable);
-    //     } catch (Exception ex) {
-    //         MessageBox.exception(ex);
-    //     }
-    // }
-
     /**
      * 新增索引
      */
@@ -720,23 +522,6 @@ public class DamengTableDesignTabController extends ParentTabController {
      * 删除索引
      */
     private void deleteIndex() {
-        // try {
-        //     DamengIndex index = this.indexTable.getSelectedItem();
-        //     if (index == null) {
-        //         return;
-        //     }
-        //     // 从table移除数据
-        //     if (index.isCreated()) {
-        //         this.indexTable.removeItem(index);
-        //         return;
-        //     }
-        //     // 删除数据
-        //     if (MessageBox.confirm(I18nHelper.deleteIndex() + " " + index.getName())) {
-        //         index.setDeleted(true);
-        //     }
-        // } catch (Exception ex) {
-        //     MessageBox.exception(ex);
-        // }
         try {
             DamengIndex index = this.indexTable.getSelectedItem();
             if (index == null) {
@@ -754,28 +539,6 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
     }
 
-    // /**
-    //  * 上移索引
-    //  */
-    // private void moveIndexUp() {
-    //     try {
-    //         TableViewUtil.moveUp(this.indexTable);
-    //     } catch (Exception ex) {
-    //         MessageBox.exception(ex);
-    //     }
-    // }
-
-    // /**
-    //  * 下移索引
-    //  */
-    // private void moveIndexDown() {
-    //     try {
-    //         TableViewUtil.moveDown(this.indexTable);
-    //     } catch (Exception ex) {
-    //         MessageBox.exception(ex);
-    //     }
-    // }
-
     /**
      * 新增外键
      */
@@ -790,24 +553,6 @@ public class DamengTableDesignTabController extends ParentTabController {
      * 删除外键
      */
     private void deleteForeignKey() {
-        // try {
-        //     DamengForeignKey foreignKey = this.foreignKeyTable.getSelectedItem();
-        //     if (foreignKey == null) {
-        //         return;
-        //     }
-        //     // 从table移除数据
-        //     if (foreignKey.isCreated()) {
-        //         this.foreignKeyTable.removeItem(foreignKey);
-        //         return;
-        //     }
-        //     // 删除数据
-        //     if (MessageBox.confirm(I18nHelper.deleteForeignKey() + " " + foreignKey.getName())) {
-        //         foreignKey.setDeleted(true);
-        //         this.foreignKeyTable.removeItem(foreignKey);
-        //     }
-        // } catch (Exception ex) {
-        //     MessageBox.exception(ex);
-        // }
         try {
             DamengForeignKey foreignKey = this.foreignKeyTable.getSelectedItem();
             if (foreignKey == null) {
@@ -825,28 +570,6 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
     }
 
-    // /**
-    //  * 上移外键
-    //  */
-    // private void moveForeignKeyUp() {
-    //     try {
-    //         TableViewUtil.moveUp(this.foreignKeyTable);
-    //     } catch (Exception ex) {
-    //         MessageBox.exception(ex);
-    //     }
-    // }
-
-    // /**
-    //  * 下移外键
-    //  */
-    // private void moveForeignKeyDown() {
-    //     try {
-    //         TableViewUtil.moveDown(this.foreignKeyTable);
-    //     } catch (Exception ex) {
-    //         MessageBox.exception(ex);
-    //     }
-    // }
-
     /**
      * 新增触发器
      */
@@ -861,26 +584,6 @@ public class DamengTableDesignTabController extends ParentTabController {
      * 删除触发器
      */
     private void deleteTrigger() {
-        // try {
-        //     DamengTrigger trigger = this.triggerTable.getSelectedItem();
-        //     if (trigger == null) {
-        //         return;
-        //     }
-        //     // 从table移除数据
-        //     if (trigger.isCreated()) {
-        //         this.triggerTable.removeItem(trigger);
-        //         return;
-        //     }
-        //     // 删除数据
-        //     if (MessageBox.confirm(I18nHelper.deleteTrigger() + " " + trigger.getName())) {
-        //         trigger.setDeleted(true);
-        //         this.save();
-        //         // this.triggerTable.removeItem(trigger);
-        //         // this.deletedTriggers.add(trigger);
-        //     }
-        // } catch (Exception ex) {
-        //     MessageBox.exception(ex);
-        // }
         try {
             DamengTrigger trigger = this.triggerTable.getSelectedItem();
             if (trigger == null) {
@@ -898,28 +601,6 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
     }
 
-    // /**
-    //  * 上移触发器
-    //  */
-    // private void moveTriggerUp() {
-    //     try {
-    //         TableViewUtil.moveUp(this.triggerTable);
-    //     } catch (Exception ex) {
-    //         MessageBox.exception(ex);
-    //     }
-    // }
-
-    // /**
-    //  * 下移触发器
-    //  */
-    // private void moveTriggerDown() {
-    //     try {
-    //         TableViewUtil.moveDown(this.triggerTable);
-    //     } catch (Exception ex) {
-    //         MessageBox.exception(ex);
-    //     }
-    // }
-
     /**
      * 新增检查
      */
@@ -934,24 +615,6 @@ public class DamengTableDesignTabController extends ParentTabController {
      * 删除检查
      */
     private void deleteCheck() {
-        // try {
-        //     DamengCheck check = this.checkTable.getSelectedItem();
-        //     if (check == null) {
-        //         return;
-        //     }
-        //     // 从table移除数据
-        //     if (check.isCreated()) {
-        //         this.checkTable.removeItem(check);
-        //         return;
-        //     }
-        //     // 删除数据
-        //     if (MessageBox.confirm(I18nHelper.deleteCheck() + " " + check.getName())) {
-        //         check.setDeleted(true);
-        //         this.save();
-        //     }
-        // } catch (Exception ex) {
-        //     MessageBox.exception(ex);
-        // }
         try {
             DamengCheck check = this.checkTable.getSelectedItem();
             if (check == null) {
@@ -969,67 +632,11 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
     }
 
-    // /**
-    //  * 上移检查
-    //  */
-    // private void moveCheckUp() {
-    //     try {
-    //         TableViewUtil.moveUp(this.checkTable);
-    //     } catch (Exception ex) {
-    //         MessageBox.exception(ex);
-    //     }
-    // }
-
-    // /**
-    //  * 下移检查
-    //  */
-    // private void moveCheckDown() {
-    //     try {
-    //         TableViewUtil.moveDown(this.checkTable);
-    //     } catch (Exception ex) {
-    //         MessageBox.exception(ex);
-    //     }
-    // }
 
     /**
      * 初始化列表控件
      */
     private void initTable() {
-        // // 字段
-        // this.colName.setCellValueFactory(new PropertyValueFactory<>("nameControl"));
-        // this.colType.setCellValueFactory(new PropertyValueFactory<>("typeControl"));
-        // this.colSize.setCellValueFactory(new PropertyValueFactory<>("sizeControl"));
-        // this.colDigits.setCellValueFactory(new PropertyValueFactory<>("digitsControl"));
-        // this.colComment.setCellValueFactory(new PropertyValueFactory<>("commentControl"));
-        // this.colNullable.setCellValueFactory(new PropertyValueFactory<>("nullableControl"));
-        // this.colPrimaryKey.setCellValueFactory(new PropertyValueFactory<>("primaryKeyControl"));
-        // this.colConfig.setCellValueFactory(new PropertyValueFactory<>("configControl"));
-
-        // // 索引
-        // this.indexName.setCellValueFactory(new PropertyValueFactory<>("nameControl"));
-        // this.indexColumn.setCellValueFactory(new PropertyValueFactory<>("columnControl"));
-        // this.indexType.setCellValueFactory(new PropertyValueFactory<>("typeControl"));
-        // this.indexMethod.setCellValueFactory(new PropertyValueFactory<>("methodControl"));
-        // this.indexComment.setCellValueFactory(new PropertyValueFactory<>("commentControl"));
-
-        // // 外键
-        // this.foreignKeyName.setCellValueFactory(new PropertyValueFactory<>("nameControl"));
-        // this.foreignKeyColumn.setCellValueFactory(new PropertyValueFactory<>("columnControl"));
-        // this.foreignKeyPKTable.setCellValueFactory(new PropertyValueFactory<>("primaryKeyTableControl"));
-        // this.foreignKeyDeletePolicy.setCellValueFactory(new PropertyValueFactory<>("deletePolicyControl"));
-        // this.foreignKeyUpdatePolicy.setCellValueFactory(new PropertyValueFactory<>("updatePolicyControl"));
-        // this.foreignKeyPKColumn.setCellValueFactory(new PropertyValueFactory<>("primaryKeyColumnControl"));
-        // this.foreignKeyPKDatabase.setCellValueFactory(new PropertyValueFactory<>("primaryKeyDatabaseControl"));
-
-        // // 触发器
-        // this.triggerName.setCellValueFactory(new PropertyValueFactory<>("nameControl"));
-        // this.triggerPolicy.setCellValueFactory(new PropertyValueFactory<>("policyControl"));
-        // this.triggerDefinition.setCellValueFactory(new PropertyValueFactory<>("definitionControl"));
-
-        // // 触发器
-        // this.checkName.setCellValueFactory(new PropertyValueFactory<>("nameControl"));
-        // this.checkClause.setCellValueFactory(new PropertyValueFactory<>("clauseControl"));
-
         // 表单保存事件
         this.indexTable.setCtrlSAction(this::save);
         this.checkTable.setCtrlSAction(this::save);
@@ -1047,9 +654,7 @@ public class DamengTableDesignTabController extends ParentTabController {
             this.initIndexTable();
             this.initForeignKeyTable();
         });
-
     }
-
 
     @Override
     protected void bindListeners() {
@@ -1061,13 +666,17 @@ public class DamengTableDesignTabController extends ParentTabController {
         this.tabPane.selectedItemChanged((observable, oldValue, newValue) -> {
             String tabId = newValue == null ? null : newValue.getId();
             if (StringUtil.equalsAny(tabId, "columnTab", "indexTab", "foreignKeyTab", "triggerTab", "checkTab")) {
+                // this.add.display();
                 NodeGroupUtil.display(this.getTab(), "action1");
                 if (this.newData) {
+                    // this.moveUp.display();
                     NodeGroupUtil.display(this.getTab(), "action2");
                 }
             } else {
+                // this.add.disappear();
                 NodeGroupUtil.disappear(this.getTab(), "action1");
                 if (this.newData) {
+                    // this.moveUp.disappear();
                     NodeGroupUtil.disappear(this.getTab(), "action2");
                 }
             }
@@ -1076,22 +685,9 @@ public class DamengTableDesignTabController extends ParentTabController {
                 this.initPreview();
             }
         });
-        // 初始化监听器
-        this.listener = new DBStatusListener() {
-            @Override
-            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                initChangedFlag();
-            }
-        };
-
-        // 监听列表变化
-        this.checkTable.setStatusListener(this.listener);
-        this.indexTable.setStatusListener(this.listener);
-        this.columnTable.setStatusListener(this.listener);
-        this.triggerTable.setStatusListener(this.listener);
-        this.foreignKeyTable.setStatusListener(this.listener);
 
         this.columnTable.selectedIndexChanged((observable, oldValue, newValue) -> this.tableColumnExtraController.init(this.columnTable.getSelectedItem(), this.dbItem.client()));
+
         // 初始化索引列表
         this.indexTable.itemList().addListener((ListChangeListener<DamengIndex>) c -> {
             while (c.next() && (c.wasAdded() || c.wasReplaced())) {
@@ -1147,6 +743,13 @@ public class DamengTableDesignTabController extends ParentTabController {
         super.initialize(location, resourceBundle);
         // 初始化表单
         this.initTable();
+        // // 组件管理
+        // this.delete.visibleProperty().bind(this.add.visibleProperty());
+        // this.delete.managedProperty().bind(this.add.managedProperty());
+        // this.moveDown.visibleProperty().bind(this.moveUp.visibleProperty());
+        // this.moveDown.managedProperty().bind(this.moveUp.managedProperty());
+        // this.tableRowFormat.managedBindVisible();
+        // this.tableAutoIncrementBox.managedBindVisible();
     }
 
     /**
@@ -1158,19 +761,68 @@ public class DamengTableDesignTabController extends ParentTabController {
     public void init(DamengTable table, DamengDatabaseTreeItem dbItem) throws Exception {
         // 获取对象
         this.dbItem = dbItem;
+        this.table = table;
+        // 更新新数据标志位
+        this.newData = table.isNew();
+        this.table.setDbName(this.dbItem.dbName());
+        StageManager.showMask(this::doInit);
+    }
+
+    /**
+     * 执行初始化
+     */
+    private void doInit() {
+        // 初始化监听器
+        this.initDBListener();
+
         // 初始化引擎
         this.tableEngine.init(this.dbItem.client());
 
-        // 初始化信息
-        this.initInfo(table);
+        //// 设置缓存
+        //CacheHelper.set("mysql:dbName", this.dbItem.dbName());
+        //CacheHelper.set("mysql:dbClient", this.dbItem.client());
 
-        // 监听组件
-        DBStatusListenerManager.bindListener(this.tableEngine, this.listener);
-        DBStatusListenerManager.bindListener(this.tableComment, this.listener);
+        // 初始化信息
+        FXUtil.runWait(this::initInfo);
+//        this.initInfo();
+
+//        // 监听组件
+//        DBStatusListenerManager.bindListener(this.tableEngine, this.listener);
+//        DBStatusListenerManager.bindListener(this.tableCharset, this.listener);
+//        DBStatusListenerManager.bindListener(this.tableComment, this.listener);
+//        DBStatusListenerManager.bindListener(this.tableRowFormat, this.listener);
+//        DBStatusListenerManager.bindListener(this.tableCollation, this.listener);
+//        DBStatusListenerManager.bindListener(this.tableAutoIncrement, this.listener);
 
         // 移除tab
         if (!this.dbItem.isSupportCheckFeature()) {
             this.tabPane.removeTab("checkTab");
+        }
+    }
+
+    /**
+     * 初始化数据监听器
+     */
+    private void initDBListener() {
+        if (this.listener == null) {
+            // 初始化监听器
+            this.listener = new DBStatusListener() {
+                @Override
+                public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+                    initChangedFlag();
+                }
+            };
+
+            // 监听列表变化
+            this.checkTable.setStatusListener(this.listener);
+            this.indexTable.setStatusListener(this.listener);
+            this.columnTable.setStatusListener(this.listener);
+            this.triggerTable.setStatusListener(this.listener);
+            this.foreignKeyTable.setStatusListener(this.listener);
+
+            // 监听组件
+            DBStatusListenerManager.bindListener(this.tableEngine, this.listener);
+            DBStatusListenerManager.bindListener(this.tableComment, this.listener);
         }
     }
 
@@ -1265,11 +917,11 @@ public class DamengTableDesignTabController extends ParentTabController {
     }
 
     public String tableName() {
-        return this.damengTable.getName();
+        return this.table.getName();
     }
 
     public String dbName() {
-        return this.damengTable.getDbName();
+        return this.table.getDbName();
     }
 
     @Override
@@ -1281,7 +933,21 @@ public class DamengTableDesignTabController extends ParentTabController {
         return dbItem;
     }
 
+    // public void setDbItem(ShellMysqlDatabaseTreeItem dbItem) {
+    //     this.dbItem = dbItem;
+    // }
+
     public boolean isUnsaved() {
         return unsaved;
     }
+
+    // public void setUnsaved(boolean unsaved) {
+    //     this.unsaved = unsaved;
+    // }
+
+//    @Override
+//    public void destroy() {
+//        this.sqlPreview.destroy();
+//        super.destroy();
+//    }
 }

@@ -21,6 +21,7 @@
 <?import cn.oyzh.fx.plus.controls.text.area.FXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
+<?import cn.oyzh.fx.gui.svg.glyph.RefreshSVGGlyph?>
 <FXVBox xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="cn.oyzh.easydameng.tabs.table.DamengTableDesignTabController" flexWidth="100%" flexHeight="100%">
     <FXHBox realHeight="25" flexWidth="100%">
@@ -52,22 +53,27 @@
                 <Insets left="10" top="10"/>
             </HBox.margin>
         </MoveDownSVGGlyph>
+        <RefreshSVGGlyph groupId="action3" onMousePrimaryClicked="#refresh"
+                         managedBindVisible="true" visible="false">
+            <HBox.margin>
+                <Insets left="10" top="10"/>
+            </HBox.margin>
+        </RefreshSVGGlyph>
     </FXHBox>
     <DamengDesignTabPane fx:id="tabPane" flexWidth="100%" flexHeight="100% - 25">
         <FixedTab text="%base.fields" fx:id="columnTab">
             <FXVBox flexHeight="100% " flexWidth="100%">
-                <DBStatusTableView fx:id="columnTable" flexHeight="100% - 200" flexWidth="100%">
+                <DBStatusTableView fixedCellSize="30" fx:id="columnTable" flexHeight="100% - 200" flexWidth="100%">
                     <columns>
                         <DBStatusColumn/>
                         <FXTableColumn flexWidth="15%" valueName="nameControl" text="%base.name" resizable="true"/>
                         <FXTableColumn flexWidth="15%" valueName="typeControl" text="%base.type" resizable="true"/>
-                        <FXTableColumn maxWidth="80" realWidth="80" valueName="sizeControl" text="%base.length"/>
-                        <FXTableColumn maxWidth="80" realWidth="80" valueName="digitsControl" text="%base.digits"/>
-                        <FXTableColumn maxWidth="60" realWidth="60" valueName="primaryKeyControl" text="%base.key"/>
-                        <FXTableColumn maxWidth="80" realWidth="80" valueName="nullableControl" text="%base.nullable"/>
+                        <FXTableColumn realWidth="80" valueName="sizeControl" text="%base.length"/>
+                        <FXTableColumn realWidth="80" valueName="digitsControl" text="%base.digits"/>
+                        <FXTableColumn realWidth="60" valueName="primaryKeyControl" text="%base.key"/>
+                        <FXTableColumn realWidth="80" valueName="nullableControl" text="%base.nullable"/>
                         <FXTableColumn flexWidth="70% - 460" valueName="commentControl" text="%base.comment"
                                        resizable="true"/>
-                        <!-- <FXTableColumn realWidth="50" fx:id="colConfig" text="%base.config"/> -->
                     </columns>
                 </DBStatusTableView>
                 <fx:include fx:id="tableColumnExtra" source="damengTableColumnExtra.fxml"/>
@@ -88,7 +94,7 @@
             <DBStatusTableView fx:id="foreignKeyTable" flexHeight="100%" flexWidth="100%">
                 <columns>
                     <DBStatusColumn/>
-                    <FXTableColumn flexWidth="40% - 273" valueName="nameControl" text="%base.name" resizable="true"/>
+                    <FXTableColumn flexWidth="40% - 280" valueName="nameControl" text="%base.name" resizable="true"/>
                     <FXTableColumn flexWidth="18%" valueName="columnControl" text="%base.fields" resizable="true"/>
                     <FXTableColumn flexWidth="12%" valueName="primaryKeyDatabaseControl" text="%base.referencedSchema"
                                    resizable="true"/>
@@ -105,7 +111,7 @@
             <DBStatusTableView fx:id="triggerTable" flexHeight="100%" flexWidth="100%">
                 <columns>
                     <DBStatusColumn/>
-                    <FXTableColumn flexWidth="45% - 283" valueName="nameControl" text="%base.name" resizable="true"/>
+                    <FXTableColumn flexWidth="45% - 290" valueName="nameControl" text="%base.name" resizable="true"/>
                     <FXTableColumn realWidth="250" valueName="policyControl" text="%base.policy"/>
                     <FXTableColumn flexWidth="55%" valueName="definitionControl" text="%base.definition"
                                    resizable="true"/>
@@ -113,11 +119,11 @@
             </DBStatusTableView>
         </FixedTab>
         <FixedTab text="%base.checks" fx:id="checkTab">
-            <DBStatusTableView fx:id="checkTable" flexHeight="100%" flexWidth="100%">
+            <DBStatusTableView fixedCellSize="30" fx:id="checkTable" flexHeight="100%" flexWidth="100%">
                 <columns>
                     <DBStatusColumn/>
                     <FXTableColumn flexWidth="30%" valueName="nameControl" text="%base.name" resizable="true"/>
-                    <FXTableColumn flexWidth="70% - 30" valueName="clauseControl" text="%base.clause"
+                    <FXTableColumn flexWidth="70% - 40" valueName="clauseControl" text="%base.clause"
                                    resizable="true"/>
                 </columns>
             </DBStatusTableView>
@@ -130,8 +136,9 @@
                             <Insets left="20" top="10"/>
                         </HBox.margin>
                     </AccentLabel>
-                    <DamengEngineComboBox tipText="%base.engine" fx:id="tableEngine" realHeight="30" flexWidth="100% - 140"
-                                         initIndex="0">
+                    <DamengEngineComboBox tipText="%base.engine" fx:id="tableEngine" realHeight="30"
+                                              flexWidth="100% - 140"
+                                              initIndex="0">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>

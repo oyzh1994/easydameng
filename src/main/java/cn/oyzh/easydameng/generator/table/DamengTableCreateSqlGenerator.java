@@ -1,5 +1,6 @@
 package cn.oyzh.easydameng.generator.table;
 
+import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
@@ -128,9 +129,19 @@ public class DamengTableCreateSqlGenerator {
         if (!keyList.isEmpty()) {
             builder.append(" PRIMARY KEY (");
             for (DamengColumn column : keyList) {
-                builder.append(DBUtil.wrap(column.getName(), DAMENG))
-                        .append(",");
+                builder.append(DBUtil.wrap(column.getName(), DAMENG));
+                if (column.supportKeySize()) {
+                    if (column.getPrimaryKeySize() != null) {
+                        builder.append("(").append(column.getPrimaryKeySize()).append(")");
+                    } else if (column.getSize() != null) {
+                        builder.append("(").append(Math.min(column.getSize(), 100)).append(")");
+                    } else {
+                        builder.append("(100)");
+                    }
+                }
+                builder.append(",");
             }
+            StringUtil.deleteLast(builder, ",");
             builder.append("),");
         }
     }
@@ -148,7 +159,8 @@ public class DamengTableCreateSqlGenerator {
                 builder.append(DBUtil.wrap(column.getColumnName(), DAMENG));
                 builder.append(",");
             }
-            builder.append(") ");
+            StringUtil.deleteLast(builder, ",");
+            builder.append(")");
             if (index.methodName() != null) {
                 builder.append(" USING ").append(index.methodName());
             }
@@ -165,6 +177,7 @@ public class DamengTableCreateSqlGenerator {
             for (String column : foreignKey.getColumns()) {
                 builder.append(DBUtil.wrap(column, DAMENG)).append(",");
             }
+            StringUtil.deleteLast(builder, ",");
             builder.append(")");
             builder.append(" REFERENCES ")
                     .append(DBUtil.wrap(foreignKey.getPrimaryKeyDatabase(), foreignKey.getPrimaryKeyTable(), DAMENG))
@@ -172,6 +185,7 @@ public class DamengTableCreateSqlGenerator {
             for (String column : foreignKey.getPrimaryKeyColumns()) {
                 builder.append(DBUtil.wrap(column, DAMENG)).append(",");
             }
+            StringUtil.deleteLast(builder, ",");
             builder.append(")")
                     .append(" ON DELETE ")
                     .append(foreignKey.getDeletePolicy());

@@ -17,8 +17,12 @@ import cn.oyzh.fx.plus.tableview.TableViewUtil;
 import cn.oyzh.fx.plus.util.ClipboardUtil;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 
 import java.util.concurrent.atomic.LongAdder;
 
@@ -65,10 +69,6 @@ public class DamengRecordProperty extends SimpleObjectProperty<Object> implement
      */
     private final boolean readonly;
 
-    // public DamengRecordProperty(DamengColumn column, Object value) {
-    //     this(column, value, false);
-    // }
-
     public DamengRecordProperty(DamengRecord record, DamengColumn column, Object value, boolean readonly) {
         super(value);
         this.column = column;
@@ -79,16 +79,6 @@ public class DamengRecordProperty extends SimpleObjectProperty<Object> implement
         }
         this.readonly = readonly;
     }
-
-    // public DamengRecordProperty(DamengRecord record, DamengColumn column, Object value, boolean readonly) {
-    //     super(value);
-    //     this.record = record;
-    //     this.column = column;
-    //     if (!readonly) {
-    //         this.original = value;
-    //     }
-    //     this.readonly = readonly;
-    // }
 
     @Override
     public Object get() {
@@ -126,7 +116,7 @@ public class DamengRecordProperty extends SimpleObjectProperty<Object> implement
     @Override
     public Object getValue() {
         if (this.readonly) {
-//            if (this.readonly || !this.record.isEditable()) {
+//        if (this.readonly || !this.record.isEditable()) {
             return DBRecordUtil.formatValue(super.getValue(), this.column);
         }
         if (this.node == null) {
@@ -137,7 +127,21 @@ public class DamengRecordProperty extends SimpleObjectProperty<Object> implement
 //                ADDER.increment();
 //                System.out.println("adder:" + ADDER.longValue());
 //            }
+            if(node instanceof Region region){
+               region.paddingProperty().addListener(new ChangeListener<Insets>() {
+                   @Override
+                   public void changed(ObservableValue<? extends Insets> observable, Insets oldValue, Insets newValue) {
+                       System.out.println(newValue);
+                       if(newValue!=null&&newValue.getTop()==0){
+                           System.out.println("---1");
+                       }
+                   }
+               });
+            }
         }
+//        if(node instanceof Region region){
+//            System.out.println(region.getPadding());
+//        }
         return this.node;
     }
 
