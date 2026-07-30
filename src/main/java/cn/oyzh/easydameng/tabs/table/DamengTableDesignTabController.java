@@ -23,7 +23,7 @@ import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBEditor;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
-import cn.oyzh.easydameng.fx.table.DamengEngineComboBox;
+import cn.oyzh.easydameng.fx.table.DamengTableSpaceComboBox;
 import cn.oyzh.easydameng.generator.table.DamengTableAlertSqlGenerator;
 import cn.oyzh.easydameng.generator.table.DamengTableCreateSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
@@ -87,10 +87,10 @@ public class DamengTableDesignTabController extends ParentTabController {
     private FXTabPane tabPane;
 
     /**
-     * 引擎
+     * 表空间
      */
     @FXML
-    private DamengEngineComboBox tableEngine;
+    private DamengTableSpaceComboBox tableSpace;
 
     /**
      * 注释
@@ -198,10 +198,10 @@ public class DamengTableDesignTabController extends ParentTabController {
             tempTable.setComment(comment);
         }
 
-        // 引擎
-        String engine = this.tableEngine.getSelectedItem();
-        if (!StringUtil.equalsIgnoreCase(engine, this.table.getEngine())) {
-            tempTable.setEngine(engine);
+        // 表空间
+        String tableSpace = this.tableSpace.getSelectedItem();
+        if (!StringUtil.equalsIgnoreCase(tableSpace, this.table.getTableSpace())) {
+            tempTable.setTableSpace(tableSpace);
         }
 
         // 字段处理
@@ -446,8 +446,8 @@ public class DamengTableDesignTabController extends ParentTabController {
     protected void initNew() {
         NodeGroupUtil.display(this.getTab(), "action2");
         NodeGroupUtil.disappear(this.getTab(), "action3");
-        // 重载表数据
-        this.tableEngine.select("innoDB");
+        //        // 重载表数据
+        //        this.tableEngine.select("innoDB");
     }
 
     /**
@@ -458,8 +458,8 @@ public class DamengTableDesignTabController extends ParentTabController {
         NodeGroupUtil.display(this.getTab(), "action3");
 
         // 基本信息
-        this.tableEngine.select(this.table.getEngine());
         this.tableComment.text(this.table.getComment());
+        this.tableSpace.select(this.table.getTableSpace());
 
         // 检查器
         if (this.dbItem.isSupportCheckFeature()) {
@@ -658,9 +658,9 @@ public class DamengTableDesignTabController extends ParentTabController {
     @Override
     protected void bindListeners() {
         super.bindListeners();
-        // 引擎选中事件
-        this.tableEngine.selectedItemChanged((observable, oldValue, newValue) -> {
-        });
+        //        // 引擎选中事件
+        //        this.tableEngine.selectedItemChanged((observable, oldValue, newValue) -> {
+        //        });
         // 表格下标监听
         this.tabPane.selectedItemChanged((observable, oldValue, newValue) -> {
             String tabId = newValue == null ? null : newValue.getId();
@@ -781,7 +781,7 @@ public class DamengTableDesignTabController extends ParentTabController {
         this.initDBListener();
 
         // 初始化引擎
-        this.tableEngine.init(this.dbItem.client());
+        this.tableSpace.init(this.dbItem.client());
 
         //// 设置缓存
         //CacheHelper.set("mysql:dbName", this.dbItem.dbName());
@@ -826,7 +826,7 @@ public class DamengTableDesignTabController extends ParentTabController {
             this.foreignKeyTable.setStatusListener(this.listener);
 
             // 监听组件
-            DBStatusListenerManager.bindListener(this.tableEngine, this.listener);
+            DBStatusListenerManager.bindListener(this.tableSpace, this.listener);
             DBStatusListenerManager.bindListener(this.tableComment, this.listener);
         }
     }

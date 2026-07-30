@@ -3,6 +3,7 @@ package cn.oyzh.easydameng.dameng.trigger;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.fx.table.DamengTriggerPolicyComboBox;
 import cn.oyzh.easydameng.util.DBUtil;
+import cn.oyzh.fx.editor.incubator.control.EditorEnlargeTextFiled;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.gui.text.field.EnlargeTextFiled;
 import cn.oyzh.fx.plus.tableview.TableViewUtil;
@@ -43,8 +44,8 @@ public class DamengTriggerControl extends DamengTrigger {
         return comboBox;
     }
 
-    public EnlargeTextFiled getDefinitionControl() {
-        EnlargeTextFiled textField = new EnlargeTextFiled();
+    public EditorEnlargeTextFiled getDefinitionControl() {
+        EditorEnlargeTextFiled textField = new EditorEnlargeTextFiled();
         textField.setPromptText(I18nHelper.pleaseInputContent());
         textField.addTextChangeListener((observable, oldValue, newValue) -> this.setDefinition(newValue));
         textField.setText(this.getDefinition());

@@ -827,12 +827,13 @@ public class DamengClient {
             if (param.isFull()) {
                 String sql = """
                             SELECT 
-                                T.TABLE_NAME, C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "ENGINE" 
+                                T.TABLE_NAME, C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "TABLE_SPACE" 
                             FROM 
                                 ALL_TABLES T 
                             LEFT JOIN 
                                 ALL_TAB_COMMENTS C 
-                            ON T.OWNER = C.OWNER 
+                            ON 
+                                T.OWNER = C.OWNER 
                             AND 
                                T.TABLE_NAME = C.TABLE_NAME 
                             WHERE 
@@ -845,14 +846,14 @@ public class DamengClient {
                 DBUtil.printMetaData(resultSet);
                 while (resultSet.next()) {
                     DamengTable table = new DamengTable();
-                    String tableEngine = resultSet.getString("ENGINE");
                     String tableName = resultSet.getString("TABLE_NAME");
+                    String tableSpace = resultSet.getString("TABLE_SPACE");
                     String tableComment = resultSet.getString("TABLE_COMMENT");
                     String showCreateTable = this.showCreateTable(dbName, tableName);
                     table.setDbName(dbName);
                     table.setName(tableName);
-                    table.setEngine(tableEngine);
                     table.setComment(tableComment);
+                    table.setTableSpace(tableSpace);
                     table.setCreateDefinition(showCreateTable);
                     tables.add(table);
                 }
@@ -1359,10 +1360,7 @@ public class DamengClient {
         }
     }
 
-    public List<String> engines() {
-        if (this.hasProperty("engines")) {
-            return this.getProperty("engines");
-        }
+    public List<String> tableSpaces() {
         try {
             List<String> engines = new ArrayList<>();
             String sql = "SELECT TABLESPACE_NAME FROM DBA_TABLESPACES WHERE STATUS = 0";
@@ -1374,7 +1372,6 @@ public class DamengClient {
                 engines.add(resultSet.getString(1));
             }
             DBUtil.close(statement);
-            this.putProperty("engines", engines);
             return engines;
         } catch (Exception ex) {
             throw new DBException(ex);
@@ -1438,7 +1435,7 @@ public class DamengClient {
             if (param.isFull()) {
                 String sql = """
                             SELECT 
-                                C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "ENGINE" 
+                                C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "TABLE_SPACE" 
                             FROM 
                                 ALL_TABLES T 
                             LEFT JOIN 
@@ -1460,10 +1457,10 @@ public class DamengClient {
                 DBUtil.printMetaData(resultSet);
                 String showCreateTable = this.showCreateTable(dbName, tableName);
                 while (resultSet.next()) {
-                    String tableEngine = resultSet.getString("ENGINE");
+                    String tableSpace = resultSet.getString("TABLE_SPACE");
                     String tableComment = resultSet.getString("TABLE_COMMENT");
-                    table.setEngine(tableEngine);
                     table.setComment(tableComment);
+                    table.setTableSpace(tableSpace);
                     table.setCreateDefinition(showCreateTable);
                 }
                 DBUtil.close(resultSet);
@@ -1500,7 +1497,7 @@ public class DamengClient {
             Connection connection = this.connection(dbName);
             String sql = """
                             SELECT 
-                                C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "ENGINE" 
+                                C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "TABLE_SPACE" 
                             FROM 
                                 ALL_TABLES T 
                             LEFT JOIN 
@@ -1522,10 +1519,10 @@ public class DamengClient {
             DBUtil.printMetaData(resultSet);
             String showCreateTable = this.showCreateTable(dbName, tableName);
             while (resultSet.next()) {
-                String tableEngine = resultSet.getString("ENGINE");
+                String tableSpace = resultSet.getString("TABLE_SPACE");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
-                table.setEngine(tableEngine);
                 table.setComment(tableComment);
+                table.setTableSpace(tableSpace);
                 table.setCreateDefinition(showCreateTable);
             }
             DBUtil.close(resultSet);

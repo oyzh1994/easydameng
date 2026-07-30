@@ -92,6 +92,13 @@ public class DamengTableAlertSqlGenerator {
                 this.endStatement();
             }
         }
+        // 达梦表空间修改
+        if (table.hasTableSpace()) {
+            StringBuilder builder=new StringBuilder();
+            builder.append("ALTER TABLE ").append(tableFullName)
+                    .append(" MOVE TABLESPACE ").append(table.getTableSpace()).append(";\n");
+            this.sqlList.add(builder.toString());
+        }
         // 达梦表注释
         if (table.hasComment()) {
             this.sqlBuilder.append("COMMENT ON TABLE ").append(tableFullName)
@@ -122,12 +129,6 @@ public class DamengTableAlertSqlGenerator {
     }
 
     private List<String> buildSql() {
-        //        StringBuilder builder = new StringBuilder();
-        //        builder.append(this.sqlBuilder);
-        //        for (String sql : sqlList) {
-        //            builder.append("\n").append(sql);
-        //        }
-        //        return builder.toString().trim();
         this.sqlList.add(this.sqlBuilder.toString().trim());
         return this.sqlList;
     }
@@ -139,13 +140,6 @@ public class DamengTableAlertSqlGenerator {
             builder.append("\n").append(sql);
         }
         return builder.toString().trim();
-    }
-
-    private String buildSqlNoComma() {
-        String result = this.sqlBuilder.toString();
-        result = result.replaceAll(",\n", "\n");
-        result = result.replaceAll(",;", ";");
-        return result.trim();
     }
 
     protected void triggerHandle(DamengAlertTableParam param) {

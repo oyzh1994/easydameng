@@ -22,35 +22,31 @@ public class DamengTable extends DBObjectStatus implements ObjectCopier<DamengTa
     private String createDefinition;
 
     /**
-     * 引擎
+     * 表空间
      */
-    private String engine;
+    private String tableSpace;
 
-    public void setEngine(String engine) {
-        this.engine = engine;
-        super.putOriginalData("engine", engine);
+    public void setTableSpace(String tableSpace) {
+        this.tableSpace = tableSpace;
+        super.putOriginalData("tableSpace", tableSpace);
     }
 
-    public boolean isEngineChanged() {
-        return super.checkOriginalData("engine", this.engine);
+    public boolean isTableSpaceChanged() {
+        return super.checkOriginalData("tableSpace", this.tableSpace);
     }
 
-    public boolean hasEngine() {
-        return this.getEngine() != null;
+    public boolean hasTableSpace() {
+        return this.getTableSpace() != null;
     }
 
     @Override
     public void copy(DamengTable table) {
         if (table != null) {
-            this.setEngine(table.getEngine());
             this.setComment(table.getComment());
+            this.setTableSpace(table.getTableSpace());
             this.setHasPrimaryKey(table.isHasPrimaryKey());
             this.setCreateDefinition(table.getCreateDefinition());
         }
-    }
-
-    public boolean isInnoDB() {
-        return "innodb".equalsIgnoreCase(this.getEngine());
     }
 
     /**
@@ -147,8 +143,8 @@ public class DamengTable extends DBObjectStatus implements ObjectCopier<DamengTa
         this.createDefinition = createDefinition;
     }
 
-    public String getEngine() {
-        return engine;
+    public String getTableSpace() {
+        return tableSpace;
     }
 
     public String getDbName() {

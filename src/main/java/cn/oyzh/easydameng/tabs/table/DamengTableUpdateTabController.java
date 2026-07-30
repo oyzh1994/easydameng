@@ -26,7 +26,7 @@
 // import cn.oyzh.easydameng.fx.DBCollationComboBox;
 // import cn.oyzh.easydameng.fx.DBStatusColumn;
 // import cn.oyzh.easydameng.fx.DBStatusTableView;
-// import cn.oyzh.easydameng.fx.table.DamengEngineComboBox;
+// import cn.oyzh.easydameng.fx.table.DamengTableSpaceComboBox;
 // import cn.oyzh.easydameng.fx.table.DamengRowFormatComboBox;
 // import cn.oyzh.easydameng.generator.table.DamengTableAlertSqlGenerator;
 // import cn.oyzh.easydameng.generator.table.DamengTableCreateSqlGenerator;
@@ -101,7 +101,7 @@
 //      * 引擎
 //      */
 //     @FXML
-//     private DamengEngineComboBox tableEngine;
+//     private DamengTableSpaceComboBox tableEngine;
 //
 //     /**
 //      * 字符集

@@ -63,6 +63,10 @@ public class DamengTableCreateSqlGenerator {
         StringUtil.deleteLast(this.sqlBuilder, ",");
 
         this.sqlBuilder.append(")");
+        // 达梦表空间
+        if (table.hasTableSpace()) {
+            this.sqlBuilder.append(" STORAGE (ON ").append(table.getTableSpace()).append(")");
+        }
         // 达梦表注释
         if (table.hasComment()) {
             StringBuilder builder = new StringBuilder();

@@ -5,7 +5,7 @@
 <?import cn.oyzh.easydameng.fx.DBStatusColumn?>
 <?import cn.oyzh.easydameng.fx.DBStatusTableView?>
 <?import cn.oyzh.easydameng.fx.DamengDesignTabPane?>
-<?import cn.oyzh.easydameng.fx.table.DamengEngineComboBox?>
+<?import cn.oyzh.easydameng.fx.table.DamengTableSpaceComboBox?>
 <?import cn.oyzh.easydameng.fx.table.DamengRowFormatComboBox?>
 <?import cn.oyzh.fx.gui.label.AccentLabel?>
 <?import cn.oyzh.fx.gui.svg.glyph.AddSVGGlyph?>
@@ -131,18 +131,18 @@
         <FixedTab text="%base.options">
             <FXVBox flexWidth="100%" flexHeight="100%">
                 <FXHBox flexWidth="100%" realHeight="50">
-                    <AccentLabel realHeight="30" realWidth="85" text="%base.engine">
+                    <AccentLabel realHeight="30" realWidth="85" text="%base.tableSpace">
                         <HBox.margin>
                             <Insets left="20" top="10"/>
                         </HBox.margin>
                     </AccentLabel>
-                    <DamengEngineComboBox tipText="%base.engine" fx:id="tableEngine" realHeight="30"
+                    <DamengTableSpaceComboBox tipText="%base.tableSpace" fx:id="tableSpace" realHeight="30"
                                               flexWidth="100% - 140"
                                               initIndex="0">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
-                    </DamengEngineComboBox>
+                    </DamengTableSpaceComboBox>
                 </FXHBox>
             </FXVBox>
         </FixedTab>

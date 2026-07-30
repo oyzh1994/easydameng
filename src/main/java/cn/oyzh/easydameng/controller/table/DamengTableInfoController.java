@@ -56,7 +56,7 @@ public class DamengTableInfoController extends StageController {
         DamengTableTreeItem tableItem = this.getProp("tableItem");
         DamengTable table = tableItem.value();
         this.tableName.setText(table.getName());
-        this.tableEngine.setText(table.getEngine());
+        this.tableEngine.setText(table.getTableSpace());
         this.tableComment.setText(table.getComment());
         this.tableDefinition.setText(table.getCreateDefinition());
         super.onWindowShown(event);
