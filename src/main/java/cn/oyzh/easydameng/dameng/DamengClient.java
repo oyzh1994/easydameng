@@ -1081,7 +1081,7 @@ public class DamengClient {
             sql = sql.replaceAll(",\\)", ")");
             DBUtil.printSql(sql);
             Connection connection = this.connection(param.getDbName(), param.getSchema());
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             int index = 1;
             for (String colName : param.getRecord().columns()) {
                 DBUtil.setVal(statement, param.getRecord().value(colName), index++);
@@ -1090,7 +1090,15 @@ public class DamengClient {
             DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
             // 处理自动递增值
             if (primaryKey != null && primaryKey.shouldReturnData()) {
-                primaryKey.setReturnData(DamengHelper.lastInsertId(connection));
+                ResultSet rs = statement.getGeneratedKeys();
+                Long newId;
+                if (rs.next()) {
+                    newId = rs.getLong(1);
+                } else {
+                    newId = DamengHelper.lastInsertId(connection);
+                }
+                IOUtil.close(rs);
+                primaryKey.setReturnData(newId);
             }
             DBUtil.close(statement);
             return count;
