@@ -26,6 +26,11 @@ import java.util.List;
  */
 public class DamengTableCreateSqlGenerator {
 
+    /**
+     * 变更标志位
+     */
+    private boolean changeFlag;
+
     private List<String> sqlList;
 
     private StringBuilder sqlBuilder;
@@ -34,13 +39,12 @@ public class DamengTableCreateSqlGenerator {
         this.sqlList = new ArrayList<>();
         this.sqlBuilder = new StringBuilder();
         String dbName = param.dbName();
-        String tableName = param.tableName();
         DamengTable table = param.getTable();
+        String tableName = param.tableName();
         String tableFullName = DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
-
         this.sqlBuilder.append("CREATE TABLE ")
                 .append(DBUtil.wrap(dbName, tableName))
-                .append(" ( ");
+                .append(" ( \n");
         // 字段
         if (param.hasColumns()) {
             this.columnHandle(this.sqlBuilder, param);
@@ -59,19 +63,28 @@ public class DamengTableCreateSqlGenerator {
         if (param.hasCheck()) {
             this.checkHandle(this.sqlBuilder, param);
         }
-
-        StringUtil.deleteLast(this.sqlBuilder, ",");
-
+        // 删除最后一个字符
+        if (this.changeFlag) {
+            StringUtil.deleteLast(this.sqlBuilder, ",");
+            this.changeFlag = false;
+        }
         this.sqlBuilder.append(")");
         // 达梦表空间
         if (table.hasTableSpace()) {
-            this.sqlBuilder.append(" STORAGE (ON ").append(table.getTableSpace()).append(")");
+            this.sqlBuilder.append(" STORAGE (ON ").append(table.getTableSpace()).append("),");
+            this.changeFlag = true;
         }
+        // 删除最后一个字符
+        if (this.changeFlag) {
+            StringUtil.deleteLast(this.sqlBuilder, ",");
+            this.changeFlag = false;
+        }
+        this.sqlBuilder.append(";");
         // 达梦表注释
         if (table.hasComment()) {
             StringBuilder builder = new StringBuilder();
             builder.append("COMMENT ON TABLE ").append(tableFullName)
-                    .append(" IS ").append(DBUtil.wrapData(table.getComment())).append(";\n");
+                    .append(" IS ").append(DBUtil.wrapData(table.getComment())).append(";");
             this.sqlList.add(builder.toString());
         }
         // 表触发器
@@ -91,12 +104,6 @@ public class DamengTableCreateSqlGenerator {
     }
 
     private List<String> buildSql() {
-        //        StringBuilder builder = new StringBuilder();
-        //        builder.append(this.sqlBuilder);
-        //        for (String sql : sqlList) {
-        //            builder.append("\n").append(sql);
-        //        }
-        //        return builder.toString().trim();
         this.sqlList.addFirst(this.sqlBuilder.toString().trim());
         return this.sqlList;
     }
@@ -108,13 +115,6 @@ public class DamengTableCreateSqlGenerator {
             builder.append("\n").append(sql);
         }
         return builder.toString().trim();
-    }
-
-    private String buildSqlNoComma() {
-        String result = this.sqlBuilder.toString();
-        result = result.replaceAll(",\n", "\n");
-        result = result.replaceAll(",;", ";");
-        return result.trim();
     }
 
     protected void triggerHandle(DamengCreateTableParam param) {
@@ -150,7 +150,8 @@ public class DamengTableCreateSqlGenerator {
         for (DamengColumn column : param.getColumns()) {
             builder.append(DBUtil.wrap(column.getName()));
             // 字段类型（达梦不支持MySQL式显示宽度如INT(10)）
-            builder.append(" ").append(normalizeType(column.getType()));
+            builder.append(" ").append(column.getType());
+
             // 字段长度
             if (column.supportSize() && column.getSize() != null) {
                 builder.append("(").append(column.getSize());
@@ -194,10 +195,9 @@ public class DamengTableCreateSqlGenerator {
                 commentSql = commentSql.replace("$4", column.getComment());
                 this.sqlList.add(commentSql);
             }
-            builder.append(",");
+            builder.append(",\n");
+            this.changeFlag = true;
         }
-//        // 删除最后一个字符
-//        StringUtil.deleteLast(builder, ",");
     }
 
     protected void primaryKeyHandle(StringBuilder builder, DamengCreateTableParam param) {
@@ -205,27 +205,19 @@ public class DamengTableCreateSqlGenerator {
         if (!keyList.isEmpty()) {
             builder.append(" PRIMARY KEY (");
             for (DamengColumn column : keyList) {
-                builder.append(DBUtil.wrap(column.getName()));
-                if (column.supportKeySize()) {
-                    if (column.getPrimaryKeySize() != null) {
-                        builder.append("(").append(column.getPrimaryKeySize()).append(")");
-                    } else if (column.getSize() != null) {
-                        builder.append("(").append(Math.min(column.getSize(), 100)).append(")");
-                    } else {
-                        builder.append("(100)");
-                    }
-                }
-                builder.append(",");
+                builder.append(DBUtil.wrap(column.getName()))
+                        .append(",");
             }
-            // 删除最后一个字符
             StringUtil.deleteLast(builder, ",");
-            builder.append("),");
+            builder.append("),\n");
+            this.changeFlag = true;
         }
     }
 
     protected void indexHandle(StringBuilder builder, DamengCreateTableParam param) {
         DamengIndexes indexes = param.getIndexes();
         for (DamengIndex index : indexes) {
+            // 新增索引
             if (index.isUnique()) {
                 builder.append(" UNIQUE");
             }
@@ -237,11 +229,14 @@ public class DamengTableCreateSqlGenerator {
                 builder.append(",");
             }
             StringUtil.deleteLast(builder, ",");
-            builder.append(")");
+            builder.append(") ");
+            // 方法名称
             if (index.methodName() != null) {
                 builder.append(" USING ").append(index.methodName());
             }
-            builder.append(",");
+            // 拼接,
+            builder.append(",\n");
+            this.changeFlag = true;
         }
     }
 
@@ -268,6 +263,7 @@ public class DamengTableCreateSqlGenerator {
                     .append(" ON UPDATE ").append(foreignKey.getUpdatePolicy());
             // 拼接,
             builder.append(",");
+            this.changeFlag = true;
         }
     }
 
@@ -279,22 +275,10 @@ public class DamengTableCreateSqlGenerator {
                     .append(" CHECK (")
                     .append(check.getClause())
                     .append(")");
-            builder.append(",");
+            // 拼接,
+            builder.append(",\n");
+            this.changeFlag = true;
         }
-    }
-
-    /**
-     * 规范化字段类型，移除MySQL式显示宽度（如INT(10)→INT）
-     */
-    private static String normalizeType(String type) {
-        if (type == null)
-            return "";
-        // 达梦不支持显示宽度的类型：INT(10), BIGINT(20), TINYINT(4), SMALLINT(6) 等
-        String upper = type.toUpperCase();
-        if (upper.matches("(TINYINT|SMALLINT|INT|INTEGER|BIGINT|MEDIUMINT)\\s*\\(\\s*\\d+\\s*\\)")) {
-            return upper.replaceAll("\\(.*\\)", "").trim();
-        }
-        return type;
     }
 
     public static List<String> generateSql(DamengCreateTableParam param) {
@@ -304,5 +288,4 @@ public class DamengTableCreateSqlGenerator {
     public static String generateSqlSingle(DamengCreateTableParam param) {
         return new DamengTableCreateSqlGenerator().generateSingle(param);
     }
-
 }

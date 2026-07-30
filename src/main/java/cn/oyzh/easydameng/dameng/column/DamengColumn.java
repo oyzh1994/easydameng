@@ -138,6 +138,13 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         super.putOriginalData("type", type);
     }
 
+    public boolean isTypeChanged() {
+        return super.checkOriginalData("type", this.getType());
+    }
+    public boolean isSizeChanged() {
+        return super.checkOriginalData("size", this.size);
+    }
+
     public List<String> getValueList() {
         List<String> valueList = new ArrayList<>();
         if (this.getValue() != null) {
@@ -388,6 +395,10 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
     public void setComment(String comment) {
         this.comment = comment;
         super.putOriginalData("comment", comment);
+    }
+
+    public boolean isCommentChanged() {
+        return super.checkOriginalData("comment", this.getType());
     }
 
     public void setSize(Integer size) {
