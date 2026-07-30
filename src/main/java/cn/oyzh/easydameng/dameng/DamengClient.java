@@ -2,6 +2,7 @@ package cn.oyzh.easydameng.dameng;
 
 import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.util.CollectionUtil;
+import cn.oyzh.common.util.IOUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
@@ -58,6 +59,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -897,7 +899,7 @@ public class DamengClient {
             String tableName = param.getTableName();
             DamengColumns columns = new DamengColumns();
             String sql = """
-                    SELECT 
+                    SELECT
                         C.COLUMN_NAME AS "Field",
                         CASE WHEN C.NULLABLE='Y' THEN 'YES' ELSE 'NO' END AS "Null",
                         C.DATA_TYPE AS "Type",
@@ -905,37 +907,39 @@ public class DamengClient {
                         C.DATA_DEFAULT AS "Default",
                         CASE WHEN CONS.COLUMN_NAME IS NOT NULL THEN 'PRI' ELSE '' END AS "Key",
                         '' AS "Extra"
-                    FROM 
+                    FROM
                         ALL_TAB_COLUMNS C
-                    LEFT JOIN 
-                        SYS.SYSCOLUMNCOMMENTS CC 
-                    ON 
-                        C.OWNER=CC.SCHNAME 
-                    AND 
-                        C.TABLE_NAME=CC.TVNAME 
-                    AND 
+                    LEFT JOIN
+                        SYS.SYSCOLUMNCOMMENTS CC
+                    ON
+                        C.OWNER=CC.SCHNAME
+                    AND
+                        C.TABLE_NAME=CC.TVNAME
+                    AND
                         C.COLUMN_NAME=CC.COLNAME
-                    LEFT JOIN 
-                        ALL_CONS_COLUMNS CONS 
-                    ON 
-                        C.OWNER=CONS.OWNER 
-                    AND 
-                        C.TABLE_NAME=CONS.TABLE_NAME 
-                    AND 
+                    LEFT JOIN
+                        ALL_CONS_COLUMNS CONS
+                    ON
+                        C.OWNER=CONS.OWNER
+                    AND
+                        C.TABLE_NAME=CONS.TABLE_NAME
+                    AND
                         C.COLUMN_NAME=CONS.COLUMN_NAME
-                    AND 
+                    AND
                         EXISTS (SELECT 1 FROM ALL_CONSTRAINTS AC WHERE AC.OWNER=CONS.OWNER AND AC.CONSTRAINT_NAME=CONS.CONSTRAINT_NAME AND AC.CONSTRAINT_TYPE='P')
-                    WHERE 
-                        C.OWNER=? 
-                    AND 
+                    WHERE
+                        C.OWNER=?
+                    AND
                         C.TABLE_NAME=?
-                    ORDER BY 
+                    ORDER BY
                         C.COLUMN_ID
                     """;
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            Connection connection = this.connection();
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, tableName);
             ResultSet resultSet = statement.executeQuery();
+            DatabaseMetaData metaData = connection.getMetaData();
             DBUtil.printMetaData(resultSet);
             int position = 0;
             while (resultSet.next()) {
@@ -946,11 +950,18 @@ public class DamengClient {
                 String extra = resultSet.getString("Extra");
                 String nullable = resultSet.getString("Null");
                 String comment = resultSet.getString("Comment");
-
+                // 自动递增
+                Boolean autoIncrement = null;
+                ResultSet rs = metaData.getColumns(null, null, tableName, field);
+                if (rs.next()) {
+                    autoIncrement = StringUtil.equalsIgnoreCase("YES", rs.getString("IS_AUTOINCREMENT"));
+                }
+                IOUtil.close(rs);
                 DamengColumn column = new DamengColumn();
                 column.parseKey(key);
                 column.parseType(type);
                 column.parseExtra(extra);
+                column.setAutoIncrement(autoIncrement);
 
                 column.setName(field);
                 column.setDbName(dbName);
@@ -1956,7 +1967,6 @@ public class DamengClient {
             connection = this.connection(dbName);
             Statement statement = connection.createStatement();
             List<String> sqlList = DamengTableCreateSqlGenerator.generateSql(param);
-//            List<String> sqlList = DBSqlParser.parseSql(sql, DBDialect.DAMENG);
             connection.setAutoCommit(false);
             for (String sqlStr : sqlList) {
                 DBUtil.printSql(sqlStr);

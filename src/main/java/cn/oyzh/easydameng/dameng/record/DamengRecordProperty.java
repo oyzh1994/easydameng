@@ -127,21 +127,7 @@ public class DamengRecordProperty extends SimpleObjectProperty<Object> implement
 //                ADDER.increment();
 //                System.out.println("adder:" + ADDER.longValue());
 //            }
-            if(node instanceof Region region){
-               region.paddingProperty().addListener(new ChangeListener<Insets>() {
-                   @Override
-                   public void changed(ObservableValue<? extends Insets> observable, Insets oldValue, Insets newValue) {
-                       System.out.println(newValue);
-                       if(newValue!=null&&newValue.getTop()==0){
-                           System.out.println("---1");
-                       }
-                   }
-               });
-            }
         }
-//        if(node instanceof Region region){
-//            System.out.println(region.getPadding());
-//        }
         return this.node;
     }
 

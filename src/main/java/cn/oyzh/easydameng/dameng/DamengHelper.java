@@ -303,6 +303,7 @@ public class DamengHelper {
     }
 
     public static Long lastInsertId(Connection connection) throws Exception {
+//        String sql = "SELECT IDENTITY_VAL_LOCAL();";
         String sql = "SELECT @@IDENTITY FROM DUAL";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
@@ -311,6 +312,7 @@ public class DamengHelper {
             insertId = resultSet.getLong(1);
         }
         DBUtil.close(statement);
+        DBUtil.close(resultSet);
         return insertId;
     }
 
