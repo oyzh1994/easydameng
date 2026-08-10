@@ -309,6 +309,10 @@ public class DBUtil {
     public static void setVal(PreparedStatement statement, Object val, int index) throws SQLException {
         if (val == null) {
             statement.setNull(index, JDBCType.NULL.ordinal());
+        } else if (val instanceof byte[] x) {
+            statement.setBytes(index, x);
+        } else if (val instanceof Boolean x) {
+            statement.setBoolean(index, x);
         } else if (val instanceof Byte x) {
             statement.setByte(index, x);
         } else if (val instanceof Short x) {
