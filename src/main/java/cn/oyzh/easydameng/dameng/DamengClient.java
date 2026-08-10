@@ -1258,14 +1258,14 @@ public class DamengClient {
     public String showCreateView(String dbName, String viewName) {
         try {
             Connection connection = this.connection(dbName);
-            String sql = "SELECT DBMS_METADATA.GET_DDL('VIEW', ?) FROM DUAL";
+            String sql = "SELECT TEXT FROM USER_VIEWS WHERE VIEW_NAME = ?";
             DBUtil.printSql(sql);
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, viewName);
             ResultSet resultSet = stmt.executeQuery();
             String createDefinition = "";
             if (resultSet.next()) {
-                createDefinition = resultSet.getString(1);
+                createDefinition = "CREATE OR REPLACE VIEW " + viewName + " AS\n" + resultSet.getString(1);
             }
             DBUtil.close(resultSet);
             DBUtil.close(stmt);
@@ -1536,12 +1536,11 @@ public class DamengClient {
 
     public DamengView view(String dbName, String viewName) {
         try {
-            String sql = "SELECT V.VIEW_NAME AS \"TABLE_NAME\", C.COMMENTS AS \"TABLE_COMMENT\" FROM ALL_VIEWS V LEFT JOIN ALL_TAB_COMMENTS C ON V.OWNER = C.OWNER AND V.VIEW_NAME = C.TABLE_NAME WHERE V.OWNER = ? AND V.VIEW_NAME = ?";
+            String sql = "SELECT VIEW_NAME AS TABLE_NAME, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS WHERE VIEW_NAME = ?";
             DBUtil.printSql(sql);
             Connection connection = this.connection();
             PreparedStatement statement = this.connection().prepareStatement(sql);
-            statement.setString(1, dbName);
-            statement.setString(2, viewName);
+            statement.setString(1, viewName);
             // 执行SQL查询并获取结果集
             ResultSet resultSet = statement.executeQuery();
             // 打印元数据
@@ -1575,12 +1574,10 @@ public class DamengClient {
     public List<DamengView> views(String dbName) {
         try {
             List<DamengView> list = new ArrayList<>();
-            String sql = "SELECT V.VIEW_NAME AS \"TABLE_NAME\", C.COMMENTS AS \"TABLE_COMMENT\" FROM ALL_VIEWS V LEFT JOIN ALL_TAB_COMMENTS C ON V.OWNER = C.OWNER AND V.VIEW_NAME = C.TABLE_NAME WHERE V.OWNER = ?";
+            String sql = "SELECT VIEW_NAME AS TABLE_NAME, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS";
             DBUtil.printSql(sql);
             Connection connection = this.connection();
             PreparedStatement statement = this.connection().prepareStatement(sql);
-            statement.setString(1, dbName);
-            // 执行SQL查询并获取结果集
             ResultSet resultSet = statement.executeQuery();
             // 打印元数据
             DBUtil.printMetaData(resultSet);
@@ -1849,7 +1846,7 @@ public class DamengClient {
             }
             String sql = """
                     SELECT
-                        CASE WHEN C.IDENTITY_COLUMN='YES' THEN 'auto_increment' ELSE '' END AS COLUMN_EXTRA,
+                        '' AS COLUMN_EXTRA,
                         NULL AS COLUMN_KEY,
                         CC.COMMENTS AS REMARKS,
                         C.DATA_TYPE AS COLUMN_TYPE,

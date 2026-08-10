@@ -147,19 +147,8 @@ public class DamengHelper {
     }
 
     public static boolean isViewUpdatable(Connection connection, String dbName, String viewName) throws Exception {
-        String sql = "SELECT `IS_UPDATABLE` FROM DBA_OBJECTS.`VIEWS` WHERE `OWNER` = ? AND `TABLE_NAME` = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, dbName);
-        statement.setString(2, viewName);
-        // 执行SQL查询并获取结果集
-        ResultSet resultSet = statement.executeQuery();
-        String isUpdatable = "";
-        if (resultSet.next()) {
-            isUpdatable = resultSet.getString("IS_UPDATABLE");
-        }
-        DBUtil.close(resultSet);
-        DBUtil.close(statement);
-        return StringUtil.equalsIgnoreCase(isUpdatable, "YES");
+        // 达梦视图中无直接UPDATABLE标记，默认返回false
+        return false;
     }
 
     public static Map<String, String> getViewInfo(Connection connection, String dbName, String viewName) throws Exception {
@@ -170,15 +159,12 @@ public class DamengHelper {
                     TEXT AS DEFINITION,
                     NULL AS SECURITY_TYPE
                 FROM
-                    ALL_VIEWS
+                    USER_VIEWS
                 WHERE
-                    OWNER = ?
-                AND
                     VIEW_NAME = ?
                 """;
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, dbName);
-        statement.setString(2, viewName);
+        statement.setString(1, viewName);
         // 执行SQL查询并获取结果集
         ResultSet resultSet = statement.executeQuery();
         Map<String, String> info = new HashMap<>();
@@ -406,13 +392,15 @@ public class DamengHelper {
     }
 
     public static String showCreateView(Connection connection, String viewName) throws Exception {
-        String sql = "SELECT DBMS_METADATA.GET_DDL('VIEW', " + DBUtil.wrapData(viewName) + ") FROM DUAL";
-        Statement statement = connection.createStatement();
-        // 执行SQL查询并获取结果集
-        ResultSet resultSet = statement.executeQuery(sql);
+        // 达梦中 DBMS_METADATA.GET_DDL 可能因权限不足失败，直接从 USER_VIEWS 查询视图定义
+        String sql = "SELECT TEXT FROM USER_VIEWS WHERE VIEW_NAME = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, viewName);
+        ResultSet resultSet = statement.executeQuery();
         String createDefinition = "";
         if (resultSet.next()) {
-            createDefinition = resultSet.getString(1);
+            String text = resultSet.getString(1);
+            createDefinition = "CREATE OR REPLACE VIEW " + viewName + " AS\n" + text;
         }
         DBUtil.close(resultSet);
         DBUtil.close(statement);
