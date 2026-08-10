@@ -218,9 +218,9 @@ public class DamengTableRecordTabController extends RichTabController {
      */
     @FXML
     private void addRecord() {
-        DamengRecord record = new DamengRecord(this.columns);
+        DamengRecord record = new DamengRecord(new DamengColumns(this.columns));
         record.setCreated(true);
-        for (DamengColumn column : this.columns) {
+        for (DamengColumn column : record.getColumns()) {
             Object val = null;
             if (column.supportDefaultValue()) {
                 val = column.getDefaultValue();

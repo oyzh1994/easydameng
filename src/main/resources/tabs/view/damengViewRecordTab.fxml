@@ -17,26 +17,26 @@
         fx:controller="cn.oyzh.easydameng.tabs.view.DamengViewRecordTabController" flexWidth="100%" flexHeight="100%"
         fx:id="root">
     <FXHBox realHeight="40" flexWidth="100%">
-        <DeleteSVGGlyph groupId="action2" onMousePrimaryClicked="#deleteRecord" managed="false"
-                        visible="false" managedBindVisible="true">
-            <HBox.margin>
-                <Insets left="10" top="10"/>
-            </HBox.margin>
-        </DeleteSVGGlyph>
         <AddSVGGlyph groupId="action2" onMousePrimaryClicked="#addRecord" managed="false"
                      visible="false" managedBindVisible="true">
             <HBox.margin>
-                <Insets left="5" top="10"/>
+                <Insets left="10" top="10"/>
             </HBox.margin>
         </AddSVGGlyph>
+        <DeleteSVGGlyph groupId="action2" onMousePrimaryClicked="#deleteRecord" managed="false"
+                        visible="false" managedBindVisible="true">
+            <HBox.margin>
+                <Insets left="5" top="10"/>
+            </HBox.margin>
+        </DeleteSVGGlyph>
         <Apply1SVGGlyph onMousePrimaryClicked="#apply" fx:id="apply" disable="true" managed="false"
                         visible="false" managedBindVisible="true">
             <HBox.margin>
                 <Insets left="5" top="11"/>
             </HBox.margin>
         </Apply1SVGGlyph>
-        <DiscardSVGGlyph onMousePrimaryClicked="#discard" fx:id="discard" disable="true" managed="false"
-                         visible="false">
+        <DiscardSVGGlyph groupId="action2" onMousePrimaryClicked="#discard" fx:id="discard" disable="true" managed="false"
+                         visible="false" managedBindVisible="true">
             <HBox.margin>
                 <Insets left="5" top="11"/>
             </HBox.margin>

@@ -4,7 +4,6 @@ import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
-import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.sql.Connection;
@@ -148,6 +147,21 @@ public class DamengHelper {
 
     public static boolean isViewUpdatable(Connection connection, String dbName, String viewName) throws Exception {
         // 达梦视图中无直接UPDATABLE标记，默认返回false
+        String sql = """
+                    SELECT 
+                        READ_ONLY AS UPDATABLE
+                    FROM 
+                        USER_VIEWS
+                    WHERE 
+                        VIEW_NAME = ?
+                """;
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, viewName);
+        // 执行SQL查询并获取结果集
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return "N".equalsIgnoreCase(resultSet.getString("UPDATABLE"));
+        }
         return false;
     }
 
@@ -289,7 +303,7 @@ public class DamengHelper {
     }
 
     public static Long lastInsertId(Connection connection) throws Exception {
-//        String sql = "SELECT IDENTITY_VAL_LOCAL();";
+        //        String sql = "SELECT IDENTITY_VAL_LOCAL();";
         String sql = "SELECT @@IDENTITY FROM DUAL";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);

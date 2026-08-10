@@ -17,16 +17,16 @@
         fx:controller="cn.oyzh.easydameng.tabs.table.DamengTableRecordTabController" fx:id="root" flexWidth="100%"
         flexHeight="100%">
     <FXHBox realHeight="40" flexWidth="100%">
-        <DeleteSVGGlyph groupId="action2" onMousePrimaryClicked="#deleteRecord">
+        <AddSVGGlyph groupId="action2" onMousePrimaryClicked="#addRecord">
             <HBox.margin>
                 <Insets left="10" top="10"/>
             </HBox.margin>
-        </DeleteSVGGlyph>
-        <AddSVGGlyph groupId="action2" onMousePrimaryClicked="#addRecord">
+        </AddSVGGlyph>
+        <DeleteSVGGlyph groupId="action2" onMousePrimaryClicked="#deleteRecord">
             <HBox.margin>
                 <Insets left="5" top="10"/>
             </HBox.margin>
-        </AddSVGGlyph>
+        </DeleteSVGGlyph>
         <Apply1SVGGlyph onMousePrimaryClicked="#apply" fx:id="apply" disable="true">
             <HBox.margin>
                 <Insets left="5" top="11"/>

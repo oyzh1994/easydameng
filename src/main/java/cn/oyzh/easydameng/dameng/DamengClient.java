@@ -1536,7 +1536,7 @@ public class DamengClient {
 
     public DamengView view(String dbName, String viewName) {
         try {
-            String sql = "SELECT VIEW_NAME AS TABLE_NAME, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS WHERE VIEW_NAME = ?";
+            String sql = "SELECT VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS WHERE VIEW_NAME = ?";
             DBUtil.printSql(sql);
             Connection connection = this.connection();
             PreparedStatement statement = this.connection().prepareStatement(sql);
@@ -1550,16 +1550,11 @@ public class DamengClient {
             while (resultSet.next()) {
                 String tableName = resultSet.getString("TABLE_NAME");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
-                Map<String, String> info = DamengHelper.getViewInfo(connection, dbName, tableName);
+                String tableUpdateable = resultSet.getString("UPDATABLE");
                 view.setDbName(dbName);
                 view.setName(tableName);
                 view.setComment(tableComment);
-                view.setDefiner(info.get("DEFINER"));
-                view.setAlgorithm(info.get("ALGORITHM"));
-                view.setDefinition(info.get("DEFINITION"));
-                view.setCheckOption(info.get("CHECK_OPTION"));
-                view.setSecurityType(info.get("SECURITY_TYPE"));
-                view.setUpdatable(StringUtil.equalsIgnoreCase("YES", info.get("UPDATABLE")));
+                view.setUpdatable(StringUtil.equalsIgnoreCase("N", tableUpdateable));
             }
             // 关闭连接和释放资源
             DBUtil.close(resultSet);
@@ -1574,9 +1569,8 @@ public class DamengClient {
     public List<DamengView> views(String dbName) {
         try {
             List<DamengView> list = new ArrayList<>();
-            String sql = "SELECT VIEW_NAME AS TABLE_NAME, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS";
+            String sql = "SELECT VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS";
             DBUtil.printSql(sql);
-            Connection connection = this.connection();
             PreparedStatement statement = this.connection().prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             // 打印元数据
@@ -1586,16 +1580,11 @@ public class DamengClient {
                 DamengView view = new DamengView();
                 String tableName = resultSet.getString("TABLE_NAME");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
-                Map<String, String> info = DamengHelper.getViewInfo(connection, dbName, tableName);
+                String tableUpdateable = resultSet.getString("UPDATABLE");
                 view.setDbName(dbName);
                 view.setName(tableName);
                 view.setComment(tableComment);
-                view.setDefiner(info.get("DEFINER"));
-                view.setAlgorithm(info.get("ALGORITHM"));
-                view.setDefinition(info.get("DEFINITION"));
-                view.setCheckOption(info.get("CHECK_OPTION"));
-                view.setSecurityType(info.get("SECURITY_TYPE"));
-                view.setUpdatable(StringUtil.equalsIgnoreCase("YES", info.get("UPDATABLE")));
+                view.setUpdatable(StringUtil.equalsIgnoreCase("N", tableUpdateable));
                 list.add(view);
             }
             // 关闭连接和释放资源
