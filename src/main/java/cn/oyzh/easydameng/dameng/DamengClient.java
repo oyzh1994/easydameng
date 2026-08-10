@@ -1641,20 +1641,8 @@ public class DamengClient {
     public void createView(String dbName, DamengView view) {
         try {
             Statement statement = this.connection(dbName).createStatement();
-            String sql = "CREATE ";
-            if (StringUtil.isNotBlank(view.getAlgorithm())) {
-                sql += " ALGORITHM = " + view.getAlgorithm();
-            }
-            if (StringUtil.isNotBlank(view.getDefiner())) {
-                sql += " DEFINER = " + view.getDefiner();
-            }
-            if (StringUtil.isNotBlank(view.getSecurityType())) {
-                sql += " SQL SECURITY " + view.getSecurityType();
-            }
-            sql = sql + " VIEW " + DBUtil.wrap(dbName, view.getName()) + " AS " + view.getDefinition();
-            if (view.hasCheckOption()) {
-                sql += " WITH " + view.getCheckOption() + " CHECK OPTION";
-            }
+            // 达梦不支持 ALGORITHM/DEFINER/SQL SECURITY，使用简洁语法
+            String sql = "CREATE VIEW " + DBUtil.wrap(dbName, view.getName(), this.dialect()) + " AS " + view.getDefinition();
             DBUtil.printSql(sql);
             statement.execute(sql);
             DBUtil.close(statement);
@@ -1666,20 +1654,8 @@ public class DamengClient {
     public void alertView(String dbName, DamengView view) {
         try {
             Statement statement = this.connection(dbName).createStatement();
-            String sql = "CREATE OR REPLACE ";
-            if (StringUtil.isNotBlank(view.getAlgorithm())) {
-                sql += " ALGORITHM = " + view.getAlgorithm();
-            }
-            if (StringUtil.isNotBlank(view.getDefiner())) {
-                sql += " DEFINER = " + view.getDefiner();
-            }
-            if (StringUtil.isNotBlank(view.getSecurityType())) {
-                sql += " SQL SECURITY " + view.getSecurityType();
-            }
-            sql = sql + " VIEW " + DBUtil.wrap(dbName, view.getName()) + " AS " + view.getDefinition();
-            if (view.hasCheckOption()) {
-                sql += " WITH " + view.getCheckOption() + " CHECK OPTION";
-            }
+            // 达梦使用 CREATE OR REPLACE VIEW
+            String sql = "CREATE OR REPLACE VIEW " + DBUtil.wrap(dbName, view.getName(), this.dialect()) + " AS " + view.getDefinition();
             DBUtil.printSql(sql);
             statement.execute(sql);
             DBUtil.close(statement);
@@ -1846,22 +1822,64 @@ public class DamengClient {
             }
             String sql = """
                     SELECT
-                        '' AS COLUMN_EXTRA,
-                        NULL AS COLUMN_KEY,
-                        CC.COMMENTS AS REMARKS,
-                        C.DATA_TYPE AS COLUMN_TYPE,
-                        C.COLUMN_NAME AS COLUMN_NAME,
-                        CASE WHEN C.NULLABLE='Y' THEN 'YES' ELSE 'NO' END AS IS_NULLABLE,
-                        C.DATA_DEFAULT AS COLUMN_DEF,
-                        NULL AS COLLATION_NAME,
-                        NULL AS CHARSET_NAME,
+                        C.COLUMN_NAME AS "COLUMN_NAME",
+                        CASE WHEN C.NULLABLE='Y' THEN 'YES' ELSE 'NO' END AS "IS_NULLABLE",
+                        C.DATA_TYPE AS "COLUMN_TYPE",
+                        CC.COMMENT$ AS "REMARKS",
+                        C.DATA_DEFAULT AS "COLUMN_DEF",
+                        CASE WHEN CONS.COLUMN_NAME IS NOT NULL THEN 'PRI' ELSE '' END AS "COLUMN_KEY",
+                        '' AS "COLUMN_EXTRA",
                         C.COLUMN_ID AS ORDINAL_POSITION
-                    FROM ALL_TAB_COLUMNS C
-                    LEFT JOIN ALL_COL_COMMENTS CC ON C.OWNER=CC.OWNER AND C.TABLE_NAME=CC.TABLE_NAME AND C.COLUMN_NAME=CC.COLUMN_NAME
-                    WHERE C.OWNER = ?
-                    AND C.TABLE_NAME = ?
-                    ORDER BY C.COLUMN_ID
+                    FROM
+                        ALL_TAB_COLUMNS C
+                    LEFT JOIN
+                        SYS.SYSCOLUMNCOMMENTS CC
+                    ON
+                        C.OWNER=CC.SCHNAME
+                    AND
+                        C.TABLE_NAME=CC.TVNAME
+                    AND
+                        C.COLUMN_NAME=CC.COLNAME
+                    LEFT JOIN
+                        ALL_CONS_COLUMNS CONS
+                    ON
+                        C.OWNER=CONS.OWNER
+                    AND
+                        C.TABLE_NAME=CONS.TABLE_NAME
+                    AND
+                        C.COLUMN_NAME=CONS.COLUMN_NAME
+                    AND
+                        EXISTS (SELECT 1 FROM ALL_CONSTRAINTS AC WHERE AC.OWNER=CONS.OWNER AND AC.CONSTRAINT_NAME=CONS.CONSTRAINT_NAME AND AC.CONSTRAINT_TYPE='P')
+                    WHERE
+                        C.OWNER=?
+                    AND
+                        C.TABLE_NAME=?
+                    ORDER BY
+                        C.COLUMN_ID
                     """;
+            //            String sql = """
+            //                    SELECT
+            //                        '' AS COLUMN_EXTRA,
+            //                        NULL AS COLUMN_KEY,
+            //                        CC.COMMENTS AS REMARKS,
+            //                        C.DATA_TYPE AS COLUMN_TYPE,
+            //                        C.COLUMN_NAME AS COLUMN_NAME,
+            //                        CASE WHEN C.NULLABLE='Y' THEN 'YES' ELSE 'NO' END AS IS_NULLABLE,
+            //                        C.DATA_DEFAULT AS COLUMN_DEF,
+            //                        NULL AS COLLATION_NAME,
+            //                        NULL AS CHARSET_NAME,
+            //                        C.COLUMN_ID AS ORDINAL_POSITION
+            //                    FROM
+            //                        ALL_TAB_COLUMNS C
+            //                    LEFT JOIN
+            //                        ALL_COL_COMMENTS CC ON C.OWNER=CC.OWNER AND C.TABLE_NAME=CC.TABLE_NAME AND C.COLUMN_NAME=CC.COLUMN_NAME
+            //                    WHERE
+            //                        C.OWNER = ?
+            //                    AND
+            //                        C.TABLE_NAME = ?
+            //                    ORDER BY
+            //                        C.COLUMN_ID
+            //                    """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
             statement.setString(1, dbName);
@@ -1878,9 +1896,7 @@ public class DamengClient {
                 String columnKey = resultSet.getString("COLUMN_KEY");
                 String columnType = resultSet.getString("COLUMN_TYPE");
                 String columnName = resultSet.getString("COLUMN_NAME");
-                String charsetName = resultSet.getString("CHARSET_NAME");
                 String columnExtra = resultSet.getString("COLUMN_EXTRA");
-                String collationName = resultSet.getString("COLLATION_NAME");
                 DamengColumn column = new DamengColumn();
                 column.initColumn(columnType, columnExtra);
                 column.setDbName(dbName);
@@ -1890,7 +1906,7 @@ public class DamengClient {
                 column.setPosition(position);
                 column.setTableName(viewName);
                 column.setNullable("yes".equalsIgnoreCase(nullable));
-                // column.setPrimaryKey("pri".equalsIgnoreCase(columnKey));
+                column.setPrimaryKey("pri".equalsIgnoreCase(columnKey));
                 columns.put(columnName, column);
             }
             DBUtil.close(resultSet);
