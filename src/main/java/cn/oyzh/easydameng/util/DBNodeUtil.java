@@ -50,7 +50,7 @@ public class DBNodeUtil {
         } else if (node instanceof DecimalTextField textField) {
             val = textField.getValue();
         } else if (node instanceof BitTextField textField) {
-            val = textField.getText();
+            val = textField.getValue();
         } else if (node instanceof ChooseFileTextField textField) {
             val = textField.getValue();
             //        } else if (node instanceof DBGeometryTextField textField) {

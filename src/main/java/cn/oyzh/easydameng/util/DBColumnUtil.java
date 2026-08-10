@@ -168,11 +168,11 @@ public class DBColumnUtil {
         DBColumnField bitFiled = new DBColumnField("BIT");
         bitFiled.minValue = 0L;
         bitFiled.maxValue = 1L;
-        bitFiled.supportBit = true;
+//        bitFiled.supportBit = true;
         bitFiled.supportDefaultValue = true;
 
         DBColumnField booleanFiled = new DBColumnField("BOOLEAN");
-        booleanFiled.supportBit = true;
+//        booleanFiled.supportBit = true;
         booleanFiled.supportDefaultValue = true;
 
         // ===== 大文本类型（JSON数据用CLOB模拟） =====
