@@ -83,7 +83,7 @@ public class DBRecordUtil {
             textField.setBackground(ControlUtil.background(Color.valueOf("#F1E1F5")));
             node = textField;
         } else if (column.supportString()) {
-            ClearableTextField textField = new ClearableTextField();
+            FXTextField textField = new FXTextField();
             textField.setValue(object);
             textField.setBackground(ControlUtil.background(Color.valueOf("#E8F0E8")));
             node = textField;
@@ -136,8 +136,8 @@ public class DBRecordUtil {
             val = YearTextField.format(object);
         } else if (column.supportTimestamp()) {
             val = DateTimeTextField.format(object);
-        } else if (column.supportString()) {
-            val = ClearableTextField.format(object);
+//        } else if (column.supportString()) {
+//            val = ClearableTextField.format(object);
 //        } else if (column.supportGeometry()) {
 //            val = ExampleTextField.format(object);
         } else {
