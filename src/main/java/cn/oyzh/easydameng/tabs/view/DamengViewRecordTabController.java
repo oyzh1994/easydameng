@@ -35,16 +35,13 @@ import cn.oyzh.fx.plus.window.StageManager;
 import cn.oyzh.i18n.I18nHelper;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * db视图tab内容组件
@@ -195,6 +192,15 @@ public class DamengViewRecordTabController extends RichTabController {
     }
 
     /**
+     * 初始化数据列表，带遮罩板
+     *
+     * @param pageNo 数据页码
+     */
+    private void initDataListByMask(long pageNo) {
+        StageManager.showMask(() -> this.initDataList(pageNo));
+    }
+
+    /**
      * 获取已启用的表过滤条件
      *
      * @return 已启用的表过滤条件
@@ -204,6 +210,16 @@ public class DamengViewRecordTabController extends RichTabController {
             return this.filters.stream().filter(DamengRecordFilter::isEnabled).toList();
         }
         return null;
+    }
+
+    /**
+     * 初始化计数
+     *
+     * @param count 计数
+     */
+    private void initCount(long count) {
+        this.pageData = new Paging<>(this.recordTable.itemList(), this.pageData.limit(), count);
+        this.pageBox.setPaging(this.pageData);
     }
 
     /**
@@ -250,7 +266,10 @@ public class DamengViewRecordTabController extends RichTabController {
             record.putValue(column, val);
         }
         this.recordTable.addItem(record);
+        this.recordTable.clearSelection();
         this.recordTable.selectLast();
+        // 初始化计数
+        this.initCount(this.pageData.count() + 1);
     }
 
     /**
@@ -356,6 +375,8 @@ public class DamengViewRecordTabController extends RichTabController {
             }
             this.recordTable.removeItem(discardRecord);
             this.apply.disable();
+            // 初始化计数
+            this.initCount(this.pageData.count() - 1);
         } catch (Exception ex) {
             MessageBox.exception(ex);
         }
@@ -417,7 +438,7 @@ public class DamengViewRecordTabController extends RichTabController {
      */
     @FXML
     private void nextPage() {
-        this.initDataList(this.pageData.nextPage());
+        this.initDataListByMask(this.pageData.nextPage());
     }
 
     /**
@@ -425,7 +446,7 @@ public class DamengViewRecordTabController extends RichTabController {
      */
     @FXML
     private void prevPage() {
-        this.initDataList(this.pageData.prevPage());
+        this.initDataListByMask(this.pageData.prevPage());
     }
 
     /**
@@ -433,7 +454,7 @@ public class DamengViewRecordTabController extends RichTabController {
      */
     @FXML
     private void lastPage() {
-        this.initDataList(this.pageData.lastPage());
+        this.initDataListByMask(this.pageData.lastPage());
     }
 
     /**
@@ -441,7 +462,7 @@ public class DamengViewRecordTabController extends RichTabController {
      */
     @FXML
     private void firstPage() {
-        this.initDataList(0);
+        this.initDataListByMask(0);
     }
 
     /**
@@ -449,7 +470,7 @@ public class DamengViewRecordTabController extends RichTabController {
      */
     @FXML
     private void pageJump(PageEvent.PageJumpEvent event) {
-        this.initDataList(event.getPage());
+        this.initDataListByMask(event.getPage());
     }
 
     /**
@@ -516,43 +537,32 @@ public class DamengViewRecordTabController extends RichTabController {
         // } catch (Exception ex) {
         //     MessageBox.exception(ex);
         // }
-        DamengRecord record = this.recordTable.getSelectedItem();
-        this.doDeleteRecord(record);
+        List<DamengRecord> records = new ArrayList<>(this.recordTable.getSelectedItems());
+        if (!MessageBox.confirm(I18nHelper.deleteRecord() + "?")) {
+            return;
+        }
+        StageManager.showMask(() -> this.deleteRecords(records));
     }
 
     /**
      * 删除记录
      *
-     * @param record 记录
+     * @param records 记录
      */
-    private void doDeleteRecord(DamengRecord record) {
+    private void deleteRecords(List<DamengRecord> records) {
         try {
-            if (record == null) {
-                return;
-            }
-            if (!MessageBox.confirm(I18nHelper.deleteRecord() + "?")) {
-                return;
-            }
-            // 如果是新增的数据，直接删除
-            boolean success;
-            if (record.isCreated()) {
-                success = true;
-            } else {
-                // 获取主键
-                DamengRecordPrimaryKey primaryKey = this.initPrimaryKey(record);
-                // 主键存在，则根据主键删除
-                if (primaryKey != null) {
-                    success = this.getItem().deleteRecord(primaryKey) == 1;
-                } else {// 主键不存在，则根据所有字段更新
-                    // 所有字段数据
-                    DamengRecordData recordData = record.getOriginalRecordData();
-                    // 删除行
-                    success = this.getItem().deleteRecord(recordData) == 1;
+            boolean success = false;
+            for (DamengRecord record : records) {
+                success = this.deleteRecord(record);
+                if (!success) {
+                    break;
                 }
             }
             // 操作成功
             if (success) {
-                this.recordTable.removeItem(record);
+                this.recordTable.removeItem(records);
+                // 初始化计数
+                this.initCount(this.pageData.count() - records.size());
             } else {// 操作失败
                 MessageBox.warnToast(I18nHelper.operationFail());
             }
@@ -561,9 +571,40 @@ public class DamengViewRecordTabController extends RichTabController {
         }
     }
 
+    /**
+     * 删除记录
+     *
+     * @param record 记录
+     * @return 结果
+     */
+    private boolean deleteRecord(DamengRecord record) {
+        // 如果是新增的数据，直接删除
+        boolean success;
+        if (record.isCreated()) {
+            success = true;
+        } else {
+            // 获取主键
+            DamengRecordPrimaryKey primaryKey = this.initPrimaryKey(record);
+            // 主键存在，则根据主键删除
+            if (primaryKey != null) {
+                success = this.getItem().deleteRecord(primaryKey) == 1;
+            } else {// 主键不存在，则根据所有字段更新
+                // 所有字段数据
+                DamengRecordData recordData = record.getOriginalRecordData();
+                // 删除行
+                success = this.getItem().deleteRecord(recordData) == 1;
+            }
+            if (success) {
+                record.destroy();
+            }
+        }
+        return success;
+    }
+
     @Override
     public void onTabClosed(Event event) {
         super.onTabClosed(event);
+//        this.recordTable.destroy();
         DBStatusListenerManager.removeListener(this.changeListener);
     }
 

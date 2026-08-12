@@ -1166,7 +1166,12 @@ public class DamengClient {
                     } else {
                         builder.append(" AND ");
                     }
-                    builder.append(DBUtil.wrap(column)).append(" = ?");
+                    Object value = originalRecordData.value(column);
+                    if (value == null) {
+                        builder.append(DBUtil.wrap(column)).append(" IS NULL");
+                    } else {
+                        builder.append(DBUtil.wrap(column)).append(" = ?");
+                    }
                 }
                 int index = 1;
                 String sql = builder.toString();
@@ -1178,7 +1183,10 @@ public class DamengClient {
                 }
                 // 设置参数
                 for (String colName : originalRecordData.columns()) {
-                    DBUtil.setVal(statement, originalRecordData.value(colName), index++);
+                    Object value = originalRecordData.value(colName);
+                    if (value != null) {
+                        DBUtil.setVal(statement, value, index++);
+                    }
                 }
                 updateCount = DBUtil.executeUpdate(statement);
                 DBUtil.close(statement);
@@ -1535,7 +1543,7 @@ public class DamengClient {
                 view.setName(tableName);
                 view.setComment(tableComment);
                 view.setDefinition(definition);
-                view.setUpdatable(StringUtil.equalsIgnoreCase("N", tableUpdateable));
+                view.setUpdatable(!StringUtil.equalsIgnoreCase("Y", tableUpdateable));
             }
             // 关闭连接和释放资源
             DBUtil.close(resultSet);
@@ -1575,7 +1583,7 @@ public class DamengClient {
                 view.setName(tableName);
                 view.setComment(tableComment);
                 view.setDefinition(definition);
-                view.setUpdatable(StringUtil.equalsIgnoreCase("N", tableUpdateable));
+                view.setUpdatable(!StringUtil.equalsIgnoreCase("Y", tableUpdateable));
                 list.add(view);
             }
             // 关闭连接和释放资源
@@ -1908,6 +1916,7 @@ public class DamengClient {
                     value.setNullable(dbColumn.isNullable());
                     value.setAutoIncrement(dbColumn.isAutoIncrement());
                 }
+                value.setTableName(viewName);
                 value.initStatus();
             }
             // 返回排序后的数据
@@ -1938,6 +1947,9 @@ public class DamengClient {
             List<DamengRecord> records = new ArrayList<>();
             boolean updatable = DamengHelper.isViewUpdatable(connection, dbName, viewName);
             DamengColumns columns = DamengHelper.parseColumns(resultSet);
+            for (DamengColumn column : columns) {
+                column.setTableName(viewName);
+            }
             while (resultSet.next()) {
                 DamengRecord record = new DamengRecord(columns, !updatable);
                 for (DamengColumn column : columns) {
