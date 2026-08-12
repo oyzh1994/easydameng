@@ -824,69 +824,40 @@ public class DamengClient {
             String dbName = param.getDbName();
             List<DamengTable> tables = new ArrayList<>();
             Connection connection = this.connection(dbName);
-            if (param.isFull()) {
-                String sql = """
-                            SELECT 
-                                T.TABLE_NAME, C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "TABLE_SPACE" 
-                            FROM 
-                                ALL_TABLES T 
-                            LEFT JOIN 
-                                ALL_TAB_COMMENTS C 
-                            ON 
-                                T.OWNER = C.OWNER 
-                            AND 
-                               T.TABLE_NAME = C.TABLE_NAME 
-                            WHERE 
-                                T.OWNER = ?
-                        """;
-                DBUtil.printSql(sql);
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, dbName);
-                ResultSet resultSet = statement.executeQuery();
-                DBUtil.printMetaData(resultSet);
-                while (resultSet.next()) {
-                    DamengTable table = new DamengTable();
-                    String tableName = resultSet.getString("TABLE_NAME");
-                    String tableSpace = resultSet.getString("TABLE_SPACE");
-                    String tableComment = resultSet.getString("TABLE_COMMENT");
-                    String showCreateTable = this.showCreateTable(dbName, tableName);
-                    table.setDbName(dbName);
-                    table.setName(tableName);
-                    table.setComment(tableComment);
-                    table.setTableSpace(tableSpace);
-                    table.setCreateDefinition(showCreateTable);
-                    tables.add(table);
-                }
-                DBUtil.close(resultSet);
-                DBUtil.close(statement);
-            } else {
-                String sql = """
-                            SELECT 
-                                TABLE_NAME, COMMENTS AS REMARKS 
-                            FROM 
-                                ALL_TAB_COMMENTS 
-                            WHERE 
-                                OWNER = ?
-                        """;
-                DBUtil.printSql(sql);
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, dbName);
-                ResultSet resultSet = statement.executeQuery();
-                DBUtil.printMetaData(resultSet);
-                while (resultSet.next()) {
-                    DamengTable table = new DamengTable();
-                    table.setDbName(dbName);
-                    String remarks = resultSet.getString("REMARKS");
-                    String tableName = resultSet.getString("TABLE_NAME");
-                    table.setName(tableName);
-                    table.setComment(remarks);
-                    tables.add(table);
-                }
-                DBUtil.close(resultSet);
-                DBUtil.close(statement);
+            String sql = """
+                        SELECT 
+                            T.TABLE_NAME, C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "TABLE_SPACE" 
+                        FROM 
+                            ALL_TABLES T 
+                        LEFT JOIN 
+                            ALL_TAB_COMMENTS C 
+                        ON 
+                            T.OWNER = C.OWNER 
+                        AND 
+                           T.TABLE_NAME = C.TABLE_NAME 
+                        WHERE 
+                            T.OWNER = ?
+                    """;
+            DBUtil.printSql(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, dbName);
+            ResultSet resultSet = statement.executeQuery();
+            DBUtil.printMetaData(resultSet);
+            while (resultSet.next()) {
+                DamengTable table = new DamengTable();
+                String tableName = resultSet.getString("TABLE_NAME");
+                String tableSpace = resultSet.getString("TABLE_SPACE");
+                String tableComment = resultSet.getString("TABLE_COMMENT");
+                String showCreateTable = this.showCreateTable(dbName, tableName);
+                table.setDbName(dbName);
+                table.setName(tableName);
+                table.setComment(tableComment);
+                table.setTableSpace(tableSpace);
+                table.setCreateDefinition(showCreateTable);
+                tables.add(table);
             }
-
-
+            DBUtil.close(resultSet);
+            DBUtil.close(statement);
             return tables;
         } catch (Exception ex) {
             ex.printStackTrace();
