@@ -24,7 +24,7 @@
     </FXHBox>
     <DamengDesignTabPane flexWidth="100%" flexHeight="100% - 25">
         <FixedTab text="%base.definition">
-            <DBEditor fontSize="12" fx:id="definition" flexHeight="100%" flexWidth="100%"/>
+            <DBEditor fx:id="definition" flexHeight="100%" flexWidth="100%"/>
         </FixedTab>
         <FixedTab text="%base.advanced">
             <FXVBox flexHeight="100%" flexWidth="100%">

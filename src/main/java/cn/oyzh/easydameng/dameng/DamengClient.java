@@ -1536,7 +1536,16 @@ public class DamengClient {
 
     public DamengView view(String dbName, String viewName) {
         try {
-            String sql = "SELECT TEXT AS DEFINITION, VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS WHERE VIEW_NAME = ?";
+            String sql = """
+                        SELECT 
+                            TEXT AS DEFINITION, VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT 
+                        FROM 
+                            ALL_VIEWS 
+                        WHERE 
+                            OWNER = ?
+                        AND
+                            VIEW_NAME = ?
+                    """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
             statement.setString(1, viewName);
@@ -1570,9 +1579,17 @@ public class DamengClient {
     public List<DamengView> views(String dbName) {
         try {
             List<DamengView> list = new ArrayList<>();
-            String sql = "SELECT TEXT AS DEFINITION, VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS";
+            String sql = """
+                        SELECT 
+                            TEXT AS DEFINITION, VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT 
+                        FROM 
+                            ALL_VIEWS
+                        WHERE 
+                            OWNER = ?
+                    """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
+            statement.setString(1, dbName);
             ResultSet resultSet = statement.executeQuery();
             // 打印元数据
             DBUtil.printMetaData(resultSet);
