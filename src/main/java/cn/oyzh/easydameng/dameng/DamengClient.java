@@ -1536,9 +1536,8 @@ public class DamengClient {
 
     public DamengView view(String dbName, String viewName) {
         try {
-            String sql = "SELECT VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS WHERE VIEW_NAME = ?";
+            String sql = "SELECT TEXT AS DEFINITION, VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS WHERE VIEW_NAME = ?";
             DBUtil.printSql(sql);
-            Connection connection = this.connection();
             PreparedStatement statement = this.connection().prepareStatement(sql);
             statement.setString(1, viewName);
             // 执行SQL查询并获取结果集
@@ -1549,11 +1548,13 @@ public class DamengClient {
             DamengView view = new DamengView();
             while (resultSet.next()) {
                 String tableName = resultSet.getString("TABLE_NAME");
+                String definition = resultSet.getString("DEFINITION");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
                 String tableUpdateable = resultSet.getString("UPDATABLE");
                 view.setDbName(dbName);
                 view.setName(tableName);
                 view.setComment(tableComment);
+                view.setDefinition(definition);
                 view.setUpdatable(StringUtil.equalsIgnoreCase("N", tableUpdateable));
             }
             // 关闭连接和释放资源
@@ -1569,7 +1570,7 @@ public class DamengClient {
     public List<DamengView> views(String dbName) {
         try {
             List<DamengView> list = new ArrayList<>();
-            String sql = "SELECT VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS";
+            String sql = "SELECT TEXT AS DEFINITION, VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT FROM USER_VIEWS";
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
@@ -1579,11 +1580,13 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengView view = new DamengView();
                 String tableName = resultSet.getString("TABLE_NAME");
+                String definition = resultSet.getString("DEFINITION");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
                 String tableUpdateable = resultSet.getString("UPDATABLE");
                 view.setDbName(dbName);
                 view.setName(tableName);
                 view.setComment(tableComment);
+                view.setDefinition(definition);
                 view.setUpdatable(StringUtil.equalsIgnoreCase("N", tableUpdateable));
                 list.add(view);
             }
