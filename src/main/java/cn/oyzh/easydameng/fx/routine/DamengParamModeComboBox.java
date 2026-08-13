@@ -8,9 +8,10 @@ import cn.oyzh.fx.plus.controls.combo.FXComboBox;
  */
 public class DamengParamModeComboBox extends FXComboBox<String> {
 
-    {
+    @Override
+    public void initNode() {
         this.addItem("IN");
         this.addItem("OUT");
-        this.addItem("INOUT");
+        this.addItem("IN/OUT");
     }
 }

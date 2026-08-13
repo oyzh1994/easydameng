@@ -67,4 +67,25 @@ public class DBStatusListenerManager {
             });
         }
     }
+
+    /**
+     * 解绑监听器
+     *
+     * @param node     节点
+     * @param listener 监听器
+     */
+    public static void unbindListener(Object node, DBStatusListener listener) {
+        if (listener == null) {
+            return;
+        }
+        if (node instanceof TextInputControl node1) {
+            node1.textProperty().removeListener(listener);
+        } else if (node instanceof ComboBox<?> node1) {
+            node1.getSelectionModel().selectedItemProperty().removeListener(listener);
+        } else if (node instanceof CheckBox checkBox) {
+            checkBox.selectedProperty().removeListener(listener);
+        } else if (node instanceof Property<?> property) {
+            property.removeListener(listener);
+        }
+    }
 }

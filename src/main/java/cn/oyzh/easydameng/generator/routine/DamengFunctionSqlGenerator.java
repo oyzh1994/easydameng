@@ -2,9 +2,9 @@ package cn.oyzh.easydameng.generator.routine;
 
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
+import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.util.List;
@@ -20,12 +20,7 @@ public class DamengFunctionSqlGenerator {
     public static final DamengFunctionSqlGenerator INSTANCE = new DamengFunctionSqlGenerator();
 
     public String generate(DamengFunction function) {
-        String sql = "CREATE ";
-        // 定义者
-        if (StringUtil.isNotBlank(function.getDefiner())) {
-            sql += " DEFINER = " + function.getDefiner();
-        }
-        sql += " FUNCTION " + DBUtil.wrap(function.getName(), DBDialect.DAMENG);
+        String sql = "CREATE OR REPLACE FUNCTION " + DBUtil.wrap(function.getName(), DBDialect.DAMENG);
         // 参数
         sql += " (";
         List<DamengRoutineParam> params = function.getParams();
@@ -39,21 +34,10 @@ public class DamengFunctionSqlGenerator {
         // 返回值
         DamengRoutineParam returnParam = function.getReturnParam();
         if (returnParam != null) {
-            sql += " \nRETURNS " + returnParam.getDefinition();
+            sql += " \nRETURN " + returnParam.getDefinition();
         }
-        // 注释
-        if (StringUtil.isNotBlank(function.getComment())) {
-            sql += " \nCOMMENT " + DBUtil.wrapData(function.getComment());
-        }
-        // 安全性
-        if (StringUtil.isNotBlank(function.getSecurityType())) {
-            sql += " \nSQL SECURITY " + function.getSecurityType();
-        }
-        // 特征
-        if (StringUtil.isNotBlank(function.getCharacteristic())) {
-            sql += " \n" + function.getCharacteristic();
-        }
-        sql += " \n" + function.getDefinition();
+        // 函数体
+        sql += " \nAS\n" + function.getDefinition();
         return sql;
     }
 }

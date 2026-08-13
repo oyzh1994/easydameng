@@ -1,5 +1,6 @@
 package cn.oyzh.easydameng.listener;
 
+import cn.oyzh.common.object.Destroyable;
 import javafx.beans.value.ChangeListener;
 
 import java.util.UUID;
@@ -8,7 +9,7 @@ import java.util.UUID;
  * @author oyzh
  * @since 2024/7/23
  */
-public abstract class DBStatusListener implements ChangeListener<Object> {
+public abstract class DBStatusListener implements ChangeListener<Object> , Destroyable {
 
     private final String key;
 
@@ -36,7 +37,13 @@ public abstract class DBStatusListener implements ChangeListener<Object> {
         DBStatusListenerManager.removeListener(this);
     }
 
+    @Override
+    public void destroy() {
+        DBStatusListenerManager.removeListener(this);
+    }
+
     public String getKey() {
         return key;
     }
+
 }

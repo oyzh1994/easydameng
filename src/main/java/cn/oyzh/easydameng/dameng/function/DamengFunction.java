@@ -38,8 +38,8 @@ public class DamengFunction extends DamengRoutineSchema implements ObjectCopier<
     @Override
     public void copy(DamengFunction function) {
         this.setParams(function.getParams());
-        this.setComment(function.getComment());
-        this.setDefiner(function.getDefiner());
+//        this.setComment(function.getComment());
+//        this.setDefiner(function.getDefiner());
         this.setDefinition(function.getDefinition());
         this.setReturnParam(function.getReturnParam());
         this.setSecurityType(function.getSecurityType());

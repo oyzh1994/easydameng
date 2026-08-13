@@ -1,7 +1,8 @@
 package cn.oyzh.easydameng.tabs.procedure;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBObjectStatus;
+import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
+import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBEditor;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
@@ -10,13 +11,10 @@ import cn.oyzh.easydameng.fx.routine.DamengCharacteristicCombobox;
 import cn.oyzh.easydameng.generator.routine.DamengProcedureSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
-import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
-import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.fx.editor.incubator.control.SqlEditor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.plus.controls.tab.FXTabPane;
-import cn.oyzh.fx.plus.controls.text.area.FXTextArea;
-import cn.oyzh.fx.plus.controls.text.field.FXTextField;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.node.NodeGroupUtil;
 import cn.oyzh.fx.plus.node.NodeUtil;
@@ -29,7 +27,6 @@ import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -65,25 +62,13 @@ public class DamengProcedureDesignTabController extends RichTabController {
      * 预览
      */
     @FXML
-    private DBEditor preview;
+    private SqlEditor preview;
 
     /**
      * 切换面板
      */
     @FXML
     private FXTabPane tabPane;
-
-    /**
-     * 注释
-     */
-    @FXML
-    private FXTextArea comment;
-
-    /**
-     * 定义者
-     */
-    @FXML
-    private FXTextField definer;
 
     /**
      * 安全性
@@ -102,54 +87,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
      */
     @FXML
     private DBStatusTableView<DamengRoutineParam> paramTable;
-
-    // /**
-    //  * 参数类型
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengRoutineParam, String> paramType;
-    //
-    // /**
-    //  * 参数长度
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengRoutineParam, String> paramSize;
-    //
-    // /**
-    //  * 参数值
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengRoutineParam, String> paramValue;
-    //
-    // /**
-    //  * 参数小数
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengRoutineParam, String> paramDigits;
-    //
-    // /**
-    //  * 参数字符集
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengRoutineParam, String> paramCharset;
-    //
-    // /**
-    //  * 参数排序
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengRoutineParam, String> paramCollation;
-    //
-    // /**
-    //  * 参数名称
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengRoutineParam, String> paramName;
-    //
-    // /**
-    //  * 参数模式
-    //  */
-    // @FXML
-    // private FXTableColumn<DamengRoutineParam, String> paramMode;
 
     /**
      * 数据监听器
@@ -172,30 +109,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
     private boolean initiating;
 
     /**
-     * 数据列表监听器
-     */
-    private final ListChangeListener<DBObjectStatus> listChangeListener = c -> {
-        if (c.next()) {
-            if (c.wasRemoved() || c.wasAdded() || c.wasReplaced()) {
-                this.initChangedFlag();
-            }
-            if (c.wasReplaced() || c.wasAdded()) {
-                List<DBObjectStatus> list = null;
-                if (c.wasReplaced()) {
-                    list = (List<DBObjectStatus>) c.getList();
-                } else if (c.wasAdded()) {
-                    list = (List<DBObjectStatus>) c.getAddedSubList();
-                }
-                if (list != null) {
-                    for (DBObjectStatus status : list) {
-                        DBStatusListenerManager.bindListener(status.statusProperty(), this.listener);
-                    }
-                }
-            }
-        }
-    };
-
-    /**
      * 执行初始化
      *
      * @param procedure 查询对象
@@ -204,41 +117,37 @@ public class DamengProcedureDesignTabController extends RichTabController {
     public void init(DamengProcedure procedure, DamengDatabaseTreeItem dbItem) {
         this.dbItem = dbItem;
         this.procedure = procedure;
+        // 更新新数据标志位
+        this.newData = this.procedure.isNew();
         StageManager.showMask(this::doInit);
     }
 
     /**
      * 执行初始化
-     *
      */
     private void doInit() {
-        // 查询最新数据
-        if (!this.procedure.isNew()) {
-            this.procedure = this.dbItem.selectProcedure(procedure.getName());
-        }
 
         // 初始化监听器
         this.initDBListener();
 
         // 初始化信息
-        // this.initInfo();
         FXUtil.runWait(this::initInfo);
-
-        // 监听组件
-        //CacheHelper.set("dameng:dbClient", this.dbItem.client());
-        DBStatusListenerManager.bindListener(this.definer, this.listener);
-        DBStatusListenerManager.bindListener(this.comment, this.listener);
-        DBStatusListenerManager.bindListener(this.definition, this.listener);
-        DBStatusListenerManager.bindListener(this.securityType, this.listener);
-        DBStatusListenerManager.bindListener(this.characteristic, this.listener);
-        // this.paramTable.itemList().addListener(this.listChangeListener);
-        this.paramTable.setStatusListener(this.listener);
+        //
+        //// 监听组件
+        //CacheHelper.set("mysql:dbClient", this.dbItem.client());
     }
 
     /**
      * 初始化数据监听器
      */
     private void initDBListener() {
+        // 销毁监听器
+        if (this.listener != null) {
+            this.listener.destroy();
+            DBStatusListenerManager.unbindListener(this.definition, this.listener);
+            DBStatusListenerManager.unbindListener(this.securityType, this.listener);
+            DBStatusListenerManager.unbindListener(this.characteristic, this.listener);
+        }
         // 初始化监听器
         this.listener = new DBStatusListener(this.procedure.getDbName() + ":" + this.procedure.getName()) {
             @Override
@@ -246,6 +155,10 @@ public class DamengProcedureDesignTabController extends RichTabController {
                 initChangedFlag();
             }
         };
+        DBStatusListenerManager.bindListener(this.definition, this.listener);
+        DBStatusListenerManager.bindListener(this.securityType, this.listener);
+        DBStatusListenerManager.bindListener(this.characteristic, this.listener);
+        this.paramTable.setStatusListener(this.listener);
     }
 
     /**
@@ -265,30 +178,41 @@ public class DamengProcedureDesignTabController extends RichTabController {
         // 更新初始化标志位
         this.initiating = true;
 
-        // 更新新表标志位
-        this.newData = this.procedure.isNew();
-
-        // 初始化数据
-        this.definer.setText(this.procedure.getDefiner());
-        this.comment.setText(this.procedure.getComment());
-        this.definition.setText(this.procedure.getDefinition());
-        this.definition.forgetHistory();
-        this.paramTable.setItem(this.procedure.getParams());
-        this.securityType.select(this.procedure.getSecurityType());
-        this.characteristic.select(this.procedure.getCharacteristic());
-
         // 如果是新数据，则默认触发变更
         if (this.newData) {
             this.unsaved = true;
-            this.definer.setText("`root`@`%`");
             String defDefinition = """
                     BEGIN
-                        #Routine body goes here...
                     
-                    END
+                         RETURN 0;
+                    END;
                     """;
             this.definition.setText(defDefinition);
+        } else {
+            // 查询函数信息
+            this.procedure = this.dbItem.selectProcedure(this.procedure.getName());
+            // 初始化数据
+            this.definition.setText(this.procedure.getDefinition());
+            this.definition.forgetHistory();
+            this.paramTable.setItem(this.procedure.getParams());
+            this.securityType.select(this.procedure.getSecurityType());
+            this.characteristic.select(this.procedure.getCharacteristic());
         }
+
+//        // 返回值处理
+//        DamengRoutineParam returnParam = this.function.getReturnParam();
+//        if (returnParam != null) {
+//            this.returnType.select(returnParam.getType());
+//            if (returnParam.getSize() != null) {
+//                this.returnSize.setValue(returnParam.getSize());
+//            }
+//            if (returnParam.getDigits() != null) {
+//                this.returnDigits.setValue(returnParam.getDigits());
+//            }
+//            if (StringUtil.isNotBlank(returnParam.getValue())) {
+//                this.returnValues.setValues(returnParam.getValueList());
+//            }
+//        }
 
         // 标记为结束
         FXUtil.runPulse(() -> this.initiating = false);
@@ -303,6 +227,11 @@ public class DamengProcedureDesignTabController extends RichTabController {
     }
 
     /**
+     * 函数名称
+     */
+    private String procedureName;
+
+    /**
      * 执行保存
      */
     private void doSave() {
@@ -311,7 +240,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
             DamengProcedure tempProcedure = this.tempData();
 
             // 过程名称
-            String procedureName;
             if (this.newData) {
                 procedureName = MessageBox.prompt(I18nHelper.pleaseInputProcedureName());
                 if (procedureName == null) {
@@ -321,8 +249,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
             } else {
                 procedureName = tempProcedure.getName();
             }
-
-            // this.disableTab();
 
             // 创建过程
             if (this.newData) {
@@ -335,14 +261,12 @@ public class DamengProcedureDesignTabController extends RichTabController {
                 this.dbItem.alertProcedure(tempProcedure);
                 DamengEventUtil.procedureAlerted(procedureName, this.dbItem);
             }
-            // // 刷新数据
-            // this.dbItem.getProcedureTypeChild().reloadChild();
             // 更新保存标志位
             this.unsaved = false;
-            // 重载表数据
-            this.procedure = this.dbItem.selectProcedure(procedureName);
+            // 更新新数据标志位
+            this.newData = false;
+            this.procedure = tempProcedure;
             // 刷新tab
-            // this.initInfo();
             FXUtil.runWait(this::initInfo);
             // 重置表格
             this.paramTable.reset();
@@ -351,10 +275,8 @@ public class DamengProcedureDesignTabController extends RichTabController {
         } catch (Exception ex) {
             MessageBox.exception(ex);
         } finally {
-            // this.enableTab();
             this.flushTab();
         }
-
     }
 
     /**
@@ -370,11 +292,21 @@ public class DamengProcedureDesignTabController extends RichTabController {
         // 基本信息处理
         tempFunction.setDbName(this.procedure.getDbName());
         tempFunction.setParams(this.paramTable.getItems());
-        tempFunction.setDefiner(this.definer.getTextTrim());
-        tempFunction.setComment(this.comment.getTextTrim());
         tempFunction.setDefinition(this.definition.getTextTrim());
-        tempFunction.setSecurityType(this.securityType.getSelectedItem());
-        tempFunction.setCharacteristic(this.characteristic.getSelectedItem());
+
+//        // 返回值处理
+//        DamengRoutineParam returnParam = new DamengRoutineParam();
+//        returnParam.setType(this.returnType.getValue());
+//        if (this.returnSize.isEnable()) {
+//            returnParam.setSize(this.returnSize.getIntValue());
+//        }
+//        if (this.returnValues.isEnable()) {
+//            returnParam.setValue(this.returnValues.getTextTrim());
+//        }
+//        if (this.returnDigits.isEnable()) {
+//            returnParam.setDigits(this.returnDigits.getIntValue());
+//        }
+//        tempFunction.setReturnParam(returnParam);
 
         return tempFunction;
     }
@@ -384,19 +316,10 @@ public class DamengProcedureDesignTabController extends RichTabController {
         super.initialize(location, resourceBundle);
         // 监听事件
         NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
-        NodeUtil.nodeOnCtrlS(this.definer, this::save);
-        NodeUtil.nodeOnCtrlS(this.comment, this::save);
         NodeUtil.nodeOnCtrlS(this.definition, this::save);
+        NodeUtil.nodeOnCtrlS(this.securityType, this::save);
+        NodeUtil.nodeOnCtrlS(this.characteristic, this::save);
         this.paramTable.setCtrlSAction(this::save);
-        // // 绑定属性
-        // this.paramName.setCellValueFactory(new PropertyValueFactory<>("nameControl"));
-        // this.paramMode.setCellValueFactory(new PropertyValueFactory<>("modeControl"));
-        // this.paramType.setCellValueFactory(new PropertyValueFactory<>("typeControl"));
-        // this.paramSize.setCellValueFactory(new PropertyValueFactory<>("sizeControl"));
-        // this.paramValue.setCellValueFactory(new PropertyValueFactory<>("valueControl"));
-        // this.paramDigits.setCellValueFactory(new PropertyValueFactory<>("digitsControl"));
-        // this.paramCharset.setCellValueFactory(new PropertyValueFactory<>("charsetControl"));
-        // this.paramCollation.setCellValueFactory(new PropertyValueFactory<>("collationControl"));
 
         // 切换面板监听
         this.tabPane.selectedIndexChanged((observable, oldValue, newValue) -> {
@@ -406,12 +329,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
                 NodeGroupUtil.disappear(this.getTab(), "param");
             }
             if (newValue.intValue() == 3) {
-                // DamengProcedure temp = this.tempData();
-                // if (StringUtil.isBlank(temp.getName())) {
-                //     temp.setName("Unnamed_Procedure");
-                // }
-                // String sql = DamengProcedureSqlGenerator.INSTANCE.generate(temp);
-                // this.preview.setText(sql);
                 this.initPreview();
             }
         });
@@ -426,7 +343,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
             temp.setName("Unnamed_Procedure");
         }
         String sql = DamengProcedureSqlGenerator.INSTANCE.generate(temp);
-        this.preview.setText(sql);
+        this.preview.text(sql);
     }
 
     /**
@@ -439,7 +356,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
             param.setCreated(true);
             this.paramTable.addItem(param);
             this.paramTable.selectLast();
-            // this.tabPane.refresh();
         } catch (Exception ex) {
             MessageBox.exception(ex);
         }
@@ -465,7 +381,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
                     param.setDeleted(true);
                 }
             }
-            // this.tabPane.refresh();
         } catch (Exception ex) {
             MessageBox.exception(ex);
         }
@@ -495,20 +410,20 @@ public class DamengProcedureDesignTabController extends RichTabController {
         }
     }
 
-    public DamengDatabaseTreeItem getDbItem() {
-        return dbItem;
-    }
-
-    public void setDbItem(DamengDatabaseTreeItem dbItem) {
-        this.dbItem = dbItem;
-    }
-
     public boolean isUnsaved() {
         return unsaved;
     }
 
     public void setUnsaved(boolean unsaved) {
         this.unsaved = unsaved;
+    }
+
+    public DamengDatabaseTreeItem getDbItem() {
+        return dbItem;
+    }
+
+    public void setDbItem(DamengDatabaseTreeItem dbItem) {
+        this.dbItem = dbItem;
     }
 
     @Override

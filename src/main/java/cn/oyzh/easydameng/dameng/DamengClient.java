@@ -2346,14 +2346,17 @@ public class DamengClient {
             String sql = """
                     SELECT
                         O.OBJECT_NAME AS "ROUTINE_NAME",
-                        P.AUTHID AS "SECURITY_TYPE",
-                        NULL AS "SQL_DATA_ACCESS",
-                        NULL AS "ROUTINE_DEFINITION"
-                    FROM ALL_OBJECTS O
-                    LEFT JOIN ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
-                    WHERE O.OWNER = ?
-                    AND O.OBJECT_TYPE = 'FUNCTION'
-                    AND O.STATUS = 'VALID'
+                        P.AUTHID AS "SECURITY_TYPE"
+                    FROM 
+                        ALL_OBJECTS O
+                    LEFT JOIN 
+                        ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
+                    WHERE 
+                        O.OWNER = ?
+                    AND 
+                        O.OBJECT_TYPE = 'FUNCTION'
+                    AND 
+                        O.STATUS = 'VALID'
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
@@ -2368,15 +2371,13 @@ public class DamengClient {
                 String name = resultSet.getString("ROUTINE_NAME");
                 List<DamengRoutineParam> params = DamengHelper.listFunctionParam(this.connection(), dbName, name);
                 String securityType = resultSet.getString("SECURITY_TYPE");
-                String definition = resultSet.getString("ROUTINE_DEFINITION");
-                String sqlDataAccess = resultSet.getString("SQL_DATA_ACCESS");
-                String createDefinition = DamengHelper.getFunctionDefinition(this.connection(dbName), name);
+                String createDefinition = this.showCreateFunction(dbName, name);
+                String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
                 function.setName(name);
                 function.setDbName(dbName);
                 function.setParams(params);
                 function.setDefinition(definition);
                 function.setSecurityType(securityType);
-                function.setCharacteristic(sqlDataAccess);
                 function.setCreateDefinition(createDefinition);
                 list.add(function);
             }
@@ -2395,14 +2396,17 @@ public class DamengClient {
             String sql = """
                     SELECT
                         O.OBJECT_NAME AS "ROUTINE_NAME",
-                        P.AUTHID AS "SECURITY_TYPE",
-                        NULL AS "SQL_DATA_ACCESS",
-                        NULL AS "ROUTINE_DEFINITION"
-                    FROM ALL_OBJECTS O
-                    LEFT JOIN ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
-                    WHERE O.OWNER = ?
-                    AND O.OBJECT_TYPE = 'PROCEDURE'
-                    AND O.STATUS = 'VALID'
+                        P.AUTHID AS "SECURITY_TYPE"
+                    FROM 
+                        ALL_OBJECTS O
+                    LEFT JOIN
+                        ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
+                    WHERE 
+                        O.OWNER = ?
+                    AND 
+                        O.OBJECT_TYPE = 'PROCEDURE'
+                    AND 
+                        O.STATUS = 'VALID'
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
@@ -2418,14 +2422,12 @@ public class DamengClient {
                 String createDefinition = this.showCreateProcedure(dbName, name);
                 List<DamengRoutineParam> params = DamengHelper.listProcedureParam(this.connection(), dbName, name);
                 String securityType = resultSet.getString("SECURITY_TYPE");
-                String definition = resultSet.getString("ROUTINE_DEFINITION");
-                String sqlDataAccess = resultSet.getString("SQL_DATA_ACCESS");
+                String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
                 procedure.setName(name);
                 procedure.setDbName(dbName);
                 procedure.setParams(params);
                 procedure.setDefinition(definition);
                 procedure.setSecurityType(securityType);
-                procedure.setCharacteristic(sqlDataAccess);
                 procedure.setCreateDefinition(createDefinition);
                 list.add(procedure);
             }
@@ -2442,14 +2444,17 @@ public class DamengClient {
         try {
             String sql = """
                     SELECT
-                        P.AUTHID AS "SECURITY_TYPE",
-                        NULL AS "SQL_DATA_ACCESS",
-                        NULL AS "ROUTINE_DEFINITION"
-                    FROM ALL_OBJECTS O
-                    LEFT JOIN ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
-                    WHERE O.OWNER = ?
-                    AND O.OBJECT_NAME = ?
-                    AND O.OBJECT_TYPE = 'PROCEDURE'
+                        P.AUTHID AS "SECURITY_TYPE"
+                    FROM 
+                        ALL_OBJECTS O
+                    LEFT JOIN 
+                        ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
+                    WHERE 
+                        O.OWNER = ?
+                    AND 
+                        O.OBJECT_NAME = ?
+                    AND 
+                        O.OBJECT_TYPE = 'PROCEDURE'
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
@@ -2467,13 +2472,11 @@ public class DamengClient {
                 String createDefinition = this.showCreateProcedure(dbName, produceName);
                 List<DamengRoutineParam> params = DamengHelper.listProcedureParam(this.connection(), dbName, produceName);
                 String securityType = resultSet.getString("SECURITY_TYPE");
-                String definition = resultSet.getString("ROUTINE_DEFINITION");
-                String sqlDataAccess = resultSet.getString("SQL_DATA_ACCESS");
+                String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
                 procedure.setDbName(dbName);
                 procedure.setParams(params);
                 procedure.setDefinition(definition);
                 procedure.setSecurityType(securityType);
-                procedure.setCharacteristic(sqlDataAccess);
                 procedure.setCreateDefinition(createDefinition);
             }
             // 关闭连接和释放资源
@@ -2548,14 +2551,17 @@ public class DamengClient {
         try {
             String sql = """
                     SELECT
-                        P.AUTHID AS "SECURITY_TYPE",
-                        NULL AS "SQL_DATA_ACCESS",
-                        NULL AS "ROUTINE_DEFINITION"
-                    FROM ALL_OBJECTS O
-                    LEFT JOIN ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
-                    WHERE O.OWNER = ?
-                    AND O.OBJECT_NAME = ?
-                    AND O.OBJECT_TYPE = 'FUNCTION'
+                        P.AUTHID AS "SECURITY_TYPE"
+                    FROM 
+                        ALL_OBJECTS O
+                    LEFT JOIN 
+                        ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
+                    WHERE 
+                        O.OWNER = ?
+                    AND 
+                        O.OBJECT_NAME = ?
+                    AND 
+                        O.OBJECT_TYPE = 'FUNCTION'
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
@@ -2571,15 +2577,13 @@ public class DamengClient {
             // 遍历结果集
             while (resultSet.next()) {
                 String securityType = resultSet.getString("SECURITY_TYPE");
-                String definition = resultSet.getString("ROUTINE_DEFINITION");
-                String sqlDataAccess = resultSet.getString("SQL_DATA_ACCESS");
                 List<DamengRoutineParam> params = DamengHelper.listFunctionParam(this.connection(), dbName, functionName);
                 String createDefinition = this.showCreateFunction(dbName, functionName);
+                String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
                 function.setDbName(dbName);
                 function.setParams(params);
                 function.setDefinition(definition);
                 function.setSecurityType(securityType);
-                function.setCharacteristic(sqlDataAccess);
                 function.setCreateDefinition(createDefinition);
             }
             // 关闭连接和释放资源

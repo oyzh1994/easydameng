@@ -24,16 +24,16 @@ public class DamengRoutineSchema implements ObjectComparator<DamengRoutineSchema
      */
     private String dbName;
 
-    /**
-     * 注释
-     */
-    private String comment;
-
-    /**
-     * 定义者
-     */
-    private String definer;
-
+//    /**
+//     * 注释
+//     */
+//    private String comment;
+//
+//    /**
+//     * 定义者
+//     */
+//    private String definer;
+//
     /**
      * 安全性
      */
@@ -98,23 +98,23 @@ public class DamengRoutineSchema implements ObjectComparator<DamengRoutineSchema
 
     public void setCreateDefinition(String createDefinition) {
         this.createDefinitionProperty().setValue(createDefinition);
-        if (StringUtil.isNotBlank(createDefinition)) {
-            String[] arr = createDefinition.split(" ");
-            for (String string : arr) {
-                if (StringUtil.startWithIgnoreCase(string, "DEFINER=")) {
-                    this.definer = string.substring(8);
-                    break;
-                }
-            }
-            String[] arr1 = createDefinition.split("COMMENT '");
-            if (arr1.length >= 2) {
-                this.comment = arr1[1].substring(0, arr1[1].indexOf("'"));
-            }
-            String[] arr2 = createDefinition.split("COMMENT \"");
-            if (arr2.length >= 2) {
-                this.comment = arr2[1].substring(0, arr2[1].indexOf("\""));
-            }
-        }
+//        if (StringUtil.isNotBlank(createDefinition)) {
+//            String[] arr = createDefinition.split(" ");
+//            for (String string : arr) {
+//                if (StringUtil.startWithIgnoreCase(string, "DEFINER=")) {
+//                    this.definer = string.substring(8);
+//                    break;
+//                }
+//            }
+//            String[] arr1 = createDefinition.split("COMMENT '");
+//            if (arr1.length >= 2) {
+//                this.comment = arr1[1].substring(0, arr1[1].indexOf("'"));
+//            }
+//            String[] arr2 = createDefinition.split("COMMENT \"");
+//            if (arr2.length >= 2) {
+//                this.comment = arr2[1].substring(0, arr2[1].indexOf("\""));
+//            }
+//        }
     }
 
     public String getCreateDefinition() {
@@ -136,7 +136,7 @@ public class DamengRoutineSchema implements ObjectComparator<DamengRoutineSchema
     }
 
     public boolean isNew() {
-        return StringUtil.isBlank(this.getDefinition());
+        return StringUtil.isBlank(this.getCreateDefinition());
     }
 
     public List<DamengRoutineParam> getParams() {
@@ -155,22 +155,22 @@ public class DamengRoutineSchema implements ObjectComparator<DamengRoutineSchema
         this.dbName = dbName;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getDefiner() {
-        return definer;
-    }
-
-    public void setDefiner(String definer) {
-        this.definer = definer;
-    }
-
+//    public String getComment() {
+//        return comment;
+//    }
+//
+//    public void setComment(String comment) {
+//        this.comment = comment;
+//    }
+//
+//    public String getDefiner() {
+//        return definer;
+//    }
+//
+//    public void setDefiner(String definer) {
+//        this.definer = definer;
+//    }
+//
     public String getSecurityType() {
         return securityType;
     }

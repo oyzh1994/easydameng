@@ -12,8 +12,8 @@ public class DamengProcedure extends DamengRoutineSchema implements ObjectCopier
     @Override
     public void copy(DamengProcedure procedure) {
         this.setParams(procedure.getParams());
-        this.setDefiner(procedure.getDefiner());
-        this.setComment(procedure.getComment());
+//        this.setDefiner(procedure.getDefiner());
+//        this.setComment(procedure.getComment());
         this.setDefinition(procedure.getDefinition());
         this.setSecurityType(procedure.getSecurityType());
         this.setCharacteristic(procedure.getCharacteristic());

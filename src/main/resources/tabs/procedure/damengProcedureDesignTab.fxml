@@ -19,6 +19,7 @@
 <?import cn.oyzh.fx.plus.controls.text.area.FXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
+<?import cn.oyzh.fx.editor.incubator.control.SqlEditor?>
 <FXVBox xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="cn.oyzh.easydameng.tabs.procedure.DamengProcedureDesignTabController" flexWidth="100%"
@@ -59,16 +60,12 @@
             <DBStatusTableView fx:id="paramTable" flexHeight="100%" flexWidth="100%">
                 <columns>
                     <DBStatusColumn/>
-                    <FXTableColumn flexWidth="100% - 775" valueName="nameControl" text="%base.paramName"
-                                   resizable="true"/>
+                    <FXTableColumn flexWidth="100% - 670" valueName="nameControl" text="%base.paramName"/>
                     <FXTableColumn realWidth="150" valueName="typeControl" text="%base.type" resizable="false"/>
-                    <FXTableColumn realWidth="80" valueName="modeControl" text="%base.mode" resizable="false"/>
-                    <FXTableColumn realWidth="80" valueName="sizeControl" text="%base.length" resizable="false"/>
-                    <FXTableColumn realWidth="80" valueName="digitsControl" text="%base.digits" resizable="false"/>
-                    <FXTableColumn realWidth="100" valueName="charsetControl" text="%base.charset" resizable="false"/>
-                    <FXTableColumn realWidth="120" valueName="collationControl" text="%base.collation"
-                                   resizable="false"/>
-                    <FXTableColumn realWidth="120" valueName="valueControl" text="%base.value" resizable="true"/>
+                    <FXTableColumn realWidth="120" valueName="modeControl" text="%base.mode" resizable="false"/>
+                    <FXTableColumn realWidth="120" valueName="sizeControl" text="%base.length" resizable="false"/>
+                    <FXTableColumn realWidth="120" valueName="digitsControl" text="%base.digits" resizable="false"/>
+                    <FXTableColumn realWidth="120" valueName="valueControl" text="%base.value"/>
                 </columns>
             </DBStatusTableView>
         </FixedTab>
@@ -87,18 +84,6 @@
                     </DamengCharacteristicCombobox>
                 </FXHBox>
                 <FXHBox realHeight="50" flexWidth="100%">
-                    <AccentLabel realWidth="85" text="%base.definer" realHeight="25">
-                        <HBox.margin>
-                            <Insets left="20" top="12"/>
-                        </HBox.margin>
-                    </AccentLabel>
-                    <ClearableTextField fx:id="definer" flexWidth="100% - 140" realHeight="30">
-                        <HBox.margin>
-                            <Insets left="10" top="10"/>
-                        </HBox.margin>
-                    </ClearableTextField>
-                </FXHBox>
-                <FXHBox realHeight="50" flexWidth="100%">
                     <AccentLabel realWidth="85" text="%base.securityType" realHeight="25">
                         <HBox.margin>
                             <Insets left="20" top="12"/>
@@ -110,22 +95,10 @@
                         </HBox.margin>
                     </DBSecurityTypeComboBox>
                 </FXHBox>
-                <FXHBox realHeight="150" flexWidth="100%">
-                    <AccentLabel realWidth="85" text="%base.comment" realHeight="25">
-                        <HBox.margin>
-                            <Insets left="20" top="12"/>
-                        </HBox.margin>
-                    </AccentLabel>
-                    <FXTextArea fx:id="comment" flexWidth="100% - 140" realHeight="120">
-                        <HBox.margin>
-                            <Insets left="10" top="10"/>
-                        </HBox.margin>
-                    </FXTextArea>
-                </FXHBox>
             </FXVBox>
         </FixedTab>
         <FixedTab text="%base.preview" fx:id="previewTab">
-            <DBEditor editable="false" fontSize="12" fx:id="preview" flexWidth="100%" flexHeight="100%"/>
+            <SqlEditor editable="false" fontSize="12" fx:id="preview" flexWidth="100%" flexHeight="100%"/>
         </FixedTab>
     </DamengDesignTabPane>
 </FXVBox>
