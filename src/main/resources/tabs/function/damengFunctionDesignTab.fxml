@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import cn.oyzh.easydameng.fx.DBCharsetComboBox?>
+<?import cn.oyzh.easydameng.fx.DamengDesignTabPane?>
 <?import cn.oyzh.easydameng.fx.DBEditor?>
 <?import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox?>
 <?import cn.oyzh.easydameng.fx.DBStatusColumn?>
 <?import cn.oyzh.easydameng.fx.DBStatusTableView?>
-<?import cn.oyzh.easydameng.fx.DamengDesignTabPane?>
-<?import cn.oyzh.easydameng.fx.routine.DamengCharacteristicCombobox?>
-<?import cn.oyzh.easydameng.fx.table.DBEnumTextFiled?>
 <?import cn.oyzh.easydameng.fx.table.DamengFiledTypeComboBox?>
+<?import cn.oyzh.easydameng.fx.table.DBEnumTextFiled?>
+<?import cn.oyzh.fx.editor.incubator.control.SqlEditor?>
 <?import cn.oyzh.fx.gui.label.AccentLabel?>
 <?import cn.oyzh.fx.gui.svg.glyph.AddSVGGlyph?>
 <?import cn.oyzh.fx.gui.svg.glyph.DeleteSVGGlyph?>
@@ -17,11 +16,11 @@
 <?import cn.oyzh.fx.gui.text.field.NumberTextField?>
 <?import cn.oyzh.fx.plus.controls.box.FXHBox?>
 <?import cn.oyzh.fx.plus.controls.box.FXVBox?>
+<?import cn.oyzh.fx.plus.controls.button.FXCheckBox?>
 <?import cn.oyzh.fx.plus.controls.tab.FixedTab?>
 <?import cn.oyzh.fx.plus.controls.table.FXTableColumn?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
-<?import cn.oyzh.fx.editor.incubator.control.SqlEditor?>
 <FXVBox xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="cn.oyzh.easydameng.tabs.function.DamengFunctionDesignTabController" flexWidth="100%"
@@ -147,11 +146,33 @@
                             <Insets left="20" top="12"/>
                         </HBox.margin>
                     </AccentLabel>
-                    <DamengCharacteristicCombobox fx:id="characteristic" flexWidth="100% - 140" realHeight="30">
-                        <HBox.margin>
-                            <Insets left="10" top="10"/>
-                        </HBox.margin>
-                    </DamengCharacteristicCombobox>
+                    <FXHBox>
+                        <FXCheckBox fx:id="parallelEnable" text="PARALLEL_ENABLE">
+                            <HBox.margin>
+                                <Insets left="10" top="12"/>
+                            </HBox.margin>
+                        </FXCheckBox>
+                        <FXCheckBox fx:id="aggregate" text="AGGREGATE">
+                            <HBox.margin>
+                                <Insets left="10" top="12"/>
+                            </HBox.margin>
+                        </FXCheckBox>
+                        <FXCheckBox fx:id="pipelined" text="PIPELINED">
+                            <HBox.margin>
+                                <Insets left="10" top="12"/>
+                            </HBox.margin>
+                        </FXCheckBox>
+                        <FXCheckBox fx:id="deterministic" text="DETERMINISTIC">
+                            <HBox.margin>
+                                <Insets left="10" top="12"/>
+                            </HBox.margin>
+                        </FXCheckBox>
+                        <FXCheckBox fx:id="resultCache" text="RESULT_CACHE">
+                            <HBox.margin>
+                                <Insets left="10" top="12"/>
+                            </HBox.margin>
+                        </FXCheckBox>
+                    </FXHBox>
                 </FXHBox>
                 <FXHBox realHeight="50" flexWidth="100%">
                     <AccentLabel realWidth="85" text="%base.securityType" realHeight="25">

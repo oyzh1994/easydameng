@@ -36,6 +36,29 @@ public class DamengFunctionSqlGenerator {
         if (returnParam != null) {
             sql += " \nRETURN " + returnParam.getDefinition();
         }
+        String characteristic = function.getCharacteristic();
+        if (StringUtil.isNotBlank(characteristic)) {
+            if (characteristic.contains("PIPELINED")) {
+                sql += " \nPIPELINED";
+            }
+            if (characteristic.contains("PARALLEL_ENABLE")) {
+                sql += " \nPARALLEL_ENABLE";
+            }
+            if (characteristic.contains("DETERMINISTIC")) {
+                sql += " \nDETERMINISTIC";
+            }
+        }
+        if (StringUtil.isNotBlank(function.getSecurityType())) {
+            sql += " \nAUTHID " + function.getSecurityType();
+        }
+        if (StringUtil.isNotBlank(characteristic)) {
+            if (characteristic.contains("RESULT_CACHE")) {
+                sql += " \nRESULT_CACHE";
+            }
+            if (characteristic.contains("AGGREGATE")) {
+                sql += " \nAGGREGATE";
+            }
+        }
         // 函数体
         sql += " \nAS\n" + function.getDefinition();
         return sql;

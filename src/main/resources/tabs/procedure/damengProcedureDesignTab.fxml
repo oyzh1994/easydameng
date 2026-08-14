@@ -20,6 +20,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
 <?import cn.oyzh.fx.editor.incubator.control.SqlEditor?>
+<?import cn.oyzh.fx.plus.controls.button.FXCheckBox?>
 <FXVBox xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="cn.oyzh.easydameng.tabs.procedure.DamengProcedureDesignTabController" flexWidth="100%"
@@ -77,11 +78,13 @@
                             <Insets left="20" top="12"/>
                         </HBox.margin>
                     </AccentLabel>
-                    <DamengCharacteristicCombobox fx:id="characteristic" flexWidth="100% - 140" realHeight="30">
-                        <HBox.margin>
-                            <Insets left="10" top="10"/>
-                        </HBox.margin>
-                    </DamengCharacteristicCombobox>
+                    <FXHBox>
+                        <FXCheckBox fx:id="parallelEnable" text="PARALLEL_ENABLE">
+                            <HBox.margin>
+                                <Insets left="10" top="12"/>
+                            </HBox.margin>
+                        </FXCheckBox>
+                    </FXHBox>
                 </FXHBox>
                 <FXHBox realHeight="50" flexWidth="100%">
                     <AccentLabel realWidth="85" text="%base.securityType" realHeight="25">

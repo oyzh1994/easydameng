@@ -31,6 +31,15 @@ public class DamengProcedureSqlGenerator {
         }
         sql = StringUtil.replaceLast(sql, ",", "");
         sql += "\n) ";
+        String characteristic = procedure.getCharacteristic();
+        if (StringUtil.isNotBlank(characteristic)) {
+            if (characteristic.contains("PARALLEL_ENABLE")) {
+                sql += " \nPARALLEL_ENABLE";
+            }
+        }
+        if (StringUtil.isNotBlank(procedure.getSecurityType())) {
+            sql += " \nAUTHID " + procedure.getSecurityType();
+        }
         // 存储过程体
         sql += " \nAS\n" + procedure.getDefinition();
         return sql;

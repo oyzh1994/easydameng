@@ -7,7 +7,6 @@ import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBEditor;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
-import cn.oyzh.easydameng.fx.routine.DamengCharacteristicCombobox;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
 import cn.oyzh.easydameng.fx.table.DamengFiledTypeComboBox;
 import cn.oyzh.easydameng.generator.routine.DamengFunctionSqlGenerator;
@@ -17,6 +16,7 @@ import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.fx.editor.incubator.control.SqlEditor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.gui.text.field.NumberTextField;
+import cn.oyzh.fx.plus.controls.button.FXCheckBox;
 import cn.oyzh.fx.plus.controls.tab.FXTabPane;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.node.NodeGroupUtil;
@@ -79,10 +79,34 @@ public class DamengFunctionDesignTabController extends RichTabController {
     private DBSecurityTypeComboBox securityType;
 
     /**
-     * 特征
+     * 特征，parallelEnable
      */
     @FXML
-    private DamengCharacteristicCombobox characteristic;
+    private FXCheckBox parallelEnable;
+
+    /**
+     * 特征，deterministic
+     */
+    @FXML
+    private FXCheckBox deterministic;
+
+    /**
+     * 特征，resultCache
+     */
+    @FXML
+    private FXCheckBox resultCache;
+
+    /**
+     * 特征，pipelined
+     */
+    @FXML
+    private FXCheckBox pipelined;
+
+    /**
+     * 特征，aggregate
+     */
+    @FXML
+    private FXCheckBox aggregate;
 
     /**
      * 参数表单
@@ -158,9 +182,6 @@ public class DamengFunctionDesignTabController extends RichTabController {
 
         // 初始化信息
         FXUtil.runWait(this::initInfo);
-        //
-        //// 监听组件
-        //CacheHelper.set("mysql:dbClient", this.dbItem.client());
     }
 
     /**
@@ -176,7 +197,11 @@ public class DamengFunctionDesignTabController extends RichTabController {
             DBStatusListenerManager.unbindListener(this.returnDigits, this.listener);
             DBStatusListenerManager.unbindListener(this.securityType, this.listener);
             DBStatusListenerManager.unbindListener(this.returnValues, this.listener);
-            DBStatusListenerManager.unbindListener(this.characteristic, this.listener);
+            DBStatusListenerManager.unbindListener(this.parallelEnable, this.listener);
+            DBStatusListenerManager.unbindListener(this.aggregate, this.listener);
+            DBStatusListenerManager.unbindListener(this.pipelined, this.listener);
+            DBStatusListenerManager.unbindListener(this.deterministic, this.listener);
+            DBStatusListenerManager.unbindListener(this.resultCache, this.listener);
         }
         // 初始化监听器
         this.listener = new DBStatusListener(this.function.getDbName() + ":" + this.function.getName()) {
@@ -191,7 +216,11 @@ public class DamengFunctionDesignTabController extends RichTabController {
         DBStatusListenerManager.bindListener(this.returnDigits, this.listener);
         DBStatusListenerManager.bindListener(this.securityType, this.listener);
         DBStatusListenerManager.bindListener(this.returnValues, this.listener);
-        DBStatusListenerManager.bindListener(this.characteristic, this.listener);
+        DBStatusListenerManager.bindListener(this.parallelEnable, this.listener);
+        DBStatusListenerManager.bindListener(this.aggregate, this.listener);
+        DBStatusListenerManager.bindListener(this.pipelined, this.listener);
+        DBStatusListenerManager.bindListener(this.deterministic, this.listener);
+        DBStatusListenerManager.bindListener(this.resultCache, this.listener);
         this.paramTable.setStatusListener(this.listener);
     }
 
@@ -230,7 +259,24 @@ public class DamengFunctionDesignTabController extends RichTabController {
             this.definition.forgetHistory();
             this.paramTable.setItem(this.function.getParams());
             this.securityType.select(this.function.getSecurityType());
-            this.characteristic.select(this.function.getCharacteristic());
+            String characteristic = this.function.getCharacteristic();
+            if (StringUtil.isNotBlank(characteristic)) {
+                if (characteristic.contains("PARALLEL_ENABLE")) {
+                    this.parallelEnable.setSelected(true);
+                }
+                if (characteristic.contains("AGGREGATE")) {
+                    this.aggregate.setSelected(true);
+                }
+                if (characteristic.contains("PIPELINED")) {
+                    this.pipelined.setSelected(true);
+                }
+                if (characteristic.contains("DETERMINISTIC")) {
+                    this.deterministic.setSelected(true);
+                }
+                if (characteristic.contains("RESULT_CACHE")) {
+                    this.resultCache.setSelected(true);
+                }
+            }
         }
 
         // 返回值处理
@@ -328,8 +374,27 @@ public class DamengFunctionDesignTabController extends RichTabController {
         tempFunction.setParams(this.paramTable.getItems());
         tempFunction.setDefinition(this.definition.getTextTrim());
         tempFunction.setSecurityType(this.securityType.getSelectedItem());
-        tempFunction.setCharacteristic(this.characteristic.getSelectedItem());
 
+        // 特征处理
+        StringBuilder characteristic = new StringBuilder();
+        if (this.parallelEnable.isSelected()) {
+            characteristic.append(",PARALLEL_ENABLE");
+        }
+        if (this.aggregate.isSelected()) {
+            characteristic.append(",AGGREGATE");
+        }
+        if (this.pipelined.isSelected()) {
+            characteristic.append(",PIPELINED");
+        }
+        if (this.deterministic.isSelected()) {
+            characteristic.append(",DETERMINISTIC");
+        }
+        if (this.resultCache.isSelected()) {
+            characteristic.append(",RESULT_CACHE");
+        }
+        if (!characteristic.isEmpty()) {
+            tempFunction.setCharacteristic(characteristic.substring(1));
+        }
         // 返回值处理
         DamengRoutineParam returnParam = new DamengRoutineParam();
         returnParam.setType(this.returnType.getValue());
@@ -358,7 +423,11 @@ public class DamengFunctionDesignTabController extends RichTabController {
         NodeUtil.nodeOnCtrlS(this.returnValues, this::save);
         NodeUtil.nodeOnCtrlS(this.returnDigits, this::save);
         NodeUtil.nodeOnCtrlS(this.securityType, this::save);
-        NodeUtil.nodeOnCtrlS(this.characteristic, this::save);
+        NodeUtil.nodeOnCtrlS(this.parallelEnable, this::save);
+        NodeUtil.nodeOnCtrlS(this.aggregate, this::save);
+        NodeUtil.nodeOnCtrlS(this.pipelined, this::save);
+        NodeUtil.nodeOnCtrlS(this.deterministic, this::save);
+        NodeUtil.nodeOnCtrlS(this.resultCache, this::save);
         this.paramTable.setCtrlSAction(this::save);
 
         // 返回值监听

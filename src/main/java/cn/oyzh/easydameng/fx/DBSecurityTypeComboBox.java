@@ -10,15 +10,17 @@ import cn.oyzh.fx.plus.controls.combo.FXComboBox;
  */
 public class DBSecurityTypeComboBox extends FXComboBox<String> {
 
-    {
-        this.addItem("DEFINER");
-        this.addItem("INVOKER");
-    }
-
     @Override
     public void select(String obj) {
         if (obj != null) {
             super.select(obj.toUpperCase());
         }
+    }
+
+    @Override
+    public void initNode() {
+        this.addItem("DEFINER");
+        this.addItem("CURRENT_USER");
+        super.initNode();
     }
 }

@@ -7,13 +7,13 @@ import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBEditor;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
-import cn.oyzh.easydameng.fx.routine.DamengCharacteristicCombobox;
 import cn.oyzh.easydameng.generator.routine.DamengProcedureSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.fx.editor.incubator.control.SqlEditor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
+import cn.oyzh.fx.plus.controls.button.FXCheckBox;
 import cn.oyzh.fx.plus.controls.tab.FXTabPane;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.node.NodeGroupUtil;
@@ -77,10 +77,10 @@ public class DamengProcedureDesignTabController extends RichTabController {
     private DBSecurityTypeComboBox securityType;
 
     /**
-     * 特征
+     * 特征，parallelEnable
      */
     @FXML
-    private DamengCharacteristicCombobox characteristic;
+    private FXCheckBox parallelEnable;
 
     /**
      * 参数表单
@@ -132,9 +132,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
 
         // 初始化信息
         FXUtil.runWait(this::initInfo);
-        //
-        //// 监听组件
-        //CacheHelper.set("mysql:dbClient", this.dbItem.client());
     }
 
     /**
@@ -146,7 +143,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
             this.listener.destroy();
             DBStatusListenerManager.unbindListener(this.definition, this.listener);
             DBStatusListenerManager.unbindListener(this.securityType, this.listener);
-            DBStatusListenerManager.unbindListener(this.characteristic, this.listener);
+            DBStatusListenerManager.unbindListener(this.parallelEnable, this.listener);
         }
         // 初始化监听器
         this.listener = new DBStatusListener(this.procedure.getDbName() + ":" + this.procedure.getName()) {
@@ -157,7 +154,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
         };
         DBStatusListenerManager.bindListener(this.definition, this.listener);
         DBStatusListenerManager.bindListener(this.securityType, this.listener);
-        DBStatusListenerManager.bindListener(this.characteristic, this.listener);
+        DBStatusListenerManager.bindListener(this.parallelEnable, this.listener);
         this.paramTable.setStatusListener(this.listener);
     }
 
@@ -196,23 +193,13 @@ public class DamengProcedureDesignTabController extends RichTabController {
             this.definition.forgetHistory();
             this.paramTable.setItem(this.procedure.getParams());
             this.securityType.select(this.procedure.getSecurityType());
-            this.characteristic.select(this.procedure.getCharacteristic());
+            String characteristic = this.procedure.getCharacteristic();
+            if (StringUtil.isNotBlank(characteristic)) {
+                if (characteristic.contains("PARALLEL_ENABLE")) {
+                    this.parallelEnable.setSelected(true);
+                }
+            }
         }
-
-//        // 返回值处理
-//        DamengRoutineParam returnParam = this.function.getReturnParam();
-//        if (returnParam != null) {
-//            this.returnType.select(returnParam.getType());
-//            if (returnParam.getSize() != null) {
-//                this.returnSize.setValue(returnParam.getSize());
-//            }
-//            if (returnParam.getDigits() != null) {
-//                this.returnDigits.setValue(returnParam.getDigits());
-//            }
-//            if (StringUtil.isNotBlank(returnParam.getValue())) {
-//                this.returnValues.setValues(returnParam.getValueList());
-//            }
-//        }
 
         // 标记为结束
         FXUtil.runPulse(() -> this.initiating = false);
@@ -241,7 +228,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
 
             // 过程名称
             if (this.newData) {
-                procedureName = MessageBox.prompt(I18nHelper.pleaseInputProcedureName());
+                procedureName = MessageBox.prompt(I18nHelper.pleaseInputFunctionName(), procedureName);
                 if (procedureName == null) {
                     return;
                 }
@@ -286,29 +273,25 @@ public class DamengProcedureDesignTabController extends RichTabController {
      */
     private DamengProcedure tempData() {
         // 创建临时对象
-        DamengProcedure tempFunction = new DamengProcedure();
-        tempFunction.setName(this.procedure.getName());
+        DamengProcedure tempProcedure = new DamengProcedure();
+        tempProcedure.setName(this.procedure.getName());
 
         // 基本信息处理
-        tempFunction.setDbName(this.procedure.getDbName());
-        tempFunction.setParams(this.paramTable.getItems());
-        tempFunction.setDefinition(this.definition.getTextTrim());
+        tempProcedure.setDbName(this.procedure.getDbName());
+        tempProcedure.setParams(this.paramTable.getItems());
+        tempProcedure.setDefinition(this.definition.getTextTrim());
+        tempProcedure.setSecurityType(this.securityType.getSelectedItem());
 
-//        // 返回值处理
-//        DamengRoutineParam returnParam = new DamengRoutineParam();
-//        returnParam.setType(this.returnType.getValue());
-//        if (this.returnSize.isEnable()) {
-//            returnParam.setSize(this.returnSize.getIntValue());
-//        }
-//        if (this.returnValues.isEnable()) {
-//            returnParam.setValue(this.returnValues.getTextTrim());
-//        }
-//        if (this.returnDigits.isEnable()) {
-//            returnParam.setDigits(this.returnDigits.getIntValue());
-//        }
-//        tempFunction.setReturnParam(returnParam);
+        // 特征处理
+        StringBuilder characteristic = new StringBuilder();
+        if (this.parallelEnable.isSelected()) {
+            characteristic.append(",PARALLEL_ENABLE");
+        }
+        if (!characteristic.isEmpty()) {
+            tempProcedure.setCharacteristic(characteristic.substring(1));
+        }
 
-        return tempFunction;
+        return tempProcedure;
     }
 
     @Override
@@ -318,7 +301,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
         NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
         NodeUtil.nodeOnCtrlS(this.definition, this::save);
         NodeUtil.nodeOnCtrlS(this.securityType, this::save);
-        NodeUtil.nodeOnCtrlS(this.characteristic, this::save);
+        NodeUtil.nodeOnCtrlS(this.parallelEnable, this::save);
         this.paramTable.setCtrlSAction(this::save);
 
         // 切换面板监听

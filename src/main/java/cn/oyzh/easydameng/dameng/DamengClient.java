@@ -2331,7 +2331,10 @@ public class DamengClient {
             String sql = """
                     SELECT
                         O.OBJECT_NAME AS "ROUTINE_NAME",
-                        P.AUTHID AS "SECURITY_TYPE"
+                        P.AUTHID AS "SECURITY_TYPE",
+                        P.AGGREGATE,
+                        P.PIPELINED,
+                        P.DETERMINISTIC
                     FROM 
                         ALL_OBJECTS O
                     LEFT JOIN 
@@ -2356,6 +2359,28 @@ public class DamengClient {
                 String securityType = resultSet.getString("SECURITY_TYPE");
                 String createDefinition = this.showCreateFunction(dbName, name);
                 String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
+                String aggregate = resultSet.getString("AGGREGATE");
+                String pipelined = resultSet.getString("PIPELINED");
+                String deterministic = resultSet.getString("DETERMINISTIC");
+                StringBuilder characteristic = new StringBuilder();
+                if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
+                    characteristic.append(",PARALLEL_ENABLE");
+                }
+                if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
+                    characteristic.append(",RESULT_CACHE");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
+                    characteristic.append(",AGGREGATE");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", pipelined)) {
+                    characteristic.append(",PIPELINED");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", deterministic)) {
+                    characteristic.append(",DETERMINISTIC");
+                }
+                if (!characteristic.isEmpty()) {
+                    function.setCharacteristic(characteristic.substring(1));
+                }
                 function.setName(name);
                 function.setDbName(dbName);
                 function.setParams(params);
@@ -2379,7 +2404,10 @@ public class DamengClient {
             String sql = """
                     SELECT
                         O.OBJECT_NAME AS "ROUTINE_NAME",
-                        P.AUTHID AS "SECURITY_TYPE"
+                        P.AUTHID AS "SECURITY_TYPE",
+                        P.AGGREGATE,
+                        P.PIPELINED,
+                        P.DETERMINISTIC
                     FROM 
                         ALL_OBJECTS O
                     LEFT JOIN
@@ -2404,6 +2432,28 @@ public class DamengClient {
                 List<DamengRoutineParam> params = DamengHelper.listProcedureParam(this.connection(), dbName, name);
                 String securityType = resultSet.getString("SECURITY_TYPE");
                 String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
+                String aggregate = resultSet.getString("AGGREGATE");
+                String pipelined = resultSet.getString("PIPELINED");
+                String deterministic = resultSet.getString("DETERMINISTIC");
+                StringBuilder characteristic = new StringBuilder();
+                if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
+                    characteristic.append(",PARALLEL_ENABLE");
+                }
+                if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
+                    characteristic.append(",RESULT_CACHE");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
+                    characteristic.append(",AGGREGATE");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", pipelined)) {
+                    characteristic.append(",PIPELINED");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", deterministic)) {
+                    characteristic.append(",DETERMINISTIC");
+                }
+                if (!characteristic.isEmpty()) {
+                    procedure.setCharacteristic(characteristic.substring(1));
+                }
                 procedure.setName(name);
                 procedure.setDbName(dbName);
                 procedure.setParams(params);
@@ -2425,7 +2475,10 @@ public class DamengClient {
         try {
             String sql = """
                     SELECT
-                        P.AUTHID AS "SECURITY_TYPE"
+                        P.AUTHID AS "SECURITY_TYPE",
+                        P.AGGREGATE,
+                        P.PIPELINED,
+                        P.DETERMINISTIC
                     FROM 
                         ALL_OBJECTS O
                     LEFT JOIN 
@@ -2454,6 +2507,28 @@ public class DamengClient {
                 List<DamengRoutineParam> params = DamengHelper.listProcedureParam(this.connection(), dbName, produceName);
                 String securityType = resultSet.getString("SECURITY_TYPE");
                 String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
+                String aggregate = resultSet.getString("AGGREGATE");
+                String pipelined = resultSet.getString("PIPELINED");
+                String deterministic = resultSet.getString("DETERMINISTIC");
+                StringBuilder characteristic = new StringBuilder();
+                if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
+                    characteristic.append(",PARALLEL_ENABLE");
+                }
+                if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
+                    characteristic.append(",RESULT_CACHE");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
+                    characteristic.append(",AGGREGATE");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", pipelined)) {
+                    characteristic.append(",PIPELINED");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", deterministic)) {
+                    characteristic.append(",DETERMINISTIC");
+                }
+                if (!characteristic.isEmpty()) {
+                    procedure.setCharacteristic(characteristic.substring(1));
+                }
                 procedure.setDbName(dbName);
                 procedure.setParams(params);
                 procedure.setDefinition(definition);
@@ -2532,7 +2607,10 @@ public class DamengClient {
         try {
             String sql = """
                     SELECT
-                        P.AUTHID AS "SECURITY_TYPE"
+                        P.AUTHID AS "SECURITY_TYPE",
+                        P.AGGREGATE,
+                        P.PIPELINED,
+                        P.DETERMINISTIC
                     FROM 
                         ALL_OBJECTS O
                     LEFT JOIN 
@@ -2561,6 +2639,28 @@ public class DamengClient {
                 List<DamengRoutineParam> params = DamengHelper.listFunctionParam(this.connection(), dbName, functionName);
                 String createDefinition = this.showCreateFunction(dbName, functionName);
                 String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
+                String aggregate = resultSet.getString("AGGREGATE");
+                String pipelined = resultSet.getString("PIPELINED");
+                String deterministic = resultSet.getString("DETERMINISTIC");
+                StringBuilder characteristic = new StringBuilder();
+                if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
+                    characteristic.append(",PARALLEL_ENABLE");
+                }
+                if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
+                    characteristic.append(",RESULT_CACHE");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
+                    characteristic.append(",AGGREGATE");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", pipelined)) {
+                    characteristic.append(",PIPELINED");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", deterministic)) {
+                    characteristic.append(",DETERMINISTIC");
+                }
+                if (!characteristic.isEmpty()) {
+                    function.setCharacteristic(characteristic.substring(1));
+                }
                 function.setDbName(dbName);
                 function.setParams(params);
                 function.setDefinition(definition);
@@ -2592,7 +2692,6 @@ public class DamengClient {
 
     public DamengRecord selectRecord(DamengSelectRecordParam param) {
         try {
-
             String dbName = param.getDbName();
             String tableName = param.getTableName();
             Connection connection = this.connection(dbName);
