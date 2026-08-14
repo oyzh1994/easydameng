@@ -4,7 +4,6 @@
 <?import cn.oyzh.easydameng.fx.DBStatusColumn?>
 <?import cn.oyzh.easydameng.fx.DBStatusTableView?>
 <?import cn.oyzh.easydameng.fx.DamengDesignTabPane?>
-<?import cn.oyzh.easydameng.fx.routine.DamengCharacteristicCombobox?>
 <?import cn.oyzh.fx.gui.label.AccentLabel?>
 <?import cn.oyzh.fx.gui.svg.glyph.AddSVGGlyph?>
 <?import cn.oyzh.fx.gui.svg.glyph.DeleteSVGGlyph?>

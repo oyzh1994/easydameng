@@ -180,8 +180,9 @@ public class DamengProcedureDesignTabController extends RichTabController {
             this.unsaved = true;
             String defDefinition = """
                     BEGIN
+                        -- Routine body goes here...
                     
-                         RETURN 0;
+                        RETURN;
                     END;
                     """;
             this.definition.setText(defDefinition);
