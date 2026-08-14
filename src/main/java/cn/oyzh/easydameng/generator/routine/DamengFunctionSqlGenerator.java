@@ -30,7 +30,7 @@ public class DamengFunctionSqlGenerator {
             }
         }
         sql = StringUtil.replaceLast(sql, ",", "");
-        sql += ") ";
+        sql += "\n) ";
         // 返回值
         DamengRoutineParam returnParam = function.getReturnParam();
         if (returnParam != null) {

@@ -504,23 +504,6 @@ public class DamengClient {
     }
 
     public int procedureSize(String dbName, String schema) {
-        // int size = 0;
-        // try {
-        //     Connection connection = this.procedureConnection(dbName, schema);
-        //     DatabaseMetaData metaData = connection.getMetaData();
-        //     ResultSet resultSet = metaData.getProcedures(dbName, schema, "%");
-        //     DBUtil.printMetaData(resultSet);
-        //     while (resultSet.next()) {
-        //         if (DBUtil.checkProcedureType(resultSet, dbName)) {
-        //             size++;
-        //         }
-        //     }
-        //     DBUtil.close(resultSet);
-        // } catch (Exception ex) {
-        //     ex.printStackTrace();
-        //     throw new DBException(ex);
-        // }
-        // return size;
         int size = 0;
         try {
             Connection connection = this.procedureConnection(dbName, schema);
@@ -528,9 +511,11 @@ public class DamengClient {
                     SELECT
                         COUNT(*)
                     FROM
-                        ALL_PROCEDURES
+                        ALL_OBJECTS
                     WHERE
                         OWNER = ?
+                    AND
+                        OBJECT_TYPE = 'PROCEDURE'
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -2355,8 +2340,6 @@ public class DamengClient {
                         O.OWNER = ?
                     AND 
                         O.OBJECT_TYPE = 'FUNCTION'
-                    AND 
-                        O.STATUS = 'VALID'
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
@@ -2405,8 +2388,6 @@ public class DamengClient {
                         O.OWNER = ?
                     AND 
                         O.OBJECT_TYPE = 'PROCEDURE'
-                    AND 
-                        O.STATUS = 'VALID'
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);

@@ -30,7 +30,7 @@ public class DamengProcedureSqlGenerator {
             }
         }
         sql = StringUtil.replaceLast(sql, ",", "");
-        sql += ") ";
+        sql += "\n) ";
         // 存储过程体
         sql += " \nAS\n" + procedure.getDefinition();
         return sql;
