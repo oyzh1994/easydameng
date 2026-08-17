@@ -1,8 +1,7 @@
 package cn.oyzh.easydameng.generator.event;
 
-import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.event.DamengEvent;
-import cn.oyzh.easydameng.util.DBUtil;
 
 /**
  * @author oyzh
@@ -10,62 +9,35 @@ import cn.oyzh.easydameng.util.DBUtil;
  */
 public class DamengEventCreateSqlGenerator extends EventCreateSqlGenerator {
 
-//    public DamengEventCreateSqlGenerator() {
-//        super(DBDialect.DAMENG);
-//    }
-
-//    protected DamengEventCreateSqlGenerator(DBDialect dialect) {
-//        super(dialect);
-//    }
-
     @Override
     public String generate(DamengEvent event) {
         // 起始
-        String sql = "CREATE ";
-        // 定义者
-        if (event.getDefiner() != null) {
-            sql += " DEFINER = " + event.getDefiner();
-        }
-        // 名称
-        sql += " EVENT " + DBUtil.wrap(event.getDbName(), event.getName(), DBDialect.DAMENG);
-        // 执行时间
-        sql += "\nON SCHEDULE ";
-        if (event.isOnTimeType()) {
-            sql += "AT " + event.executeAt();
-            if (event.getIntervalValue() != null) {
-                sql += " + INTERVAL '" + event.getIntervalValue() + "' " + event.getIntervalField();
-            }
+        String sql = "BEGIN\n";
+        sql += "  DBMS_SCHEDULER.CREATE_JOB (\n";
+        sql += "    job_type => 'PLSQL_BLOCK',\n";
+        sql += "    job_name => '" + event.getName() + "',\n";
+        String acion = event.getDefinition();
+        if (StringUtil.isNotBlank(acion)) {
+            acion = acion.replace("'", "''");
+            sql = sql + "    job_action => 'BEGIN " + acion + "; END;',\n";
         } else {
-            sql += "\nEVERY '" + event.getIntervalValue() + "' " + event.getIntervalField();
-            if (event.getStarts() != null) {
-                sql += " STARTS " + event.starts();
-                if (event.getStartIntervalValue() != null) {
-                    sql += " + INTERVAL '" + event.getStartIntervalValue() + "' " + event.getStartIntervalField();
-                }
-            }
-            if (event.getEnds() != null) {
-                sql += " ENDS " + event.ends();
-                if (event.getEndIntervalValue() != null) {
-                    sql += " + INTERVAL '" + event.getEndIntervalValue() + "' " + event.getEndIntervalField();
-                }
-            }
+            sql = sql + "    job_action => 'BEGIN  END;',\n";
         }
-        // 完成时
-        if (event.getOnCompletion() != null) {
-            sql += " \nON COMPLETION " + event.getOnCompletion();
+        if (event.getExecuteAt() != null) {
+            sql = sql + "    start_date => " + event.getExecuteAt() + ",\n";
+        } else {
+            sql = sql + "    start_date => SYSDATE,\n";
         }
-        // 状态
-        if (event.getStatus() != null) {
-            sql += " \n" + event.getStatus();
+        if (event.getIntervalValue() != null) {
+            sql = sql + "    repeat_interval => 'FREQ=" + event.getEndIntervalField() + "; INTERVAL=" + event.getIntervalValue() + "',\n";
         }
-        // 注释
-        if (event.getComment() != null) {
-            sql += " \nCOMMENT " + DBUtil.wrapData(event.getComment());
+        if (StringUtil.equalsIgnoreCase(event.getStatus(), "ENABLE")) {
+            sql = sql + "    enabled => TRUE\n";
+        } else {
+            sql = sql + "    enabled => FALSE\n";
         }
-        // 定义
-        if (event.getDefinition() != null) {
-            sql += " \nDO " + event.getDefinition();
-        }
+        sql += "  );\n";
+        sql += "END;\n";
         return sql;
     }
 }

@@ -106,84 +106,6 @@ public class DamengEventDesignTabController extends RichTabController {
     private DamengEventIntervalTypeCombobox onetimeIntervalType;
 
     /**
-     * 周期类型
-     */
-    @FXML
-    private FXRadioButton loopType;
-
-    /**
-     * 周期循环值
-     */
-    @FXML
-    private NumberTextField loopIntervalValue;
-
-    /**
-     * 周期循环类型
-     */
-    @FXML
-    private DamengEventIntervalTypeCombobox loopIntervalType;
-
-    /**
-     * 周期循环开始
-     */
-    @FXML
-    private FXCheckBox loopStart;
-
-    /**
-     * 周期循环开始时间
-     */
-    @FXML
-    private DateTimeTextField loopStartTime;
-
-    /**
-     * 周期循环开始组件
-     */
-    @FXML
-    private FXCheckBox loopStartInterval;
-
-    /**
-     * 周期循环开始值
-     */
-    @FXML
-    private NumberTextField loopStartIntervalValue;
-
-    /**
-     * 周期循环开始类型
-     */
-    @FXML
-    private DamengEventIntervalTypeCombobox loopStartIntervalType;
-
-    /**
-     * 周期循环结束
-     */
-    @FXML
-    private FXCheckBox loopEnd;
-
-    /**
-     * 周期循环结束时间
-     */
-    @FXML
-    private DateTimeTextField loopEndTime;
-
-    /**
-     * 周期循环结束类型
-     */
-    @FXML
-    private FXCheckBox loopEndInterval;
-
-    /**
-     * 周期循环结束值
-     */
-    @FXML
-    private NumberTextField loopEndIntervalValue;
-
-    /**
-     * 周期循环结束类型
-     */
-    @FXML
-    private DamengEventIntervalTypeCombobox loopEndIntervalType;
-
-    /**
      * 切换面板
      */
     @FXML
@@ -250,7 +172,7 @@ public class DamengEventDesignTabController extends RichTabController {
         this.initInfo();
         //
         //// 监听组件
-        //CacheHelper.set("dameng:dbClient", this.dbItem.client());
+        // CacheHelper.set("dameng:dbClient", this.dbItem.client());
 
         // 基础
         DBStatusListenerManager.bindListener(this.status, this.listener);
@@ -265,19 +187,6 @@ public class DamengEventDesignTabController extends RichTabController {
         DBStatusListenerManager.bindListener(this.onetimeInterval, this.listener);
         DBStatusListenerManager.bindListener(this.onetimeIntervalValue, this.listener);
         DBStatusListenerManager.bindListener(this.onetimeIntervalType, this.listener);
-
-        // 周期类型
-        DBStatusListenerManager.bindListener(this.loopType, this.listener);
-        DBStatusListenerManager.bindListener(this.loopStart, this.listener);
-        DBStatusListenerManager.bindListener(this.loopStartTime, this.listener);
-        DBStatusListenerManager.bindListener(this.loopStartInterval, this.listener);
-        DBStatusListenerManager.bindListener(this.loopStartIntervalValue, this.listener);
-        DBStatusListenerManager.bindListener(this.loopStartIntervalType, this.listener);
-        DBStatusListenerManager.bindListener(this.loopEnd, this.listener);
-        DBStatusListenerManager.bindListener(this.loopEndTime, this.listener);
-        DBStatusListenerManager.bindListener(this.loopEndInterval, this.listener);
-        DBStatusListenerManager.bindListener(this.loopEndIntervalValue, this.listener);
-        DBStatusListenerManager.bindListener(this.loopEndIntervalType, this.listener);
     }
 
     /**
@@ -327,37 +236,13 @@ public class DamengEventDesignTabController extends RichTabController {
         this.onetimeInterval.setSelected(false);
         this.onetimeIntervalValue.clear();
         this.onetimeIntervalType.selectFirst();
-        this.loopStart.setSelected(false);
-        this.loopStartTime.clear();
-        this.loopStartInterval.setSelected(false);
-        this.loopStartIntervalValue.clear();
-        this.loopStartIntervalType.selectFirst();
-        this.loopEnd.setSelected(false);
-        this.loopEndTime.clear();
-        this.loopEndInterval.setSelected(false);
-        this.loopEndIntervalValue.clear();
-        this.loopEndIntervalType.selectFirst();
 
         // 处理时间
-        if (this.event.isRecurringType()) {
-            this.loopType.setSelected(true);
-            this.loopIntervalType.select(this.event.getIntervalField());
-            this.loopIntervalValue.setValue(this.event.getIntervalValue());
-            if (this.event.getStarts() != null) {
-                this.loopStart.setSelected(true);
-                this.loopStartTime.setValue(this.event.getStarts());
-            }
-            if (this.event.getEnds() != null) {
-                this.loopEnd.setSelected(true);
-                this.loopEndTime.setValue(this.event.getEnds());
-            }
+        this.onetimeType.setSelected(true);
+        if (this.event.getExecuteAt() != null) {
+            this.onetime.setValue(this.event.getExecuteAt());
         } else {
-            this.onetimeType.setSelected(true);
-            if (this.event.getExecuteAt() != null) {
-                this.onetime.setValue(this.event.getExecuteAt());
-            } else {
-                this.onetime.setText("CURRENT_TIMESTAMP");
-            }
+            this.onetime.setText("SYSDATE");
         }
 
         // 如果是新数据，则默认触发变更
@@ -469,29 +354,10 @@ public class DamengEventDesignTabController extends RichTabController {
         // 类型
         temp.setType(this.planType.selectedUserData());
         // 时间
-        if (temp.isOnTimeType()) {
-            temp.setExecuteAt(this.onetime.getValue());
-            if (this.onetimeInterval.isSelected()) {
-                temp.setIntervalValue(this.onetimeIntervalValue.getIntValue());
-                temp.setIntervalField(this.onetimeIntervalType.getSelectedItem());
-            }
-        } else {
-            temp.setIntervalValue(this.loopIntervalValue.getIntValue());
-            temp.setIntervalField(this.loopIntervalType.getSelectedItem());
-            if (this.loopStart.isSelected()) {
-                temp.setStarts(this.loopStartTime.getValue());
-                if (this.loopStartInterval.isSelected()) {
-                    temp.setStartIntervalValue(this.loopStartIntervalValue.getIntValue());
-                    temp.setStartIntervalField(this.loopStartIntervalType.getSelectedItem());
-                }
-            }
-            if (this.loopEnd.isSelected()) {
-                temp.setEnds(this.loopEndTime.getValue());
-                if (this.loopEndInterval.isSelected()) {
-                    temp.setEndIntervalValue(this.loopEndIntervalValue.getIntValue());
-                    temp.setEndIntervalField(this.loopEndIntervalType.getSelectedItem());
-                }
-            }
+        temp.setExecuteAt(this.onetime.getValue());
+        if (this.onetimeInterval.isSelected()) {
+            temp.setIntervalValue(this.onetimeIntervalValue.getIntValue());
+            temp.setIntervalField(this.onetimeIntervalType.getSelectedItem());
         }
         return temp;
     }
@@ -517,93 +383,6 @@ public class DamengEventDesignTabController extends RichTabController {
                 this.onetimeIntervalValue.setDisable(true);
             }
         });
-        this.loopType.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                this.loopIntervalType.setDisable(false);
-                this.loopIntervalValue.setDisable(false);
-
-                this.loopStart.setDisable(false);
-                if (this.loopStart.isSelected()) {
-                    this.loopStartInterval.setDisable(false);
-                    if (this.loopStartInterval.isSelected()) {
-                        this.loopStartIntervalType.setDisable(false);
-                        this.loopStartIntervalValue.setDisable(false);
-                    }
-                }
-
-                this.loopEnd.setDisable(false);
-                if (this.loopEnd.isSelected()) {
-                    this.loopEndInterval.setDisable(false);
-                    if (this.loopEndInterval.isSelected()) {
-                        this.loopEndIntervalType.setDisable(false);
-                        this.loopEndIntervalValue.setDisable(false);
-                    }
-                }
-            } else {
-                this.loopIntervalType.setDisable(true);
-                this.loopIntervalValue.setDisable(true);
-                this.loopStart.setDisable(true);
-                this.loopStartInterval.setDisable(true);
-                this.loopEnd.setDisable(true);
-                this.loopEndInterval.setDisable(true);
-            }
-        });
-        this.loopStart.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                this.loopStartTime.setDisable(false);
-                this.loopStartInterval.setDisable(false);
-                if (this.loopStartInterval.isSelected()) {
-                    this.loopStartIntervalType.setDisable(false);
-                    this.loopStartIntervalValue.setDisable(false);
-                }
-            } else {
-                this.loopStartTime.setDisable(true);
-                this.loopStartInterval.setDisable(true);
-            }
-        });
-        this.loopEnd.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                this.loopEndTime.setDisable(false);
-                this.loopEndInterval.setDisable(false);
-                if (this.loopEndInterval.isSelected()) {
-                    this.loopEndIntervalType.setDisable(false);
-                    this.loopEndIntervalValue.setDisable(false);
-                }
-            } else {
-                this.loopEndTime.setDisable(true);
-                this.loopEndInterval.setDisable(true);
-            }
-        });
-        this.loopStartInterval.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                this.loopStartIntervalValue.setDisable(false);
-                this.loopStartIntervalType.setDisable(false);
-            } else {
-                this.loopStartIntervalValue.setDisable(true);
-                this.loopStartIntervalType.setDisable(true);
-            }
-        });
-        this.loopEndInterval.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                this.loopEndIntervalValue.setDisable(false);
-                this.loopEndIntervalType.setDisable(false);
-            } else {
-                this.loopEndIntervalValue.setDisable(true);
-                this.loopEndIntervalType.setDisable(true);
-            }
-        });
-        this.loopStartInterval.disableProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                this.loopStartIntervalValue.setDisable(newValue);
-                this.loopStartIntervalType.setDisable(newValue);
-            }
-        });
-        this.loopEndInterval.disableProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                this.loopEndIntervalValue.setDisable(newValue);
-                this.loopEndIntervalType.setDisable(newValue);
-            }
-        });
     }
 
     @Override
@@ -617,24 +396,9 @@ public class DamengEventDesignTabController extends RichTabController {
         NodeUtil.nodeOnCtrlS(this.definition, this::save);
         NodeUtil.nodeOnCtrlS(this.onetime, this::save);
         NodeUtil.nodeOnCtrlS(this.onetimeIntervalValue, this::save);
-        NodeUtil.nodeOnCtrlS(this.loopStartTime, this::save);
-        NodeUtil.nodeOnCtrlS(this.loopStartIntervalValue, this::save);
-        NodeUtil.nodeOnCtrlS(this.loopEndTime, this::save);
-        NodeUtil.nodeOnCtrlS(this.loopEndIntervalValue, this::save);
         // 切换面板监听
         this.tabPane.selectedIndexChanged((observable, oldValue, newValue) -> {
             if (newValue.intValue() == 3) {
-                // String sql;
-                // DamengEvent temp = this.tempData();
-                // if (this.newData) {
-                //     if (StringUtil.isBlank(temp.getName())) {
-                //         temp.setName("Unnamed_Event");
-                //     }
-                //     sql = EventCreateSqlGenerator.generate(this.dbItem.dialect(), temp);
-                // } else {
-                //     sql = EventAlertSqlGenerator.generate(this.dbItem.dialect(), temp);
-                // }
-                // this.preview.setText(sql);
                 this.initPreview();
             }
         });

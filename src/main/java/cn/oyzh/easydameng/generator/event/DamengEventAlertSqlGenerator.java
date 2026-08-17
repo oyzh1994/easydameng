@@ -10,14 +10,6 @@ import cn.oyzh.easydameng.util.DBUtil;
  */
 public class DamengEventAlertSqlGenerator extends EventAlertSqlGenerator {
 
-//    public DamengEventAlertSqlGenerator() {
-//        super(DBDialect.DAMENG);
-//    }
-//
-//    protected DamengEventAlertSqlGenerator(DBDialect dialect) {
-//        super(dialect);
-//    }
-
     @Override
     public String generate(DamengEvent event) {
         // 起始

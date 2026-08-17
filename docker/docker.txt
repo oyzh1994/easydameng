@@ -1,0 +1,3 @@
+docker载入镜像
+docker run -itd -p 15236:5236 -e SYSDBA_PWD='dm@2026' dm8_single:dm8_20240715_rev232765_x86_rh6_64
+docker run -itd -p 15236:5236 -e kikitech/dmdbms
