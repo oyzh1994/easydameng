@@ -1,7 +1,10 @@
-docker载入镜像
-docker run -itd -p 15236:5236 -e SYSDBA_PWD='dm@2026' dm8_single:dm8_20240715_rev232765_x86_rh6_64
-docker run -itd -p 15236:5236 -e kikitech/dmdbms
+方案1
+账密 SYSDBA/SYSDBA
 docker x64
-docker run -itd -p 15236:5236 -e qinchz/dm8:latest
+docker run -itd -p 15236:5236 qinchz/dm8:latest
 docker arm
-docker run -itd -p 15236:5236 -e qinchz/dm8-arm:latest
+docker run -itd -p 15236:5236 qinchz/dm8-arm:latest
+
+方案2
+账密 SYSDBA/SYSDBA001
+docker run -itd -p 25236:5236 kikitech/dmdbms
