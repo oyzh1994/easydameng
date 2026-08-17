@@ -195,7 +195,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
                         typeItems.add(new DamengViewsTreeItem(this.getTreeView()));
                         typeItems.add(new DamengFunctionsTreeItem(this.getTreeView()));
                         typeItems.add(new DamengProceduresTreeItem(this.getTreeView()));
-                        typeItems.add(new DamengEventsTreeItem(this.getTreeView()));
+                        //typeItems.add(new DamengEventsTreeItem(this.getTreeView()));
                         typeItems.add(new DamengQueriesTreeItem(this.getTreeView()));
                         typeItems.add(new DamengTerminalTreeItem(this.getTreeView()));
                         super.setChild(typeItems);

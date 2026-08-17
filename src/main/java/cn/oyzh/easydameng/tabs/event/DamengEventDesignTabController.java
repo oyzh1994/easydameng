@@ -7,8 +7,8 @@ import cn.oyzh.easydameng.fx.DBEditor;
 import cn.oyzh.easydameng.fx.event.DamengEventIntervalTypeCombobox;
 import cn.oyzh.easydameng.fx.event.DamengEventOnCompletionCombobox;
 import cn.oyzh.easydameng.fx.event.DamengEventStatusCombobox;
+import cn.oyzh.easydameng.generator.event.DamengEventCreateSqlGenerator;
 import cn.oyzh.easydameng.generator.event.EventAlertSqlGenerator;
-import cn.oyzh.easydameng.generator.event.EventCreateSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
@@ -354,7 +354,11 @@ public class DamengEventDesignTabController extends RichTabController {
         // 类型
         temp.setType(this.planType.selectedUserData());
         // 时间
-        temp.setExecuteAt(this.onetime.getValue());
+        if (StringUtil.equalsIgnoreCase("SYSDATE", this.onetime.getText())) {
+            temp.setExecuteAt("SYSDATE");
+        } else {
+            temp.setExecuteAt(this.onetime.getValue());
+        }
         if (this.onetimeInterval.isSelected()) {
             temp.setIntervalValue(this.onetimeIntervalValue.getIntValue());
             temp.setIntervalField(this.onetimeIntervalType.getSelectedItem());
@@ -414,7 +418,7 @@ public class DamengEventDesignTabController extends RichTabController {
             if (StringUtil.isBlank(temp.getName())) {
                 temp.setName("Unnamed_Event");
             }
-            sql = EventCreateSqlGenerator.generateSql(temp);
+            sql = DamengEventCreateSqlGenerator.generateSql(temp);
         } else {
             sql = EventAlertSqlGenerator.generateSql(temp);
         }

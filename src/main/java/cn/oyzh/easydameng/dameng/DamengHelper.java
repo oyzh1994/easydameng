@@ -3,6 +3,7 @@ package cn.oyzh.easydameng.dameng;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
+import cn.oyzh.easydameng.dameng.event.DamengEvent;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.easydameng.util.DBUtil;
 
@@ -14,9 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author oyzh
@@ -433,5 +432,23 @@ public class DamengHelper {
             definition = definition.substring(definition.indexOf(" ROW BEGIN ") + 11, definition.lastIndexOf("END;"));
         }
         return definition;
+    }
+
+    public static void parseJobExpr(String expr, DamengEvent event){
+        if (StringUtil.isNotBlank(expr)) {
+            String[] arr = expr.split(";");
+            for (String s : arr) {
+                if (StringUtil.startWithIgnoreCase(s, "FREQ")) {
+                    event.setIntervalField(s.split("=")[1]);
+                }else if (StringUtil.startWithIgnoreCase(s, "INTERVAL")) {
+                    event.setIntervalValue(Integer.valueOf(s.split("=")[1]));
+                }
+            }
+        }
+    }
+
+    public static void parseJobAction(String action, DamengEvent event){
+        if (StringUtil.isNotBlank(action)) {
+        }
     }
 }

@@ -29,7 +29,7 @@ public class DamengEventCreateSqlGenerator extends EventCreateSqlGenerator {
             sql = sql + "    start_date => SYSDATE,\n";
         }
         if (event.getIntervalValue() != null) {
-            sql = sql + "    repeat_interval => 'FREQ=" + event.getEndIntervalField() + "; INTERVAL=" + event.getIntervalValue() + "',\n";
+            sql = sql + "    repeat_interval => 'FREQ=" + event.getIntervalField() + "; INTERVAL=" + event.getIntervalValue() + "',\n";
         }
         if (StringUtil.equalsIgnoreCase(event.getStatus(), "ENABLE")) {
             sql = sql + "    enabled => TRUE\n";

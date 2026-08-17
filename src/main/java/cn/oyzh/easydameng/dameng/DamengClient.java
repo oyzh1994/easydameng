@@ -46,8 +46,8 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.exception.ReadonlyOperationException;
+import cn.oyzh.easydameng.generator.event.DamengEventCreateSqlGenerator;
 import cn.oyzh.easydameng.generator.event.EventAlertSqlGenerator;
-import cn.oyzh.easydameng.generator.event.EventCreateSqlGenerator;
 import cn.oyzh.easydameng.generator.routine.DamengFunctionSqlGenerator;
 import cn.oyzh.easydameng.generator.routine.DamengProcedureSqlGenerator;
 import cn.oyzh.easydameng.generator.table.DamengTableAlertSqlGenerator;
@@ -733,7 +733,7 @@ public class DamengClient {
 
     public void createEvent(String dbName, DamengEvent event) {
         try {
-            String sql = EventCreateSqlGenerator.generateSql(event);
+            String sql = DamengEventCreateSqlGenerator.generateSql(event);
             DBUtil.printSql(sql);
             Statement statement = this.connection(dbName).createStatement();
             statement.executeUpdate(sql);
@@ -758,21 +758,101 @@ public class DamengClient {
     }
 
     public DamengEvent selectEvent(String dbName, String eventName) {
-        // Dameng does not support MySQL-style events; return empty event stub
-        DamengEvent event = new DamengEvent();
-        event.setName(eventName);
-        event.setDbName(dbName);
+        try {
+            Connection connection = this.functionConnection(dbName, null);
+            String sql = """
+                    SELECT
+                        t1.ENABLED AS STATUS,
+                        t1.JOB_ACTION AS ACTION,
+                        t1.SCHEDULE_EXPR AS EXPR,
+                    FROM
+                        USER_SCHEDULER_JOBS t1
+                    WHERE 
+                        t1.JOB_NAME = ?
+                    """;
+            DBUtil.printSql(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, eventName);
+            ResultSet resultSet = statement.executeQuery();
+            DBUtil.printMetaData(resultSet);
+                DamengEvent event = new DamengEvent();
+            while (resultSet.next()) {
+                String expr = resultSet.getString("EXPR");
+                String status = resultSet.getString("STATUS");
+                String action = resultSet.getString("ACTION");
+                event.setName(eventName);
+                event.setStatus("TRUE".equalsIgnoreCase(status) ? "ENABLE" : "DISABLE");
+                DamengHelper.parseJobExpr(expr, event);
+                DamengHelper.parseJobAction(action, event);
+            }
+            DBUtil.close(resultSet);
         return event;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new DBException(ex);
+        }
     }
 
     public Integer eventSize(String dbName) {
-        // Dameng does not support MySQL-style events natively; return 0
-        return 0;
+        int size = 0;
+        try {
+            Connection connection = this.functionConnection(dbName, null);
+            String sql = """
+                    SELECT
+                        COUNT(*)
+                    FROM
+                        USER_SCHEDULER_JOBS
+                    """;
+            DBUtil.printSql(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            DBUtil.printMetaData(resultSet);
+            if (resultSet.next()) {
+                size = resultSet.getInt(1);
+            }
+            DBUtil.close(resultSet);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new DBException(ex);
+        }
+        return size;
     }
 
     public List<DamengEvent> events(String dbName) {
-        // Dameng does not support MySQL-style events natively; return empty list
-        return new ArrayList<>();
+        try {
+            Connection connection = this.functionConnection(dbName, null);
+            String sql = """
+                    SELECT
+                        t1.JOB_NAME AS NAME,
+                        t1.ENABLED AS STATUS,
+                        t1.JOB_ACTION AS ACTION,
+                        t1.REPEAT_INTERVAL AS EXPR
+                    FROM
+                        USER_SCHEDULER_JOBS t1
+                    """;
+            DBUtil.printSql(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            DBUtil.printMetaData(resultSet);
+            List<DamengEvent> list = new ArrayList<>();
+            while (resultSet.next()) {
+                String name = resultSet.getString("NAME");
+                String expr = resultSet.getString("EXPR");
+                String status = resultSet.getString("STATUS");
+                String action = resultSet.getString("ACTION");
+                DamengEvent event = new DamengEvent();
+                event.setName(name);
+                event.setStatus("TRUE".equalsIgnoreCase(status) ? "ENABLE" : "DISABLE");
+                DamengHelper.parseJobExpr(expr, event);
+                DamengHelper.parseJobAction(action, event);
+                list.add(event);
+            }
+            DBUtil.close(resultSet);
+            return list;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new DBException(ex);
+        }
     }
 
     public boolean isSupportFeature(DBFeature feature) {
