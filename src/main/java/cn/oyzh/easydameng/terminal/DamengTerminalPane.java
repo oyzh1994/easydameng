@@ -33,12 +33,8 @@ public class DamengTerminalPane extends TerminalPane {
 
     @Override
     protected Font getEditorFont() {
-        if (super.getEditorFont() == null) {
-            DamengSetting setting = DamengSettingStore.SETTING;
-            Font font = FontManager.toFont(setting.terminalFontConfig());
-            super.setEditorFont(font);
-        }
-        return super.getEditorFont();
+        DamengSetting setting = DamengSettingStore.SETTING;
+        return FontManager.toFont(setting.terminalFontConfig());
     }
 
     /**

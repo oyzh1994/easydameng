@@ -37,11 +37,7 @@ public class DBEditor extends Editor {
 
     @Override
     protected Font getEditorFont() {
-        if (super.getEditorFont() == null) {
-            DamengSetting setting = DamengSettingStore.SETTING;
-            Font font = FontManager.toFont(setting.editorFontConfig());
-            super.setEditorFont(font);
-        }
-        return super.getEditorFont();
+        DamengSetting setting = DamengSettingStore.SETTING;
+        return FontManager.toFont(setting.editorFontConfig());
     }
 }
