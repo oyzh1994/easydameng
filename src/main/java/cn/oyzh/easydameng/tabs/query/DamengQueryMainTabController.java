@@ -376,12 +376,16 @@ public class DamengQueryMainTabController extends RichTabController {
         // 信息
         if (type == 0) {
             this.resultTabPane.disappear();
-            this.splitPane.setShowDivider(false);
-            this.splitPane.setDividerPositions(1, 0);
+            if (this.splitPane.isShowDivider()) {
+                this.splitPane.setShowDivider(false);
+                this.splitPane.setDividerPositions(1, 0);
+            }
         } else if (type == 1 || type == 2) {
             this.resultTabPane.display();
-            this.splitPane.setShowDivider(true);
-            this.splitPane.setDividerPositions(0.3, 0.7);
+            if (!this.splitPane.isShowDivider()) {
+                this.splitPane.setShowDivider(true);
+                this.splitPane.setDividerPositions(0.3, 0.7);
+            }
         }
     }
 
