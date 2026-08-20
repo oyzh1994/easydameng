@@ -1,6 +1,7 @@
 package cn.oyzh.easydameng.tabs.query;
 
 import cn.oyzh.easydameng.db.DBObjectList;
+import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.fx.DBStatusColumn;
 import cn.oyzh.easydameng.fx.record.DamengRecordColumn;
 import cn.oyzh.easydameng.fx.record.DamengRecordTableView;
@@ -20,11 +21,13 @@ import cn.oyzh.easydameng.util.DBRecordUtil;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.plus.controls.box.FXVBox;
 import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
+import cn.oyzh.fx.plus.controls.tab.FXTabPane;
 import cn.oyzh.fx.plus.controls.table.FXTableColumn;
 import cn.oyzh.fx.plus.controls.text.FXText;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.node.NodeGroupUtil;
 import cn.oyzh.fx.plus.node.NodeUtil;
+import cn.oyzh.fx.plus.window.StageManager;
 import cn.oyzh.i18n.I18nHelper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -155,9 +158,8 @@ public class DamengQuerySelectTabController extends RichTabController {
             // 初始化数据
             this.initRecords(this.result.getRecords());
             // 初始化sql信息
-            this.sql.setText(this.result.getSql());
-            this.used.setText(I18nHelper.time() + ": " + this.result.getUsedMs() + "ms");
-            // this.count.setText(I18nHelper.totalData() + ": " + this.result.getCount());
+            this.sql.text(this.result.getSql());
+            this.used.text(I18nHelper.time() + ": " + this.result.getUsedMs() + "ms");
             // 初始化计数
             this.initCount(this.result.getCount());
         } catch (Exception ex) {
@@ -358,7 +360,7 @@ public class DamengQuerySelectTabController extends RichTabController {
      * 刷新记录
      */
     @FXML
-    public void reload() {
+    private void reload() {
         try {
             // 检查是否有未保存的数据
             if (this.apply.isEnable() && !MessageBox.confirm(I18nHelper.unsavedAndContinue())) {
@@ -370,6 +372,28 @@ public class DamengQuerySelectTabController extends RichTabController {
             this.initDataList();
             // 禁用组件
             this.apply.disable();
+        } catch (Exception ex) {
+            MessageBox.exception(ex);
+        }
+    }
+
+    /**
+     * 导出记录
+     */
+    @FXML
+    private void exportRecord() {
+        try {
+            FXTabPane tabPane = (FXTabPane) this.getTabPane();
+            DamengQuery query = tabPane.getProp("query");
+            if (query.getName() == null) {
+                query.setName(I18nHelper.unnamedQuery());
+            }
+            // DamengDataExportTable exportTable = new DamengDataExportTable();
+            // exportTable.setSelected(true);
+            // exportTable.setName(query.getName());
+            // exportTable.columns(this.result.getColumns());
+            // exportTable.setRecords(this.result.getRecords());
+            // ShellMysqlViewFactory.exportData(this.dbItem.client(), this.result.dbName(), null, 1, exportTable);
         } catch (Exception ex) {
             MessageBox.exception(ex);
         }
@@ -411,56 +435,73 @@ public class DamengQuerySelectTabController extends RichTabController {
         // } catch (Exception ex) {
         //     MessageBox.exception(ex);
         // }
-        DamengRecord record = this.recordTable.getSelectedItem();
-        this.doDeleteRecord(record);
+        List<DamengRecord> records = new ArrayList<>(this.recordTable.getSelectedItems());
+        if (!MessageBox.confirm(I18nHelper.deleteRecord() + "?")) {
+            return;
+        }
+        StageManager.showMask(() -> this.deleteRecords(records));
+    }
+
+    /**
+     * 删除记录
+     *
+     * @param records 记录
+     */
+    private void deleteRecords(List<DamengRecord> records) {
+        try {
+            boolean success = false;
+            for (DamengRecord record : records) {
+                success = this.deleteRecord(record);
+                if (!success) {
+                    break;
+                }
+            }
+            // 操作成功
+            if (success) {
+                this.recordTable.removeItem(records);
+                // 初始化计数
+                this.initCount(this.recordTable.getItemSize());
+            } else {// 操作失败
+                MessageBox.warnToast(I18nHelper.operationFail());
+            }
+        } catch (Exception ex) {
+            MessageBox.exception(ex);
+        }
     }
 
     /**
      * 删除表记录
      *
      * @param record 表记录
+     * @return 结果
      */
-    private void doDeleteRecord(DamengRecord record) {
-        try {
-            if (record == null) {
-                return;
-            }
-            if (!MessageBox.confirm(I18nHelper.deleteRecord() + "?")) {
-                return;
-            }
-            // 如果是新增的数据，直接删除
-            boolean success;
-            if (record.isCreated()) {
-                success = true;
-            } else {
-                // 获取主键
-                DamengRecordPrimaryKey primaryKey = this.initPrimaryKey(record);
-                DamengDeleteRecordParam param = new DamengDeleteRecordParam();
-                param.setDbName(this.result.dbName());
-                param.setTableName(this.result.tableName());
-                param.setPrimaryKey(primaryKey);
-                param.setRecord(record.getOriginalRecordData());
-                success = this.dbItem.deleteRecord(param) == 1;
-            }
-            // 操作成功
-            if (success) {
-                this.recordTable.removeItem(record);
-            } else {// 操作失败
-                MessageBox.warnToast(I18nHelper.operationFail());
-            }
-            // 初始化计数
-            this.initCount(this.recordTable.getItemSize());
-        } catch (Exception ex) {
-            MessageBox.exception(ex);
+    private boolean deleteRecord(DamengRecord record) {
+        // 如果是新增的数据，直接删除
+        boolean success;
+        if (record.isCreated()) {
+            success = true;
+        } else {
+            // 获取主键
+            DamengRecordPrimaryKey primaryKey = this.initPrimaryKey(record);
+            DamengDeleteRecordParam param = new DamengDeleteRecordParam();
+            param.setDbName(this.result.dbName());
+            param.setTableName(this.result.tableName());
+            param.setPrimaryKey(primaryKey);
+            param.setRecord(record.getOriginalRecordData());
+            success = this.dbItem.deleteRecord(param) == 1;
         }
+        if (success) {
+            record.destroy();
+        }
+        return success;
     }
 
     @Override
     public void onTabClosed(Event event) {
         super.onTabClosed(event);
+        //        this.recordTable.destroy();
         DBStatusListenerManager.removeListener(this.changeListener);
     }
-
 
     @Override
     protected void bindListeners() {
@@ -535,4 +576,10 @@ public class DamengQuerySelectTabController extends RichTabController {
     //         this.doDeleteRecord(event.data());
     //     }
     // }
+
+//    @Override
+//    public void destroy() {
+//        this.recordTable.destroy();
+//        super.destroy();
+//    }
 }
