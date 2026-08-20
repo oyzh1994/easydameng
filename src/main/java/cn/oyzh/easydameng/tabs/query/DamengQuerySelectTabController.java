@@ -1,12 +1,6 @@
 package cn.oyzh.easydameng.tabs.query;
 
-import cn.oyzh.easydameng.db.DBObjectList;
-import cn.oyzh.easydameng.domain.DamengQuery;
-import cn.oyzh.easydameng.fx.DBStatusColumn;
-import cn.oyzh.easydameng.fx.record.DamengRecordColumn;
-import cn.oyzh.easydameng.fx.record.DamengRecordTableView;
-import cn.oyzh.easydameng.listener.DBStatusListener;
-import cn.oyzh.easydameng.listener.DBStatusListenerManager;
+import cn.oyzh.common.util.TextUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
@@ -16,6 +10,13 @@ import cn.oyzh.easydameng.dameng.record.DamengRecordData;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengUpdateRecordParam;
+import cn.oyzh.easydameng.db.DBObjectList;
+import cn.oyzh.easydameng.domain.DamengQuery;
+import cn.oyzh.easydameng.fx.DBStatusColumn;
+import cn.oyzh.easydameng.fx.record.DamengRecordColumn;
+import cn.oyzh.easydameng.fx.record.DamengRecordTableView;
+import cn.oyzh.easydameng.listener.DBStatusListener;
+import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.easydameng.util.DBRecordUtil;
 import cn.oyzh.fx.gui.tabs.RichTabController;
@@ -34,10 +35,8 @@ import javafx.collections.ListChangeListener;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * @author oyzh
@@ -158,7 +157,7 @@ public class DamengQuerySelectTabController extends RichTabController {
             // 初始化数据
             this.initRecords(this.result.getRecords());
             // 初始化sql信息
-            this.sql.text(this.result.getSql());
+            this.sql.text(TextUtil.toSingleLine(this.result.getSql()));
             this.used.text(I18nHelper.time() + ": " + this.result.getUsedMs() + "ms");
             // 初始化计数
             this.initCount(this.result.getCount());

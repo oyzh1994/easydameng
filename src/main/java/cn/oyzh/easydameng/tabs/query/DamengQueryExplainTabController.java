@@ -1,5 +1,6 @@
 package cn.oyzh.easydameng.tabs.query;
 
+import cn.oyzh.common.util.TextUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
@@ -72,9 +73,9 @@ public class DamengQueryExplainTabController extends RichTabController {
             // 初始化数据
             this.initRecords(this.result.getRecords());
             // 初始化sql信息
-            this.sql.setText(this.result.getSql());
-            this.used.setText(I18nHelper.time() + ": " + this.result.getUsedMs() + "ms");
-            this.count.setText(I18nHelper.totalData() + ": " + this.result.getCount());
+            this.sql.text(TextUtil.toSingleLine(this.result.getSql()));
+            this.used.text(I18nHelper.time() + ": " + this.result.getUsedMs() + "ms");
+            this.count.text(I18nHelper.totalData() + ": " + this.result.getCount());
         } catch (Exception ex) {
             MessageBox.exception(ex);
         }

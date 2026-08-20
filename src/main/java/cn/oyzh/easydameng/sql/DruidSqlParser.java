@@ -135,7 +135,7 @@ public class DruidSqlParser extends DBSqlParser {
             this.select = null;
         } catch (Exception ex) {
 //            ex.printStackTrace();
-            sqlList.add(this.sqlContent);
+            sqlList.add(sqlContent);
         }
         return sqlList;
     }
