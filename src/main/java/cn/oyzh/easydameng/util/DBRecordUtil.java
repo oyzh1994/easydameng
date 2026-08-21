@@ -7,19 +7,17 @@ import cn.oyzh.fx.editor.incubator.control.JsonTextFiled;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.text.field.BinaryTextFiled;
 import cn.oyzh.fx.gui.text.field.BitTextField;
-import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.gui.text.field.DateTextField;
 import cn.oyzh.fx.gui.text.field.DateTimeTextField;
 import cn.oyzh.fx.gui.text.field.DecimalTextField;
-import cn.oyzh.fx.gui.text.field.ExampleTextField;
 import cn.oyzh.fx.gui.text.field.NumberTextField;
-import cn.oyzh.fx.gui.text.field.SelectTextFiled;
 import cn.oyzh.fx.gui.text.field.TimeTextField;
 import cn.oyzh.fx.gui.text.field.YearTextField;
 import cn.oyzh.fx.plus.controls.text.field.FXTextField;
 import cn.oyzh.fx.plus.font.FontUtil;
 import cn.oyzh.fx.plus.menu.FXMenuItem;
 import cn.oyzh.fx.plus.util.ControlUtil;
+import dm.jdbc.driver.DmdbClob;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TextField;
@@ -136,8 +134,12 @@ public class DBRecordUtil {
             val = YearTextField.format(object);
         } else if (column.supportTimestamp()) {
             val = DateTimeTextField.format(object);
-//        } else if (column.supportString()) {
-//            val = ClearableTextField.format(object);
+        } else if (column.supportString()) {
+            if (object instanceof DmdbClob clob) {
+                val = FXTextField.format(clob.data);
+            } else {
+                val = FXTextField.format(object);
+            }
 //        } else if (column.supportGeometry()) {
 //            val = ExampleTextField.format(object);
         } else {
