@@ -126,7 +126,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
     }
 
     protected void dumpView() throws Exception {
-        List<DamengView> views = this.dbClient.views(this.dbName);
+        List<DamengView> views = this.dbClient.selectViews(this.dbName);
         if (CollectionUtil.isNotEmpty(views)) {
             for (DamengView view : views) {
                 this.checkInterrupt();
@@ -147,7 +147,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
     }
 
     protected void dumpFunction() throws Exception {
-        List<DamengFunction> functions = this.dbClient.functions(this.dbName);
+        List<DamengFunction> functions = this.dbClient.selectFunctions(this.dbName);
         if (CollectionUtil.isNotEmpty(functions)) {
             for (DamengFunction function : functions) {
                 this.checkInterrupt();
@@ -168,7 +168,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
     }
 
     protected void dumpProcedure() throws Exception {
-        List<DamengProcedure> procedures = this.dbClient.procedures(this.dbName);
+        List<DamengProcedure> procedures = this.dbClient.selectProcedures(this.dbName);
         if (CollectionUtil.isNotEmpty(procedures)) {
             for (DamengProcedure procedure : procedures) {
                 this.checkInterrupt();

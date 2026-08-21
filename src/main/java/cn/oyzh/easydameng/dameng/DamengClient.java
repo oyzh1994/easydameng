@@ -930,6 +930,41 @@ public class DamengClient {
         }
     }
 
+    public List<DamengTable> selectTablesSimple(String dbName) {
+        try {
+            List<DamengTable> tables = new ArrayList<>();
+            Connection connection = this.connection(dbName);
+            String sql = """
+                        SELECT
+                            T.TABLE_NAME, T.TABLESPACE_NAME AS "TABLE_SPACE" 
+                        FROM 
+                            ALL_TABLES T 
+                        WHERE 
+                            T.OWNER = ?
+                    """;
+            DBUtil.printSql(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, dbName);
+            ResultSet resultSet = statement.executeQuery();
+            DBUtil.printMetaData(resultSet);
+            while (resultSet.next()) {
+                DamengTable table = new DamengTable();
+                String tableName = resultSet.getString("TABLE_NAME");
+                String tableSpace = resultSet.getString("TABLE_SPACE");
+                table.setDbName(dbName);
+                table.setName(tableName);
+                table.setTableSpace(tableSpace);
+                tables.add(table);
+            }
+            DBUtil.close(resultSet);
+            DBUtil.close(statement);
+            return tables;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new DBException(ex);
+        }
+    }
+
     public DamengColumns selectColumns(DamengSelectColumnParam param) {
         try {
             String dbName = param.getDbName();
@@ -1620,7 +1655,7 @@ public class DamengClient {
         }
     }
 
-    public List<DamengView> views(String dbName) {
+    public List<DamengView> selectViews(String dbName) {
         try {
             List<DamengView> list = new ArrayList<>();
             String sql = """
@@ -2405,7 +2440,7 @@ public class DamengClient {
         return DBDialect.DAMENG;
     }
 
-    public List<DamengFunction> functions(String dbName) {
+    public List<DamengFunction> selectFunctions(String dbName) {
         try {
             List<DamengFunction> list = new ArrayList<>();
             String sql = """
@@ -2478,7 +2513,68 @@ public class DamengClient {
         }
     }
 
-    public List<DamengProcedure> procedures(String dbName) {
+    public List<DamengFunction> selectFunctionsSimple(String dbName) {
+        try {
+            List<DamengFunction> list = new ArrayList<>();
+            String sql = """
+                    SELECT
+                        O.OBJECT_NAME AS "ROUTINE_NAME",
+                        P.AUTHID AS "SECURITY_TYPE",
+                        P.AGGREGATE,
+                        P.PIPELINED,
+                        P.DETERMINISTIC
+                    FROM 
+                        ALL_OBJECTS O
+                    LEFT JOIN 
+                        ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
+                    WHERE 
+                        O.OWNER = ?
+                    AND 
+                        O.OBJECT_TYPE = 'FUNCTION'
+                    """;
+            DBUtil.printSql(sql);
+            PreparedStatement statement = this.connection().prepareStatement(sql);
+            statement.setString(1, dbName);
+            // 执行SQL查询并获取结果集
+            ResultSet resultSet = statement.executeQuery();
+            // 打印元数据
+            DBUtil.printMetaData(resultSet);
+            // 遍历结果集
+            while (resultSet.next()) {
+                DamengFunction function = new DamengFunction();
+                String name = resultSet.getString("ROUTINE_NAME");
+                String securityType = resultSet.getString("SECURITY_TYPE");
+                String aggregate = resultSet.getString("AGGREGATE");
+                String pipelined = resultSet.getString("PIPELINED");
+                String deterministic = resultSet.getString("DETERMINISTIC");
+                StringBuilder characteristic = new StringBuilder();
+                if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
+                    characteristic.append(",AGGREGATE");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", pipelined)) {
+                    characteristic.append(",PIPELINED");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", deterministic)) {
+                    characteristic.append(",DETERMINISTIC");
+                }
+                if (!characteristic.isEmpty()) {
+                    function.setCharacteristic(characteristic.substring(1));
+                }
+                function.setName(name);
+                function.setDbName(dbName);
+                function.setSecurityType(securityType);
+                list.add(function);
+            }
+            // 关闭连接和释放资源
+            DBUtil.close(resultSet);
+            DBUtil.close(statement);
+            return list;
+        } catch (Exception ex) {
+            throw new DBException(ex);
+        }
+    }
+
+    public List<DamengProcedure> selectProcedures(String dbName) {
         try {
             List<DamengProcedure> list = new ArrayList<>();
             String sql = """
@@ -2540,6 +2636,67 @@ public class DamengClient {
                 procedure.setDefinition(definition);
                 procedure.setSecurityType(securityType);
                 procedure.setCreateDefinition(createDefinition);
+                list.add(procedure);
+            }
+            // 关闭连接和释放资源
+            DBUtil.close(resultSet);
+            DBUtil.close(statement);
+            return list;
+        } catch (Exception ex) {
+            throw new DBException(ex);
+        }
+    }
+
+    public List<DamengProcedure> selectProceduresSimple(String dbName) {
+        try {
+            List<DamengProcedure> list = new ArrayList<>();
+            String sql = """
+                    SELECT
+                        O.OBJECT_NAME AS "ROUTINE_NAME",
+                        P.AUTHID AS "SECURITY_TYPE",
+                        P.AGGREGATE,
+                        P.PIPELINED,
+                        P.DETERMINISTIC
+                    FROM 
+                        ALL_OBJECTS O
+                    LEFT JOIN
+                        ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
+                    WHERE 
+                        O.OWNER = ?
+                    AND 
+                        O.OBJECT_TYPE = 'PROCEDURE'
+                    """;
+            DBUtil.printSql(sql);
+            PreparedStatement statement = this.connection().prepareStatement(sql);
+            statement.setString(1, dbName);
+            // 执行SQL查询并获取结果集
+            ResultSet resultSet = statement.executeQuery();
+            // 打印元数据
+            DBUtil.printMetaData(resultSet);
+            // 遍历结果集
+            while (resultSet.next()) {
+                DamengProcedure procedure = new DamengProcedure();
+                String name = resultSet.getString("ROUTINE_NAME");
+                String securityType = resultSet.getString("SECURITY_TYPE");
+                String aggregate = resultSet.getString("AGGREGATE");
+                String pipelined = resultSet.getString("PIPELINED");
+                String deterministic = resultSet.getString("DETERMINISTIC");
+                StringBuilder characteristic = new StringBuilder();
+                if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
+                    characteristic.append(",AGGREGATE");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", pipelined)) {
+                    characteristic.append(",PIPELINED");
+                }
+                if (StringUtil.equalsIgnoreCase("YES", deterministic)) {
+                    characteristic.append(",DETERMINISTIC");
+                }
+                if (!characteristic.isEmpty()) {
+                    procedure.setCharacteristic(characteristic.substring(1));
+                }
+                procedure.setName(name);
+                procedure.setDbName(dbName);
+                procedure.setSecurityType(securityType);
                 list.add(procedure);
             }
             // 关闭连接和释放资源

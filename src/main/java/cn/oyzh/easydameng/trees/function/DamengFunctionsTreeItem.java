@@ -69,7 +69,7 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
             this.setLoading(true);
             Task task = TaskBuilder.newBuilder()
                     .onStart(() -> {
-                        List<DamengFunction> functions = this.client().functions(this.dbName());
+                        List<DamengFunction> functions = this.client().selectFunctions(this.dbName());
                         // 无数据直接更新列表
                         if (this.isChildEmpty()) {
                             List<TreeItem<?>> list = new ArrayList<>();

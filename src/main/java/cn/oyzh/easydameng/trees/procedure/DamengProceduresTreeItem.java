@@ -69,7 +69,7 @@ public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeIte
             this.setLoading(true);
             Task task = TaskBuilder.newBuilder()
                     .onStart(() -> {
-                        List<DamengProcedure> procedures = this.client().procedures(this.dbName());
+                        List<DamengProcedure> procedures = this.client().selectProcedures(this.dbName());
                         // 无数据直接更新列表
                         if (this.isChildEmpty()) {
                             List<TreeItem<?>> list = new ArrayList<>();

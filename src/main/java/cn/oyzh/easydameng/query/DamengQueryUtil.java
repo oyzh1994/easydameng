@@ -192,28 +192,28 @@ public class DamengQueryUtil {
                     // 更新表索引
                     for (DBDatabase database : DB_DATABASES) {
                         if (!DBUtil.isInternalDatabase(database.getName())) {
-                            List<DamengTable> tables = client.selectTables(database.getName());
+                            List<DamengTable> tables = client.selectTablesSimple(database.getName());
                             DB_TABLES.addAll(tables);
                         }
                     }
                     // 更新视图索引
                     for (DBDatabase database : DB_DATABASES) {
                         if (!DBUtil.isInternalDatabase(database.getName())) {
-                            List<DamengView> views = client.views(database.getName());
+                            List<DamengView> views = client.selectViews(database.getName());
                             DB_VIEWS.addAll(views);
                         }
                     }
                     // 更新函数索引
                     for (DBDatabase database : DB_DATABASES) {
                         if (!DBUtil.isInternalDatabase(database.getName())) {
-                            List<DamengFunction> functions = client.functions(database.getName());
+                            List<DamengFunction> functions = client.selectFunctionsSimple(database.getName());
                             DB_FUNCTIONS.addAll(functions);
                         }
                     }
                     // 更新过程索引
                     for (DBDatabase database : DB_DATABASES) {
                         if (!DBUtil.isInternalDatabase(database.getName())) {
-                            List<DamengProcedure> procedures = client.procedures(database.getName());
+                            List<DamengProcedure> procedures = client.selectProceduresSimple(database.getName());
                             DB_PROCEDURES.addAll(procedures);
                         }
                     }
