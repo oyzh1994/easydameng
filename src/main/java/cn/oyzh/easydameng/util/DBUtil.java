@@ -180,7 +180,7 @@ public class DBUtil {
      * @param sql sql语句
      */
     public static void printSql(String sql) {
-        // JulLog.info("\n" + sql);
+        JulLog.info("\n" + sql);
         // JulLog.info("printSql======================>");
     }
 
@@ -236,6 +236,9 @@ public class DBUtil {
     // }
 
     public static String wrap(String name) {
+        if (name == null) {
+            System.err.println(name);
+        }
         StringBuilder builder = new StringBuilder();
         if (!name.startsWith("\"")) {
             builder.append("\"");

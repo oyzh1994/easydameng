@@ -72,6 +72,12 @@ public class DamengDataRunSqlFileHandler extends DataRunSqlFileHandler {
                         this.processedIncr();
                         continue;
                     }
+                    // 注释
+                    if (StringUtil.startWithAnyIgnoreCase(line, "COMMENT ON ")) {
+                        this.dbClient.executeSqlSimple(this.dbName, line);
+                        this.processedIncr();
+                        continue;
+                    }
                     // 创建表、视图结束
                     if (!createFlag2.get() && createFlag1.get() && line.stripTrailing().endsWith(";")) {
                         createFlag1.set(false);

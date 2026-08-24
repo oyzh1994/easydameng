@@ -2,7 +2,9 @@ package cn.oyzh.easydameng.handler;
 
 import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.util.CollectionUtil;
+import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
@@ -81,23 +83,50 @@ public class DamengDataDumpHandler extends DataDumpHandler {
         if (!createDefinition.endsWith(";")) {
             createDefinition += ";";
         }
+        // TODO: 去除特定架构
         createDefinition = createDefinition.replaceAll("CREATE\\s+TABLE\\s+\"[^\"]+\"\\.", "CREATE TABLE ");
         this.message("Dumping Table " + table.getName());
         this.fileWriter.appendLines(List.of(line0, line1, line2, line3, dropTable, createDefinition));
+        // 查询字段
+        DamengColumns columns = new DamengColumns(this.dbClient.selectColumns(new DamengSelectColumnParam(this.dbName, table.getName())));
+        // 设置字段注释
+        for (DamengColumn column : columns) {
+            String tableComment = """
+                    COMMENT ON COLUMN "$1"."$2" IS '$3';
+                    """;
+            tableComment = tableComment.replace("$1", column.getTableName());
+            tableComment = tableComment.replace("$2", column.getName());
+            if (StringUtil.isNotBlank(column.getComment())) {
+                tableComment = tableComment.replace("$3", column.getComment());
+            } else {
+                tableComment = tableComment.replace("$3", "");
+            }
+            this.fileWriter.appendLine(tableComment);
+        }
+        // 设置表注释
+        String tableComment = """
+                COMMENT ON TABLE "$1" IS '$2';
+                """;
+        tableComment = tableComment.replace("$1", table.getName());
+        if (StringUtil.isNotBlank(table.getComment())) {
+            tableComment = tableComment.replace("$2", table.getComment());
+        } else {
+            tableComment = tableComment.replace("$2", "");
+        }
+        this.fileWriter.appendLine(tableComment);
         if (this.isDumpRecord()) {
             this.message("Dumping Records of Table " + table.getName());
-            this.dumpRecord(table.getName());
+            this.dumpRecord(table.getName(), columns);
         }
     }
 
-    protected void dumpRecord(String tableName) throws InterruptedException, IOException {
+    protected void dumpRecord(String tableName, DamengColumns columns) throws InterruptedException, IOException {
         long start = 0;
         String line0 = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName) + " ON;";
         String line1 = "-- ----------------------------";
         String line2 = "-- Records of " + tableName;
         String line3 = "-- ----------------------------";
         this.fileWriter.appendLines(List.of(line0, line1, line2, line3));
-        DamengColumns columns = new DamengColumns(this.dbClient.selectColumns(new DamengSelectColumnParam(this.dbName, tableName)));
         while (true) {
             this.checkInterrupt();
             long start1 = System.currentTimeMillis();
@@ -123,7 +152,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
             this.processed(records.size());
         }
         String line4 = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName) + " OFF;";
-        this.fileWriter.appendLines(List.of(line4));
+        this.fileWriter.appendLine(line4);
     }
 
     protected void dumpView() throws Exception {
