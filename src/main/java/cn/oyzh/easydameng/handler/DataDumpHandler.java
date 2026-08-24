@@ -127,9 +127,6 @@ public abstract class DataDumpHandler extends DataHandler {
         header += "*/";
 
         header += "\n\n";
-        header += "SET NAMES " + clientCharacter + ";";
-        header += "\n";
-        header += "SET FOREIGN_KEY_CHECKS = 0;";
         this.fileWriter.writeLines(List.of(header));
     }
 
@@ -137,9 +134,6 @@ public abstract class DataDumpHandler extends DataHandler {
      * 写入尾部
      */
     protected void writeTail() throws IOException {
-        String tail = "\n";
-        tail += "SET FOREIGN_KEY_CHECKS = 1;";
-        this.fileWriter.appendLines(List.of(tail));
     }
 
     public boolean isDumpRecord() {

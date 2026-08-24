@@ -3,10 +3,8 @@ package cn.oyzh.easydameng.handler;
 import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.easydameng.dameng.DamengClient;
-import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
-import cn.oyzh.easydameng.dameng.event.DamengEvent;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
@@ -44,7 +42,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
             this.dumpFunction();
             this.dumpProcedure();
             this.dumpTrigger();
-            this.dumpEvent();
+            // this.dumpEvent();
         } else if (this.dumpType == 2) {
             DamengSelectTableParam selectTableParam = new DamengSelectTableParam();
             selectTableParam.setFull(true);
@@ -83,6 +81,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
         if (!createDefinition.endsWith(";")) {
             createDefinition += ";";
         }
+        createDefinition = createDefinition.replaceAll("CREATE\\s+TABLE\\s+\"[^\"]+\"\\.", "CREATE TABLE ");
         this.message("Dumping Table " + table.getName());
         this.fileWriter.appendLines(List.of(line0, line1, line2, line3, dropTable, createDefinition));
         if (this.isDumpRecord()) {
@@ -93,7 +92,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
 
     protected void dumpRecord(String tableName) throws InterruptedException, IOException {
         long start = 0;
-        String line0 = "";
+        String line0 = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName) + " ON;";
         String line1 = "-- ----------------------------";
         String line2 = "-- Records of " + tableName;
         String line3 = "-- ----------------------------";
@@ -116,13 +115,15 @@ public class DamengDataDumpHandler extends DataDumpHandler {
             long end1 = System.currentTimeMillis();
             JulLog.info("查询耗时: {}ms", (end1 - start1));
             long start2 = System.currentTimeMillis();
-            List<String> inserts = DBDataUtil.toInsertSql(columns, records);
+            List<String> inserts = DBDataUtil.toInsertSql(columns, records, true);
             this.fileWriter.appendLines(inserts);
             long end2 = System.currentTimeMillis();
             JulLog.info("写入耗时: {}ms", (end2 - start2));
             start += this.queryLimit;
             this.processed(records.size());
         }
+        String line4 = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName) + " OFF;";
+        this.fileWriter.appendLines(List.of(line4));
     }
 
     protected void dumpView() throws Exception {
@@ -208,24 +209,24 @@ public class DamengDataDumpHandler extends DataDumpHandler {
         }
     }
 
-    protected void dumpEvent() throws Exception {
-        List<DamengEvent> events = this.dbClient.events(this.dbName);
-        if (CollectionUtil.isNotEmpty(events)) {
-            for (DamengEvent event : events) {
-                this.message("Dumping Event " + event.getName());
-                String line0 = "";
-                String line1 = "-- ----------------------------";
-                String line2 = "-- Event structure for " + event.getName();
-                String line3 = "-- ----------------------------";
-                String dropTrigger = "DROP EVENT IF EXISTS " + DBUtil.wrap(event.getName()) + ";";
-                String line4 = "delimiter ;;";
-                String line5 = ";;";
-                String line6 = "delimiter ;";
-                String createDefinition = event.getCreateDefinition();
-                this.fileWriter.appendLines(List.of(line0, line1, line2, line3, dropTrigger, line4, createDefinition, line5, line6));
-            }
-            this.processed(events.size());
-        }
-    }
+    // protected void dumpEvent() throws Exception {
+    //     List<DamengEvent> events = this.dbClient.events(this.dbName);
+    //     if (CollectionUtil.isNotEmpty(events)) {
+    //         for (DamengEvent event : events) {
+    //             this.message("Dumping Event " + event.getName());
+    //             String line0 = "";
+    //             String line1 = "-- ----------------------------";
+    //             String line2 = "-- Event structure for " + event.getName();
+    //             String line3 = "-- ----------------------------";
+    //             String dropTrigger = "DROP EVENT IF EXISTS " + DBUtil.wrap(event.getName()) + ";";
+    //             String line4 = "delimiter ;;";
+    //             String line5 = ";;";
+    //             String line6 = "delimiter ;";
+    //             String createDefinition = event.getCreateDefinition();
+    //             this.fileWriter.appendLines(List.of(line0, line1, line2, line3, dropTrigger, line4, createDefinition, line5, line6));
+    //         }
+    //         this.processed(events.size());
+    //     }
+    // }
 }
 

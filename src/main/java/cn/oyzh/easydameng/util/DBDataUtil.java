@@ -5,11 +5,12 @@ import cn.oyzh.common.date.DateUtil;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.HexUtil;
 import cn.oyzh.common.util.TextUtil;
-import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
+import cn.oyzh.easydameng.db.DBDialect;
+import dm.jdbc.driver.DmdbClob;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -259,6 +260,9 @@ public class DBDataUtil {
 //            return "'" + value + "'";
 //        }
         if (column.supportString()) {
+            if (value instanceof DmdbClob clob) {
+                value = clob.data;
+            }
             String str = escapeQuotes((String) value);
             return "'" + str + "'";
         }

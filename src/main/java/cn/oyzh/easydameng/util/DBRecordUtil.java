@@ -55,11 +55,11 @@ public class DBRecordUtil {
             textField.setValue(object);
             textField.setBackground(ControlUtil.background(Color.valueOf("#CDECFA")));
             node = textField;
-        } else if (column.supportBit()) {
-            BitTextField textField = new BitTextField();
-            textField.setValue(object);
-            textField.setBackground(ControlUtil.background(Color.valueOf("#FCE1E4")));
-            node = textField;
+        // } else if (column.supportBit()) {
+        //     BitTextField textField = new BitTextField();
+        //     textField.setValue(object);
+        //     textField.setBackground(ControlUtil.background(Color.valueOf("#FCE1E4")));
+        //     node = textField;
         } else if (column.isDateType()) {
             DateTextField textField = new DateTextField();
             textField.setValue(object);

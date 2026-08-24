@@ -775,7 +775,7 @@ public class DamengClient {
             statement.setString(1, eventName);
             ResultSet resultSet = statement.executeQuery();
             DBUtil.printMetaData(resultSet);
-                DamengEvent event = new DamengEvent();
+            DamengEvent event = new DamengEvent();
             while (resultSet.next()) {
                 String expr = resultSet.getString("EXPR");
                 String status = resultSet.getString("STATUS");
@@ -786,7 +786,7 @@ public class DamengClient {
                 DamengHelper.parseJobAction(action, event);
             }
             DBUtil.close(resultSet);
-        return event;
+            return event;
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new DBException(ex);
@@ -2397,6 +2397,7 @@ public class DamengClient {
             connection.commit();
             DBUtil.close(statement);
         } catch (Exception ex) {
+            JulLog.warn("sql:\n{}", sql);
             ex.printStackTrace();
             DBUtil.rollback(connection);
             throw new DBException(ex);
@@ -2424,6 +2425,7 @@ public class DamengClient {
                 result += i;
             }
         } catch (Exception ex) {
+            JulLog.warn("sqlList:{}", sqlList);
             ex.printStackTrace();
             DBUtil.rollback(connection);
             throw new DBException(ex);

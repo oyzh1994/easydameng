@@ -102,6 +102,9 @@ public class DamengDataRunSqlFileHandler extends DataRunSqlFileHandler {
                     if (createFlag2.get() && line.stripTrailing().startsWith("delimiter ;")) {
                         createFlag2.set(false);
                         if (!builder.isEmpty()) {
+                            if (builder.toString().endsWith("\n;;\n")) {
+                                builder.delete(builder.length() - 4, builder.length());
+                            }
                             this.dbClient.executeSqlSimple(this.dbName, builder.toString());
                             builder.delete(0, builder.length());
                             this.processedIncr();

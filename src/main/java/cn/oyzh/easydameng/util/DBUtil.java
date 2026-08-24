@@ -180,7 +180,7 @@ public class DBUtil {
      * @param sql sql语句
      */
     public static void printSql(String sql) {
-        JulLog.info("\n" + sql);
+        // JulLog.info("\n" + sql);
         // JulLog.info("printSql======================>");
     }
 
