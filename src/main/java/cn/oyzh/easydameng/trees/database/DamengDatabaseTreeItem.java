@@ -443,7 +443,8 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         param.setIndexes(indexes);
         param.setTriggers(triggers);
         param.setForeignKeys(foreignKeys);
-        param.setExistPrimaryKey(this.existPrimaryKey(table.getName()));
+        param.setPrimaryKeys(this.selectePrimaryKeys(table.getName()));
+        param.setExistAutoIncrement(this.existAutoIncrement(table.getName()));
         this.client().alertTable(param);
     }
 
@@ -459,12 +460,17 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         param.setIndexes(indexes);
         param.setTriggers(triggers);
         param.setForeignKeys(foreignKeys);
-        param.setExistPrimaryKey(this.existPrimaryKey(table.getName()));
+        param.setPrimaryKeys(this.selectePrimaryKeys(table.getName()));
+        param.setExistAutoIncrement(this.existAutoIncrement(table.getName()));
         return param;
     }
 
-    public boolean existPrimaryKey(String tableName) {
-        return this.client().existPrimaryKey(this.dbName(), tableName);
+    public List<String> selectePrimaryKeys(String tableName) {
+        return this.client().selectePrimaryKeys(this.dbName(), tableName);
+    }
+
+    public boolean existAutoIncrement(String tableName) {
+        return this.client().existAutoIncrement(this.dbName(), tableName);
     }
 
     public DamengTable selectFullTable(String tableName) {

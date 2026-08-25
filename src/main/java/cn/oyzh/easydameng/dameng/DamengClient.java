@@ -2970,7 +2970,7 @@ public class DamengClient {
         return "UTF-8";
     }
 
-    public boolean existPrimaryKey(String dbName, String tableName) {
+    public boolean existAutoIncrement(String dbName, String tableName) {
         try {
             Connection connection = this.connection(dbName);
             // String sql = "SELECT COUNT(*) FROM ALL_CONSTRAINTS WHERE OWNER = ? AND TABLE_NAME = ? AND CONSTRAINT_TYPE = 'P'";
@@ -2997,6 +2997,28 @@ public class DamengClient {
             DBUtil.close(resultSet);
             DBUtil.close(stmt);
             return exist;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new DBException(ex);
+        }
+    }
+
+    public List<String> selectePrimaryKeys(String dbName, String tableName) {
+        try {
+            Connection connection = this.connection(dbName);
+            String sql = "SELECT *  FROM ALL_CONSTRAINTS WHERE OWNER = ? AND TABLE_NAME = ? AND CONSTRAINT_TYPE = 'P'";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, dbName);
+            stmt.setString(2, tableName);
+            ResultSet resultSet = stmt.executeQuery();
+            DBUtil.printMetaData(resultSet);
+            List<String> primaryKeys = new ArrayList<>();
+            while (resultSet.next()) {
+                primaryKeys.add(resultSet.getString("CONSTRAINT_NAME"));
+            }
+            DBUtil.close(resultSet);
+            DBUtil.close(stmt);
+            return primaryKeys;
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new DBException(ex);

@@ -31,9 +31,14 @@ public class DamengAlertTableParam {
     // private DamengPrimaryKeys primaryKeys;
 
     /**
-     * 是否存在主键
+     * 是否存在自动递增
      */
-    private boolean existPrimaryKey;
+    private boolean existAutoIncrement;
+
+    /**
+     * 主键列表
+     */
+    private List<String> primaryKeys;
 
     public String dbName() {
         return this.table.getDbName();
@@ -150,11 +155,23 @@ public class DamengAlertTableParam {
         this.foreignKeys = foreignKeys;
     }
 
-    public boolean isExistPrimaryKey() {
-        return existPrimaryKey;
+    public boolean isExistAutoIncrement() {
+        return this.existAutoIncrement;
     }
 
-    public void setExistPrimaryKey(boolean existPrimaryKey) {
-        this.existPrimaryKey = existPrimaryKey;
+    public void setExistAutoIncrement(boolean existAutoIncrement) {
+        this.existAutoIncrement = existAutoIncrement;
+    }
+
+    public boolean isExistPrimaryKey() {
+        return CollectionUtil.isNotEmpty(this.primaryKeys);
+    }
+
+    public void setPrimaryKeys(List<String> primaryKeys) {
+        this.primaryKeys = primaryKeys;
+    }
+
+    public List<String> getPrimaryKeys() {
+        return primaryKeys;
     }
 }
