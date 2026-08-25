@@ -164,8 +164,8 @@ public class DamengTableCreateSqlGenerator {
             boolean isIdentity = column.supportAutoIncrement() && column.isAutoIncrement();
 
             // 默认值（达梦自增列不能有DEFAULT约束）
-            if (!isIdentity && column.supportDefaultValue() && column.getDefaultValue() != null) {
-                builder.append(" DEFAULT ").append(DBUtil.wrapData(column.getDefaultValueString()));
+            if (!isIdentity && column.getDefaultValueFix() != null) {
+                builder.append(" DEFAULT ").append(DBUtil.wrapData(column.getDefaultValueFix()));
             }
 
             // 可为null

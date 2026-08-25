@@ -174,4 +174,8 @@ public class DamengAlertTableParam {
     public List<String> getPrimaryKeys() {
         return primaryKeys;
     }
+
+    public String getDbName() {
+        return this.table.getDbName();
+    }
 }

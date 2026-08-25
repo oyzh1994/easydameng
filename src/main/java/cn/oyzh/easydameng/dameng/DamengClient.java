@@ -2099,7 +2099,7 @@ public class DamengClient {
             if (CollectionUtil.isEmpty(sqlList)) {
                 return;
             }
-            String dbName = param.getTable().getDbName();
+            String dbName = param.getDbName();
             connection = this.connection(dbName);
             connection.setAutoCommit(false);
             Statement statement = connection.createStatement();

@@ -141,6 +141,7 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
     public boolean isTypeChanged() {
         return super.checkOriginalData("type", this.getType());
     }
+
     public boolean isSizeChanged() {
         return super.checkOriginalData("size", this.size);
     }
@@ -163,6 +164,10 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
     public void setDefaultValue(Object defaultValue) {
         this.defaultValue = defaultValue;
         super.putOriginalData("defaultValue", defaultValue);
+    }
+
+    public boolean isDefaultValueChanged() {
+        return super.checkOriginalData("defaultValue", this.defaultValue);
     }
 
     public String getDefaultValueString() {
@@ -211,6 +216,10 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
 
     public boolean isAutoIncrement() {
         return BooleanUtil.isTrue(this.autoIncrement);
+    }
+
+    public boolean isAutoIncrementChanged() {
+        return super.checkOriginalData("autoIncrement", this.autoIncrement);
     }
 
     public boolean hasComment() {

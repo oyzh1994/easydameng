@@ -75,6 +75,10 @@ public class DamengTableAlertSqlGenerator {
         if (param.hasCheck()) {
             this.checkHandle(param);
         }
+        // 修改触发器
+        if (param.hasTrigger()) {
+            this.triggerHandle(param);
+        }
         // 修改表空间
         if (table.hasTableSpace()) {
             StringBuilder builder = new StringBuilder();
@@ -83,10 +87,6 @@ public class DamengTableAlertSqlGenerator {
                     .append(" MOVE TABLESPACE ")
                     .append(table.getTableSpace()).append(";");
             this.sqlList.add(builder.toString());
-        }
-        // 修改触发器
-        if (param.hasTrigger()) {
-            this.triggerHandle(param);
         }
         // 修改表注释
         if (table.hasComment()) {
@@ -315,7 +315,15 @@ public class DamengTableAlertSqlGenerator {
         for (DamengColumn column : param.getColumns()) {
             if (DamengColumns.isChanged(column)) {
                 StringUtil.clear(builder);
-                if (column.isAutoIncrement() && param.isExistAutoIncrement()) {
+                boolean dropIdentity = false;
+                if (param.isExistAutoIncrement()) {
+                    if (column.isAutoIncrement()) {
+                        dropIdentity = true;
+                    } else if (column.isAutoIncrementChanged() && !column.isAutoIncrement()) {
+                        dropIdentity = true;
+                    }
+                }
+                if (dropIdentity) {
                     builder.append("ALTER TABLE ")
                             .append(tableFullName)
                             .append(" DROP IDENTITY;");
@@ -335,6 +343,7 @@ public class DamengTableAlertSqlGenerator {
                             .append(tableFullName)
                             .append(" ADD COLUMN ")
                             .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG))
+                            //.append(" AUTO_INCREMENT;");
                             .append(" IDENTITY(1, 1);");
                     this.sqlList.add(builder.toString());
                 }
@@ -630,8 +639,8 @@ public class DamengTableAlertSqlGenerator {
             builder.append("(").append(column.getValue()).append(")");
         }
         boolean isIdentity = column.supportAutoIncrement() && column.isAutoIncrement();
-        if (!isIdentity && column.supportDefaultValue() && column.getDefaultValue() != null) {
-            builder.append(" DEFAULT ").append(DBUtil.wrapData(column.getDefaultValueString()));
+        if (!isIdentity && column.getDefaultValueFix() != null) {
+            builder.append(" DEFAULT ").append(DBUtil.wrapData(column.getDefaultValueFix()));
         }
         if (column.isNullable()) {
             builder.append(" NULL");
@@ -641,6 +650,9 @@ public class DamengTableAlertSqlGenerator {
         if (isIdentity && created) {
             builder.append(" IDENTITY(1,1)");
         }
+        //if (isIdentity && created) {
+        //    builder.append(" AUTO_INCREMENT");
+        //}
     }
 
     /**
