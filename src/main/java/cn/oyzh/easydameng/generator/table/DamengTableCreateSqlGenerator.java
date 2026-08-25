@@ -1,5 +1,6 @@
 package cn.oyzh.easydameng.generator.table;
 
+import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
@@ -50,7 +51,9 @@ public class DamengTableCreateSqlGenerator {
             this.columnHandle(this.sqlBuilder, param);
         }
         // 主键
-        this.primaryKeyHandle(this.sqlBuilder, param);
+        if (CollectionUtil.isNotEmpty(param.primaryKeys())) {
+            this.primaryKeyHandle(this.sqlBuilder, param);
+        }
         // 索引
         if (param.hasIndex()) {
             this.indexHandle(this.sqlBuilder, param);
@@ -178,9 +181,9 @@ public class DamengTableCreateSqlGenerator {
             }
 
             // 达梦列注释使用独立COMMENT ON COLUMN语句，ALTER TABLE中跳过
-            if (column.hasComment()) {
+            if (StringUtil.isNotBlank(column.getComment())) {
                 String commentSql = """
-                        COMMENT ON COLUMN "$1"."$2"."$3" IS '$4';;
+                        COMMENT ON COLUMN "$1"."$2"."$3" IS '$4';
                         """;
                 commentSql = commentSql.replace("$1", column.getDbName());
                 commentSql = commentSql.replace("$2", column.getTableName());
@@ -194,17 +197,14 @@ public class DamengTableCreateSqlGenerator {
     }
 
     protected void primaryKeyHandle(StringBuilder builder, DamengCreateTableParam param) {
-        List<DamengColumn> keyList = param.primaryKeys();
-        if (!keyList.isEmpty()) {
-            builder.append(" PRIMARY KEY (");
-            for (DamengColumn column : keyList) {
-                builder.append(DBUtil.wrap(column.getName()))
-                        .append(",");
-            }
-            StringUtil.deleteLast(builder, ",");
-            builder.append("),\n");
-            this.changeFlag = true;
+        builder.append(" PRIMARY KEY (");
+        for (DamengColumn column : param.primaryKeys()) {
+            builder.append(DBUtil.wrap(column.getName()))
+                    .append(",");
         }
+        StringUtil.deleteLast(builder, ",");
+        builder.append("),\n");
+        this.changeFlag = true;
     }
 
     protected void indexHandle(StringBuilder builder, DamengCreateTableParam param) {

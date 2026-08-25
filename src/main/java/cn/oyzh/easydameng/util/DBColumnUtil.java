@@ -171,9 +171,9 @@ public class DBColumnUtil {
         bitFiled.supportBit = true;
         bitFiled.supportDefaultValue = true;
 
-        DBColumnField booleanFiled = new DBColumnField("BOOLEAN");
-//        booleanFiled.supportBit = true;
-        booleanFiled.supportDefaultValue = true;
+//        DBColumnField booleanFiled = new DBColumnField("BOOLEAN");
+////        booleanFiled.supportBit = true;
+//        booleanFiled.supportDefaultValue = true;
 
         // ===== 大文本类型（JSON数据用CLOB模拟） =====
         DBColumnField jsonField = new DBColumnField("CLOB");
@@ -217,7 +217,7 @@ public class DBColumnUtil {
         putFiled(binaryField);
 
         putFiled(bitFiled);
-        putFiled(booleanFiled);
+        //putFiled(booleanFiled);
         putFiled(jsonField);
     }
 

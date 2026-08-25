@@ -205,12 +205,9 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
     @Override
     public void delete() {
         try {
-            if (MessageBox.confirm(I18nHelper.deleteTable() + "[" + this.tableName() + "]")) {
-                this.dbItem().dropTable(this.tableName());
+            if (MessageBox.confirm(I18nHelper.deleteTable() + "[" + this.tableName() + "]")) {                this.dbItem().dropTable(this.tableName());
                 DamengEventUtil.tableDropped(this, this.dbItem());
                 this.remove();
-            } else {
-                MessageBox.warn(I18nHelper.operationFail());
             }
         } catch (Exception ex) {
             MessageBox.exception(ex);

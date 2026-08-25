@@ -136,11 +136,11 @@ public class DamengTableAlertSqlGenerator {
         DamengTriggers triggers = param.getTriggers();
         // 删除、变更的语句先执行，否则可能异常
         for (DamengTrigger trigger : triggers) {
-            if (DamengTriggers.isDeleted(trigger) || DamengTriggers.isChanged(trigger)) {
+            if (DBObjectList.isDeleted(trigger) || DBObjectList.isChanged(trigger)) {
                 StringBuilder builder = new StringBuilder();
                 builder.append("DROP TRIGGER ")
                         .append(DBUtil.wrap(trigger.originalName(), DBDialect.DAMENG))
-                        .append(";\n");
+                        .append(";");
                 this.sqlList.add(builder.toString());
             }
             if (DamengTriggers.isChanged(trigger) || DamengTriggers.isCreated(trigger)) {
@@ -272,17 +272,12 @@ public class DamengTableAlertSqlGenerator {
             this.sqlList.add(builder.toString());
         }
 
-        // 新增、删除字段
+        // 删除字段
         StringUtil.clear(builder);
         builder.append("ALTER TABLE ").append(tableFullName).append(" ");
         len = builder.length();
         for (DamengColumn column : param.getColumns()) {
-            if (DamengColumns.isCreated(column)) {
-                builder.append(" ADD COLUMN ")
-                        .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
-                this.appendColumnType(builder, column, true);
-                builder.append(",\n");
-            } else if (DamengColumns.isDeleted(column)) {// 删除字段
+            if (DamengColumns.isDeleted(column)) {
                 builder.append(" DROP COLUMN ")
                         .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG))
                         .append(",\n");
@@ -293,6 +288,26 @@ public class DamengTableAlertSqlGenerator {
         StringUtil.deleteLast(builder, "\n");
         if (len != builder.length()) {
             builder.append(";");
+            this.sqlList.add(builder.toString());
+        }
+
+        // 新增字段
+        StringUtil.clear(builder);
+        builder.append("ALTER TABLE ").append(tableFullName).append(" ");
+        builder.append(" ADD COLUMN (\n");
+        len = builder.length();
+        for (DamengColumn column : param.getColumns()) {
+            if (DamengColumns.isCreated(column)) {
+                builder.append("\t");
+                builder.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
+                this.appendColumnType(builder, column, true);
+                builder.append(",\n");
+            }
+        }
+        // 删除最后一个字符
+        StringUtil.deleteLast(builder, ",");
+        if (len != builder.length()) {
+            builder.append(");");
             this.sqlList.add(builder.toString());
         }
 

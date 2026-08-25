@@ -66,14 +66,13 @@
                 <DBStatusTableView fixedCellSize="30" fx:id="columnTable" flexHeight="100% - 200" flexWidth="100%">
                     <columns>
                         <DBStatusColumn/>
-                        <FXTableColumn flexWidth="15%" valueName="nameControl" text="%base.name" resizable="true"/>
-                        <FXTableColumn flexWidth="15%" valueName="typeControl" text="%base.type" resizable="true"/>
+                        <FXTableColumn flexWidth="15%" valueName="nameControl" text="%base.name"/>
+                        <FXTableColumn flexWidth="15%" valueName="typeControl" text="%base.type"/>
                         <FXTableColumn realWidth="80" valueName="sizeControl" text="%base.length"/>
                         <FXTableColumn realWidth="80" valueName="digitsControl" text="%base.digits"/>
                         <FXTableColumn realWidth="60" valueName="primaryKeyControl" text="%base.key"/>
                         <FXTableColumn realWidth="80" valueName="nullableControl" text="%base.nullable"/>
-                        <FXTableColumn flexWidth="70% - 460" valueName="commentControl" text="%base.comment"
-                                       resizable="true"/>
+                        <FXTableColumn flexWidth="70% - 460" valueName="commentControl" text="%base.comment"/>
                     </columns>
                 </DBStatusTableView>
                 <fx:include fx:id="tableColumnExtra" source="damengTableColumnExtra.fxml"/>
@@ -94,14 +93,11 @@
             <DBStatusTableView fx:id="foreignKeyTable" flexHeight="100%" flexWidth="100%">
                 <columns>
                     <DBStatusColumn/>
-                    <FXTableColumn flexWidth="40% - 280" valueName="nameControl" text="%base.name" resizable="true"/>
-                    <FXTableColumn flexWidth="18%" valueName="columnControl" text="%base.fields" resizable="true"/>
-                    <FXTableColumn flexWidth="12%" valueName="primaryKeyDatabaseControl" text="%base.referencedSchema"
-                                   resizable="true"/>
-                    <FXTableColumn flexWidth="12%" valueName="primaryKeyTableControl" text="%base.referencedTable"
-                                   resizable="true"/>
-                    <FXTableColumn flexWidth="18%" valueName="primaryKeyColumnControl" text="%base.referencedFields"
-                                   resizable="true"/>
+                    <FXTableColumn flexWidth="40% - 280" valueName="nameControl" text="%base.name"/>
+                    <FXTableColumn flexWidth="18%" valueName="columnControl" text="%base.fields"/>
+                    <FXTableColumn flexWidth="12%" valueName="primaryKeyDatabaseControl" text="%base.referencedSchema"/>
+                    <FXTableColumn flexWidth="12%" valueName="primaryKeyTableControl" text="%base.referencedTable"/>
+                    <FXTableColumn flexWidth="18%" valueName="primaryKeyColumnControl" text="%base.referencedFields"/>
                     <FXTableColumn realWidth="120" valueName="deletePolicyControl" text="%base.onDelete"/>
                     <FXTableColumn realWidth="120" valueName="updatePolicyControl" text="%base.onUpdate"/>
                 </columns>
@@ -111,10 +107,9 @@
             <DBStatusTableView fx:id="triggerTable" flexHeight="100%" flexWidth="100%">
                 <columns>
                     <DBStatusColumn/>
-                    <FXTableColumn flexWidth="45% - 290" valueName="nameControl" text="%base.name" resizable="true"/>
+                    <FXTableColumn flexWidth="45% - 290" valueName="nameControl" text="%base.name"/>
                     <FXTableColumn realWidth="250" valueName="policyControl" text="%base.policy"/>
-                    <FXTableColumn flexWidth="55%" valueName="definitionControl" text="%base.definition"
-                                   resizable="true"/>
+                    <FXTableColumn flexWidth="55%" valueName="definitionControl" text="%base.definition"/>
                 </columns>
             </DBStatusTableView>
         </FixedTab>
@@ -122,9 +117,8 @@
             <DBStatusTableView fixedCellSize="30" fx:id="checkTable" flexHeight="100%" flexWidth="100%">
                 <columns>
                     <DBStatusColumn/>
-                    <FXTableColumn flexWidth="30%" valueName="nameControl" text="%base.name" resizable="true"/>
-                    <FXTableColumn flexWidth="70% - 40" valueName="clauseControl" text="%base.clause"
-                                   resizable="true"/>
+                    <FXTableColumn flexWidth="30%" valueName="nameControl" text="%base.name"/>
+                    <FXTableColumn flexWidth="70% - 40" valueName="clauseControl" text="%base.clause"/>
                 </columns>
             </DBStatusTableView>
         </FixedTab>
