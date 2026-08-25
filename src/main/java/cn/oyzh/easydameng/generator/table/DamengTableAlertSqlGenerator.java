@@ -411,7 +411,6 @@ public class DamengTableAlertSqlGenerator {
      * @param param 参数
      */
     protected void foreignKeyHandle(DamengAlertTableParam param) {
-        int len;
         DamengForeignKeys foreignKeys = param.getForeignKeys();
         StringBuilder builder = new StringBuilder();
         String tableFullName = DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.DAMENG);
@@ -433,12 +432,10 @@ public class DamengTableAlertSqlGenerator {
         }
 
         // 新增外键
-        StringUtil.clear(builder);
-        builder.append("ALTER TABLE ").append(tableFullName).append(" ");
-        len = builder.length();
         for (DamengForeignKey foreignKey : foreignKeys) {
             if (DBObjectList.isCreated(foreignKey) || DBObjectList.isChanged(foreignKey)) {
-                // 新增外键
+                StringUtil.clear(builder);
+                builder.append("ALTER TABLE ").append(tableFullName).append(" ");
                 builder.append(" ADD CONSTRAINT ")
                         .append(DBUtil.wrap(foreignKey.getName(), DBDialect.DAMENG))
                         .append(" FOREIGN KEY (");
@@ -458,15 +455,10 @@ public class DamengTableAlertSqlGenerator {
                         .append(" ON DELETE ").append(foreignKey.getDeletePolicy())
                         .append(" ON UPDATE ").append(foreignKey.getUpdatePolicy());
                 // 拼接,
-                builder.append(",\n");
+                builder.append(";");
                 this.changeFlag = true;
+                this.sqlList.add(builder.toString());
             }
-        }
-        StringUtil.deleteLast(builder, ",");
-        StringUtil.deleteLast(builder, "\n");
-        if (len != builder.length()) {
-            builder.append(";");
-            this.sqlList.add(builder.toString());
         }
     }
 
@@ -545,7 +537,6 @@ public class DamengTableAlertSqlGenerator {
      * @param param 参数
      */
     protected void checkHandle(DamengAlertTableParam param) {
-        int len;
         StringBuilder builder = new StringBuilder();
         String tableFullName = DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.DAMENG);
         DamengChecks checks = param.getChecks();
@@ -564,26 +555,19 @@ public class DamengTableAlertSqlGenerator {
         }
 
         // 新增、编辑检查
-        StringUtil.clear(builder);
-        builder.append("ALTER TABLE ").append(tableFullName).append(" ");
-        len = builder.length();
         for (DamengCheck check : checks) {
             if (DamengChecks.isCreated(check) || DamengChecks.isChanged(check)) {
+                StringUtil.clear(builder);
+                builder.append("ALTER TABLE ").append(tableFullName).append(" ");
                 builder.append(" ADD CONSTRAINT ")
                         .append(DBUtil.wrap(check.getName(), DBDialect.DAMENG))
                         .append(" CHECK (")
                         .append(check.getClause())
                         .append(")");
-                // 拼接,
-                builder.append(",\n");
+                builder.append(";");
                 this.changeFlag = true;
+                this.sqlList.add(builder.toString());
             }
-        }
-        StringUtil.deleteLast(builder, ",");
-        StringUtil.deleteLast(builder, "\n");
-        if (len != builder.length()) {
-            builder.append(";");
-            this.sqlList.add(builder.toString());
         }
     }
 
