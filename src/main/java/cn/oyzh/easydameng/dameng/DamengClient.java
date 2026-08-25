@@ -2103,12 +2103,11 @@ public class DamengClient {
             connection = this.connection(dbName);
             connection.setAutoCommit(false);
             Statement statement = connection.createStatement();
-            //            List<String> sqlList = DBSqlParser.parseSql(sql);
             for (String sql : sqlList) {
-                DBUtil.printSql(sql);
                 if (StringUtil.isBlank(sql)) {
                     continue;
                 }
+                DBUtil.printSql(sql);
                 statement.executeUpdate(sql);
             }
             connection.commit();
@@ -2974,10 +2973,24 @@ public class DamengClient {
     public boolean existPrimaryKey(String dbName, String tableName) {
         try {
             Connection connection = this.connection(dbName);
-            String sql = "SELECT COUNT(*) FROM ALL_CONSTRAINTS WHERE OWNER = ? AND TABLE_NAME = ? AND CONSTRAINT_TYPE = 'P'";
+            // String sql = "SELECT COUNT(*) FROM ALL_CONSTRAINTS WHERE OWNER = ? AND TABLE_NAME = ? AND CONSTRAINT_TYPE = 'P'";
+            String sql = """
+                    SELECT 
+                        COUNT(*)
+                    FROM 
+                        SYSCOLUMNS C, SYSOBJECTS O
+                    WHERE 
+                        C.ID = O.ID
+                    AND 
+                        O.NAME = ?
+                    AND 
+                        O.SCHID = (SELECT ID FROM SYSOBJECTS WHERE NAME = ? AND TYPE$ = 'SCH')
+                    AND 
+                        C.INFO2 = 1;
+                    """;
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, dbName);
-            stmt.setString(2, tableName);
+            stmt.setString(1, tableName);
+            stmt.setString(2, dbName);
             ResultSet resultSet = stmt.executeQuery();
             DBUtil.printMetaData(resultSet);
             boolean exist = resultSet.next() && resultSet.getInt(1) > 0;

@@ -38,8 +38,6 @@ public class DamengTableAlertSqlGenerator {
     private void _generate(DamengAlertTableParam param) {
         this.sqlList = new ArrayList<>();
         this.sqlBuilder = new StringBuilder();
-        String dbName = param.dbName();
-        String tableName = param.tableName();
         DamengTable table = param.getTable();
         if (param.hasForeignKey()) {
             this.foreignKeyHandle2(param);
@@ -47,21 +45,22 @@ public class DamengTableAlertSqlGenerator {
         String tableFullName = DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.DAMENG);
         // 修改列、主键、索引、外键、检查 — 每个操作生成独立 ALTER TABLE 语句
         if (param.columnChanged()) {
-            StringBuilder builder = new StringBuilder();
-            builder.append("ALTER TABLE ").append(tableFullName).append(" ");
-            int len = builder.length();
-            this.columnHandle(builder, param);
-            if (builder.length() != len) {
-                this.sqlList.add(builder.toString());
-            }
-            builder.delete(0, builder.length());
-            builder.append("ALTER TABLE ").append(tableFullName).append(" ");
-            len = builder.length();
-            this.columnHandle1(builder, param);
-            if (builder.length() != len) {
-                this.sqlList.add(builder.toString());
-            }
-            this.columnHandle2(builder, param);
+            // StringBuilder builder = new StringBuilder();
+            // builder.append("ALTER TABLE ").append(tableFullName).append(" ");
+            // int len = builder.length();
+            // this.columnHandle(builder, param);
+            // if (builder.length() != len) {
+            //     this.sqlList.add(builder.toString());
+            // }
+            // builder.delete(0, builder.length());
+            // builder.append("ALTER TABLE ").append(tableFullName).append(" ");
+            // len = builder.length();
+            // this.columnHandle1(builder, param);
+            // if (builder.length() != len) {
+            //     this.sqlList.add(builder.toString());
+            // }
+            // this.columnHandle2(builder, param);
+            this.columnHandle(param);
         }
         if (param.primaryKeyChanged()) {
             StringBuilder builder = new StringBuilder();
@@ -82,22 +81,10 @@ public class DamengTableAlertSqlGenerator {
             }
         }
         if (param.hasForeignKey()) {
-            StringBuilder builder = new StringBuilder();
-            builder.append("ALTER TABLE ").append(tableFullName).append(" ");
-            int len = builder.length();
-            this.foreignKeyHandle1(builder, param);
-            if (builder.length() != len) {
-                this.sqlList.add(builder.toString());
-            }
+            this.foreignKeyHandle1(param);
         }
         if (param.hasCheck()) {
-            StringBuilder builder = new StringBuilder();
-            builder.append("ALTER TABLE ").append(tableFullName).append(" ");
-            int len = builder.length();
-            this.checkHandle(builder, param);
-            if (builder.length() != len) {
-                this.sqlList.add(builder.toString());
-            }
+            this.checkHandle(param);
         }
         // 达梦表空间修改
         if (table.hasTableSpace()) {
@@ -183,13 +170,92 @@ public class DamengTableAlertSqlGenerator {
         }
     }
 
+    // /**
+    //  * 字段处理
+    //  *
+    //  * @param builder 语句
+    //  * @param param   参数
+    //  */
+    // protected void columnHandle(StringBuilder builder, DamengAlertTableParam param) {
+    //     for (DamengColumn column : param.getColumns()) {
+    //         // 修改或者新增字段
+    //         if (DamengColumns.isChanged(column) && column.isNameChanged()) {
+    //             // 达梦 RENAME COLUMN 只支持 old TO new，不含类型信息
+    //             builder.append(" RENAME COLUMN ")
+    //                     .append(DBUtil.wrap(column.originalName(), DBDialect.DAMENG))
+    //                     .append(" TO ")
+    //                     .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
+    //         }
+    //     }
+    //     // 删除最后一个字符
+    //     StringUtil.deleteLast(builder, ",");
+    // }
+    //
+    // /**
+    //  * 字段处理1
+    //  *
+    //  * @param builder 语句
+    //  * @param param   参数
+    //  */
+    // protected void columnHandle1(StringBuilder builder, DamengAlertTableParam param) {
+    //     for (DamengColumn column : param.getColumns()) {
+    //         // 修改或者新增字段
+    //         if (DamengColumns.isChanged(column) || DamengColumns.isCreated(column)) {
+    //             if (column.isCreated()) {
+    //                 builder.append(" ADD COLUMN ")
+    //                         .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
+    //                 this.appendColumnType(builder, column, true);
+    //             } else {
+    //                 builder.append(" MODIFY ")
+    //                         .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
+    //                 this.appendColumnType(builder, column, false);
+    //             }
+    //             builder.append(",");
+    //         } else if (DamengColumns.isDeleted(column)) {// 删除字段
+    //             builder.append(" DROP COLUMN ")
+    //                     .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG))
+    //                     .append(",");
+    //         }
+    //     }
+    //     // 删除最后一个字符
+    //     StringUtil.deleteLast(builder, ",");
+    // }
+    //
+    // /**
+    //  * 字段处理2
+    //  *
+    //  * @param builder 语句
+    //  * @param param   参数
+    //  */
+    // protected void columnHandle2(StringBuilder builder, DamengAlertTableParam param) {
+    //     for (DamengColumn column : param.getColumns()) {
+    //         // 修改或者新增字段
+    //         if (DamengColumns.isChanged(column) || DamengColumns.isCreated(column)) {
+    //             // 达梦列注释使用独立COMMENT ON COLUMN语句，ALTER TABLE中跳过
+    //             if (column.hasComment() && column.isCommentChanged()) {
+    //                 String commentSql = """
+    //                         COMMENT ON COLUMN "$1"."$2"."$3" IS '$4';
+    //                         """;
+    //                 commentSql = commentSql.replace("$1", column.getDbName());
+    //                 commentSql = commentSql.replace("$2", column.getTableName());
+    //                 commentSql = commentSql.replace("$3", column.getName());
+    //                 commentSql = commentSql.replace("$4", column.getComment());
+    //                 this.sqlList.add(commentSql);
+    //             }
+    //         }
+    //     }
+    //     // 删除最后一个字符
+    //     StringUtil.deleteLast(builder, ",");
+    // }
+
     /**
      * 字段处理
      *
-     * @param builder 语句
-     * @param param   参数
+     * @param param 参数
      */
-    protected void columnHandle(StringBuilder builder, DamengAlertTableParam param) {
+    protected void columnHandle(DamengAlertTableParam param) {
+        String tableFullName = DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.DAMENG);
+        StringBuilder builder = new StringBuilder();
         for (DamengColumn column : param.getColumns()) {
             // 修改或者新增字段
             if (DamengColumns.isChanged(column) && column.isNameChanged()) {
@@ -202,27 +268,16 @@ public class DamengTableAlertSqlGenerator {
         }
         // 删除最后一个字符
         StringUtil.deleteLast(builder, ",");
-    }
-
-    /**
-     * 字段处理1
-     *
-     * @param builder 语句
-     * @param param   参数
-     */
-    protected void columnHandle1(StringBuilder builder, DamengAlertTableParam param) {
+        if (!builder.isEmpty()) {
+            this.sqlList.add(builder.toString());
+        }
+        StringUtil.clear(builder);
         for (DamengColumn column : param.getColumns()) {
-            // 修改或者新增字段
-            if (DamengColumns.isChanged(column) || DamengColumns.isCreated(column)) {
-                if (column.isCreated()) {
-                    builder.append(" ADD COLUMN ")
-                            .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
-                    this.appendColumnType(builder, column);
-                } else {
-                    builder.append(" MODIFY ")
-                            .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
-                    this.appendColumnType(builder, column);
-                }
+            // 新增字段
+            if (DamengColumns.isCreated(column)) {
+                builder.append(" ADD COLUMN ")
+                        .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
+                this.appendColumnType(builder, column, true);
                 builder.append(",");
             } else if (DamengColumns.isDeleted(column)) {// 删除字段
                 builder.append(" DROP COLUMN ")
@@ -230,17 +285,38 @@ public class DamengTableAlertSqlGenerator {
                         .append(",");
             }
         }
-        // 删除最后一个字符
-        StringUtil.deleteLast(builder, ",");
-    }
-
-    /**
-     * 字段处理2
-     *
-     * @param builder 语句
-     * @param param   参数
-     */
-    protected void columnHandle2(StringBuilder builder, DamengAlertTableParam param) {
+        if (!builder.isEmpty()) {
+            this.sqlList.add(builder.toString());
+        }
+        for (DamengColumn column : param.getColumns()) {
+            // 新增字段
+            if (DamengColumns.isChanged(column)) {
+                StringUtil.clear(builder);
+                if (param.isExistPrimaryKey()) {
+                    builder.append("ALTER TABLE ")
+                            .append(tableFullName)
+                            .append(" DROP IDENTITY;");
+                    this.sqlList.add(builder.toString());
+                }
+                StringUtil.clear(builder);
+                builder.append("ALTER TABLE ")
+                        .append(tableFullName)
+                        .append(" MODIFY ")
+                        .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
+                this.appendColumnType(builder, column, false);
+                builder.append(";");
+                this.sqlList.add(builder.toString());
+                StringUtil.clear(builder);
+                if (column.isPrimaryKey()) {
+                    builder.append("ALTER TABLE ")
+                            .append(tableFullName)
+                            .append(" ADD COLUMN ")
+                            .append(DBUtil.wrap(column.getName(), DBDialect.DAMENG))
+                            .append(" IDENTITY(1, 1);");
+                    this.sqlList.add(builder.toString());
+                }
+            }
+        }
         for (DamengColumn column : param.getColumns()) {
             // 修改或者新增字段
             if (DamengColumns.isChanged(column) || DamengColumns.isCreated(column)) {
@@ -257,8 +333,6 @@ public class DamengTableAlertSqlGenerator {
                 }
             }
         }
-        // 删除最后一个字符
-        StringUtil.deleteLast(builder, ",");
     }
 
     protected void primaryKeyHandle(StringBuilder builder, DamengAlertTableParam table) {
@@ -322,42 +396,43 @@ public class DamengTableAlertSqlGenerator {
     /**
      * 添加外键
      *
-     * @param builder 语句
-     * @param param   参数
+     * @param param 参数
      */
-    protected void foreignKeyHandle1(StringBuilder builder, DamengAlertTableParam param) {
-        DamengForeignKeys foreignKeys = param.getForeignKeys();
-        if (!foreignKeys.hasCreated() && !foreignKeys.hasChanged()) {
-            return;
-        }
-        // if(!builder.toString().endsWith(",")){
-        //     builder.append(",");
-        // }
-        for (DamengForeignKey foreignKey : foreignKeys.filterList(DBObjectList.TYPE_CHANGED, DBObjectList.TYPE_CREATED)) {
-            // 新增外键
-            builder.append(" ADD CONSTRAINT ")
-                    .append(DBUtil.wrap(foreignKey.getName(), DBDialect.DAMENG))
-                    .append(" FOREIGN KEY (");
-            for (String column : foreignKey.getColumns()) {
-                builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(",");
+    protected void foreignKeyHandle1(DamengAlertTableParam param) {
+        StringBuilder builder = new StringBuilder("ALTER TABLE ");
+        String tableFullName = DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.DAMENG);
+        builder.append("ALTER TABLE ").append(tableFullName).append(" ");
+        for (DamengForeignKey foreignKey : param.getForeignKeys()) {
+            if (foreignKey.isCreated() || foreignKey.isChanged()) {
+                // 新增外键
+                builder.append(" ADD CONSTRAINT ")
+                        .append(DBUtil.wrap(foreignKey.getName(), DBDialect.DAMENG))
+                        .append(" FOREIGN KEY (");
+                for (String column : foreignKey.getColumns()) {
+                    builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(",");
+                }
+                StringUtil.deleteLast(builder, ",");
+                builder.append(")")
+                        .append(" REFERENCES ")
+                        .append(DBUtil.wrap(foreignKey.getPrimaryKeyDatabase(), foreignKey.getPrimaryKeyTable(), DBDialect.DAMENG))
+                        .append(" (");
+                for (String column : foreignKey.getPrimaryKeyColumns()) {
+                    builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(",");
+                }
+                StringUtil.deleteLast(builder, ",");
+                builder.append(")")
+                        .append(" ON DELETE ").append(foreignKey.getDeletePolicy())
+                        .append(" ON UPDATE ").append(foreignKey.getUpdatePolicy());
+                // 拼接,
+                builder.append(",\n");
+                this.changeFlag = true;
             }
-            StringUtil.deleteLast(builder, ",");
-            builder.append(")")
-                    .append(" REFERENCES ")
-                    .append(DBUtil.wrap(foreignKey.getPrimaryKeyDatabase(), foreignKey.getPrimaryKeyTable(), DBDialect.DAMENG))
-                    .append(" (");
-            for (String column : foreignKey.getPrimaryKeyColumns()) {
-                builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(",");
-            }
-            StringUtil.deleteLast(builder, ",");
-            builder.append(")")
-                    .append(" ON DELETE ").append(foreignKey.getDeletePolicy())
-                    .append(" ON UPDATE ").append(foreignKey.getUpdatePolicy());
-            // 拼接,
-            builder.append(",\n");
-            this.changeFlag = true;
         }
-        // StringUtil.deleteLast(builder, ",");
+        StringUtil.deleteLast(builder, ",");
+        builder.append(";");
+        if (!builder.isEmpty()) {
+            this.sqlList.add(builder.toString());
+        }
     }
 
     /**
@@ -388,10 +463,10 @@ public class DamengTableAlertSqlGenerator {
         this.sqlList.add(builder.toString());
     }
 
-    protected void checkHandle(StringBuilder builder, DamengAlertTableParam param) {
-        // if (!builder.toString().endsWith(",")) {
-        //     builder.append(",");
-        // }
+    protected void checkHandle(DamengAlertTableParam param) {
+        StringBuilder builder = new StringBuilder();
+        String tableFullName = DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.DAMENG);
+        builder.append("ALTER TABLE ").append(tableFullName).append(" ");
         DamengChecks checks = param.getChecks();
         // 删除、变更语句先执行，否则可能异常
         for (DamengCheck check : checks) {
@@ -416,13 +491,17 @@ public class DamengTableAlertSqlGenerator {
                 this.changeFlag = true;
             }
         }
-        // StringUtil.deleteLast(builder, ",");
+        StringUtil.deleteLast(builder, ",");
+        builder.append(";");
+        if (!builder.isEmpty()) {
+            this.sqlList.add(builder.toString());
+        }
     }
 
     /**
      * 追加列类型定义（类型、长度、默认值、NULL、IDENTITY等）
      */
-    private void appendColumnType(StringBuilder builder, DamengColumn column) {
+    private void appendColumnType(StringBuilder builder, DamengColumn column, boolean created) {
         builder.append(" ").append(normalizeType(column.getType()));
         if (column.supportSize() && column.getSize() != null) {
             builder.append("(").append(column.getSize());
@@ -442,7 +521,7 @@ public class DamengTableAlertSqlGenerator {
         } else {
             builder.append(" NOT NULL");
         }
-        if (isIdentity) {
+        if (isIdentity && created) {
             builder.append(" IDENTITY(1,1)");
         }
     }
