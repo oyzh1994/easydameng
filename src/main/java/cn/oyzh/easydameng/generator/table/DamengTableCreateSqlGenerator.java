@@ -80,16 +80,18 @@ public class DamengTableCreateSqlGenerator {
             this.changeFlag = false;
         }
         this.sqlBuilder.append(";");
-        // 达梦表注释
-        if (table.hasComment()) {
-            StringBuilder builder = new StringBuilder();
-            builder.append("COMMENT ON TABLE ").append(tableFullName)
-                    .append(" IS ").append(DBUtil.wrapData(table.getComment())).append(";");
-            this.sqlList.add(builder.toString());
-        }
         // 表触发器
         if (param.hasTrigger()) {
             this.triggerHandle(param);
+        }
+        // 达梦表注释
+        if (StringUtil.isNotBlank(table.getComment())) {
+            StringBuilder builder = new StringBuilder();
+            builder.append("COMMENT ON TABLE ")
+                    .append(tableFullName)
+                    .append(" IS ")
+                    .append(DBUtil.wrapData(table.getComment())).append(";");
+            this.sqlList.add(builder.toString());
         }
     }
 
@@ -120,29 +122,20 @@ public class DamengTableCreateSqlGenerator {
     protected void triggerHandle(DamengCreateTableParam param) {
         DamengTriggers triggers = param.getTriggers();
         for (DamengTrigger trigger : triggers) {
-            if (DamengTriggers.isDeleted(trigger) || DamengTriggers.isChanged(trigger)) {
-                StringBuilder builder = new StringBuilder();
-                builder.append("DROP TRIGGER ")
-                        .append(DBUtil.wrap(trigger.originalName(), DBDialect.DAMENG))
-                        .append(";");
-                this.sqlList.add(builder.toString());
+            StringBuilder builder = new StringBuilder();
+            String body = trigger.getDefinition().trim();
+            if (!body.endsWith(";")) {
+                body = body + ";";
             }
-            if (DamengTriggers.isChanged(trigger) || DamengTriggers.isCreated(trigger)) {
-                StringBuilder builder = new StringBuilder();
-                String body = trigger.getDefinition().trim();
-                if (!body.endsWith(";")) {
-                    body = body + ";";
-                }
-                builder.append("CREATE OR REPLACE TRIGGER ")
-                        .append(DBUtil.wrap(trigger.getName(), DBDialect.DAMENG))
-                        .append(" ")
-                        .append(trigger.getPolicy())
-                        .append(" ON ")
-                        .append(DBUtil.wrap(param.tableName(), DBDialect.DAMENG))
-                        .append(" FOR EACH ROW BEGIN ")
-                        .append(body).append(" END;");
-                this.sqlList.add(builder.toString());
-            }
+            builder.append("CREATE OR REPLACE TRIGGER ")
+                    .append(DBUtil.wrap(trigger.getName(), DBDialect.DAMENG))
+                    .append(" ")
+                    .append(trigger.getPolicy())
+                    .append(" ON ")
+                    .append(DBUtil.wrap(param.tableName(), DBDialect.DAMENG))
+                    .append(" FOR EACH ROW BEGIN ")
+                    .append(body).append(" END;");
+            this.sqlList.add(builder.toString());
         }
     }
 
@@ -187,7 +180,7 @@ public class DamengTableCreateSqlGenerator {
             // 达梦列注释使用独立COMMENT ON COLUMN语句，ALTER TABLE中跳过
             if (column.hasComment()) {
                 String commentSql = """
-                        COMMENT ON COLUMN "$1"."$2"."$3" IS '$4';
+                        COMMENT ON COLUMN "$1"."$2"."$3" IS '$4';;
                         """;
                 commentSql = commentSql.replace("$1", column.getDbName());
                 commentSql = commentSql.replace("$2", column.getTableName());
