@@ -464,9 +464,11 @@ public class DamengTableAlertSqlGenerator {
     }
 
     protected void checkHandle(DamengAlertTableParam param) {
+        int len;
         StringBuilder builder = new StringBuilder();
         String tableFullName = DBUtil.wrap(param.dbName(), param.tableName(), DBDialect.DAMENG);
         builder.append("ALTER TABLE ").append(tableFullName).append(" ");
+        len = builder.length();
         DamengChecks checks = param.getChecks();
         // 删除、变更语句先执行，否则可能异常
         for (DamengCheck check : checks) {
@@ -478,6 +480,15 @@ public class DamengTableAlertSqlGenerator {
                 this.changeFlag = true;
             }
         }
+        StringUtil.deleteLast(builder, ",");
+        StringUtil.deleteLast(builder, "\n");
+        if (len != builder.length()) {
+            builder.append(";");
+            this.sqlList.add(builder.toString());
+        }
+        StringUtil.clear(builder);
+        builder.append("ALTER TABLE ").append(tableFullName).append(" ");
+        len = builder.length();
         for (DamengCheck check : checks) {
             // 检查新增、变更
             if (DamengChecks.isCreated(check) || DamengChecks.isChanged(check)) {
@@ -492,8 +503,9 @@ public class DamengTableAlertSqlGenerator {
             }
         }
         StringUtil.deleteLast(builder, ",");
-        builder.append(";");
-        if (!builder.isEmpty()) {
+        StringUtil.deleteLast(builder, "\n");
+        if (len != builder.length()) {
+            builder.append(";");
             this.sqlList.add(builder.toString());
         }
     }
