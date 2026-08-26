@@ -153,18 +153,19 @@ public class DBColumnUtil {
 
         DBColumnField rawField = new DBColumnField("RAW");
         rawField.suggestSize = 255;
-        rawField.supportSize = true;
+        // rawField.supportSize = true;
         rawField.supportBinary = true;
         rawField.supportDefaultValue = true;
 
         DBColumnField varbinaryField = new DBColumnField("VARBINARY");
         varbinaryField.suggestSize = 8189;
-        varbinaryField.supportSize = true;
+        // varbinaryField.supportSize = true;
         varbinaryField.supportBinary = true;
         varbinaryField.supportDefaultValue = true;
 
         DBColumnField binaryField = new DBColumnField("BINARY");
         binaryField.suggestSize = 255;
+        binaryField.supportSize = true;
         binaryField.supportBinary = true;
         binaryField.supportDefaultValue = true;
 
