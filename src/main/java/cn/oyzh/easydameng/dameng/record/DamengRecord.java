@@ -71,7 +71,7 @@ public class DamengRecord extends DBObjectStatus implements Destroyable {
     public DamengRecordProperty putValue(String column, Object value) {
         DamengRecordProperty property = this.getProperty(column);
         if (property == null) {
-            property = putValue(new DamengColumn(column), value);
+            property = this.putValue(new DamengColumn(column), value);
         } else {
             property.setValue(value);
         }

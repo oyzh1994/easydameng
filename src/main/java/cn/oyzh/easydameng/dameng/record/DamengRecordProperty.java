@@ -120,7 +120,7 @@ public class DamengRecordProperty extends SimpleObjectProperty<Object> implement
             return DBRecordUtil.formatValue(super.getValue(), this.column);
         }
         if (this.node == null) {
-            this.node = DBRecordUtil.getNode(this, super.get(), this.column);
+            this.node = DBRecordUtil.getNode(this, super.getValue(), this.column);
             TableViewUtil.rowOnCtrlS(this.node);
             TableViewUtil.selectRowOnMouseClicked(this.node);
 //            if (!JarUtil.isInJar()) {
@@ -163,10 +163,10 @@ public class DamengRecordProperty extends SimpleObjectProperty<Object> implement
         if (listener != null) {
             listener.changed(null, null, null);
         }
-        // 重新格式化值
-        if (!changed && this.node instanceof BinaryTextFiled filed) {
-            filed.setText(BinaryTextFiled.format(filed.getValue(), filed.getScale()));
-        }
+        // // 重新格式化值
+        // if (!changed && this.node instanceof BinaryTextFiled filed) {
+        //     filed.setText(BinaryTextFiled.format(filed.getValue(), filed.getScale()));
+        // }
         this.setToNullFlag = false;
     }
 

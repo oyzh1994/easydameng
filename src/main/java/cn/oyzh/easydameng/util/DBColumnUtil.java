@@ -36,6 +36,7 @@ public class DBColumnUtil {
         varchar2Field.supportDefaultValue = true;
 
         DBColumnField clobField = new DBColumnField("CLOB");
+        clobField.supportText = true;
         clobField.supportString = true;
 
         DBColumnField ncharField = new DBColumnField("NCHAR");
@@ -84,15 +85,18 @@ public class DBColumnUtil {
         tinyintField.supportAutoIncrement = true;
 
         DBColumnField floatField = new DBColumnField("FLOAT");
-        floatField.supportDigits = true;
+        // floatField.supportSize = true;
+        // floatField.supportDigits = true;
         floatField.supportDefaultValue = true;
 
         DBColumnField doubleField = new DBColumnField("DOUBLE");
-        doubleField.supportDigits = true;
+        // doubleField.supportSize = true;
+        // doubleField.supportDigits = true;
         doubleField.supportDefaultValue = true;
 
         DBColumnField doublePrecisionField = new DBColumnField("DOUBLE PRECISION");
-        doublePrecisionField.supportDigits = true;
+        // doublePrecisionField.supportSize = true;
+        // doublePrecisionField.supportDigits = true;
         doublePrecisionField.supportDefaultValue = true;
 
         DBColumnField decimalField = new DBColumnField("DECIMAL");
@@ -249,6 +253,8 @@ public class DBColumnUtil {
         private boolean supportSize;
 
         private boolean supportJson;
+
+        private boolean supportText;
 
         private boolean supportValue;
 
@@ -458,6 +464,15 @@ public class DBColumnUtil {
         for (DBColumnField value : COLUMN_FIELD) {
             if (StringUtil.equalsIgnoreCase(value.name, type)) {
                 return value.supportJson;
+            }
+        }
+        return false;
+    }
+
+    public static boolean supportText(String type) {
+        for (DBColumnField value : COLUMN_FIELD) {
+            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+                return value.supportText;
             }
         }
         return false;

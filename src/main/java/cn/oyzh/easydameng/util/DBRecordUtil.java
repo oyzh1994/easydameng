@@ -4,6 +4,7 @@ import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.record.DamengRecordProperty;
 import cn.oyzh.fx.editor.incubator.control.JsonTextFiled;
+import cn.oyzh.fx.editor.incubator.control.LongTextFiled;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.text.field.BinaryTextFiled;
 import cn.oyzh.fx.gui.text.field.BitTextField;
@@ -17,6 +18,7 @@ import cn.oyzh.fx.plus.controls.text.field.FXTextField;
 import cn.oyzh.fx.plus.font.FontUtil;
 import cn.oyzh.fx.plus.menu.FXMenuItem;
 import cn.oyzh.fx.plus.util.ControlUtil;
+import dm.jdbc.driver.DmdbBlob;
 import dm.jdbc.driver.DmdbClob;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -40,9 +42,22 @@ public class DBRecordUtil {
             textField.setValue(object);
             textField.setBackground(ControlUtil.background(Color.valueOf("#C9E4E8")));
             node = textField;
+        } else if (column.supportText()) {
+            LongTextFiled textField = new LongTextFiled();
+            if (object instanceof DmdbClob clob) {
+                textField.setValue(clob.data);
+            } else {
+                textField.setValue(object);
+            }
+            textField.setBackground(ControlUtil.background(Color.valueOf("#A1C9D1")));
+            node = textField;
         } else if (column.supportBinary()) {
             BinaryTextFiled textField = new BinaryTextFiled();
-            textField.setValue(object);
+            if (object instanceof DmdbBlob blob) {
+                textField.setValue(blob.data);
+            } else {
+                textField.setValue(object);
+            }
             textField.setBackground(ControlUtil.background(Color.valueOf("#FBF0D0")));
             node = textField;
         } else if (column.supportInteger()) {
@@ -55,11 +70,11 @@ public class DBRecordUtil {
             textField.setValue(object);
             textField.setBackground(ControlUtil.background(Color.valueOf("#CDECFA")));
             node = textField;
-        // } else if (column.supportBit()) {
-        //     BitTextField textField = new BitTextField();
-        //     textField.setValue(object);
-        //     textField.setBackground(ControlUtil.background(Color.valueOf("#FCE1E4")));
-        //     node = textField;
+            // } else if (column.supportBit()) {
+            //     BitTextField textField = new BitTextField();
+            //     textField.setValue(object);
+            //     textField.setBackground(ControlUtil.background(Color.valueOf("#FCE1E4")));
+            //     node = textField;
         } else if (column.isDateType()) {
             DateTextField textField = new DateTextField();
             textField.setValue(object);
@@ -91,12 +106,12 @@ public class DBRecordUtil {
             textField.setBackground(ControlUtil.background(Color.valueOf("#FDD4D3")));
             node = textField;
         }
-        if (node instanceof TextField textField) {
+        if (node instanceof FXTextField textField) {
             if (object == null) {
                 textField.setPromptText(nullPromptText());
             }
             textField.setContextMenu(getColumnContextMenu(property));
-            textField.textProperty().addListener((observable, oldValue, newValue) -> property.setChanged(true));
+            textField.addTextChangeListener((observable, oldValue, newValue) -> property.setChanged(true));
         }
         return node;
     }
@@ -117,7 +132,11 @@ public class DBRecordUtil {
         } else if (column.supportJson()) {
             val = JsonTextFiled.format(object);
         } else if (column.supportBinary()) {
-            val = BinaryTextFiled.format(object);
+            if (object instanceof DmdbBlob blob) {
+                val = BinaryTextFiled.format(blob.data);
+            } else {
+                val = BinaryTextFiled.format(object);
+            }
 //        } else if (column.supportEnum()) {
 //            val = SelectTextFiled.format(object);
         } else if (column.supportInteger()) {
@@ -132,14 +151,14 @@ public class DBRecordUtil {
             val = TimeTextField.format(object);
         } else if (column.isYearType()) {
             val = YearTextField.format(object);
-        } else if (column.supportTimestamp()) {
-            val = DateTimeTextField.format(object);
-        } else if (column.supportString()) {
+        } else if (column.supportText()) {
             if (object instanceof DmdbClob clob) {
-                val = FXTextField.format(clob.data);
+                val = LongTextFiled.format(clob.data);
             } else {
-                val = FXTextField.format(object);
+                val = LongTextFiled.format(object);
             }
+            // } else if (column.supportString()) {
+            //     val = FXTextField.format(object);
 //        } else if (column.supportGeometry()) {
 //            val = ExampleTextField.format(object);
         } else {

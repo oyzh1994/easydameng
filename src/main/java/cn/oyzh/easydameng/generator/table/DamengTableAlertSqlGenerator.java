@@ -628,7 +628,7 @@ public class DamengTableAlertSqlGenerator {
      * 追加列类型定义（类型、长度、默认值、NULL、IDENTITY等）
      */
     private void appendColumnType(StringBuilder builder, DamengColumn column, boolean created) {
-        builder.append(" ").append(normalizeType(column.getType()));
+        builder.append(" ").append(column.getType());
         if (column.supportSize() && column.getSize() != null) {
             builder.append("(").append(column.getSize());
             if (column.supportDigits() && column.getDigits() != null) {
@@ -654,19 +654,19 @@ public class DamengTableAlertSqlGenerator {
         //    builder.append(" AUTO_INCREMENT");
         //}
     }
-
-    /**
-     * 规范化字段类型
-     */
-    private static String normalizeType(String type) {
-        if (type == null)
-            return "";
-        String upper = type.toUpperCase();
-        if (upper.matches("(TINYINT|SMALLINT|INT|INTEGER|BIGINT|MEDIUMINT)\\s*\\(\\s*\\d+\\s*\\)")) {
-            return upper.replaceAll("\\(.*\\)", "").trim();
-        }
-        return type;
-    }
+    //
+    // /**
+    //  * 规范化字段类型
+    //  */
+    // private static String normalizeType(String type) {
+    //     if (type == null)
+    //         return "";
+    //     String upper = type.toUpperCase();
+    //     if (upper.matches("(TINYINT|SMALLINT|INT|INTEGER|BIGINT|MEDIUMINT)\\s*\\(\\s*\\d+\\s*\\)")) {
+    //         return upper.replaceAll("\\(.*\\)", "").trim();
+    //     }
+    //     return type;
+    // }
 
     public static List<String> generateSql(DamengAlertTableParam param) {
         return new DamengTableAlertSqlGenerator().generate(param);

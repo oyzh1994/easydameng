@@ -3,6 +3,8 @@ package cn.oyzh.easydameng.util;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.editor.incubator.EditorFormatType;
+import cn.oyzh.fx.editor.incubator.control.LongTextFiled;
+import cn.oyzh.fx.gui.text.field.BinaryTextFiled;
 import cn.oyzh.fx.gui.text.field.BitTextField;
 import cn.oyzh.fx.gui.text.field.ChooseFileTextField;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
@@ -16,6 +18,8 @@ import cn.oyzh.fx.gui.text.field.YearTextField;
 import cn.oyzh.fx.plus.controls.label.FXLabel;
 import cn.oyzh.fx.plus.controls.text.field.FXTextField;
 import cn.oyzh.i18n.I18nHelper;
+import dm.jdbc.driver.DmdbBlob;
+import dm.jdbc.driver.DmdbClob;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -75,23 +79,36 @@ public class DBNodeUtil {
         if (node == null || val == null) {
             return;
         }
-        // if (node instanceof CalendarPicker<?> picker) {
-        //     picker.setValue(val);
-        // }
         if (node instanceof NumberTextField textField) {
             textField.setValue(val);
         } else if (node instanceof DecimalTextField textField) {
             textField.setValue(val);
         } else if (node instanceof BitTextField textField) {
             textField.setValue(val);
+        } else if (node instanceof BinaryTextFiled textField) {
+            if (val instanceof DmdbBlob clob) {
+                // textField.setIgnoreChanged(true);
+                textField.setValue(clob.data);
+                // textField.setIgnoreChanged(false);
+            } else {
+                textField.setValue(val);
+            }
         } else if (node instanceof ChooseFileTextField textField) {
             textField.setValue(val);
+        } else if (node instanceof LongTextFiled textField) {
+            if (val instanceof DmdbClob clob) {
+                // textField.setIgnoreChanged(true);
+                textField.setText(clob.data);
+                // textField.setIgnoreChanged(false);
+            } else {
+                textField.setText(val.toString());
+            }
         } else if (node instanceof TextField textField) {
-            textField.setText(val.toString());
-            // } else if (node instanceof RichJsonTextAreaPane textAreaPane) {
-            //     textAreaPane.setJsonStr(val.toString());
-            // } else if (node instanceof RichTextAreaPane<?> textAreaPane) {
-            //     textAreaPane.setText(val.toString());
+            if (val instanceof DmdbClob clob) {
+                textField.setText(clob.data);
+            } else {
+                textField.setText(val.toString());
+            }
         } else if (node instanceof TextArea textArea) {
             textArea.setText(val.toString());
         } else if (node instanceof ComboBox comboBox) {

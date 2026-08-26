@@ -372,6 +372,15 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
     }
 
     /**
+     * 是否支持文本
+     *
+     * @return 结果
+     */
+    public boolean supportText() {
+        return DBColumnUtil.supportText(this.getType());
+    }
+
+    /**
      * 是否支持键长度
      *
      * @return 结果
