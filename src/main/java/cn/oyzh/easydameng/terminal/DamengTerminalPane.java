@@ -1,24 +1,23 @@
 package cn.oyzh.easydameng.terminal;
 
 import cn.oyzh.common.log.JulLog;
-import cn.oyzh.common.thread.ExecutorUtil;
-import cn.oyzh.easydameng.db.DBConnState;
-import cn.oyzh.easydameng.domain.DamengConnect;
-import cn.oyzh.easydameng.domain.DamengSetting;
 import cn.oyzh.easydameng.dameng.DamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengQueryResults;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
+import cn.oyzh.easydameng.db.DBConnState;
+import cn.oyzh.easydameng.domain.DamengConnect;
+import cn.oyzh.easydameng.domain.DamengSetting;
 import cn.oyzh.easydameng.store.DamengSettingStore;
 import cn.oyzh.fx.plus.font.FontManager;
+import cn.oyzh.fx.plus.util.FXUtil;
 import cn.oyzh.fx.terminal.TerminalPane;
 import cn.oyzh.fx.terminal.command.TerminalCommand;
 import cn.oyzh.fx.terminal.command.TerminalCommandHandler;
 import cn.oyzh.fx.terminal.execute.TerminalExecuteResult;
 import cn.oyzh.fx.terminal.util.TerminalManager;
 import cn.oyzh.i18n.I18nHelper;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.text.Font;
 
 import java.util.List;
@@ -46,19 +45,14 @@ public class DamengTerminalPane extends TerminalPane {
         return client;
     }
 
-    /**
-     * db信息
-     */
-    private DamengConnect dbConnect;
-
-    public DamengConnect getDbConnect() {
-        return dbConnect;
+    public DamengConnect shellConnect() {
+        return this.client == null ? null : this.client.getDbConnect();
     }
 
-    /**
-     * 客户端连接状态监听器
-     */
-    private ChangeListener<DBConnState> stateChangeListener;
+    // /**
+    //  * 客户端连接状态监听器
+    //  */
+    // private ChangeListener<DBConnState> stateChangeListener;
 
     @Override
     public void flushPrompt() {
@@ -68,8 +62,8 @@ public class DamengTerminalPane extends TerminalPane {
         } else {
             str = this.client.connectName();
         }
-        if (this.dbConnect != null && this.dbConnect.getHost() != null) {
-            str += "@" + this.dbConnect.getHost();
+        if (this.shellConnect() != null && this.shellConnect().getHost() != null) {
+            str += "@" + this.shellConnect().getHost();
         }
         if (this.isConnecting()) {
             str += "(" + I18nHelper.connectIng() + ")> ";
@@ -90,26 +84,6 @@ public class DamengTerminalPane extends TerminalPane {
 
     private String dbName;
 
-    /**
-     * 初始化
-     *
-     * @param client 客户端
-     */
-    public void init(DamengClient client, String dbName) {
-        this.client = client;
-        this.dbConnect = client != null ? client.getDbConnect() : null;
-        this.dbName = dbName;
-        this.disableInput();
-        this.outputLine("Welcome to EasyMySQL Terminal.");
-        this.outputLine("Powered By oyzh(2024-2026).");
-        this.flushPrompt();
-        if (this.isTemporary()) {
-            this.initByTemporary();
-        } else {
-            this.initByPermanent();
-        }
-    }
-
     public String getDbName() {
         return dbName;
     }
@@ -119,12 +93,34 @@ public class DamengTerminalPane extends TerminalPane {
     }
 
     /**
+     * 初始化
+     *
+     * @param client 客户端
+     */
+    public void init(DamengClient client, String dbName) {
+        this.client = client;
+        this.dbName = dbName;
+        FXUtil.runLater(() -> {
+            this.disableInput();
+            this.outputLine("Welcome to EasyMySQL Terminal.");
+            this.outputLine("Powered By oyzh(2024-2026).");
+            this.flushPrompt();
+            if (this.isTemporary()) {
+                this.initByTemporary();
+            } else {
+                this.initByPermanent();
+            }
+        });
+    }
+
+
+    /**
      * 是否临时连接
      *
      * @return 结果
      */
     public boolean isTemporary() {
-        return this.client == null || this.client.getDbConnect() == null || this.client.getDbConnect().getId() == null;
+        return this.client == null || this.client.iid() == null;
     }
 
     @Override
@@ -181,43 +177,43 @@ public class DamengTerminalPane extends TerminalPane {
         this.flushAndMoveCaretEnd();
     }
 
-    /**
-     * 刷新光标并移动到尾部
-     */
-    private void flushAndMoveCaretEnd() {
-        ExecutorUtil.start(() -> {
-            this.flushCaret();
-            this.moveCaretEnd();
-        }, 50);
-    }
+    // /**
+    //  * 刷新光标并移动到尾部
+    //  */
+    // private void flushAndMoveCaretEnd() {
+    //     ExecutorUtil.start(() -> {
+    //         this.flushCaret();
+    //         this.moveCaretEnd();
+    //     }, 50);
+    // }
 
-    /**
-     * 初始化连接状态监听器
-     */
-    private void initStatListener() {
-        if (this.stateChangeListener == null) {
-            this.stateChangeListener = (observableValue, state, t1) -> {
-                this.flushPrompt();
-                String host = this.dbConnect != null ? this.dbConnect.getHost() : "";
-                if (t1 == DBConnState.CONNECTED) {
-                    this.outputLine(host + " " + I18nHelper.connectSuccess() + ".");
-                    this.outputPrompt();
-                    this.flushCaret();
-                    super.enableInput();
-                } else if (t1 == DBConnState.CLOSED) {
-                    this.outputLine(host + " " + I18nHelper.connectionClosed() + ".");
-                    this.enableInput();
-                } else if (t1 == DBConnState.CONNECTING) {
-                    this.outputLine(host + " " + I18nHelper.connectIng() + "...", false);
-                } else if (t1 == DBConnState.FAILED) {
-                    this.outputLine(host + " " + I18nHelper.connectFail() + ".");
-                    this.enableInput();
-                }
-                JulLog.info("connState={}", t1);
-            };
-            this.getClient().addStateListener(this.stateChangeListener);
-        }
-    }
+    // /**
+    //  * 初始化连接状态监听器
+    //  */
+    // private void initStatListener() {
+    //     if (this.stateChangeListener == null) {
+    //         this.stateChangeListener = (observableValue, state, t1) -> {
+    //             this.flushPrompt();
+    //             String host = this.dbConnect != null ? this.dbConnect.getHost() : "";
+    //             if (t1 == DBConnState.CONNECTED) {
+    //                 this.outputLine(host + " " + I18nHelper.connectSuccess() + ".");
+    //                 this.outputPrompt();
+    //                 this.flushCaret();
+    //                 super.enableInput();
+    //             } else if (t1 == DBConnState.CLOSED) {
+    //                 this.outputLine(host + " " + I18nHelper.connectionClosed() + ".");
+    //                 this.enableInput();
+    //             } else if (t1 == DBConnState.CONNECTING) {
+    //                 this.outputLine(host + " " + I18nHelper.connectIng() + "...", false);
+    //             } else if (t1 == DBConnState.FAILED) {
+    //                 this.outputLine(host + " " + I18nHelper.connectFail() + ".");
+    //                 this.enableInput();
+    //             }
+    //             JulLog.info("connState={}", t1);
+    //         };
+    //         this.getClient().addStateListener(this.stateChangeListener);
+    //     }
+    // }
 
     @Override
     public void enableInput() {
@@ -250,14 +246,14 @@ public class DamengTerminalPane extends TerminalPane {
         DamengSettingStore.INSTANCE.replace(setting);
     }
 
-    @Override
-    public void destroy() {
-        if (this.client != null && this.stateChangeListener != null) {
-            this.client.stateProperty().removeListener(this.stateChangeListener);
-        }
-        this.stateChangeListener = null;
-        super.destroy();
-    }
+    // @Override
+    // public void destroy() {
+    //     if (this.client != null && this.stateChangeListener != null) {
+    //         this.client.stateProperty().removeListener(this.stateChangeListener);
+    //     }
+    //     this.stateChangeListener = null;
+    //     super.destroy();
+    // }
 
     public TerminalExecuteResult eval(String input) {
         TerminalExecuteResult terminalResult = new TerminalExecuteResult();

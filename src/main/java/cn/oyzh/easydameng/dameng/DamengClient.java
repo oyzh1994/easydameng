@@ -3163,4 +3163,8 @@ public class DamengClient {
         }
         return newTableName;
     }
+
+    public String iid() {
+        return this.dbConnect == null ? null : this.dbConnect.getId();
+    }
 }
