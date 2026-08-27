@@ -41,7 +41,7 @@ public class DamengTerminalTab extends RichTab {
 
     @Override
     protected String getTabTitle() {
-        DamengConnect connect = this.dbConnect();
+        DamengConnect connect = this.shellConnect();
         if (connect != null) {
             return connect.getName();
         }
@@ -75,8 +75,8 @@ public class DamengTerminalTab extends RichTab {
      *
      * @return 当前db信息
      */
-    public DamengConnect dbConnect() {
-        return this.controller().getDbConnect();
+    public DamengConnect shellConnect() {
+        return this.controller().shellConnect();
     }
 
     public DamengClient client() {

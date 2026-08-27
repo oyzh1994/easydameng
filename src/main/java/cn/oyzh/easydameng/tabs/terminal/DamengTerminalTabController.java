@@ -42,8 +42,8 @@ public class DamengTerminalTabController extends RichTabController {
      *
      * @return 当前db信息
      */
-    protected DamengConnect getDbConnect() {
-        return this.terminal.getDbConnect();
+    protected DamengConnect shellConnect() {
+        return this.terminal.shellConnect();
     }
 
     public DamengClient client() {
