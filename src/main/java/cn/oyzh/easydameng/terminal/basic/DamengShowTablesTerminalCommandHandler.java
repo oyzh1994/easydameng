@@ -1,9 +1,13 @@
 package cn.oyzh.easydameng.terminal.basic;
 
+import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.terminal.DamengTerminalCommandHandler;
 import cn.oyzh.easydameng.terminal.DamengTerminalPane;
 import cn.oyzh.fx.terminal.command.TerminalCommand;
 import cn.oyzh.fx.terminal.execute.TerminalExecuteResult;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author oyzh
@@ -36,6 +40,16 @@ public class DamengShowTablesTerminalCommandHandler extends DamengTerminalComman
 
     @Override
     public TerminalExecuteResult execute(TerminalCommand command, DamengTerminalPane terminal) {
-        return terminal.eval("SHOW TABLES;");
+        TerminalExecuteResult result = TerminalExecuteResult.ok();
+        try {
+            List<DamengTable> tables = terminal.getClient().selectTablesSimple(terminal.getDbName());
+            String output = tables.stream()
+                    .map(DamengTable::getName)
+                    .collect(Collectors.joining(terminal.lineEndingText()));
+            result.setResult(output);
+        } catch (Exception ex) {
+            result.setException(ex);
+        }
+        return result;
     }
 }

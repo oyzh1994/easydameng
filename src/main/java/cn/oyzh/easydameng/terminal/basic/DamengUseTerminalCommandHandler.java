@@ -1,9 +1,12 @@
 package cn.oyzh.easydameng.terminal.basic;
 
+import cn.oyzh.easydameng.db.DBDatabase;
 import cn.oyzh.easydameng.terminal.DamengTerminalCommandHandler;
 import cn.oyzh.easydameng.terminal.DamengTerminalPane;
 import cn.oyzh.fx.terminal.command.TerminalCommand;
 import cn.oyzh.fx.terminal.execute.TerminalExecuteResult;
+
+import java.util.List;
 
 /**
  * @author oyzh
@@ -33,7 +36,19 @@ public class DamengUseTerminalCommandHandler extends DamengTerminalCommandHandle
     public TerminalExecuteResult execute(TerminalCommand command, DamengTerminalPane terminal) {
         terminal.setDbName(command.getArgs()[1]);
         TerminalExecuteResult result = TerminalExecuteResult.ok();
-        result.setResult("Database changed");
+        try {
+            List<DBDatabase> databases = terminal.getClient().databases();
+            List<String> dbs = databases.stream()
+                    .map(DBDatabase::getName)
+                    .toList();
+            if (dbs.contains(terminal.getDbName())) {
+                result.setResult("Database invalid");
+            } else {
+                result.setResult("Database changed");
+            }
+        } catch (Exception ex) {
+            result.setException(ex);
+        }
         return result;
     }
 }
