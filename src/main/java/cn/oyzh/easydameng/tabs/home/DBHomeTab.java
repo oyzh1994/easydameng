@@ -38,4 +38,10 @@ public class DBHomeTab extends RichTab {
     protected String getTabTitle() {
         return I18nResourceBundle.i18nString("base.title.home");
     }
+
+    @Override
+    public void initNode() {
+        this.setClosable(false);
+        super.initNode();
+    }
 }

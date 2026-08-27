@@ -1,53 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?import cn.oyzh.fx.gui.svg.glyph.layout.Layout1SVGGlyph?>
-<?import cn.oyzh.fx.gui.svg.glyph.layout.Layout2SVGGlyph?>
-<?import cn.oyzh.fx.gui.svg.glyph.QuitSVGGlyph?>
-<?import cn.oyzh.fx.gui.svg.glyph.SettingSVGGlyph?>
-<?import cn.oyzh.fx.gui.svg.glyph.ToolsSVGGlyph?>
-<?import cn.oyzh.fx.gui.svg.glyph.TransportSVGGlyph?>
-<?import cn.oyzh.fx.gui.svg.label.AboutSVGLabel?>
-<?import cn.oyzh.fx.plus.controls.box.FXVBox?>
-<?import cn.oyzh.fx.plus.controls.pane.FXPane?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.VBox?>
-<FXVBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="cn.oyzh.easydameng.controller.HeaderController2" flexWidth="100%" flexHeight="100%">
-    <TransportSVGGlyph onMousePrimaryClicked="#transport">
-        <VBox.margin>
-            <Insets left="10" top="60"/>
-        </VBox.margin>
-    </TransportSVGGlyph>
-    <ToolsSVGGlyph onMousePrimaryClicked="#tool">
-        <VBox.margin>
-            <Insets left="10" top="15"/>
-        </VBox.margin>
-    </ToolsSVGGlyph>
-    <AboutSVGLabel onMousePrimaryClicked="#about">
-        <VBox.margin>
-            <Insets left="10" top="15"/>
-        </VBox.margin>
-    </AboutSVGLabel>
-    <Layout1SVGGlyph onMousePrimaryClicked="#layout1">
-        <VBox.margin>
-            <Insets left="10" top="15"/>
-        </VBox.margin>
-    </Layout1SVGGlyph>
-    <Layout2SVGGlyph onMousePrimaryClicked="#layout2">
-        <VBox.margin>
-            <Insets left="10" top="15"/>
-        </VBox.margin>
-    </Layout2SVGGlyph>
-    <FXPane flexWidth="100%" flexHeight="100% - 254">
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<!-- <?import cn.oyzh.fx.gui.svg.glyph.layout.Layout1SVGGlyph?> -->
+<!-- <?import cn.oyzh.fx.gui.svg.glyph.layout.Layout2SVGGlyph?> -->
+<!-- <?import cn.oyzh.fx.gui.svg.glyph.QuitSVGGlyph?> -->
+<!-- <?import cn.oyzh.fx.gui.svg.glyph.SettingSVGGlyph?> -->
+<!-- <?import cn.oyzh.fx.gui.svg.glyph.ToolsSVGGlyph?> -->
+<!-- <?import cn.oyzh.fx.gui.svg.glyph.TransportSVGGlyph?> -->
+<!-- <?import cn.oyzh.fx.gui.svg.label.AboutSVGLabel?> -->
+<!-- <?import cn.oyzh.fx.plus.controls.box.FXVBox?> -->
+<!-- <?import cn.oyzh.fx.plus.controls.pane.FXPane?> -->
+<!-- <?import javafx.geometry.Insets?> -->
+<!-- <?import javafx.scene.layout.VBox?> -->
+<!-- <FXVBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1" -->
+<!--           fx:controller="cn.oyzh.easydameng.controller.HeaderController2" flexWidth="100%" flexHeight="100%"> -->
+<!--     <TransportSVGGlyph onMousePrimaryClicked="#transport"> -->
+<!--         <VBox.margin> -->
+<!--             <Insets left="10" top="60"/> -->
+<!--         </VBox.margin> -->
+<!--     </TransportSVGGlyph> -->
+<!--     <ToolsSVGGlyph onMousePrimaryClicked="#tool"> -->
+<!--         <VBox.margin> -->
+<!--             <Insets left="10" top="15"/> -->
+<!--         </VBox.margin> -->
+<!--     </ToolsSVGGlyph> -->
+<!--     <AboutSVGLabel onMousePrimaryClicked="#about"> -->
+<!--         <VBox.margin> -->
+<!--             <Insets left="10" top="15"/> -->
+<!--         </VBox.margin> -->
+<!--     </AboutSVGLabel> -->
+<!--     <Layout1SVGGlyph onMousePrimaryClicked="#layout1"> -->
+<!--         <VBox.margin> -->
+<!--             <Insets left="10" top="15"/> -->
+<!--         </VBox.margin> -->
+<!--     </Layout1SVGGlyph> -->
+<!--     <Layout2SVGGlyph onMousePrimaryClicked="#layout2"> -->
+<!--         <VBox.margin> -->
+<!--             <Insets left="10" top="15"/> -->
+<!--         </VBox.margin> -->
+<!--     </Layout2SVGGlyph> -->
+<!--     <FXPane flexWidth="100%" flexHeight="100% - 254"> -->
 
-    </FXPane>
-    <QuitSVGGlyph onMousePrimaryClicked="#quit">
-        <VBox.margin>
-            <Insets left="10" top="15"/>
-        </VBox.margin>
-    </QuitSVGGlyph>
-    <SettingSVGGlyph onMousePrimaryClicked="#setting">
-        <VBox.margin>
-            <Insets left="10" top="15"/>
-        </VBox.margin>
-    </SettingSVGGlyph>
-</FXVBox>
+<!--     </FXPane> -->
+<!--     <QuitSVGGlyph onMousePrimaryClicked="#quit"> -->
+<!--         <VBox.margin> -->
+<!--             <Insets left="10" top="15"/> -->
+<!--         </VBox.margin> -->
+<!--     </QuitSVGGlyph> -->
+<!--     <SettingSVGGlyph onMousePrimaryClicked="#setting"> -->
+<!--         <VBox.margin> -->
+<!--             <Insets left="10" top="15"/> -->
+<!--         </VBox.margin> -->
+<!--     </SettingSVGGlyph> -->
+<!-- </FXVBox> -->

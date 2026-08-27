@@ -25,8 +25,10 @@ import cn.oyzh.easydameng.event.view.DamengViewDesignEvent;
 import cn.oyzh.easydameng.event.view.DamengViewFilteredEvent;
 import cn.oyzh.easydameng.event.view.DamengViewOpenEvent;
 import cn.oyzh.easydameng.event.view.DamengViewRenamedEvent;
+import cn.oyzh.easydameng.event.window.ShellShowMessageEvent;
 import cn.oyzh.easydameng.tabs.event.DamengEventDesignTab;
 import cn.oyzh.easydameng.tabs.function.DamengFunctionDesignTab;
+import cn.oyzh.easydameng.tabs.message.ShellMessageTab;
 import cn.oyzh.easydameng.tabs.procedure.DamengProcedureDesignTab;
 import cn.oyzh.easydameng.tabs.query.DamengQueryMainTab;
 import cn.oyzh.easydameng.tabs.table.DamengTableDesignTab;
@@ -582,4 +584,38 @@ public class DamengTabEventListener implements EventListener {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * 获取消息tab
+     *
+     * @return 结果
+     */
+    private ShellMessageTab getMessageTab() {
+        for (Tab tab : this.getTabs()) {
+            if (tab instanceof ShellMessageTab tab1) {
+                return tab1;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 显示消息事件
+     *
+     * @param event 事件
+     */
+    @EventSubscribe
+    public void showMessage(ShellShowMessageEvent event) {
+        ShellMessageTab tab = this.getMessageTab();
+        if (tab == null) {
+            tab = new ShellMessageTab();
+            this.addTab(tab);
+        } else {
+            tab.flushGraphic();
+        }
+        if (!tab.isSelected()) {
+            this.select(tab);
+        }
+    }
 }
+

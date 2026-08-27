@@ -1,7 +1,6 @@
 package cn.oyzh.easydameng.controller;
 
 import cn.oyzh.easydameng.controller.main.ConnectController;
-import cn.oyzh.easydameng.controller.main.MessageController;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengSetting;
 import cn.oyzh.easydameng.event.connect.DamengConnectUpdatedEvent;
@@ -19,7 +18,8 @@ import cn.oyzh.fx.gui.event.Layout1Event;
 import cn.oyzh.fx.gui.event.Layout2Event;
 import cn.oyzh.fx.plus.controller.ParentStageController;
 import cn.oyzh.fx.plus.controller.SubStageController;
-import cn.oyzh.fx.plus.controls.tab.FXTabPane;
+import cn.oyzh.fx.plus.controls.box.FXVBox;
+import cn.oyzh.fx.plus.controls.pane.FXSplitPane;
 import cn.oyzh.fx.plus.keyboard.KeyListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
@@ -38,26 +38,16 @@ import java.util.List;
 public class DamengMainController extends ParentStageController {
 
     /**
-     * 配置对象
-     */
-    private final DamengSetting setting = DamengSettingStore.SETTING;
-
-    /**
-     * 当前激活的db信息
-     */
-    private DamengConnect info;
-
-    /**
-     * 左侧db树
+     * 跟节点
      */
     @FXML
-    public DBTreeView tree;
+    private FXSplitPane root;
 
     /**
      * 左侧组件
      */
     @FXML
-    private FXTabPane tabPaneLeft;
+    private FXVBox connect;
 
     /**
      * db切换面板
@@ -72,24 +62,6 @@ public class DamengMainController extends ParentStageController {
     private ConnectController connectController;
 
     /**
-     * redis消息
-     */
-    @FXML
-    private MessageController messageController;
-
-    /**
-     * db信息修改事件
-     *
-     * @param event 事件
-     */
-    @EventSubscribe
-    private void onInfoUpdate(DamengConnectUpdatedEvent event) {
-        if (this.info == event.data()) {
-            this.stage.appendTitle(" (" + event.data().getName() + ")");
-        }
-    }
-
-    /**
      * 刷新窗口标题
      *
      * @param info db信息
@@ -100,7 +72,6 @@ public class DamengMainController extends ParentStageController {
         } else {
             this.stage.restoreTitle();
         }
-        this.info = info;
     }
 
     /**
@@ -141,52 +112,19 @@ public class DamengMainController extends ParentStageController {
 //        }
     }
 
-    @Override
-    public void onWindowHidden(WindowEvent event) {
-        super.onWindowHidden(event);
-        // 取消注册事件处理
-//        EventUtil.unregister(this.tree);
-//        EventUtil.unregister(this.tabPane);
-//        EventUtil.unregister(this.msgArea);
-        // 关闭连接
-        this.tree.closeConnects();
-        // 保存页面拉伸
-        this.savePageResize();
-        // 取消F5按键监听
-        KeyListener.unListenReleased(this.tree, KeyCode.F5);
-        KeyListener.unListenReleased(this.tabPane, KeyCode.F5);
-    }
-
-    /**
-     * 左侧组件重新布局
-     *
-     * @param newWidth 新宽度
-     */
-    private void resizeMainLeft(Float newWidth) {
-        if (newWidth != null && !Double.isNaN(newWidth)) {
-            // 设置组件宽
-            this.tabPaneLeft.setRealWidth(newWidth);
-            this.tabPane.setLayoutX(newWidth);
-            this.tabPane.setFlexWidth("100% - " + newWidth);
-            this.tabPaneLeft.parentAutosize();
-        }
-    }
-
-    @Override
-    public void onSystemExit() {
-        // 保存页面拉伸
-        this.savePageResize();
-    }
-
-    /**
-     * 保存页面拉伸
-     */
-    private void savePageResize() {
-        if (this.setting.isRememberPageResize()) {
-//            this.pageInfo.setMainLeftWidth(this.tabPaneLeft.getMinWidth());
-//            this.pageInfoStore.update(this.pageInfo);
-        }
-    }
+//     @Override
+//     public void onWindowHidden(WindowEvent event) {
+//         super.onWindowHidden(event);
+//         // 取消注册事件处理
+// //        EventUtil.unregister(this.tree);
+// //        EventUtil.unregister(this.tabPane);
+// //        EventUtil.unregister(this.msgArea);
+//         // 关闭连接
+//         this.tree.closeConnects();
+//         // 取消F5按键监听
+//         KeyListener.unListenReleased(this.tree, KeyCode.F5);
+//         KeyListener.unListenReleased(this.tabPane, KeyCode.F5);
+//     }
 
     @Override
     protected void bindListeners() {
@@ -257,23 +195,20 @@ public class DamengMainController extends ParentStageController {
     }
 
     /**
-     * 定位节点
-     */
-    @FXML
-    private void positionNode() {
-        this.tree.scrollTo(this.tree.getSelectedItem());
-    }
-
-    /**
      * 布局2
      */
     @EventSubscribe
     private void layout2(Layout2Event event) {
-        this.tabPaneLeft.display();
-        double w = this.tabPaneLeft.getRealWidth();
-        this.tabPane.setLayoutX(w);
-        this.tabPane.setFlexWidth("100% - " + w);
-        this.tabPaneLeft.parentAutosize();
+        this.connect.display();
+        //        double w = this.connect.getRealWidth();
+        //        this.tabPane.setLayoutX(w);
+        //        this.tabPane.setFlexWidth("100% - " + w);
+        //        this.connect.parentAutosize();
+        if (!this.root.isShowDivider()) {
+            this.root.setShowDivider(true);
+            double positions_0 = this.root.getPosition0(0.25);
+            this.root.setDividerPositions(positions_0, 1 - positions_0);
+        }
     }
 
     /**
@@ -281,14 +216,19 @@ public class DamengMainController extends ParentStageController {
      */
     @EventSubscribe
     private void layout1(Layout1Event event) {
-        this.tabPaneLeft.disappear();
-        this.tabPane.setLayoutX(0);
-        this.tabPane.setFlexWidth("100%");
-        this.tabPaneLeft.parentAutosize();
+        this.connect.disappear();
+        //        this.tabPane.setLayoutX(0);
+        //        this.tabPane.setFlexWidth("100%");
+        //        this.connect.parentAutosize();
+        if (this.root.isShowDivider()) {
+            this.root.recordPosition0();
+            this.root.setShowDivider(false);
+            this.root.setDividerPositions(0, 1);
+        }
     }
 
     @Override
     public List<SubStageController> getSubControllers() {
-        return List.of(this.connectController, this.messageController);
+        return List.of(this.connectController);
     }
 }

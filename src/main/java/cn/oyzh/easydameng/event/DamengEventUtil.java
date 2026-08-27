@@ -54,6 +54,7 @@ import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.view.DamengView;
+import cn.oyzh.easydameng.event.window.ShellShowMessageEvent;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.easydameng.trees.event.DamengEventTreeItem;
@@ -431,4 +432,10 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 显示消息页面
+     */
+    public static void showMessage() {
+        EventUtil.post(new ShellShowMessageEvent());
+    }
 }

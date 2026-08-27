@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import cn.oyzh.easydameng.tabs.DamengTabPane?>
-<?import cn.oyzh.fx.plus.controls.pane.FXPane?>
-<?import cn.oyzh.fx.plus.controls.tab.FXTabPane?>
 <?import cn.oyzh.easydameng.tabs.home.DBHomeTab?>
-<FXPane xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="cn.oyzh.easydameng.controller.DamengMainController" flexWidth="100% - 30" flexHeight="100%">
-    <FXTabPane flexHeight="100%" realWidth="300" fx:id="tabPaneLeft" tabMaxHeight="25">
-        <fx:include fx:id="connect" source="main/connect.fxml"/>
-        <fx:include fx:id="message" source="main/message.fxml"/>
-    </FXTabPane>
-    <DamengTabPane fx:id="tabPane" layoutX="300" flexWidth="100% - 300" tabClosingPolicy="ALL_TABS"
-                  flexHeight="100%">
+<?import cn.oyzh.fx.plus.controls.pane.FXSplitPane?>
+<FXSplitPane xmlns:fx="http://javafx.com/fxml/1"
+             fx:controller="cn.oyzh.easydameng.controller.DamengMainController"
+             flexWidth="100%" flexHeight="100% - 30" dividerPositions="0.25" fx:id="root">
+    <fx:include fx:id="connect" source="main/connect.fxml"/>
+    <DamengTabPane fx:id="tabPane" flexHeight="100%"
+                   tabClosingPolicy="ALL_TABS" tabDragPolicy="REORDER">
         <DBHomeTab/>
     </DamengTabPane>
-</FXPane>
+</FXSplitPane>
