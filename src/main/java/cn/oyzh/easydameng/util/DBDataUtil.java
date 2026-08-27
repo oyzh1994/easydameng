@@ -10,6 +10,7 @@ import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.easydameng.db.DBDialect;
+import dm.jdbc.driver.DmdbBlob;
 import dm.jdbc.driver.DmdbClob;
 
 import java.time.LocalDateTime;
@@ -260,9 +261,6 @@ public class DBDataUtil {
 //            return "'" + value + "'";
 //        }
         if (column.supportString()) {
-            if (value instanceof DmdbClob clob) {
-                value = clob.data;
-            }
             String str = escapeQuotes((String) value);
             return "'" + str + "'";
         }
@@ -606,5 +604,21 @@ public class DBDataUtil {
             list.add(object);
         }
         return list;
+    }
+
+    /**
+     * 值规整化
+     *
+     * @param value 值
+     * @return 规整后的值
+     */
+    public static Object valueStandardization(Object value) {
+        if (value instanceof DmdbClob clob) {
+            return clob.data;
+        }
+        if (value instanceof DmdbBlob blob) {
+            return blob.data;
+        }
+        return value;
     }
 }

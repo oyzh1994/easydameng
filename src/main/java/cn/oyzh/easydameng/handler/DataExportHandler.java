@@ -17,6 +17,7 @@ import cn.oyzh.easydameng.dameng.data.DamengXmlTypeFileWriter;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.fx.data.DataExportTable;
+import cn.oyzh.easydameng.util.DBDataUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -363,6 +364,12 @@ public class DataExportHandler extends DataHandler {
         List<Map<String, Object>> objects = new ArrayList<>();
         for (DamengRecord object : records) {
             objects.add(object.toMap());
+        }
+        // 规整化值
+        for (Map<String, Object> object : objects) {
+            for (Map.Entry<String, Object> entry : object.entrySet()) {
+                entry.setValue(DBDataUtil.valueStandardization(entry.getValue()));
+            }
         }
         writer.writeObjects(objects);
         // }

@@ -18,8 +18,6 @@ import cn.oyzh.fx.gui.text.field.YearTextField;
 import cn.oyzh.fx.plus.controls.label.FXLabel;
 import cn.oyzh.fx.plus.controls.text.field.FXTextField;
 import cn.oyzh.i18n.I18nHelper;
-import dm.jdbc.driver.DmdbBlob;
-import dm.jdbc.driver.DmdbClob;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -79,6 +77,7 @@ public class DBNodeUtil {
         if (node == null || val == null) {
             return;
         }
+        val = DBDataUtil.valueStandardization(val);
         if (node instanceof NumberTextField textField) {
             textField.setValue(val);
         } else if (node instanceof DecimalTextField textField) {
@@ -86,29 +85,13 @@ public class DBNodeUtil {
         } else if (node instanceof BitTextField textField) {
             textField.setValue(val);
         } else if (node instanceof BinaryTextFiled textField) {
-            if (val instanceof DmdbBlob clob) {
-                // textField.setIgnoreChanged(true);
-                textField.setValue(clob.data);
-                // textField.setIgnoreChanged(false);
-            } else {
-                textField.setValue(val);
-            }
+            textField.setValue(val);
         } else if (node instanceof ChooseFileTextField textField) {
             textField.setValue(val);
         } else if (node instanceof LongTextFiled textField) {
-            if (val instanceof DmdbClob clob) {
-                // textField.setIgnoreChanged(true);
-                textField.setText(clob.data);
-                // textField.setIgnoreChanged(false);
-            } else {
-                textField.setText(val.toString());
-            }
+            textField.setText(val.toString());
         } else if (node instanceof TextField textField) {
-            if (val instanceof DmdbClob clob) {
-                textField.setText(clob.data);
-            } else {
-                textField.setText(val.toString());
-            }
+            textField.setText(val.toString());
         } else if (node instanceof TextArea textArea) {
             textArea.setText(val.toString());
         } else if (node instanceof ComboBox comboBox) {
