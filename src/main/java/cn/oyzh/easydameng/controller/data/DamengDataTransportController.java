@@ -7,7 +7,6 @@ import cn.oyzh.easydameng.db.DBClientUtil;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.fx.DBDatabaseComboBox;
 import cn.oyzh.easydameng.fx.DBInfoComboBox;
-import cn.oyzh.easydameng.fx.data.DataTransportEventListView;
 import cn.oyzh.easydameng.fx.data.DataTransportFunctionListView;
 import cn.oyzh.easydameng.fx.data.DataTransportProcedureListView;
 import cn.oyzh.easydameng.fx.data.DataTransportTableListView;
@@ -218,11 +217,11 @@ public class DamengDataTransportController extends StageController {
     @FXML
     private DataTransportTableListView tableList;
 
-    /**
-     * 事件列表
-     */
-    @FXML
-    private DataTransportEventListView eventList;
+//    /**
+//     * 事件列表
+//     */
+//    @FXML
+//    private DataTransportEventListView eventList;
 
     /**
      * 视图列表
@@ -298,8 +297,8 @@ public class DamengDataTransportController extends StageController {
         this.transportHandler.setTargetDatabase(this.targetDatabase.getSelectedItem());
         // 视图
         this.transportHandler.setViews(this.viewList.getSelectedViews());
-        // 事件
-        this.transportHandler.setEvents(this.eventList.getSelectedEvents());
+//        // 事件
+//        this.transportHandler.setEvents(this.eventList.getSelectedEvents());
         // 表
         this.transportHandler.setTables(this.tableList.getSelectedTables());
         // 触发器
@@ -424,7 +423,7 @@ public class DamengDataTransportController extends StageController {
 
         this.viewList.setSelectedChanged(() -> this.flushPaneText("view"));
         this.tableList.setSelectedChanged(() -> this.flushPaneText("table"));
-        this.eventList.setSelectedChanged(() -> this.flushPaneText("event"));
+//        this.eventList.setSelectedChanged(() -> this.flushPaneText("event"));
         this.triggerList.setSelectedChanged(() -> this.flushPaneText("trigger"));
         this.functionList.setSelectedChanged(() -> this.flushPaneText("function"));
         this.procedureList.setSelectedChanged(() -> this.flushPaneText("procedure"));
@@ -515,9 +514,9 @@ public class DamengDataTransportController extends StageController {
         if (this.viewList.isItemEmpty()) {
             this.viewList.of(this.sourceClient.selectViews(this.sourceDatabase.getSelectedItem()));
         }
-        if (this.eventList.isItemEmpty()) {
-            this.eventList.of(this.sourceClient.events(this.sourceDatabase.getSelectedItem()));
-        }
+//        if (this.eventList.isItemEmpty()) {
+//            this.eventList.of(this.sourceClient.events(this.sourceDatabase.getSelectedItem()));
+//        }
         if (this.tableList.isItemEmpty()) {
             this.tableList.of(this.sourceClient.selectTables(this.sourceDatabase.getSelectedItem()));
         }
@@ -546,7 +545,7 @@ public class DamengDataTransportController extends StageController {
      */
     private void clearList() {
         this.viewList.clearItems();
-        this.eventList.clearItems();
+//        this.eventList.clearItems();
         this.tableList.clearItems();
         this.functionList.clearItems();
         this.procedureList.clearItems();
@@ -561,9 +560,9 @@ public class DamengDataTransportController extends StageController {
         if (StringUtil.equalsIgnoreCase(name, "view")) {
             String viewTipText = "(" + this.viewList.getSelectedSize() + "/" + this.viewList.getItemSize() + ")";
             this.viewPane.setAppendText(viewTipText);
-        } else if (StringUtil.equalsIgnoreCase(name, "event")) {
-            String eventTipText = "(" + this.eventList.getSelectedSize() + "/" + this.eventList.getItemSize() + ")";
-            this.eventPane.setAppendText(eventTipText);
+//        } else if (StringUtil.equalsIgnoreCase(name, "event")) {
+//            String eventTipText = "(" + this.eventList.getSelectedSize() + "/" + this.eventList.getItemSize() + ")";
+//            this.eventPane.setAppendText(eventTipText);
         } else if (StringUtil.equalsIgnoreCase(name, "table")) {
             String tableTipText = "(" + this.tableList.getSelectedSize() + "/" + this.tableList.getItemSize() + ")";
             this.tablePane.setAppendText(tableTipText);

@@ -6,8 +6,6 @@ import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
-import cn.oyzh.easydameng.fx.view.DamengViewAlgorithmComboBox;
-import cn.oyzh.easydameng.fx.view.DamengViewCheckOptionComboBox;
 import cn.oyzh.easydameng.generator.view.DamengViewAlertSqlGenerator;
 import cn.oyzh.easydameng.generator.view.DamengViewCreateSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
@@ -15,8 +13,9 @@ import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
+import cn.oyzh.fx.plus.controls.button.FXCheckBox;
 import cn.oyzh.fx.plus.controls.tab.FXTabPane;
-import cn.oyzh.fx.plus.controls.text.field.FXTextField;
+import cn.oyzh.fx.plus.controls.text.area.FXTextArea;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.node.NodeUtil;
 import cn.oyzh.fx.plus.util.FXUtil;
@@ -46,29 +45,35 @@ public class DamengViewDesignTabController extends RichTabController {
      */
     private DamengDatabaseTreeItem dbItem;
 
-    /**
-     * 定义者
-     */
-    @FXML
-    private FXTextField definer;
+    //    /**
+    //     * 定义者
+    //     */
+    //    @FXML
+    //    private FXTextField definer;
 
     /**
-     * 算法
+     * 只读模式
      */
     @FXML
-    private DamengViewAlgorithmComboBox algorithm;
+    private FXCheckBox readonly;
+
+    /**
+     * 注释
+     */
+    @FXML
+    private FXTextArea comment;
 
     /**
      * 安全性
      */
     @FXML
     private DBSecurityTypeComboBox securityType;
-
-    /**
-     * 检查选项
-     */
-    @FXML
-    private DamengViewCheckOptionComboBox checkOption;
+    //
+    //    /**
+    //     * 检查选项
+    //     */
+    //    @FXML
+    //    private DamengViewCheckOptionComboBox checkOption;
 
     /**
      * 定义
@@ -118,20 +123,22 @@ public class DamengViewDesignTabController extends RichTabController {
         // 如果是新数据，则默认触发变更
         if (this.newData) {
             this.unsaved = true;
-            this.algorithm.selectFirst();
-            this.checkOption.selectFirst();
+            //            this.algorithm.selectFirst();
+            //            this.checkOption.selectFirst();
             this.securityType.selectFirst();
-            this.definer.setText("`root`@`%`");
+            //            this.definer.setText("`root`@`%`");
         } else {
             // 查询视图信息
             this.view = this.dbItem.selectView(this.view.getName());
             // 初始化数据
-            this.definer.setText(this.view.getDefiner());
-            this.algorithm.select(this.view.getAlgorithm());
-            this.definition.setText(this.view.getDefinition());
-            this.checkOption.select(this.view.getCheckOption());
-            this.securityType.select(this.view.getSecurityType());
+            //            this.definer.setText(this.view.getDefiner());
+            this.comment.text(this.view.getComment());
+            //            this.algorithm.select(this.view.getAlgorithm());
+            this.definition.text(this.view.getDefinition());
             this.definition.forgetHistory();
+            this.readonly.setSelected(!this.view.isUpdatable());
+            //            this.checkOption.select(this.view.getCheckOption());
+            this.securityType.select(this.view.getSecurityType());
         }
 
         // 标记为结束
@@ -162,13 +169,14 @@ public class DamengViewDesignTabController extends RichTabController {
 
         // 初始化信息
         FXUtil.runWait(this::initInfo);
-//        this.initInfo();
+        //        this.initInfo();
 
         // 监听组件
-        DBStatusListenerManager.bindListener(this.definer, this.listener);
-        DBStatusListenerManager.bindListener(this.algorithm, this.listener);
+        //        DBStatusListenerManager.bindListener(this.definer, this.listener);
+        DBStatusListenerManager.bindListener(this.comment, this.listener);
+        DBStatusListenerManager.bindListener(this.readonly, this.listener);
         DBStatusListenerManager.bindListener(this.definition, this.listener);
-        DBStatusListenerManager.bindListener(this.checkOption, this.listener);
+        //        DBStatusListenerManager.bindListener(this.checkOption, this.listener);
         DBStatusListenerManager.bindListener(this.securityType, this.listener);
     }
 
@@ -179,10 +187,12 @@ public class DamengViewDesignTabController extends RichTabController {
         // 销毁监听器
         if (this.listener != null) {
             this.listener.destroy();
-            DBStatusListenerManager.unbindListener(this.definer, this.listener);
-            DBStatusListenerManager.unbindListener(this.algorithm, this.listener);
+            //            DBStatusListenerManager.unbindListener(this.definer, this.listener);
+            //            DBStatusListenerManager.unbindListener(this.algorithm, this.listener);
+            DBStatusListenerManager.unbindListener(this.comment, this.listener);
+            DBStatusListenerManager.unbindListener(this.readonly, this.listener);
             DBStatusListenerManager.unbindListener(this.definition, this.listener);
-            DBStatusListenerManager.unbindListener(this.checkOption, this.listener);
+            //            DBStatusListenerManager.unbindListener(this.checkOption, this.listener);
             DBStatusListenerManager.unbindListener(this.securityType, this.listener);
         }
         // 初始化监听器
@@ -193,10 +203,12 @@ public class DamengViewDesignTabController extends RichTabController {
             }
         };
         // 监听组件
-        DBStatusListenerManager.bindListener(this.definer, this.listener);
-        DBStatusListenerManager.bindListener(this.algorithm, this.listener);
+        //        DBStatusListenerManager.bindListener(this.definer, this.listener);
+        //        DBStatusListenerManager.bindListener(this.algorithm, this.listener);
+        DBStatusListenerManager.bindListener(this.comment, this.listener);
+        DBStatusListenerManager.bindListener(this.readonly, this.listener);
         DBStatusListenerManager.bindListener(this.definition, this.listener);
-        DBStatusListenerManager.bindListener(this.checkOption, this.listener);
+        //        DBStatusListenerManager.bindListener(this.checkOption, this.listener);
         DBStatusListenerManager.bindListener(this.securityType, this.listener);
     }
 
@@ -287,10 +299,11 @@ public class DamengViewDesignTabController extends RichTabController {
 
         // 数据库
         tempView.setDbName(this.view.getDbName());
-        tempView.setDefiner(this.definer.getTextTrim());
+        tempView.setComment(this.comment.getTextTrim());
+        tempView.setUpdatable(!this.readonly.isSelected());
         tempView.setDefinition(this.definition.getTextTrim());
-        tempView.setAlgorithm(this.algorithm.getSelectedItem());
-        tempView.setCheckOption(this.checkOption.getSelectedItem());
+        //        tempView.setAlgorithm(this.algorithm.getSelectedItem());
+        //        tempView.setCheckOption(this.checkOption.getSelectedItem());
         tempView.setSecurityType(this.securityType.getSelectedItem());
 
         return tempView;
@@ -302,7 +315,9 @@ public class DamengViewDesignTabController extends RichTabController {
 
         // 监听事件
         NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
-        NodeUtil.nodeOnCtrlS(this.definer, this::save);
+        //        NodeUtil.nodeOnCtrlS(this.definer, this::save);
+        NodeUtil.nodeOnCtrlS(this.preview, this::save);
+        NodeUtil.nodeOnCtrlS(this.comment, this::save);
         NodeUtil.nodeOnCtrlS(this.definition, this::save);
 
         // 切换面板监听

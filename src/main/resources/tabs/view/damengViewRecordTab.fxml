@@ -14,9 +14,10 @@
 <?import javafx.scene.layout.HBox?>
 <FXVBox xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
-        fx:controller="cn.oyzh.easydameng.tabs.view.DamengViewRecordTabController" flexWidth="100%" flexHeight="100%"
+        fx:controller="cn.oyzh.easydameng.tabs.view.DamengViewRecordTabController" flexWidth="100%"
+        flexHeight="100%"
         fx:id="root">
-    <FXHBox realHeight="40" flexWidth="100%">
+    <FXHBox realHeight="30" flexWidth="100%">
         <AddSVGGlyph groupId="action2" onMousePrimaryClicked="#addRecord" managed="false"
                      visible="false" managedBindVisible="true">
             <HBox.margin>
@@ -35,7 +36,8 @@
                 <Insets left="5" top="11"/>
             </HBox.margin>
         </Apply1SVGGlyph>
-        <DiscardSVGGlyph groupId="action2" onMousePrimaryClicked="#discard" fx:id="discard" disable="true" managed="false"
+        <DiscardSVGGlyph groupId="action2" onMousePrimaryClicked="#discard" fx:id="discard" disable="true"
+                         managed="false"
                          visible="false" managedBindVisible="true">
             <HBox.margin>
                 <Insets left="5" top="11"/>
@@ -66,6 +68,7 @@
             </HBox.margin>
         </PageBox>
     </FXHBox>
-    <DamengRecordTableView fixedCellSize="30" fx:id="recordTable" flexHeight="100% - 30" flexWidth="100%" tableMenuButtonVisible="true">
+    <DamengRecordTableView fixedCellSize="30" fx:id="recordTable" flexHeight="100% - 30" flexWidth="100%"
+                           tableMenuButtonVisible="true">
     </DamengRecordTableView>
 </FXVBox>

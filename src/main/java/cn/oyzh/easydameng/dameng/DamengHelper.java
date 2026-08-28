@@ -434,21 +434,21 @@ public class DamengHelper {
         return definition;
     }
 
-    public static void parseJobExpr(String expr, DamengEvent event){
-        if (StringUtil.isNotBlank(expr)) {
-            String[] arr = expr.split(";");
-            for (String s : arr) {
-                if (StringUtil.startWithIgnoreCase(s, "FREQ")) {
-                    event.setIntervalField(s.split("=")[1]);
-                }else if (StringUtil.startWithIgnoreCase(s, "INTERVAL")) {
-                    event.setIntervalValue(Integer.valueOf(s.split("=")[1]));
-                }
-            }
-        }
-    }
+//    public static void parseJobExpr(String expr, DamengEvent event){
+//        if (StringUtil.isNotBlank(expr)) {
+//            String[] arr = expr.split(";");
+//            for (String s : arr) {
+//                if (StringUtil.startWithIgnoreCase(s, "FREQ")) {
+//                    event.setIntervalField(s.split("=")[1]);
+//                }else if (StringUtil.startWithIgnoreCase(s, "INTERVAL")) {
+//                    event.setIntervalValue(Integer.valueOf(s.split("=")[1]));
+//                }
+//            }
+//        }
+//    }
 
-    public static void parseJobAction(String action, DamengEvent event){
-        if (StringUtil.isNotBlank(action)) {
-        }
-    }
+//    public static void parseJobAction(String action, DamengEvent event){
+//        if (StringUtil.isNotBlank(action)) {
+//        }
+//    }
 }

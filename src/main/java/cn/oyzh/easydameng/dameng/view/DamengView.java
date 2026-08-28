@@ -4,9 +4,9 @@ import cn.oyzh.common.object.ObjectComparator;
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBObjectStatus;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
+import cn.oyzh.easydameng.db.DBObjectStatus;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Collections;
@@ -20,25 +20,25 @@ import java.util.List;
  */
 public class DamengView extends DBObjectStatus implements ObjectCopier<DamengView>, ObjectComparator<DamengView> {
 
-    /**
-     * 定义者
-     */
-    private String definer;
-
-    /**
-     * 算法
-     */
-    private String algorithm;
+    //    /**
+    //     * 定义者
+    //     */
+    //    private String definer;
+    //
+    //    /**
+    //     * 算法
+    //     */
+    //    private String algorithm;
 
     /**
      * 是否可变更
      */
     private boolean updatable;
 
-    /**
-     * 检查选项
-     */
-    private String checkOption;
+    //    /**
+    //     * 检查选项
+    //     */
+    //    private String checkOption;
 
     /**
      * 安全性
@@ -70,17 +70,18 @@ public class DamengView extends DBObjectStatus implements ObjectCopier<DamengVie
         if (f != null) {
             this.setComment(f.getComment());
             this.setColumns(f.getColumns());
-            this.setDefiner(f.getDefiner());
-            this.setAlgorithm(f.getAlgorithm());
+            this.setUpdatable(f.isUpdatable());
+            //            this.setAlgorithm(f.getAlgorithm());
             this.setDefinition(f.getDefinition());
-            this.setCheckOption(f.getCheckOption());
+            //            this.setCheckOption(f.getCheckOption());
             this.setSecurityType(f.getSecurityType());
         }
     }
 
-    public boolean hasCheckOption() {
-        return StringUtil.isNotBlank(this.checkOption) && !StringUtil.equalsIgnoreCase(this.checkOption, "NONE");
-    }
+
+    //    public boolean hasCheckOption() {
+    //        return StringUtil.isNotBlank(this.checkOption) && !StringUtil.equalsIgnoreCase(this.checkOption, "NONE");
+    //    }
 
     /**
      * 库名称
@@ -208,21 +209,21 @@ public class DamengView extends DBObjectStatus implements ObjectCopier<DamengVie
         return StringUtil.isBlank(this.getName());
     }
 
-    public String getDefiner() {
-        return definer;
-    }
+    //    public String getDefiner() {
+    //        return definer;
+    //    }
+    //
+    //    public void setDefiner(String definer) {
+    //        this.definer = definer;
+    //    }
 
-    public void setDefiner(String definer) {
-        this.definer = definer;
-    }
-
-    public String getAlgorithm() {
-        return algorithm;
-    }
-
-    public void setAlgorithm(String algorithm) {
-        this.algorithm = algorithm;
-    }
+    //    public String getAlgorithm() {
+    //        return algorithm;
+    //    }
+    //
+    //    public void setAlgorithm(String algorithm) {
+    //        this.algorithm = algorithm;
+    //    }
 
     public boolean isUpdatable() {
         return updatable;
@@ -231,14 +232,14 @@ public class DamengView extends DBObjectStatus implements ObjectCopier<DamengVie
     public void setUpdatable(boolean updatable) {
         this.updatable = updatable;
     }
-
-    public String getCheckOption() {
-        return checkOption;
-    }
-
-    public void setCheckOption(String checkOption) {
-        this.checkOption = checkOption;
-    }
+    //
+    //    public String getCheckOption() {
+    //        return checkOption;
+    //    }
+    //
+    //    public void setCheckOption(String checkOption) {
+    //        this.checkOption = checkOption;
+    //    }
 
     public String getSecurityType() {
         return securityType;

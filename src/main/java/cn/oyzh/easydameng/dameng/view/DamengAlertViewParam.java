@@ -25,4 +25,13 @@ public class DamengAlertViewParam {
     public void setView(DamengView view) {
         this.view = view;
     }
+
+    public String getViewName() {
+        return this.view.getName();
+    }
+
+    public void setViewName(String viewName) {
+        this.view.setName(viewName);
+    }
+
 }

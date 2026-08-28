@@ -3,7 +3,6 @@ package cn.oyzh.easydameng.handler;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.easydameng.dameng.DamengClient;
-import cn.oyzh.easydameng.fx.data.DataTransportEvent;
 import cn.oyzh.easydameng.fx.data.DataTransportFunction;
 import cn.oyzh.easydameng.fx.data.DataTransportProcedure;
 import cn.oyzh.easydameng.fx.data.DataTransportTable;
@@ -74,10 +73,10 @@ public abstract class DataTransportHandler extends DataHandler {
      */
     protected List<DataTransportProcedure> procedures;
 
-    /**
-     * 事件
-     */
-    protected List<DataTransportEvent> events;
+//    /**
+//     * 事件
+//     */
+//    protected List<DataTransportEvent> events;
 
 //    /**
 //     * 方言
@@ -251,13 +250,13 @@ public abstract class DataTransportHandler extends DataHandler {
         this.procedures = procedures;
     }
 
-    public List<DataTransportEvent> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<DataTransportEvent> events) {
-        this.events = events;
-    }
+//    public List<DataTransportEvent> getEvents() {
+//        return events;
+//    }
+//
+//    public void setEvents(List<DataTransportEvent> events) {
+//        this.events = events;
+//    }
 
 //    public DBDialect getDialect() {
 //        return dialect;

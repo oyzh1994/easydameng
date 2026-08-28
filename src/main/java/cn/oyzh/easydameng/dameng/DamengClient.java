@@ -733,129 +733,129 @@ public class DamengClient {
         }
     }
 
-//    public void createEvent(String dbName, DamengEvent event) {
-//        try {
-//            String sql = DamengEventCreateSqlGenerator.generateSql(event);
-//            DBUtil.printSql(sql);
-//            Statement statement = this.connection(dbName).createStatement();
-//            statement.executeUpdate(sql);
-//            DBUtil.close(statement);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            throw new DBException(ex);
-//        }
-//    }
-//
-//    public void alertEvent(String dbName, DamengEvent event) {
-//        try {
-//            String sql = EventAlertSqlGenerator.generateSql(event);
-//            DBUtil.printSql(sql);
-//            Statement statement = this.connection(dbName).createStatement();
-//            statement.executeUpdate(sql);
-//            DBUtil.close(statement);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            throw new DBException(ex);
-//        }
-//    }
+    //    public void createEvent(String dbName, DamengEvent event) {
+    //        try {
+    //            String sql = DamengEventCreateSqlGenerator.generateSql(event);
+    //            DBUtil.printSql(sql);
+    //            Statement statement = this.connection(dbName).createStatement();
+    //            statement.executeUpdate(sql);
+    //            DBUtil.close(statement);
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //            throw new DBException(ex);
+    //        }
+    //    }
+    //
+    //    public void alertEvent(String dbName, DamengEvent event) {
+    //        try {
+    //            String sql = EventAlertSqlGenerator.generateSql(event);
+    //            DBUtil.printSql(sql);
+    //            Statement statement = this.connection(dbName).createStatement();
+    //            statement.executeUpdate(sql);
+    //            DBUtil.close(statement);
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //            throw new DBException(ex);
+    //        }
+    //    }
 
-    public DamengEvent selectEvent(String dbName, String eventName) {
-        try {
-            Connection connection = this.functionConnection(dbName, null);
-            String sql = """
-                    SELECT
-                        t1.ENABLED AS STATUS,
-                        t1.JOB_ACTION AS ACTION,
-                        t1.SCHEDULE_EXPR AS EXPR,
-                    FROM
-                        USER_SCHEDULER_JOBS t1
-                    WHERE 
-                        t1.JOB_NAME = ?
-                    """;
-            DBUtil.printSql(sql);
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, eventName);
-            ResultSet resultSet = statement.executeQuery();
-            DBUtil.printMetaData(resultSet);
-            DamengEvent event = new DamengEvent();
-            while (resultSet.next()) {
-                String expr = resultSet.getString("EXPR");
-                String status = resultSet.getString("STATUS");
-                String action = resultSet.getString("ACTION");
-                event.setName(eventName);
-                event.setStatus("TRUE".equalsIgnoreCase(status) ? "ENABLE" : "DISABLE");
-                DamengHelper.parseJobExpr(expr, event);
-                DamengHelper.parseJobAction(action, event);
-            }
-            DBUtil.close(resultSet);
-            return event;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new DBException(ex);
-        }
-    }
+    //    public DamengEvent selectEvent(String dbName, String eventName) {
+    //        try {
+    //            Connection connection = this.functionConnection(dbName, null);
+    //            String sql = """
+    //                    SELECT
+    //                        t1.ENABLED AS STATUS,
+    //                        t1.JOB_ACTION AS ACTION,
+    //                        t1.SCHEDULE_EXPR AS EXPR,
+    //                    FROM
+    //                        USER_SCHEDULER_JOBS t1
+    //                    WHERE
+    //                        t1.JOB_NAME = ?
+    //                    """;
+    //            DBUtil.printSql(sql);
+    //            PreparedStatement statement = connection.prepareStatement(sql);
+    //            statement.setString(1, eventName);
+    //            ResultSet resultSet = statement.executeQuery();
+    //            DBUtil.printMetaData(resultSet);
+    //            DamengEvent event = new DamengEvent();
+    //            while (resultSet.next()) {
+    //                String expr = resultSet.getString("EXPR");
+    //                String status = resultSet.getString("STATUS");
+    //                String action = resultSet.getString("ACTION");
+    //                event.setName(eventName);
+    //                event.setStatus("TRUE".equalsIgnoreCase(status) ? "ENABLE" : "DISABLE");
+    //                DamengHelper.parseJobExpr(expr, event);
+    //                DamengHelper.parseJobAction(action, event);
+    //            }
+    //            DBUtil.close(resultSet);
+    //            return event;
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //            throw new DBException(ex);
+    //        }
+    //    }
 
-    public Integer eventSize(String dbName) {
-        int size = 0;
-        try {
-            Connection connection = this.functionConnection(dbName, null);
-            String sql = """
-                    SELECT
-                        COUNT(*)
-                    FROM
-                        USER_SCHEDULER_JOBS
-                    """;
-            DBUtil.printSql(sql);
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            DBUtil.printMetaData(resultSet);
-            if (resultSet.next()) {
-                size = resultSet.getInt(1);
-            }
-            DBUtil.close(resultSet);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new DBException(ex);
-        }
-        return size;
-    }
+    //    public Integer eventSize(String dbName) {
+    //        int size = 0;
+    //        try {
+    //            Connection connection = this.functionConnection(dbName, null);
+    //            String sql = """
+    //                    SELECT
+    //                        COUNT(*)
+    //                    FROM
+    //                        USER_SCHEDULER_JOBS
+    //                    """;
+    //            DBUtil.printSql(sql);
+    //            PreparedStatement statement = connection.prepareStatement(sql);
+    //            ResultSet resultSet = statement.executeQuery();
+    //            DBUtil.printMetaData(resultSet);
+    //            if (resultSet.next()) {
+    //                size = resultSet.getInt(1);
+    //            }
+    //            DBUtil.close(resultSet);
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //            throw new DBException(ex);
+    //        }
+    //        return size;
+    //    }
 
-    public List<DamengEvent> events(String dbName) {
-        try {
-            Connection connection = this.functionConnection(dbName, null);
-            String sql = """
-                    SELECT
-                        t1.JOB_NAME AS NAME,
-                        t1.ENABLED AS STATUS,
-                        t1.JOB_ACTION AS ACTION,
-                        t1.REPEAT_INTERVAL AS EXPR
-                    FROM
-                        USER_SCHEDULER_JOBS t1
-                    """;
-            DBUtil.printSql(sql);
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            DBUtil.printMetaData(resultSet);
-            List<DamengEvent> list = new ArrayList<>();
-            while (resultSet.next()) {
-                String name = resultSet.getString("NAME");
-                String expr = resultSet.getString("EXPR");
-                String status = resultSet.getString("STATUS");
-                String action = resultSet.getString("ACTION");
-                DamengEvent event = new DamengEvent();
-                event.setName(name);
-                event.setStatus("TRUE".equalsIgnoreCase(status) ? "ENABLE" : "DISABLE");
-                DamengHelper.parseJobExpr(expr, event);
-                DamengHelper.parseJobAction(action, event);
-                list.add(event);
-            }
-            DBUtil.close(resultSet);
-            return list;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new DBException(ex);
-        }
-    }
+    //    public List<DamengEvent> events(String dbName) {
+    //        try {
+    //            Connection connection = this.functionConnection(dbName, null);
+    //            String sql = """
+    //                    SELECT
+    //                        t1.JOB_NAME AS NAME,
+    //                        t1.ENABLED AS STATUS,
+    //                        t1.JOB_ACTION AS ACTION,
+    //                        t1.REPEAT_INTERVAL AS EXPR
+    //                    FROM
+    //                        USER_SCHEDULER_JOBS t1
+    //                    """;
+    //            DBUtil.printSql(sql);
+    //            PreparedStatement statement = connection.prepareStatement(sql);
+    //            ResultSet resultSet = statement.executeQuery();
+    //            DBUtil.printMetaData(resultSet);
+    //            List<DamengEvent> list = new ArrayList<>();
+    //            while (resultSet.next()) {
+    //                String name = resultSet.getString("NAME");
+    //                String expr = resultSet.getString("EXPR");
+    //                String status = resultSet.getString("STATUS");
+    //                String action = resultSet.getString("ACTION");
+    //                DamengEvent event = new DamengEvent();
+    //                event.setName(name);
+    //                event.setStatus("TRUE".equalsIgnoreCase(status) ? "ENABLE" : "DISABLE");
+    //                DamengHelper.parseJobExpr(expr, event);
+    //                DamengHelper.parseJobAction(action, event);
+    //                list.add(event);
+    //            }
+    //            DBUtil.close(resultSet);
+    //            return list;
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //            throw new DBException(ex);
+    //        }
+    //    }
 
     public boolean isSupportFeature(DBFeature feature) {
         try {
@@ -1619,11 +1619,17 @@ public class DamengClient {
         try {
             String sql = """
                         SELECT 
-                            TEXT AS DEFINITION, VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT 
+                            v.TEXT AS DEFINITION, v.VIEW_NAME, v.READ_ONLY, c.COMMENTS AS TABLE_COMMENT 
                         FROM 
-                            ALL_VIEWS 
+                            ALL_VIEWS v
+                        LEFT JOIN 
+                            ALL_TAB_COMMENTS C 
+                        ON 
+                            V.OWNER = C.OWNER
+                        AND 
+                            V.VIEW_NAME = C.TABLE_NAME 
                         WHERE 
-                            OWNER = ?
+                            v.OWNER = ?
                         AND
                             VIEW_NAME = ?
                     """;
@@ -1638,15 +1644,18 @@ public class DamengClient {
             // 遍历结果集
             DamengView view = new DamengView();
             while (resultSet.next()) {
-                String tableName = resultSet.getString("TABLE_NAME");
+                String name = resultSet.getString("VIEW_NAME");
+                String readOnly = resultSet.getString("READ_ONLY");
                 String definition = resultSet.getString("DEFINITION");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
-                String tableUpdateable = resultSet.getString("UPDATABLE");
+                if (readOnly == null) {
+                    readOnly = this.getViewReadOnly(name);
+                }
                 view.setDbName(dbName);
-                view.setName(tableName);
+                view.setName(name);
                 view.setComment(tableComment);
                 view.setDefinition(definition);
-                view.setUpdatable(!StringUtil.equalsIgnoreCase("Y", tableUpdateable));
+                view.setUpdatable(!StringUtil.equalsIgnoreCase("Y", readOnly));
             }
             // 关闭连接和释放资源
             DBUtil.close(resultSet);
@@ -1663,11 +1672,17 @@ public class DamengClient {
             List<DamengView> list = new ArrayList<>();
             String sql = """
                         SELECT 
-                            TEXT AS DEFINITION, VIEW_NAME AS TABLE_NAME, READ_ONLY AS UPDATABLE, CAST(NULL AS VARCHAR) AS TABLE_COMMENT 
+                            v.TEXT AS DEFINITION, v.VIEW_NAME, v.READ_ONLY,  C.COMMENTS AS TABLE_COMMENT 
                         FROM 
-                            ALL_VIEWS
+                            ALL_VIEWS v
+                        LEFT JOIN 
+                            ALL_TAB_COMMENTS C 
+                        ON 
+                            V.OWNER = C.OWNER
+                        AND 
+                            V.VIEW_NAME = C.TABLE_NAME 
                         WHERE 
-                            OWNER = ?
+                            V.OWNER = ?
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
@@ -1678,15 +1693,18 @@ public class DamengClient {
             // 遍历结果集
             while (resultSet.next()) {
                 DamengView view = new DamengView();
-                String tableName = resultSet.getString("TABLE_NAME");
+                String name = resultSet.getString("VIEW_NAME");
+                String readOnly = resultSet.getString("READ_ONLY");
                 String definition = resultSet.getString("DEFINITION");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
-                String tableUpdateable = resultSet.getString("UPDATABLE");
+                if (readOnly == null) {
+                    readOnly = this.getViewReadOnly(name);
+                }
                 view.setDbName(dbName);
-                view.setName(tableName);
+                view.setName(name);
                 view.setComment(tableComment);
                 view.setDefinition(definition);
-                view.setUpdatable(!StringUtil.equalsIgnoreCase("Y", tableUpdateable));
+                view.setUpdatable(!StringUtil.equalsIgnoreCase("Y", readOnly));
                 list.add(view);
             }
             // 关闭连接和释放资源
@@ -1729,26 +1747,68 @@ public class DamengClient {
         return result;
     }
 
+    /**
+     * 创建视图
+     *
+     * @param param 参数
+     */
     public void createView(DamengCreateViewParam param) {
+        Connection connection = null;
         try {
-            Statement statement = this.connection(param.getDbName()).createStatement();
-            String sql = DamengViewCreateSqlGenerator.generateSqlSingle(param);
-            DBUtil.printSql(sql);
-            statement.execute(sql);
+            List<String> sqlList = DamengViewCreateSqlGenerator.generateSql(param);
+            // 无变化
+            if (CollectionUtil.isEmpty(sqlList)) {
+                return;
+            }
+            String dbName = param.getDbName();
+            connection = this.connection(dbName);
+            connection.setAutoCommit(false);
+            Statement statement = connection.createStatement();
+            for (String sql : sqlList) {
+                if (StringUtil.isBlank(sql)) {
+                    continue;
+                }
+                DBUtil.printSql(sql);
+                statement.executeUpdate(sql);
+            }
+            connection.commit();
             DBUtil.close(statement);
         } catch (Exception ex) {
+            ex.printStackTrace();
+            DBUtil.rollback(connection);
             throw new DBException(ex);
         }
     }
 
+    /**
+     * 修改视图
+     *
+     * @param param 参数
+     */
     public void alertView(DamengAlertViewParam param) {
+        Connection connection = null;
         try {
-            Statement statement = this.connection(param.getDbName()).createStatement();
-            String sql = DamengViewAlertSqlGenerator.generateSqlSingle(param);
-            DBUtil.printSql(sql);
-            statement.execute(sql);
+            List<String> sqlList = DamengViewAlertSqlGenerator.generateSql(param);
+            // 无变化
+            if (CollectionUtil.isEmpty(sqlList)) {
+                return;
+            }
+            String dbName = param.getDbName();
+            connection = this.connection(dbName);
+            connection.setAutoCommit(false);
+            Statement statement = connection.createStatement();
+            for (String sql : sqlList) {
+                if (StringUtil.isBlank(sql)) {
+                    continue;
+                }
+                DBUtil.printSql(sql);
+                statement.executeUpdate(sql);
+            }
+            connection.commit();
             DBUtil.close(statement);
         } catch (Exception ex) {
+            ex.printStackTrace();
+            DBUtil.rollback(connection);
             throw new DBException(ex);
         }
     }
@@ -3167,5 +3227,37 @@ public class DamengClient {
 
     public String iid() {
         return this.dbConnect == null ? null : this.dbConnect.getId();
+    }
+
+    /**
+     * 获取视图更新标志位
+     *
+     * @param viewName 定义
+     * @return 结果
+     */
+    public String getViewReadOnly(String viewName) {
+        try {
+            String sql = """
+                        SELECT 
+                            READ_ONLY
+                        FROM 
+                            USER_VIEWS 
+                        WHERE 
+                            VIEW_NAME = ?
+                    """;
+            DBUtil.printSql(sql);
+            PreparedStatement statement = this.connection().prepareStatement(sql);
+            statement.setString(1, viewName);
+            // 执行SQL查询并获取结果集
+            ResultSet resultSet = statement.executeQuery();
+            // 打印元数据
+            DBUtil.printMetaData(resultSet);
+            if (resultSet.next()) {
+                return resultSet.getString(1);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

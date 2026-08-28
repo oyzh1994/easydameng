@@ -8,11 +8,9 @@
 <?import cn.oyzh.easydameng.fx.DBInfoComboBox?>
 <?import cn.oyzh.fx.plus.controls.box.FXHBox?>
 <?import cn.oyzh.fx.plus.controls.box.FXVBox?>
-<?import cn.oyzh.fx.plus.controls.pane.FXTitledPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import cn.oyzh.easydameng.fx.data.DataTransportEventListView?>
 <?import cn.oyzh.fx.gui.svg.glyph.RightSideSVGGlyph?>
 <?import cn.oyzh.fx.plus.controls.label.FXLabel?>
 <?import cn.oyzh.fx.plus.controls.label.FXLabel?>
@@ -250,10 +248,10 @@
                 <DataTransportTriggerListView fx:id="triggerList" flexHeight="100%" flexWidth="100% - 10">
                 </DataTransportTriggerListView>
             </FixedTab>
-            <FixedTab text="%base.event" groupId="config" fx:id="eventPane">
-                <DataTransportEventListView fx:id="eventList" flexHeight="100%" flexWidth="100% - 10">
-                </DataTransportEventListView>
-            </FixedTab>
+            <!-- <FixedTab text="%base.event" groupId="config" fx:id="eventPane"> -->
+            <!--     <DataTransportEventListView fx:id="eventList" flexHeight="100%" flexWidth="100% - 10"> -->
+            <!--     </DataTransportEventListView> -->
+            <!-- </FixedTab> -->
         </FXTabPane>
         <FXHBox flexWidth="100%" realHeight="50">
             <PrevStepButton onAction="#showStep1" realHeight="30" >

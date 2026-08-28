@@ -596,9 +596,9 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     //    this.refresh();
     //}
 
-    public DamengEvent selectEvent(String eventName) {
-        return this.client().selectEvent(this.dbName(), eventName);
-    }
+//    public DamengEvent selectEvent(String eventName) {
+//        return this.client().selectEvent(this.dbName(), eventName);
+//    }
 
     //    public void alertEvent(DamengEvent event) {
     //        this.client().alertEvent(this.dbName(), event);

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox?>
-<?import cn.oyzh.easydameng.fx.view.DamengViewAlgorithmComboBox?>
-<?import cn.oyzh.easydameng.fx.view.DamengViewCheckOptionComboBox?>
-<?import cn.oyzh.fx.gui.label.AccentLabel?>
-<?import cn.oyzh.fx.gui.svg.glyph.SaveSVGGlyph?>
-<?import cn.oyzh.fx.plus.controls.box.FXHBox?>
-<?import cn.oyzh.fx.plus.controls.box.FXVBox?>
-<?import cn.oyzh.fx.plus.controls.tab.FixedTab?>
-<?import cn.oyzh.fx.plus.controls.text.field.FXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.HBox?>
-<?import cn.oyzh.fx.gui.tabs.RichTabPane?>
 <?import cn.oyzh.easydameng.fx.ShellDataEditor?>
 <?import cn.oyzh.easydameng.query.DamengQueryEditor?>
+<?import cn.oyzh.fx.gui.label.AccentLabel?>
+<?import cn.oyzh.fx.gui.svg.glyph.SaveSVGGlyph?>
+<?import cn.oyzh.fx.gui.tabs.RichTabPane?>
+<?import cn.oyzh.fx.plus.controls.box.FXHBox?>
+<?import cn.oyzh.fx.plus.controls.box.FXVBox?>
+<?import cn.oyzh.fx.plus.controls.button.FXCheckBox?>
+<?import cn.oyzh.fx.plus.controls.tab.FixedTab?>
+<?import cn.oyzh.fx.plus.controls.text.area.FXTextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
 <FXVBox xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="cn.oyzh.easydameng.tabs.view.DamengViewDesignTabController" flexWidth="100%" flexHeight="100%">
@@ -30,33 +29,33 @@
         <FixedTab text="%base.advanced">
             <FXVBox flexHeight="100%" flexWidth="100%">
                 <FXHBox realHeight="50" flexWidth="100%">
-                    <AccentLabel text="%base.algorithm" realWidth="85" realHeight="25">
+                    <AccentLabel text="%base.options" realWidth="85" realHeight="25">
                         <HBox.margin>
-                            <Insets left="20" top="12"/>
+                            <Insets left="20" top="10"/>
                         </HBox.margin>
                     </AccentLabel>
-                    <DamengViewAlgorithmComboBox fx:id="algorithm" flexWidth="100% - 140" realHeight="30">
+                    <FXCheckBox text="%base.readonly" fx:id="readonly">
                         <HBox.margin>
-                            <Insets left="10" top="10"/>
+                            <Insets left="10" top="12"/>
                         </HBox.margin>
-                    </DamengViewAlgorithmComboBox>
+                    </FXCheckBox>
                 </FXHBox>
+                <!-- <FXHBox realHeight="50" flexWidth="100%"> -->
+                <!--     <AccentLabel realWidth="85" text="%base.definer" realHeight="25"> -->
+                <!--         <HBox.margin> -->
+                <!--             <Insets left="20" top="10"/> -->
+                <!--         </HBox.margin> -->
+                <!--     </AccentLabel> -->
+                <!--     <FXTextField fx:id="definer" flexWidth="100% - 140" realHeight="30"> -->
+                <!--         <HBox.margin> -->
+                <!--             <Insets left="10" top="10"/> -->
+                <!--         </HBox.margin> -->
+                <!--     </FXTextField> -->
+                <!-- </FXHBox> -->
                 <FXHBox realHeight="50" flexWidth="100%">
-                    <AccentLabel realWidth="85" text="%base.definer" realHeight="25">
-                        <HBox.margin>
-                            <Insets left="20" top="12"/>
-                        </HBox.margin>
-                    </AccentLabel>
-                    <FXTextField fx:id="definer" flexWidth="100% - 140" realHeight="30">
-                        <HBox.margin>
-                            <Insets left="10" top="10"/>
-                        </HBox.margin>
-                    </FXTextField>
-                </FXHBox>
-                <FXHBox realHeight="50" flexWidth="100%" >
                     <AccentLabel realWidth="85" text="%base.securityType" realHeight="25">
                         <HBox.margin>
-                            <Insets left="20" top="12"/>
+                            <Insets left="20" top="10"/>
                         </HBox.margin>
                     </AccentLabel>
                     <DBSecurityTypeComboBox fx:id="securityType" flexWidth="100% - 140" realHeight="30">
@@ -65,17 +64,29 @@
                         </HBox.margin>
                     </DBSecurityTypeComboBox>
                 </FXHBox>
-                <FXHBox realHeight="50" flexWidth="100%">
-                    <AccentLabel realWidth="85" text="%base.checkOption" realHeight="25">
+                <!-- <FXHBox realHeight="50" flexWidth="100%"> -->
+                <!--     <AccentLabel realWidth="85" text="%base.checkOption" realHeight="25"> -->
+                <!--         <HBox.margin> -->
+                <!--             <Insets left="20" top="10"/> -->
+                <!--         </HBox.margin> -->
+                <!--     </AccentLabel> -->
+                <!--     <DamengViewCheckOptionComboBox fx:id="checkOption" flexWidth="100% - 140" realHeight="30"> -->
+                <!--         <HBox.margin> -->
+                <!--             <Insets left="10" top="10"/> -->
+                <!--         </HBox.margin> -->
+                <!--     </DamengViewCheckOptionComboBox> -->
+                <!-- </FXHBox> -->
+                <FXHBox realHeight="150" flexWidth="100%">
+                    <AccentLabel text="%base.comment" realWidth="85" realHeight="25">
                         <HBox.margin>
-                            <Insets left="20" top="12"/>
+                            <Insets left="20" top="10"/>
                         </HBox.margin>
                     </AccentLabel>
-                    <DamengViewCheckOptionComboBox fx:id="checkOption" flexWidth="100% - 140" realHeight="30">
+                    <FXTextArea prefHeight="110" flexWidth="100% - 140" tipText="%base.contentTip1" fx:id="comment">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
-                    </DamengViewCheckOptionComboBox>
+                    </FXTextArea>
                 </FXHBox>
             </FXVBox>
         </FixedTab>

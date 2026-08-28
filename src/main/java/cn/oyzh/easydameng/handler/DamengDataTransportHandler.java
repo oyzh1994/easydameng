@@ -7,7 +7,6 @@ import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
-import cn.oyzh.easydameng.fx.data.DataTransportEvent;
 import cn.oyzh.easydameng.fx.data.DataTransportFunction;
 import cn.oyzh.easydameng.fx.data.DataTransportProcedure;
 import cn.oyzh.easydameng.fx.data.DataTransportTable;
@@ -54,11 +53,11 @@ public class DamengDataTransportHandler extends DataTransportHandler {
                     this.transportTrigger(trigger.getName());
                 }
             }
-            if (CollectionUtil.isNotEmpty(this.events)) {
-                for (DataTransportEvent event : this.events) {
-                    this.transportEvent(event.getName());
-                }
-            }
+//            if (CollectionUtil.isNotEmpty(this.events)) {
+//                for (DataTransportEvent event : this.events) {
+//                    this.transportEvent(event.getName());
+//                }
+//            }
             this.targetClient.executeSqlSimple(this.targetDatabase, "SET FOREIGN_KEY_CHECKS = 1;");
         } catch (Exception ex) {
             this.exception(ex);
