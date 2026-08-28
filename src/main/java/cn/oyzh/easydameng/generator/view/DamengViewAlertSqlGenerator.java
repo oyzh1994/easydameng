@@ -43,7 +43,7 @@ public class DamengViewAlertSqlGenerator extends DBSqlGenerator {
             builder.append("COMMENT ON VIEW ")
                     .append(viewFullName)
                     .append(" IS ")
-                    .append(DBUtil.wrapData(view.getComment())).append(";");
+                    .append(DBUtil.wrapData(view.getComment(), DBDialect.DAMENG)).append(";");
             this.sqlList.add(builder.toString());
         }
     }

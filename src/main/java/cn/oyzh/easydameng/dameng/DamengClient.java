@@ -567,7 +567,7 @@ public class DamengClient {
 
     public void alertFunction(String dbName, DamengFunction function) {
         try {
-            String sql = "DROP FUNCTION IF EXISTS " + DBUtil.wrap(dbName, function.getName());
+            String sql = "DROP FUNCTION IF EXISTS " + DBUtil.wrap(dbName, function.getName(), DBDialect.DAMENG);
             DBUtil.printSql(sql);
             Connection connection = this.connection(dbName);
             Statement statement = connection.createStatement();
@@ -722,7 +722,7 @@ public class DamengClient {
 
     public void dropEvent(String dbName, DamengEvent event) {
         try {
-            String sql = "DROP EVENT " + DBUtil.wrap(event.getDbName(), event.getName());
+            String sql = "DROP EVENT " + DBUtil.wrap(event.getDbName(), event.getName(), DBDialect.DAMENG);
             DBUtil.printSql(sql);
             Statement statement = this.connection(dbName).createStatement();
             statement.executeUpdate(sql);
@@ -986,25 +986,25 @@ public class DamengClient {
                     LEFT JOIN
                         SYS.SYSCOLUMNCOMMENTS CC
                     ON
-                        C.OWNER=CC.SCHNAME
+                        C.OWNER = CC.SCHNAME
                     AND
-                        C.TABLE_NAME=CC.TVNAME
+                        C.TABLE_NAME = CC.TVNAME
                     AND
-                        C.COLUMN_NAME=CC.COLNAME
+                        C.COLUMN_NAME = CC.COLNAME
                     LEFT JOIN
                         ALL_CONS_COLUMNS CONS
                     ON
-                        C.OWNER=CONS.OWNER
+                        C.OWNER = CONS.OWNER
                     AND
-                        C.TABLE_NAME=CONS.TABLE_NAME
+                        C.TABLE_NAME = CONS.TABLE_NAME
                     AND
-                        C.COLUMN_NAME=CONS.COLUMN_NAME
+                        C.COLUMN_NAME = CONS.COLUMN_NAME
                     AND
                         EXISTS (SELECT 1 FROM ALL_CONSTRAINTS AC WHERE AC.OWNER=CONS.OWNER AND AC.CONSTRAINT_NAME=CONS.CONSTRAINT_NAME AND AC.CONSTRAINT_TYPE='P')
                     WHERE
-                        C.OWNER=?
+                        C.OWNER = ?
                     AND
-                        C.TABLE_NAME=?
+                        C.TABLE_NAME = ?
                     ORDER BY
                         C.COLUMN_ID
                     """;
@@ -1059,7 +1059,7 @@ public class DamengClient {
         try {
             Connection connection = this.connection(param.getDbName(), param.getSchema());
             StringBuilder builder = new StringBuilder("SELECT * FROM ");
-            builder.append(DBUtil.wrap(param.getDbName(), param.getTableName()));
+            builder.append(DBUtil.wrap(param.getDbName(), param.getTableName(), DBDialect.DAMENG));
             String filterCondition = DamengConditionUtil.buildCondition(param.getFilters());
             if (StringUtil.isNotBlank(filterCondition)) {
                 builder.append(" WHERE ").append(filterCondition);
@@ -1108,7 +1108,7 @@ public class DamengClient {
         try {
             Connection connection = this.connection(param.getDbName(), param.getSchema());
             StringBuilder builder = new StringBuilder("SELECT COUNT(*) FROM");
-            builder.append(DBUtil.wrap(param.getDbName(), param.getTableName()));
+            builder.append(DBUtil.wrap(param.getDbName(), param.getTableName(), DBDialect.DAMENG));
             String filterCondition = DamengConditionUtil.buildCondition(param.getFilters());
             if (StringUtil.isNotBlank(filterCondition)) {
                 builder.append(" WHERE ").append(filterCondition);
@@ -1136,10 +1136,10 @@ public class DamengClient {
         try {
             StringBuilder builder = new StringBuilder();
             builder.append("INSERT INTO ")
-                    .append(DBUtil.wrap(param.getDbName(), param.getTableName()))
+                    .append(DBUtil.wrap(param.getDbName(), param.getTableName(), DBDialect.DAMENG))
                     .append("(");
             for (String column : param.getRecord().columns()) {
-                builder.append(DBUtil.wrap(column)).append(",");
+                builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(",");
             }
             builder.append(")");
             builder.append(" VALUES(");
@@ -1191,7 +1191,7 @@ public class DamengClient {
             Connection connection = this.connection(dbName, schema);
             StringBuilder builder = new StringBuilder();
             builder.append("DELETE FROM ")
-                    .append(DBUtil.wrap(dbName, tableName))
+                    .append(DBUtil.wrap(dbName, tableName, DBDialect.DAMENG))
                     .append(" WHERE ");
             if (param.getPrimaryKey() == null) {
                 DamengRecordData recordData = param.getRecord();
@@ -1203,10 +1203,10 @@ public class DamengClient {
                         builder.append(" AND ");
                     }
                     if (recordData.hasValue(colName)) {
-                        builder.append(DBUtil.wrap(colName))
+                        builder.append(DBUtil.wrap(colName, DBDialect.DAMENG))
                                 .append(" = ?");
                     } else {
-                        builder.append(DBUtil.wrap(colName))
+                        builder.append(DBUtil.wrap(colName, DBDialect.DAMENG))
                                 .append(" IS NULL");
                     }
                 }
@@ -1221,7 +1221,7 @@ public class DamengClient {
                 updateCount = DBUtil.executeUpdate(statement);
             } else {
                 DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
-                builder.append(DBUtil.wrap(primaryKey.getColumnName()))
+                builder.append(DBUtil.wrap(primaryKey.getColumnName(), DBDialect.DAMENG))
                         .append(" = ?");
                 String sql = builder.toString();
                 DBUtil.printSql(sql);
@@ -1246,13 +1246,13 @@ public class DamengClient {
             DamengRecordData recordData = param.getUpdateRecord();
             StringBuilder builder = new StringBuilder();
             builder.append("UPDATE ")
-                    .append(DBUtil.wrap(dbName, tableName))
+                    .append(DBUtil.wrap(dbName, tableName, DBDialect.DAMENG))
                     .append(" SET ");
             for (String column : recordData.columns()) {
                 //                if (recordData.isTypeGeometry(column)) {
                 //                    builder.append(DBUtil.wrap(column)).append(" = ST_GeomFromText(?),");
                 //                } else {
-                builder.append(DBUtil.wrap(column)).append(" = ?,");
+                builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(" = ?,");
                 //                }
             }
             builder.deleteCharAt(builder.length() - 1);
@@ -1270,9 +1270,9 @@ public class DamengClient {
                     }
                     Object value = originalRecordData.value(column);
                     if (value == null) {
-                        builder.append(DBUtil.wrap(column)).append(" IS NULL");
+                        builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(" IS NULL");
                     } else {
-                        builder.append(DBUtil.wrap(column)).append(" = ?");
+                        builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(" = ?");
                     }
                 }
                 int index = 1;
@@ -1294,7 +1294,7 @@ public class DamengClient {
                 DBUtil.close(statement);
             } else {
                 DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
-                builder.append(DBUtil.wrap(primaryKey.getColumnName())).append(" = ?");
+                builder.append(DBUtil.wrap(primaryKey.getColumnName(), DBDialect.DAMENG)).append(" = ?");
                 String sql = builder.toString();
                 DBUtil.printInfo(sql, recordData);
                 PreparedStatement statement = connection.prepareStatement(sql);
@@ -1719,7 +1719,7 @@ public class DamengClient {
 
     public void dropView(String dbName, DamengView view) {
         try {
-            String sql = "DROP VIEW IF EXISTS " + DBUtil.wrap(view.getDbName(), view.getName());
+            String sql = "DROP VIEW IF EXISTS " + DBUtil.wrap(view.getDbName(), view.getName(), DBDialect.DAMENG);
             Statement statement = this.connection(dbName).createStatement();
             DBUtil.printSql(sql);
             statement.executeUpdate(sql);
@@ -2061,7 +2061,7 @@ public class DamengClient {
             DBUtil.close(resultSet);
             DBUtil.close(statement);
 
-            sql = "SELECT * FROM " + DBUtil.wrap(dbName, viewName) + " FETCH FIRST 1 ROWS ONLY";
+            sql = "SELECT * FROM " + DBUtil.wrap(dbName, viewName, DBDialect.DAMENG) + " FETCH FIRST 1 ROWS ONLY";
             DBUtil.printSql(sql);
             PreparedStatement statement1 = this.connection().prepareStatement(sql);
             ResultSet resultSet1 = statement1.executeQuery();
@@ -2092,7 +2092,7 @@ public class DamengClient {
         try {
             Connection connection = this.connection(dbName);
             StringBuilder builder = new StringBuilder("SELECT * FROM ");
-            builder.append(DBUtil.wrap(dbName, viewName));
+            builder.append(DBUtil.wrap(dbName, viewName, DBDialect.DAMENG));
             String filterCondition = DamengConditionUtil.buildCondition(filters);
             if (StringUtil.isNotBlank(filterCondition)) {
                 builder.append(" WHERE ").append(filterCondition);
@@ -2202,8 +2202,8 @@ public class DamengClient {
     public void renameTable(String dbName, String oldTableName, String newTableName) {
         try {
             // 达梦用 ALTER TABLE ... RENAME TO 代替MySQL的 RENAME TABLE
-            String sql = "ALTER TABLE " + DBUtil.wrap(dbName, oldTableName)
-                    + " RENAME TO " + DBUtil.wrap(newTableName);
+            String sql = "ALTER TABLE " + DBUtil.wrap(dbName, oldTableName, DBDialect.DAMENG)
+                    + " RENAME TO " + DBUtil.wrap(newTableName, DBDialect.DAMENG);
             Connection connection = this.connection(dbName);
             Statement statement = connection.createStatement();
             DBUtil.printSql(sql);
@@ -2230,7 +2230,7 @@ public class DamengClient {
     public void clearTable(String dbName, String tableName) {
         try {
             Statement statement = this.connection(dbName).createStatement();
-            String sql = "DELETE FROM " + DBUtil.wrap(dbName, tableName);
+            String sql = "DELETE FROM " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
             DBUtil.printSql(sql);
             statement.executeUpdate(sql);
             DBUtil.close(statement);
@@ -2243,7 +2243,7 @@ public class DamengClient {
     public void truncateTable(String dbName, String tableName) {
         try {
             Statement statement = this.connection(dbName).createStatement();
-            String sql = "TRUNCATE TABLE " + DBUtil.wrap(dbName, tableName);
+            String sql = "TRUNCATE TABLE " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
             DBUtil.printSql(sql);
             statement.executeUpdate(sql);
             DBUtil.close(statement);
@@ -2256,7 +2256,7 @@ public class DamengClient {
     public void dropTable(String dbName, String tableName) {
         try {
             Statement statement = this.connection(dbName).createStatement();
-            String sql = "DROP TABLE " + DBUtil.wrap(dbName, tableName);
+            String sql = "DROP TABLE " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
             DBUtil.printSql(sql);
             statement.executeUpdate(sql);
             DBUtil.close(statement);
@@ -2329,7 +2329,7 @@ public class DamengClient {
         try {
             // 达梦用"CREATE SCHEMA"代替MySQL的"CREATE DATABASE"
             StringBuilder builder = new StringBuilder("CREATE SCHEMA ");
-            builder.append(DBUtil.wrap(database.getName()));
+            builder.append(DBUtil.wrap(database.getName(), DBDialect.DAMENG));
             String sql = builder.toString();
             DBUtil.printSql(sql);
             Statement statement = this.connection().createStatement();
@@ -2357,7 +2357,7 @@ public class DamengClient {
 
     public boolean dropDatabase(String dbName) {
         try {
-            String sql = "DROP SCHEMA " + DBUtil.wrap(dbName) + " CASCADE";
+            String sql = "DROP SCHEMA " + DBUtil.wrap(dbName, DBDialect.DAMENG) + " CASCADE";
             DBUtil.printSql(sql);
             Statement statement = this.connection().createStatement();
             statement.executeUpdate(sql);
@@ -2847,7 +2847,7 @@ public class DamengClient {
 
     public void dropProcedure(String dbName, DamengProcedure routine) {
         try {
-            String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(dbName, routine.getName());
+            String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(dbName, routine.getName(), DBDialect.DAMENG);
             DBUtil.printSql(sql);
             Statement statement = this.connection(dbName).createStatement();
             statement.executeUpdate(sql);
@@ -2873,7 +2873,7 @@ public class DamengClient {
 
     public void alertProcedure(String dbName, DamengProcedure procedure) {
         try {
-            String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(dbName, procedure.getName());
+            String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(dbName, procedure.getName(), DBDialect.DAMENG);
             DBUtil.printSql(sql);
             Statement statement = this.connection(dbName).createStatement();
             statement.executeUpdate(sql);
@@ -2891,7 +2891,7 @@ public class DamengClient {
 
     public void dropFunction(String dbName, DamengFunction function) {
         try {
-            String sql = "DROP function IF EXISTS " + DBUtil.wrap(dbName, function.getName());
+            String sql = "DROP function IF EXISTS " + DBUtil.wrap(dbName, function.getName(), DBDialect.DAMENG);
             DBUtil.printSql(sql);
             Statement statement = this.connection(dbName).createStatement();
             statement.executeUpdate(sql);
@@ -2996,9 +2996,9 @@ public class DamengClient {
             Connection connection = this.connection(dbName);
             DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
             StringBuilder builder = new StringBuilder("SELECT * FROM ");
-            builder.append(DBUtil.wrap(dbName, tableName))
+            builder.append(DBUtil.wrap(dbName, tableName, DBDialect.DAMENG))
                     .append(" WHERE ")
-                    .append(DBUtil.wrap(primaryKey.getColumnName()))
+                    .append(DBUtil.wrap(primaryKey.getColumnName(), DBDialect.DAMENG))
                     .append(" = ?");
             String sql = builder.toString();
             DBUtil.printSql(sql);
@@ -3191,8 +3191,8 @@ public class DamengClient {
             Connection connection = this.connection(dbName);
 
             // 克隆基本的表结构
-            String sql = "CREATE TABLE " + DBUtil.wrap(dbName, newTableName)
-                    + " LIKE " + DBUtil.wrap(dbName, tableName);
+            String sql = "CREATE TABLE " + DBUtil.wrap(dbName, newTableName, DBDialect.DAMENG)
+                    + " LIKE " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
             DBUtil.printSql(sql);
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.execute();
@@ -3211,8 +3211,8 @@ public class DamengClient {
 
             // 克隆数据
             if (includeRecord) {
-                sql = "INSERT INTO " + DBUtil.wrap(dbName, newTableName)
-                        + " SELECT * FROM " + DBUtil.wrap(dbName, tableName);
+                sql = "INSERT INTO " + DBUtil.wrap(dbName, newTableName, DBDialect.DAMENG)
+                        + " SELECT * FROM " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
                 DBUtil.printSql(sql);
                 stmt = connection.prepareStatement(sql);
                 stmt.execute();

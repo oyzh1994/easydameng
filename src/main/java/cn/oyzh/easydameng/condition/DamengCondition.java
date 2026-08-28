@@ -1,5 +1,6 @@
 package cn.oyzh.easydameng.condition;
 
+import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.util.DBUtil;
 
 /**
@@ -46,7 +47,7 @@ public abstract class DamengCondition {
 
     public String wrapCondition(Object condition) {
         if (this.requireCondition) {
-            return condition == null ? this.getValue() : this.getValue() + " " +  DBUtil.wrapData(condition);
+            return condition == null ? this.getValue() : this.getValue() + " " +  DBUtil.wrapData(condition, DBDialect.DAMENG);
         }
         return this.getValue();
     }

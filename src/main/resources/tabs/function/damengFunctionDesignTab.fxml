@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import cn.oyzh.easydameng.fx.DBEditor?>
 <?import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox?>
 <?import cn.oyzh.easydameng.fx.DBStatusColumn?>
 <?import cn.oyzh.easydameng.fx.DBStatusTableView?>

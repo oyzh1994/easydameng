@@ -76,9 +76,9 @@ public class DamengDataImportHelper {
             sql.append(") VALUES (");
             for (DamengColumn column : columns) {
                 Object val = record.getValue(column.getName());
-                val = DBUtil.unwrapData(val);
+                val = DBUtil.unwrapData(val, DBDialect.DAMENG);
                 val = parameterized(column, val, config);
-                sql.append(DBUtil.wrapData(val)).append(", ");
+                sql.append(DBUtil.wrapData(val, DBDialect.DAMENG)).append(", ");
             }
             sql.deleteCharAt(sql.length() - 2);
             sql.append(")");

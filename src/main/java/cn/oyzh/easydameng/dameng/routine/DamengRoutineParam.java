@@ -2,6 +2,7 @@ package cn.oyzh.easydameng.dameng.routine;
 
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.db.DBObjectStatus;
 import cn.oyzh.easydameng.fx.DBCharsetComboBox;
 import cn.oyzh.easydameng.fx.DBCollationComboBox;
@@ -297,7 +298,7 @@ public class DamengRoutineParam extends DBObjectStatus {
     public String getDefinition() {
         String definition = "";
         if (StringUtil.isNotBlank(this.getName())) {
-            definition += DBUtil.wrap(this.getName());
+            definition += DBUtil.wrap(this.getName(), DBDialect.DAMENG);
         }
         if (StringUtil.isNotBlank(this.getMode())) {
             if (StringUtil.containsIgnoreCase(this.getMode(), "IN") && StringUtil.containsIgnoreCase(this.getMode(), "OUT")) {

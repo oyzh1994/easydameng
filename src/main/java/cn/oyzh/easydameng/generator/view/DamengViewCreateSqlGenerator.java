@@ -42,7 +42,8 @@ public class DamengViewCreateSqlGenerator extends DBSqlGenerator {
             builder.append("COMMENT ON TABLE ")
                     .append(viewFullName)
                     .append(" IS ")
-                    .append(DBUtil.wrapData(view.getComment())).append(";");
+                    .append(DBUtil.wrapData(view.getComment(), DBDialect.DAMENG))
+                    .append(";");
             this.sqlList.add(builder.toString());
         }
     }
