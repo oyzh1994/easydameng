@@ -16,7 +16,6 @@ import cn.oyzh.easydameng.event.database.DamengDatabaseUpdatedEvent;
 import cn.oyzh.easydameng.event.event.DamengEventAddedEvent;
 import cn.oyzh.easydameng.event.event.DamengEventAlertedEvent;
 import cn.oyzh.easydameng.event.event.DamengEventDesignEvent;
-import cn.oyzh.easydameng.event.event.DamengEventRenamedEvent;
 import cn.oyzh.easydameng.event.function.DamengFunctionAddedEvent;
 import cn.oyzh.easydameng.event.function.DamengFunctionAlertedEvent;
 import cn.oyzh.easydameng.event.function.DamengFunctionDesignEvent;
@@ -57,7 +56,6 @@ import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.event.window.ShellShowMessageEvent;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
-import cn.oyzh.easydameng.trees.event.DamengEventTreeItem;
 import cn.oyzh.easydameng.trees.query.DamengQueryTreeItem;
 import cn.oyzh.easydameng.trees.table.DamengTableTreeItem;
 import cn.oyzh.easydameng.trees.view.DamengViewTreeItem;
@@ -154,12 +152,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-    public static void eventRenamed(DamengEventTreeItem viewItem, DamengDatabaseTreeItem dbItem) {
-        DamengEventRenamedEvent event = new DamengEventRenamedEvent();
-        event.setDbItem(dbItem);
-        event.data(viewItem);
-        EventUtil.post(event);
-    }
+//    public static void eventRenamed(DamengEventTreeItem viewItem, DamengDatabaseTreeItem dbItem) {
+//        DamengEventRenamedEvent event = new DamengEventRenamedEvent();
+//        event.setDbItem(dbItem);
+//        event.data(viewItem);
+//        EventUtil.post(event);
+//    }
 
     public static void tableCleared(DamengTableTreeItem tableItem, DamengDatabaseTreeItem dbItem) {
         DamengTableClearedEvent event = new DamengTableClearedEvent();

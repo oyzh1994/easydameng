@@ -46,8 +46,6 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.exception.ReadonlyOperationException;
-import cn.oyzh.easydameng.generator.event.DamengEventCreateSqlGenerator;
-import cn.oyzh.easydameng.generator.event.EventAlertSqlGenerator;
 import cn.oyzh.easydameng.generator.routine.DamengFunctionSqlGenerator;
 import cn.oyzh.easydameng.generator.routine.DamengProcedureSqlGenerator;
 import cn.oyzh.easydameng.generator.table.DamengTableAlertSqlGenerator;
@@ -731,31 +729,31 @@ public class DamengClient {
         }
     }
 
-    public void createEvent(String dbName, DamengEvent event) {
-        try {
-            String sql = DamengEventCreateSqlGenerator.generateSql(event);
-            DBUtil.printSql(sql);
-            Statement statement = this.connection(dbName).createStatement();
-            statement.executeUpdate(sql);
-            DBUtil.close(statement);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new DBException(ex);
-        }
-    }
-
-    public void alertEvent(String dbName, DamengEvent event) {
-        try {
-            String sql = EventAlertSqlGenerator.generateSql(event);
-            DBUtil.printSql(sql);
-            Statement statement = this.connection(dbName).createStatement();
-            statement.executeUpdate(sql);
-            DBUtil.close(statement);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new DBException(ex);
-        }
-    }
+//    public void createEvent(String dbName, DamengEvent event) {
+//        try {
+//            String sql = DamengEventCreateSqlGenerator.generateSql(event);
+//            DBUtil.printSql(sql);
+//            Statement statement = this.connection(dbName).createStatement();
+//            statement.executeUpdate(sql);
+//            DBUtil.close(statement);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            throw new DBException(ex);
+//        }
+//    }
+//
+//    public void alertEvent(String dbName, DamengEvent event) {
+//        try {
+//            String sql = EventAlertSqlGenerator.generateSql(event);
+//            DBUtil.printSql(sql);
+//            Statement statement = this.connection(dbName).createStatement();
+//            statement.executeUpdate(sql);
+//            DBUtil.close(statement);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            throw new DBException(ex);
+//        }
+//    }
 
     public DamengEvent selectEvent(String dbName, String eventName) {
         try {

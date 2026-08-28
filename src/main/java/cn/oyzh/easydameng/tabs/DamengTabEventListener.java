@@ -26,7 +26,6 @@ import cn.oyzh.easydameng.event.view.DamengViewFilteredEvent;
 import cn.oyzh.easydameng.event.view.DamengViewOpenEvent;
 import cn.oyzh.easydameng.event.view.DamengViewRenamedEvent;
 import cn.oyzh.easydameng.event.window.ShellShowMessageEvent;
-import cn.oyzh.easydameng.tabs.event.DamengEventDesignTab;
 import cn.oyzh.easydameng.tabs.function.DamengFunctionDesignTab;
 import cn.oyzh.easydameng.tabs.message.ShellMessageTab;
 import cn.oyzh.easydameng.tabs.procedure.DamengProcedureDesignTab;
@@ -444,34 +443,34 @@ public class DamengTabEventListener implements EventListener {
         }
     }
 
-    private DamengEventDesignTab getDamengEventTab(DamengDatabaseTreeItem dbItem, String eventName) {
-        for (Tab tab : this.getTabs()) {
-            if (tab instanceof DamengEventDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(eventName, tab1.eventName())) {
-                return tab1;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * 事件设计事件
-     *
-     * @param event 事件
-     */
-    @EventSubscribe
-    private void onDamengEventDesign(DamengEventDesignEvent event) {
-        try {
-            DamengEventDesignTab tab = this.getDamengEventTab(event.getDbItem(), event.eventName());
-            if (tab == null) {
-                tab = new DamengEventDesignTab();
-                tab.init(event.data(), event.getDbItem());
-                this.addTab(tab);
-            }
-            this.select(tab);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+//    private DamengEventDesignTab getDamengEventTab(DamengDatabaseTreeItem dbItem, String eventName) {
+//        for (Tab tab : this.getTabs()) {
+//            if (tab instanceof DamengEventDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(eventName, tab1.eventName())) {
+//                return tab1;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    /**
+//     * 事件设计事件
+//     *
+//     * @param event 事件
+//     */
+//    @EventSubscribe
+//    private void onDamengEventDesign(DamengEventDesignEvent event) {
+//        try {
+//            DamengEventDesignTab tab = this.getDamengEventTab(event.getDbItem(), event.eventName());
+//            if (tab == null) {
+//                tab = new DamengEventDesignTab();
+//                tab.init(event.data(), event.getDbItem());
+//                this.addTab(tab);
+//            }
+//            this.select(tab);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
     private DamengViewDesignTab getDamengViewDesignTab(DamengDatabaseTreeItem dbItem, String viewName) {
         for (Tab tab : this.getTabs()) {

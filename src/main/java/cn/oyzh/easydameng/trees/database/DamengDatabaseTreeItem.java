@@ -32,8 +32,6 @@ import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
-import cn.oyzh.easydameng.trees.event.DamengEventTreeItem;
-import cn.oyzh.easydameng.trees.event.DamengEventsTreeItem;
 import cn.oyzh.easydameng.trees.function.DamengFunctionTreeItem;
 import cn.oyzh.easydameng.trees.function.DamengFunctionsTreeItem;
 import cn.oyzh.easydameng.trees.procedure.DamengProcedureTreeItem;
@@ -313,24 +311,24 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         return list;
     }
 
-    public DamengEventsTreeItem getEventTypeChild() {
-        for (RichTreeItem<?> child : this.richChildren()) {
-            if (child instanceof DamengEventsTreeItem treeItem) {
-                return treeItem;
-            }
-        }
-        return null;
-    }
-
-    public List<DamengEventTreeItem> getEventChild() {
-        List<DamengEventTreeItem> list = new ArrayList<>();
-        for (RichTreeItem<?> child : this.getEventTypeChild().richChildren()) {
-            if (child instanceof DamengEventTreeItem treeItem) {
-                list.add(treeItem);
-            }
-        }
-        return list;
-    }
+//    public DamengEventsTreeItem getEventTypeChild() {
+//        for (RichTreeItem<?> child : this.richChildren()) {
+//            if (child instanceof DamengEventsTreeItem treeItem) {
+//                return treeItem;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    public List<DamengEventTreeItem> getEventChild() {
+//        List<DamengEventTreeItem> list = new ArrayList<>();
+//        for (RichTreeItem<?> child : this.getEventTypeChild().richChildren()) {
+//            if (child instanceof DamengEventTreeItem treeItem) {
+//                list.add(treeItem);
+//            }
+//        }
+//        return list;
+//    }
 
     /**
      * 获取查询类型子节点
@@ -594,13 +592,13 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         return this.client().selectEvent(this.dbName(), eventName);
     }
 
-    public void alertEvent(DamengEvent event) {
-        this.client().alertEvent(this.dbName(), event);
-    }
-
-    public void createEvent(DamengEvent event) {
-        this.client().createEvent(this.dbName(), event);
-    }
+//    public void alertEvent(DamengEvent event) {
+//        this.client().alertEvent(this.dbName(), event);
+//    }
+//
+//    public void createEvent(DamengEvent event) {
+//        this.client().createEvent(this.dbName(), event);
+//    }
 
     public void dropEvent(DamengEvent event) {
         this.client().dropEvent(this.dbName(), event);
