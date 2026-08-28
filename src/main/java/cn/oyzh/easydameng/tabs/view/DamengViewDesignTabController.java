@@ -17,6 +17,7 @@ import cn.oyzh.fx.plus.controls.button.FXCheckBox;
 import cn.oyzh.fx.plus.controls.tab.FXTabPane;
 import cn.oyzh.fx.plus.controls.text.area.FXTextArea;
 import cn.oyzh.fx.plus.information.MessageBox;
+import cn.oyzh.fx.plus.node.NodeGroupUtil;
 import cn.oyzh.fx.plus.node.NodeUtil;
 import cn.oyzh.fx.plus.util.FXUtil;
 import cn.oyzh.fx.plus.window.StageManager;
@@ -120,22 +121,18 @@ public class DamengViewDesignTabController extends RichTabController {
         // 如果是新数据，则默认触发变更
         if (this.newData) {
             this.unsaved = true;
-            //            this.algorithm.selectFirst();
-            //            this.checkOption.selectFirst();
             this.securityType.selectFirst();
-            //            this.definer.setText("`root`@`%`");
+            NodeGroupUtil.disappear(this.getTab(), "action3");
         } else {
             // 查询视图信息
             this.view = this.dbItem.selectView(this.view.getName());
             // 初始化数据
-            //            this.definer.setText(this.view.getDefiner());
             this.comment.text(this.view.getComment());
-            //            this.algorithm.select(this.view.getAlgorithm());
             this.definition.text(this.view.getDefinition());
             this.definition.forgetHistory();
             this.readonly.setSelected(!this.view.isUpdatable());
-            //            this.checkOption.select(this.view.getCheckOption());
             this.securityType.select(this.view.getSecurityType());
+            NodeGroupUtil.display(this.getTab(), "action3");
         }
 
         // 标记为结束
@@ -220,6 +217,22 @@ public class DamengViewDesignTabController extends RichTabController {
     }
 
     /**
+     * 刷新
+     */
+    @FXML
+    private void refresh() {
+        if (!MessageBox.confirm(I18nHelper.refreshData() + "?")) {
+            return;
+        }
+        try {
+            this.init(this.view, this.dbItem);
+            this.flushTab();
+        } catch (Exception ex) {
+            MessageBox.exception(ex);
+        }
+    }
+
+    /**
      * 保存
      */
     @FXML
@@ -251,8 +264,6 @@ public class DamengViewDesignTabController extends RichTabController {
                 this.viewName = this.view.getName();
             }
 
-            // this.disableTab();
-
             // 创建视图
             if (this.newData) {
                 this.dbItem.createView(tempView);
@@ -265,8 +276,6 @@ public class DamengViewDesignTabController extends RichTabController {
                 this.dbItem.alertView(tempView);
                 DamengEventUtil.viewAlerted(viewName, this.dbItem);
             }
-            // // 刷新数据
-            // this.dbItem.getViewTypeChild().reloadChild();
             // 重置保存标志位
             this.unsaved = false;
             // 更新新数据标志位

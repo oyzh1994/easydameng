@@ -172,7 +172,6 @@ public class DamengFunctionDesignTabController extends RichTabController {
      * 执行初始化
      */
     private void doInit() {
-
         // 初始化监听器
         this.initDBListener();
 
@@ -248,6 +247,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
                     END;
                     """;
             this.definition.setText(defDefinition);
+            NodeGroupUtil.disappear(this.getTab(), "action3");
         } else {
             // 查询函数信息
             this.function = this.dbItem.selectFunction(this.function.getName());
@@ -274,6 +274,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
                     this.resultCache.setSelected(true);
                 }
             }
+            NodeGroupUtil.display(this.getTab(), "action3");
         }
 
         // 返回值处理
@@ -293,6 +294,22 @@ public class DamengFunctionDesignTabController extends RichTabController {
 
         // 标记为结束
         FXUtil.runPulse(() -> this.initiating = false);
+    }
+
+    /**
+     * 刷新
+     */
+    @FXML
+    private void refresh() {
+        if (!MessageBox.confirm(I18nHelper.refreshData() + "?")) {
+            return;
+        }
+        try {
+            this.init(this.function, this.dbItem);
+            this.flushTab();
+        } catch (Exception ex) {
+            MessageBox.exception(ex);
+        }
     }
 
     /**
@@ -318,13 +335,13 @@ public class DamengFunctionDesignTabController extends RichTabController {
 
             // 函数名称
             if (this.newData) {
-                functionName = MessageBox.prompt(I18nHelper.pleaseInputFunctionName(), functionName);
-                if (functionName == null) {
+                this.functionName = MessageBox.prompt(I18nHelper.pleaseInputFunctionName(), functionName);
+                if (this.functionName == null) {
                     return;
                 }
                 tempFunction.setName(functionName);
             } else {
-                functionName = tempFunction.getName();
+                this.functionName = tempFunction.getName();
             }
 
             // 创建函数
@@ -336,7 +353,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
                 this.initDBListener();
             } else {// 修改过程
                 this.dbItem.alertFunction(tempFunction);
-                DamengEventUtil.functionAlerted(functionName, this.dbItem);
+                DamengEventUtil.functionAlerted(this.functionName, this.dbItem);
             }
             // 更新保存标志位
             this.unsaved = false;
@@ -485,6 +502,10 @@ public class DamengFunctionDesignTabController extends RichTabController {
         }
     }
 
+    public String dbName() {
+        return this.dbItem.dbName();
+    }
+
     public boolean isUnsaved() {
         return unsaved;
     }
@@ -558,7 +579,6 @@ public class DamengFunctionDesignTabController extends RichTabController {
                 this.initPreview();
             }
         });
-
     }
 
     private void initParamTable() {

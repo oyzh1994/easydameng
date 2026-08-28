@@ -114,7 +114,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
         this.dbItem = dbItem;
         this.procedure = procedure;
         // 更新新数据标志位
-        this.newData = this.procedure.isNew();
+        this.newData = procedure.isNew();
         StageManager.showMask(this::doInit);
     }
 
@@ -122,7 +122,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
      * 执行初始化
      */
     private void doInit() {
-
         // 初始化监听器
         this.initDBListener();
 
@@ -182,6 +181,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
                     END;
                     """;
             this.definition.setText(defDefinition);
+            NodeGroupUtil.disappear(this.getTab(), "action3");
         } else {
             // 查询函数信息
             this.procedure = this.dbItem.selectProcedure(this.procedure.getName());
@@ -196,10 +196,27 @@ public class DamengProcedureDesignTabController extends RichTabController {
                     this.parallelEnable.setSelected(true);
                 }
             }
+            NodeGroupUtil.display(this.getTab(), "action3");
         }
 
         // 标记为结束
         FXUtil.runPulse(() -> this.initiating = false);
+    }
+
+    /**
+     * 刷新
+     */
+    @FXML
+    private void refresh() {
+        if (!MessageBox.confirm(I18nHelper.refreshData() + "?")) {
+            return;
+        }
+        try {
+            this.init(this.procedure, this.dbItem);
+            this.flushTab();
+        } catch (Exception ex) {
+            MessageBox.exception(ex);
+        }
     }
 
     /**
@@ -211,7 +228,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
     }
 
     /**
-     * 函数名称
+     * 过程名称
      */
     private String procedureName;
 
@@ -223,27 +240,26 @@ public class DamengProcedureDesignTabController extends RichTabController {
             // 创建临时对象
             DamengProcedure tempProcedure = this.tempData();
 
-            // 过程名称
             if (this.newData) {
-                procedureName = MessageBox.prompt(I18nHelper.pleaseInputFunctionName(), procedureName);
-                if (procedureName == null) {
+                this.procedureName = MessageBox.prompt(I18nHelper.pleaseInputProcedureName(), this.procedureName);
+                if (this.procedureName == null) {
                     return;
                 }
-                tempProcedure.setName(procedureName);
+                tempProcedure.setName(this.procedureName);
             } else {
-                procedureName = tempProcedure.getName();
+                this.procedureName = tempProcedure.getName();
             }
 
             // 创建过程
             if (this.newData) {
                 this.dbItem.createProcedure(tempProcedure);
-                DamengProcedure procedure = this.dbItem.selectProcedure(procedureName);
+                DamengProcedure procedure = this.dbItem.selectProcedure(this.procedureName);
                 this.dbItem.getProcedureTypeChild().addProcedure(procedure);
                 DamengEventUtil.procedureAdded(this.dbItem);
                 this.initDBListener();
             } else {// 修改过程
                 this.dbItem.alertProcedure(tempProcedure);
-                DamengEventUtil.procedureAlerted(procedureName, this.dbItem);
+                DamengEventUtil.procedureAlerted(this.procedureName, this.dbItem);
             }
             // 更新保存标志位
             this.unsaved = false;
@@ -401,7 +417,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
         NodeUtil.nodeOnCtrlS(this.parallelEnable, this::save);
         NodeUtil.nodeOnCtrlS(this.preview, this::save);
         this.paramTable.setCtrlSAction(this::save);
-
         // 切换面板监听
         this.tabPane.selectedIndexChanged((observable, oldValue, newValue) -> {
             if (newValue.intValue() == 1) {
