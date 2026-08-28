@@ -102,7 +102,7 @@ public class DamengTableDesignTabController extends ParentTabController {
      * sql预览
      */
     @FXML
-    private Editor sqlPreview;
+    private Editor preview;
 
     /**
      * 表字段组件
@@ -646,6 +646,7 @@ public class DamengTableDesignTabController extends ParentTabController {
         // 监听事件
         NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
         NodeUtil.nodeOnCtrlS(this.tableComment, this::save);
+        NodeUtil.nodeOnCtrlS(this.preview, this::save);
 
         // 更新字段列表
         this.columnTable.itemsProperty().get().addListener((ListChangeListener<DamengColumn>) c -> {
@@ -658,9 +659,6 @@ public class DamengTableDesignTabController extends ParentTabController {
     @Override
     protected void bindListeners() {
         super.bindListeners();
-        //        // 引擎选中事件
-        //        this.tableEngine.selectedItemChanged((observable, oldValue, newValue) -> {
-        //        });
         // 表格下标监听
         this.tabPane.selectedItemChanged((observable, oldValue, newValue) -> {
             String tabId = newValue == null ? null : newValue.getId();
@@ -701,6 +699,8 @@ public class DamengTableDesignTabController extends ParentTabController {
             }
         });
         this.initForeignKeyTable();
+
+        this.initTable();
     }
 
     private void initIndexTable() {
@@ -740,21 +740,7 @@ public class DamengTableDesignTabController extends ParentTabController {
             DamengAlertTableParam param = this.initAlertParam();
             sql = DamengTableAlertSqlGenerator.generateSqlSingle(param);
         }
-        this.sqlPreview.text(sql);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resourceBundle) {
-        super.initialize(location, resourceBundle);
-        // 初始化表单
-        this.initTable();
-        // // 组件管理
-        // this.delete.visibleProperty().bind(this.add.visibleProperty());
-        // this.delete.managedProperty().bind(this.add.managedProperty());
-        // this.moveDown.visibleProperty().bind(this.moveUp.visibleProperty());
-        // this.moveDown.managedProperty().bind(this.moveUp.managedProperty());
-        // this.tableRowFormat.managedBindVisible();
-        // this.tableAutoIncrementBox.managedBindVisible();
+        this.preview.text(sql);
     }
 
     /**

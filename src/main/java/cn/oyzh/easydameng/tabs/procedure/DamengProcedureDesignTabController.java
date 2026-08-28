@@ -294,29 +294,6 @@ public class DamengProcedureDesignTabController extends RichTabController {
         return tempProcedure;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resourceBundle) {
-        super.initialize(location, resourceBundle);
-        // 监听事件
-        NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
-        NodeUtil.nodeOnCtrlS(this.definition, this::save);
-        NodeUtil.nodeOnCtrlS(this.securityType, this::save);
-        NodeUtil.nodeOnCtrlS(this.parallelEnable, this::save);
-        this.paramTable.setCtrlSAction(this::save);
-
-        // 切换面板监听
-        this.tabPane.selectedIndexChanged((observable, oldValue, newValue) -> {
-            if (newValue.intValue() == 1) {
-                NodeGroupUtil.display(this.getTab(), "param");
-            } else {
-                NodeGroupUtil.disappear(this.getTab(), "param");
-            }
-            if (newValue.intValue() == 3) {
-                this.initPreview();
-            }
-        });
-    }
-
     /**
      * 初始化预览
      */
@@ -419,6 +396,26 @@ public class DamengProcedureDesignTabController extends RichTabController {
             }
         });
         this.initParamTable();
+
+        // 监听事件
+        NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
+        NodeUtil.nodeOnCtrlS(this.definition, this::save);
+        NodeUtil.nodeOnCtrlS(this.securityType, this::save);
+        NodeUtil.nodeOnCtrlS(this.parallelEnable, this::save);
+        NodeUtil.nodeOnCtrlS(this.preview, this::save);
+        this.paramTable.setCtrlSAction(this::save);
+
+        // 切换面板监听
+        this.tabPane.selectedIndexChanged((observable, oldValue, newValue) -> {
+            if (newValue.intValue() == 1) {
+                NodeGroupUtil.display(this.getTab(), "param");
+            } else {
+                NodeGroupUtil.disappear(this.getTab(), "param");
+            }
+            if (newValue.intValue() == 3) {
+                this.initPreview();
+            }
+        });
     }
 
     private void initParamTable() {

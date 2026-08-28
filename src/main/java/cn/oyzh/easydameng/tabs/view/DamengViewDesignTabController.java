@@ -310,15 +310,13 @@ public class DamengViewDesignTabController extends RichTabController {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resourceBundle) {
-        super.initialize(location, resourceBundle);
-
+    protected void bindListeners() {
+        super.bindListeners();
         // 监听事件
         NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
-        //        NodeUtil.nodeOnCtrlS(this.definer, this::save);
-        NodeUtil.nodeOnCtrlS(this.preview, this::save);
         NodeUtil.nodeOnCtrlS(this.comment, this::save);
         NodeUtil.nodeOnCtrlS(this.definition, this::save);
+        NodeUtil.nodeOnCtrlS(this.preview, this::save);
 
         // 切换面板监听
         this.tabPane.selectedIndexChanged((observable, oldValue, newValue) -> {

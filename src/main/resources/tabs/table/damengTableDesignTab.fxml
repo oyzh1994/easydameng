@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import cn.oyzh.easydameng.fx.DBCharsetComboBox?>
-<?import cn.oyzh.easydameng.fx.DBCollationComboBox?>
-<?import cn.oyzh.easydameng.fx.DBEditor?>
 <?import cn.oyzh.easydameng.fx.DBStatusColumn?>
 <?import cn.oyzh.easydameng.fx.DBStatusTableView?>
-<?import cn.oyzh.easydameng.fx.DamengDesignTabPane?>
 <?import cn.oyzh.easydameng.fx.table.DamengTableSpaceComboBox?>
-<?import cn.oyzh.easydameng.fx.table.DamengRowFormatComboBox?>
 <?import cn.oyzh.fx.gui.label.AccentLabel?>
 <?import cn.oyzh.fx.gui.svg.glyph.AddSVGGlyph?>
 <?import cn.oyzh.fx.gui.svg.glyph.DeleteSVGGlyph?>
 <?import cn.oyzh.fx.gui.svg.glyph.MoveDownSVGGlyph?>
 <?import cn.oyzh.fx.gui.svg.glyph.MoveUpSVGGlyph?>
 <?import cn.oyzh.fx.gui.svg.glyph.SaveSVGGlyph?>
-<?import cn.oyzh.fx.gui.text.field.NumberTextField?>
 <?import cn.oyzh.fx.plus.controls.box.FXHBox?>
 <?import cn.oyzh.fx.plus.controls.box.FXVBox?>
 <?import cn.oyzh.fx.plus.controls.tab.FixedTab?>
@@ -148,7 +142,7 @@
             </FXTextArea>
         </FixedTab>
         <FixedTab text="%base.preview" fx:id="previewTab">
-            <ShellDataEditor formatType="SQL" editable="false" fx:id="sqlPreview" flexWidth="100%" flexHeight="100%"/>
+            <ShellDataEditor formatType="SQL" editable="false" fx:id="preview" flexWidth="100%" flexHeight="100%"/>
         </FixedTab>
     </RichTabPane>
 </FXVBox>

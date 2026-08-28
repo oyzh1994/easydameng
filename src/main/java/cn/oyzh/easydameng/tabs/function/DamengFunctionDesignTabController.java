@@ -412,56 +412,6 @@ public class DamengFunctionDesignTabController extends RichTabController {
         return tempFunction;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resourceBundle) {
-        super.initialize(location, resourceBundle);
-        // 监听事件
-        NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
-        NodeUtil.nodeOnCtrlS(this.definition, this::save);
-        NodeUtil.nodeOnCtrlS(this.returnSize, this::save);
-        NodeUtil.nodeOnCtrlS(this.returnType, this::save);
-        NodeUtil.nodeOnCtrlS(this.returnValues, this::save);
-        NodeUtil.nodeOnCtrlS(this.returnDigits, this::save);
-        NodeUtil.nodeOnCtrlS(this.securityType, this::save);
-        NodeUtil.nodeOnCtrlS(this.parallelEnable, this::save);
-        NodeUtil.nodeOnCtrlS(this.aggregate, this::save);
-        NodeUtil.nodeOnCtrlS(this.pipelined, this::save);
-        NodeUtil.nodeOnCtrlS(this.deterministic, this::save);
-        NodeUtil.nodeOnCtrlS(this.resultCache, this::save);
-        this.paramTable.setCtrlSAction(this::save);
-
-        // 返回值监听
-        this.returnType.selectedItemChanged((observable, oldValue, newValue) -> {
-            if (this.returnType.supportSize()) {
-                this.returnSize.enable();
-            } else {
-                this.returnSize.disable();
-            }
-            if (this.returnType.supportDigits()) {
-                this.returnDigits.enable();
-            } else {
-                this.returnDigits.disable();
-            }
-            if (this.returnType.supportValue()) {
-                this.returnValues.enable();
-            } else {
-                this.returnValues.disable();
-            }
-        });
-
-        // 切换面板监听
-        this.tabPane.selectedIndexChanged((observable, oldValue, newValue) -> {
-            if (newValue.intValue() == 1) {
-                NodeGroupUtil.display(this.getTab(), "param");
-            } else {
-                NodeGroupUtil.disappear(this.getTab(), "param");
-            }
-            if (newValue.intValue() == 4) {
-                this.initPreview();
-            }
-        });
-    }
-
     /**
      * 初始化预览
      */
@@ -564,6 +514,54 @@ public class DamengFunctionDesignTabController extends RichTabController {
             }
         });
         this.initParamTable();
+
+        // 监听事件
+        NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
+        NodeUtil.nodeOnCtrlS(this.definition, this::save);
+        NodeUtil.nodeOnCtrlS(this.returnSize, this::save);
+        NodeUtil.nodeOnCtrlS(this.returnType, this::save);
+        NodeUtil.nodeOnCtrlS(this.returnValues, this::save);
+        NodeUtil.nodeOnCtrlS(this.returnDigits, this::save);
+        NodeUtil.nodeOnCtrlS(this.securityType, this::save);
+        NodeUtil.nodeOnCtrlS(this.parallelEnable, this::save);
+        NodeUtil.nodeOnCtrlS(this.aggregate, this::save);
+        NodeUtil.nodeOnCtrlS(this.pipelined, this::save);
+        NodeUtil.nodeOnCtrlS(this.deterministic, this::save);
+        NodeUtil.nodeOnCtrlS(this.resultCache, this::save);
+        NodeUtil.nodeOnCtrlS(this.preview, this::save);
+        this.paramTable.setCtrlSAction(this::save);
+
+        // 返回值监听
+        this.returnType.selectedItemChanged((observable, oldValue, newValue) -> {
+            if (this.returnType.supportSize()) {
+                this.returnSize.enable();
+            } else {
+                this.returnSize.disable();
+            }
+            if (this.returnType.supportDigits()) {
+                this.returnDigits.enable();
+            } else {
+                this.returnDigits.disable();
+            }
+            if (this.returnType.supportValue()) {
+                this.returnValues.enable();
+            } else {
+                this.returnValues.disable();
+            }
+        });
+
+        // 切换面板监听
+        this.tabPane.selectedIndexChanged((observable, oldValue, newValue) -> {
+            if (newValue.intValue() == 1) {
+                NodeGroupUtil.display(this.getTab(), "param");
+            } else {
+                NodeGroupUtil.disappear(this.getTab(), "param");
+            }
+            if (newValue.intValue() == 4) {
+                this.initPreview();
+            }
+        });
+
     }
 
     private void initParamTable() {

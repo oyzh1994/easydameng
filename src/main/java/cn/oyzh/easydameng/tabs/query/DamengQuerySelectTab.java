@@ -28,7 +28,6 @@ public class DamengQuerySelectTab extends RichTab {
         return (DamengQuerySelectTabController) super.controller();
     }
 
-
     @Override
     public void initNode() {
         this.setClosable(false);
