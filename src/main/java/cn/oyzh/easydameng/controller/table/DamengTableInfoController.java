@@ -1,15 +1,16 @@
 package cn.oyzh.easydameng.controller.table;
 
 import cn.oyzh.easydameng.dameng.table.DamengTable;
+import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.easydameng.trees.table.DamengTableTreeItem;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.text.area.ReadOnlyTextArea;
 import cn.oyzh.fx.gui.text.field.ReadOnlyTextField;
 import cn.oyzh.fx.plus.FXConst;
 import cn.oyzh.fx.plus.controller.StageController;
-import cn.oyzh.fx.plus.controls.box.FXVBox;
-import cn.oyzh.fx.plus.window.StageAdapter;
+import cn.oyzh.fx.plus.window.FXStageStyle;
 import cn.oyzh.fx.plus.window.StageAttribute;
+import cn.oyzh.fx.plus.window.StageManager;
 import cn.oyzh.i18n.I18nHelper;
 import javafx.fxml.FXML;
 import javafx.stage.Modality;
@@ -22,6 +23,7 @@ import javafx.stage.WindowEvent;
  * @since 2024/01/30
  */
 @StageAttribute(
+        stageStyle = FXStageStyle.EXTENDED,
         modality = Modality.APPLICATION_MODAL,
         value = FXConst.FXML_PATH + "table/damengTableInfo.fxml"
 )
@@ -31,35 +33,48 @@ public class DamengTableInfoController extends StageController {
      * 名称
      */
     @FXML
-    private ReadOnlyTextField tableName;
+    private ReadOnlyTextField name;
 
     /**
-     * 引擎
+     * 表空间
      */
     @FXML
-    private ReadOnlyTextField tableEngine;
+    private ReadOnlyTextField tableSpace;
 
     /**
      * 注释
      */
     @FXML
-    private ReadOnlyTextArea tableComment;
+    private ReadOnlyTextArea comment;
 
     /**
      * 定义
      */
     @FXML
-    private Editor tableDefinition;
+    private Editor createDefinition;
+
+    /**
+     * 表节点
+     */
+    private DamengTableTreeItem treeItem;
+
+    /**
+     * 初始化信息
+     */
+    private void initInfo() {
+        DamengDatabaseTreeItem dbItem = this.treeItem.dbItem();
+        DamengTable table = dbItem.selectFullTable(treeItem.tableName());
+        this.name.setText(table.getName());
+        this.comment.setText(table.getComment());
+        this.tableSpace.setText(table.getTableSpace());
+        this.createDefinition.setText(table.getCreateDefinition());
+    }
 
     @Override
     public void onWindowShown(WindowEvent event) {
-        DamengTableTreeItem tableItem = this.getProp("tableItem");
-        DamengTable table = tableItem.value();
-        this.tableName.setText(table.getName());
-        this.tableEngine.setText(table.getTableSpace());
-        this.tableComment.setText(table.getComment());
-        this.tableDefinition.setText(table.getCreateDefinition());
         super.onWindowShown(event);
+        this.treeItem = this.getProp("item");
+        StageManager.showMask(this::initInfo);
         this.stage.hideOnEscape();
     }
 

@@ -27,9 +27,11 @@
 <?import cn.oyzh.fx.gui.button.ImportButton?>
 <?import cn.oyzh.fx.gui.button.StopButton?>
 <?import cn.oyzh.fx.gui.label.InfoLabel?>
+<?import cn.oyzh.fx.plus.controls.FXHeaderBar?>
 <FXVBox xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="cn.oyzh.easydameng.controller.data.DamengDataImportController" realWidth="700" realHeight="650">
-    <FXVBox fx:id="step1" flexHeight="100%" flexWidth="100%">
+        fx:controller="cn.oyzh.easydameng.controller.data.DamengDataImportController" realWidth="700" realHeight="650">
+    <FXHeaderBar/>
+    <FXVBox fx:id="step1" flexHeight="100% - 30" flexWidth="100%">
         <InfoLabel text="%db.import.tip1">
             <VBox.margin>
                 <Insets left="30" top="10"/>
@@ -78,7 +80,7 @@
             </CancelButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step2" flexHeight="100%" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step2" flexHeight="100%- 30" flexWidth="100%" managed="false" visible="false">
         <InfoLabel text="%db.import.tip2">
             <VBox.margin>
                 <Insets left="30" top="10"/>
@@ -125,7 +127,7 @@
             </CancelButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step3" flexHeight="100%" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step3" flexHeight="100%- 30" flexWidth="100%" managed="false" visible="false">
         <InfoLabel text="%db.import.tip3">
             <VBox.margin>
                 <Insets left="30" top="10"/>
@@ -249,7 +251,7 @@
             </CancelButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step4" flexHeight="100%" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step4" flexHeight="100%- 30" flexWidth="100%" managed="false" visible="false">
         <InfoLabel text="%db.import.tip4">
             <VBox.margin>
                 <Insets left="30" top="10"/>
@@ -294,7 +296,7 @@
             </NextStepButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step5" flexHeight="100%" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step5" flexHeight="100%- 30" flexWidth="100%" managed="false" visible="false">
         <InfoLabel text="%db.import.tip5">
             <VBox.margin>
                 <Insets left="30" top="10"/>
@@ -328,7 +330,7 @@
             </NextStepButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step6" flexHeight="100%" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step6" flexHeight="100%- 30" flexWidth="100%" managed="false" visible="false">
         <InfoLabel text="%db.import.tip6">
             <VBox.margin>
                 <Insets left="30" top="10"/>

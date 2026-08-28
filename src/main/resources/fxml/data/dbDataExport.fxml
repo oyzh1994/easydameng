@@ -25,9 +25,11 @@
 <?import cn.oyzh.fx.gui.button.ExportButton?>
 <?import cn.oyzh.fx.gui.button.StopButton?>
 <?import cn.oyzh.fx.gui.label.InfoLabel?>
+<?import cn.oyzh.fx.plus.controls.FXHeaderBar?>
 <FXVBox xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="cn.oyzh.easydameng.controller.data.DamengDataExportController" realWidth="700" realHeight="650">
-    <FXVBox fx:id="step1" flexHeight="100%" flexWidth="100%">
+    <FXHeaderBar/>
+    <FXVBox fx:id="step1" flexHeight="100% - 30" flexWidth="100%">
         <InfoLabel text="%db.export.tip4">
             <VBox.margin>
                 <Insets left="30" top="10"/>
@@ -91,7 +93,7 @@
             </CancelButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step2" flexHeight="100%" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step2" flexHeight="100% - 30" flexWidth="100%" managed="false" visible="false">
         <InfoLabel text="%db.export.tip5">
             <VBox.margin>
                 <Insets left="30" top="10"/>
@@ -140,7 +142,7 @@
             </CancelButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step3" flexHeight="100%" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step3" flexHeight="100% - 30" flexWidth="100%" managed="false" visible="false">
         <InfoLabel text="%db.export.tip6">
             <VBox.margin>
                 <Insets left="30" top="10"/>
@@ -188,7 +190,7 @@
             </CancelButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step4" flexHeight="100%" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step4" flexHeight="100% - 30" flexWidth="100%" managed="false" visible="false">
         <InfoLabel text="%db.export.tip7">
             <VBox.margin>
                 <Insets left="30" top="10"/>
@@ -294,7 +296,7 @@
             </CancelButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step5" flexHeight="100%" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step5" flexHeight="100% - 30" flexWidth="100%" managed="false" visible="false">
         <InfoLabel text="%db.export.tip8">
             <VBox.margin>
                 <Insets left="30" top="10"/>

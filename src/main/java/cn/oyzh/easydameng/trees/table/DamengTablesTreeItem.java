@@ -98,7 +98,7 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
             this.setLoading(true);
             Task task = TaskBuilder.newBuilder()
                     .onStart(() -> {
-                        List<DamengTable> tables = this.client().selectTables(this.dbName());
+                        List<DamengTable> tables = this.client().selectTablesSimple(this.dbName());
                         // 无数据直接更新列表
                         if (this.isChildEmpty()) {
                             List<TreeItem<?>> list = new ArrayList<>();

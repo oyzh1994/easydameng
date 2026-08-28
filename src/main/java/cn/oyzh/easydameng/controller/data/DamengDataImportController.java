@@ -31,6 +31,7 @@ import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.node.NodeGroupUtil;
 import cn.oyzh.fx.plus.util.Counter;
 import cn.oyzh.fx.plus.util.FXUtil;
+import cn.oyzh.fx.plus.window.FXStageStyle;
 import cn.oyzh.fx.plus.window.StageAdapter;
 import cn.oyzh.fx.plus.window.StageAttribute;
 import cn.oyzh.i18n.I18nHelper;
@@ -51,7 +52,8 @@ import java.util.Date;
  * @since 2024/08/30
  */
 @StageAttribute(
-        modality = Modality.WINDOW_MODAL,
+        stageStyle = FXStageStyle.EXTENDED,
+//        modality = Modality.WINDOW_MODAL,
         value = FXConst.FXML_PATH + "data/dbDataImport.fxml"
 )
 public class DamengDataImportController extends StageController {

@@ -886,6 +886,13 @@ public class DamengClient {
         return this.selectTables(param);
     }
 
+    public List<DamengTable> selectTablesSimple(String dbName) {
+        DamengSelectTableParam param = new DamengSelectTableParam();
+        param.setFull(false);
+        param.setDbName(dbName);
+        return this.selectTables(param);
+    }
+
     public List<DamengTable> selectTables(DamengSelectTableParam param) {
         try {
             String dbName = param.getDbName();
@@ -915,12 +922,14 @@ public class DamengClient {
                 String tableName = resultSet.getString("TABLE_NAME");
                 String tableSpace = resultSet.getString("TABLE_SPACE");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
-                String showCreateTable = this.showCreateTable(dbName, tableName);
+                if (param.isFull()) {
+                    String showCreateTable = this.showCreateTable(dbName, tableName);
+                    table.setCreateDefinition(showCreateTable);
+                }
                 table.setDbName(dbName);
                 table.setName(tableName);
                 table.setComment(tableComment);
                 table.setTableSpace(tableSpace);
-                table.setCreateDefinition(showCreateTable);
                 tables.add(table);
             }
             DBUtil.close(resultSet);
@@ -932,40 +941,40 @@ public class DamengClient {
         }
     }
 
-    public List<DamengTable> selectTablesSimple(String dbName) {
-        try {
-            List<DamengTable> tables = new ArrayList<>();
-            Connection connection = this.connection(dbName);
-            String sql = """
-                        SELECT
-                            T.TABLE_NAME, T.TABLESPACE_NAME AS "TABLE_SPACE" 
-                        FROM 
-                            ALL_TABLES T 
-                        WHERE 
-                            T.OWNER = ?
-                    """;
-            DBUtil.printSql(sql);
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, dbName);
-            ResultSet resultSet = statement.executeQuery();
-            DBUtil.printMetaData(resultSet);
-            while (resultSet.next()) {
-                DamengTable table = new DamengTable();
-                String tableName = resultSet.getString("TABLE_NAME");
-                String tableSpace = resultSet.getString("TABLE_SPACE");
-                table.setDbName(dbName);
-                table.setName(tableName);
-                table.setTableSpace(tableSpace);
-                tables.add(table);
-            }
-            DBUtil.close(resultSet);
-            DBUtil.close(statement);
-            return tables;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new DBException(ex);
-        }
-    }
+//    public List<DamengTable> selectTablesSimple(String dbName) {
+//        try {
+//            List<DamengTable> tables = new ArrayList<>();
+//            Connection connection = this.connection(dbName);
+//            String sql = """
+//                        SELECT
+//                            T.TABLE_NAME, T.TABLESPACE_NAME AS "TABLE_SPACE"
+//                        FROM
+//                            ALL_TABLES T
+//                        WHERE
+//                            T.OWNER = ?
+//                    """;
+//            DBUtil.printSql(sql);
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//            statement.setString(1, dbName);
+//            ResultSet resultSet = statement.executeQuery();
+//            DBUtil.printMetaData(resultSet);
+//            while (resultSet.next()) {
+//                DamengTable table = new DamengTable();
+//                String tableName = resultSet.getString("TABLE_NAME");
+//                String tableSpace = resultSet.getString("TABLE_SPACE");
+//                table.setDbName(dbName);
+//                table.setName(tableName);
+//                table.setTableSpace(tableSpace);
+//                tables.add(table);
+//            }
+//            DBUtil.close(resultSet);
+//            DBUtil.close(statement);
+//            return tables;
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            throw new DBException(ex);
+//        }
+//    }
 
     public DamengColumns selectColumns(DamengSelectColumnParam param) {
         try {

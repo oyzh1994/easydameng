@@ -18,10 +18,12 @@
 <?import cn.oyzh.fx.gui.button.CancelButton?>
 <?import cn.oyzh.fx.gui.button.SubmitButton?>
 <?import cn.oyzh.fx.gui.label.InfoLabel?>
-<FXVBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="cn.oyzh.easydameng.controller.connect.DamengConnectAddController" realWidth="750"
-          realHeight="420">
-    <FXTabPane flexWidth="100%" flexHeight="100% - 60" fx:id="tabPane">
+<?import cn.oyzh.fx.plus.controls.FXHeaderBar?>
+<FXVBox xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="cn.oyzh.easydameng.controller.connect.DamengConnectAddController" realWidth="750"
+        realHeight="420">
+    <FXHeaderBar/>
+    <FXTabPane flexWidth="100%" flexHeight="100% - 90" fx:id="tabPane">
         <FixedTab text="%base.base">
             <FXVBox flexWidth="100%" flexHeight="100%">
                 <InfoLabel text="%base.name">

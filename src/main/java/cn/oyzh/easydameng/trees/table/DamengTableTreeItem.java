@@ -216,7 +216,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
     private void tableInfo() {
         StageAdapter fxView = StageManager.parseStage(DamengTableInfoController.class, this.window());
-        fxView.setProp("tableItem", this);
+        fxView.setProp("item", this);
         fxView.display();
     }
 

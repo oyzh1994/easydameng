@@ -12,29 +12,30 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<FXVBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1"
+<?import cn.oyzh.fx.plus.controls.FXHeaderBar?>
+<?import cn.oyzh.easydameng.fx.ShellDataEditor?>
+<FXVBox xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="cn.oyzh.easydameng.controller.table.DamengTableInfoController" realWidth="900" realHeight="600">
-    <FXTabPane flexWidth="100%" flexHeight="100% - 50">
+    <FXHeaderBar/>
+    <FXTabPane flexWidth="100%" flexHeight="100% - 90">
         <FixedTab text="%base.base">
             <FXVBox flexWidth="100%" flexHeight="100%">
-                <InfoLabel text="%base.tableName">
+                <InfoLabel text="%base.name">
                     <VBox.margin>
                         <Insets left="30" top="10"/>
                     </VBox.margin>
                 </InfoLabel>
-                <ReadOnlyTextField tipText="%base.tableName" fx:id="tableName"
-                                   realHeight="30" flexWidth="100% - 180">
+                <ReadOnlyTextField fx:id="name" realHeight="30" flexWidth="100% - 180">
                     <VBox.margin>
                         <Insets left="30" top="5"/>
                     </VBox.margin>
                 </ReadOnlyTextField>
-                <InfoLabel text="%base.engine">
+                <InfoLabel text="%base.tableSpace">
                     <VBox.margin>
                         <Insets left="30" top="10"/>
                     </VBox.margin>
                 </InfoLabel>
-                <ReadOnlyTextField tipText="%base.engine" fx:id="tableEngine"
-                                   realHeight="30" flexWidth="100% - 180">
+                <ReadOnlyTextField fx:id="tableSpace" realHeight="30" flexWidth="100% - 180">
                     <VBox.margin>
                         <Insets left="30" top="5"/>
                     </VBox.margin>
@@ -44,7 +45,7 @@
                         <Insets left="30" top="10"/>
                     </VBox.margin>
                 </InfoLabel>
-                <ReadOnlyTextArea fx:id="tableComment" tipText="%base.comment" realHeight="130"
+                <ReadOnlyTextArea fx:id="comment" tipText="%base.comment" realHeight="130"
                                   flexWidth="100% - 180">
                     <VBox.margin>
                         <Insets left="30" top="5"/>
@@ -54,11 +55,11 @@
         </FixedTab>
         <FixedTab text="%base.ddl">
             <FXVBox flexHeight="100%" flexWidth="100%">
-                <Editor editable="false" fx:id="tableDefinition" flexHeight="100%" flexWidth="100% - 35">
+                <ShellDataEditor lineNumbersEnabled="false" formatType="SQL" editable="false" fx:id="createDefinition" flexHeight="100% - 20" flexWidth="100% - 60">
                     <VBox.margin>
-                        <Insets left="30"/>
+                        <Insets left="30" top="10"/>
                     </VBox.margin>
-                </Editor>
+                </ShellDataEditor>
             </FXVBox>
         </FixedTab>
     </FXTabPane>

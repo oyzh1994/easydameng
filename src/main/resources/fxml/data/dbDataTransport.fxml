@@ -22,8 +22,10 @@
 <?import cn.oyzh.fx.gui.svg.glyph.database.DatabaseSVGGlyph?>
 <?import cn.oyzh.fx.plus.controls.tab.FXTabPane?>
 <?import cn.oyzh.fx.plus.controls.tab.FixedTab?>
+<?import cn.oyzh.fx.plus.controls.FXHeaderBar?>
 <FXVBox xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="cn.oyzh.easydameng.controller.data.DamengDataTransportController" realWidth="800" realHeight="600">
+    <FXHeaderBar/>
     <FXHBox flexWidth="100%" realHeight="100">
         <FXHBox flexHeight="100%" flexWidth="50% - 20" nodeOrientation="RIGHT_TO_LEFT">
             <DatabaseSVGGlyph sizeStr="30,40" color="yellowgreen">
@@ -75,7 +77,7 @@
             </FXVBox>
         </FXHBox>
     </FXHBox>
-    <FXVBox fx:id="step1" flexHeight="100% - 100" flexWidth="100%">
+    <FXVBox fx:id="step1" flexHeight="100% - 130" flexWidth="100%">
         <FXHBox flexHeight="100% - 60" flexWidth="100%">
             <FXVBox flexHeight="100%" flexWidth="50% - 5" nodeOrientation="RIGHT_TO_LEFT">
                 <FXLabel enableFontSize="false" text="%base.source" realHeight="30" fontWeight="BOLD" fontSize="16"
@@ -226,7 +228,7 @@
             </NextStepButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step2" flexHeight="100% - 100" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step2" flexHeight="100% - 130" flexWidth="100%" managed="false" visible="false">
         <FXTabPane flexHeight="100% - 60" flexWidth="100%">
             <FixedTab text="%base.table" groupId="config" fx:id="tablePane">
                 <DataTransportTableListView fx:id="tableList" flexHeight="100%" flexWidth="100% - 10">
@@ -266,7 +268,7 @@
             </NextStepButton>
         </FXHBox>
     </FXVBox>
-    <FXVBox fx:id="step3" flexHeight="100% - 100" flexWidth="100%" managed="false" visible="false">
+    <FXVBox fx:id="step3" flexHeight="100% - 130" flexWidth="100%" managed="false" visible="false">
         <FXVBox flexWidth="100%" flexHeight="100% - 60">
             <MsgTextArea lineLimit="300" fx:id="transportMsg" flexWidth="100% - 60" flexHeight="100% - 30">
                 <VBox.margin>
