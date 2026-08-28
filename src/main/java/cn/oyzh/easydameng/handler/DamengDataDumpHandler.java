@@ -47,11 +47,7 @@ public class DamengDataDumpHandler extends DataDumpHandler {
             this.dumpTrigger();
             // this.dumpEvent();
         } else if (this.dumpType == 2) {
-            DamengSelectTableParam selectTableParam = new DamengSelectTableParam();
-            selectTableParam.setFull(true);
-            selectTableParam.setDbName(this.dbName);
-            selectTableParam.setTableName(this.tableName);
-            DamengTable table = this.dbClient.selectFullTable(selectTableParam);
+            DamengTable table = this.dbClient.selectTable(this.dbName,this.tableName);
             this.dumpTable(table);
         }
         this.writeTail();

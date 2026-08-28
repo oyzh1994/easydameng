@@ -3,8 +3,6 @@ package cn.oyzh.easydameng.dameng;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
-import cn.oyzh.easydameng.dameng.event.DamengEvent;
-import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.sql.Connection;
@@ -13,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -84,54 +81,54 @@ public class DamengHelper {
         return "";
     }
 
-    public static List<DamengRoutineParam> listRoutineParam(Connection connection, String dbName, String routineName, String routineType) throws Exception {
-        String sql = """
-                SELECT
-                	a.POSITION,
-                	a.DATA_TYPE,
-                	a.DATA_LENGTH AS SIZE,
-                	a.DATA_SCALE AS DIGITS,
-                	a.IN_OUT AS PARAMETER_MODE,
-                	a.ARGUMENT_NAME AS PARAMETER_NAME,
-                	a.CHARACTER_SET_NAME
-                FROM
-                	ALL_ARGUMENTS a
-                WHERE
-                	a.OWNER = ?
-                AND
-                	a.OBJECT_NAME = ?
-                AND
-                	a.PACKAGE_NAME IS NULL
-                """;
-        List<DamengRoutineParam> params = new ArrayList<>();
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, dbName);
-        statement.setString(2, routineName);
-        // 执行SQL查询并获取结果集
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            DamengRoutineParam param = new DamengRoutineParam();
-            param.setSize(resultSet.getInt("SIZE"));
-            param.setDigits(resultSet.getInt("DIGITS"));
-            param.setPosition(resultSet.getInt("POSITION"));
-            param.setType(resultSet.getString("DATA_TYPE"));
-            param.setName(resultSet.getString("PARAMETER_NAME"));
-            param.setMode(resultSet.getString("PARAMETER_MODE"));
-            param.setCharset(resultSet.getString("CHARACTER_SET_NAME"));
-            params.add(param);
-        }
-        DBUtil.close(resultSet);
-        DBUtil.close(statement);
-        return params;
-    }
-
-    public static List<DamengRoutineParam> listFunctionParam(Connection connection, String dbName, String functionName) throws Exception {
-        return listRoutineParam(connection, dbName, functionName, "FUNCTION");
-    }
-
-    public static List<DamengRoutineParam> listProcedureParam(Connection connection, String dbName, String procedureName) throws Exception {
-        return listRoutineParam(connection, dbName, procedureName, "PROCEDURE");
-    }
+    //public static List<DamengRoutineParam> listRoutineParam(Connection connection, String dbName, String routineName, String routineType) throws Exception {
+    //    String sql = """
+    //            SELECT
+    //            	a.POSITION,
+    //            	a.DATA_TYPE,
+    //            	a.DATA_LENGTH AS SIZE,
+    //            	a.DATA_SCALE AS DIGITS,
+    //            	a.IN_OUT AS PARAMETER_MODE,
+    //            	a.ARGUMENT_NAME AS PARAMETER_NAME,
+    //            	a.CHARACTER_SET_NAME
+    //            FROM
+    //            	ALL_ARGUMENTS a
+    //            WHERE
+    //            	a.OWNER = ?
+    //            AND
+    //            	a.OBJECT_NAME = ?
+    //            AND
+    //            	a.PACKAGE_NAME IS NULL
+    //            """;
+    //    List<DamengRoutineParam> params = new ArrayList<>();
+    //    PreparedStatement statement = connection.prepareStatement(sql);
+    //    statement.setString(1, dbName);
+    //    statement.setString(2, routineName);
+    //    // 执行SQL查询并获取结果集
+    //    ResultSet resultSet = statement.executeQuery();
+    //    while (resultSet.next()) {
+    //        DamengRoutineParam param = new DamengRoutineParam();
+    //        param.setSize(resultSet.getInt("SIZE"));
+    //        param.setDigits(resultSet.getInt("DIGITS"));
+    //        param.setPosition(resultSet.getInt("POSITION"));
+    //        param.setType(resultSet.getString("DATA_TYPE"));
+    //        param.setName(resultSet.getString("PARAMETER_NAME"));
+    //        param.setMode(resultSet.getString("PARAMETER_MODE"));
+    //        param.setCharset(resultSet.getString("CHARACTER_SET_NAME"));
+    //        params.add(param);
+    //    }
+    //    DBUtil.close(resultSet);
+    //    DBUtil.close(statement);
+    //    return params;
+    //}
+    //
+    //public static List<DamengRoutineParam> listFunctionParam(Connection connection, String dbName, String functionName) throws Exception {
+    //    return listRoutineParam(connection, dbName, functionName, "FUNCTION");
+    //}
+    //
+    //public static List<DamengRoutineParam> listProcedureParam(Connection connection, String dbName, String procedureName) throws Exception {
+    //    return listRoutineParam(connection, dbName, procedureName, "PROCEDURE");
+    //}
 
 //    public static String getProcedureDefiner(Connection connection, String procedureName) throws Exception {
 //        // 达梦通过ALL_PROCEDURES查询定义者，而非SHOW CREATE PROCEDURE
@@ -147,20 +144,31 @@ public class DamengHelper {
 //    }
 
     public static boolean isViewUpdatable(Connection connection, String dbName, String viewName) throws Exception {
-        String sql = """
-                    SELECT 
-                        READ_ONLY AS UPDATABLE
-                    FROM 
-                        USER_VIEWS
-                    WHERE 
-                        VIEW_NAME = ?
-                """;
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, viewName);
-        // 执行SQL查询并获取结果集
-        ResultSet resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            return "N".equalsIgnoreCase(resultSet.getString("UPDATABLE"));
+        try {
+            String sql = """
+                        SELECT
+                            READ_ONLY AS IS_UPDATABLE
+                        FROM 
+                            USER_VIEWS
+                        WHERE 
+                            VIEW_NAME = ?
+                    """;
+            DBUtil.printSql(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, viewName);
+            // 执行SQL查询并获取结果集
+            ResultSet resultSet = statement.executeQuery();
+            // 打印元数据
+            DBUtil.printMetaData(resultSet);
+            String isUpdatable = "";
+            if (resultSet.next()) {
+                isUpdatable = resultSet.getString("IS_UPDATABLE");
+            }
+            DBUtil.close(resultSet);
+            DBUtil.close(statement);
+            return isUpdatable == null || StringUtil.equalsIgnoreCase(isUpdatable, "N");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return false;
     }

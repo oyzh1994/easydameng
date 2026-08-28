@@ -10,7 +10,6 @@ import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
-import cn.oyzh.easydameng.dameng.event.DamengEvent;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKey;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
 import cn.oyzh.easydameng.dameng.function.DamengAlertFunctionParam;
@@ -149,6 +148,10 @@ public class DamengClient {
         return connection;
     }
 
+    public Connection functionConnection(String dbName) throws SQLException, ClassNotFoundException {
+        return this.functionConnection(dbName, null);
+    }
+
     public Connection functionConnection(String dbName, String schema) throws SQLException, ClassNotFoundException {
         Connection connection = this.connectionManager.getFunctionConnection(dbName, schema);
         if (this.isInvalid(connection)) {
@@ -157,6 +160,10 @@ public class DamengClient {
         }
         connection.setAutoCommit(true);
         return connection;
+    }
+
+    public Connection procedureConnection(String dbName) throws SQLException, ClassNotFoundException {
+        return this.procedureConnection(dbName, null);
     }
 
     public Connection procedureConnection(String dbName, String schema) throws SQLException, ClassNotFoundException {
@@ -515,10 +522,10 @@ public class DamengClient {
         return this.insertBatch(dbName, sqlList, false);
     }
 
-    public int procedureSize(String dbName, String schema) {
+    public int procedureSize(String dbName) {
         int size = 0;
         try {
-            Connection connection = this.procedureConnection(dbName, schema);
+            Connection connection = this.procedureConnection(dbName);
             String sql = """
                     SELECT
                         COUNT(*)
@@ -545,10 +552,10 @@ public class DamengClient {
         return size;
     }
 
-    public int functionSize(String dbName, String schema) {
+    public int functionSize(String dbName) {
         int size = 0;
         try {
-            Connection connection = this.functionConnection(dbName, schema);
+            Connection connection = this.functionConnection(dbName);
             String sql = """
                     SELECT
                         COUNT(*)
@@ -582,7 +589,7 @@ public class DamengClient {
      */
     public void alertFunction(DamengAlertFunctionParam param) {
         try {
-            Connection connection = this.connection(param.getDbName());
+            Connection connection = this.functionConnection(param.getDbName());
             Statement statement = connection.createStatement();
             String sql = DamengFunctionAlertSqlGenerator.generateSqlSingle(param);
             DBUtil.printSql(sql);
@@ -613,7 +620,7 @@ public class DamengClient {
                             a.OWNER = ?
                     """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.connection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             ResultSet resultSet = statement.executeQuery();
             List<DamengTrigger> list = new ArrayList<>();
@@ -659,7 +666,7 @@ public class DamengClient {
                             a.TABLE_NAME = ?
                     """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.connection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, tableName);
             ResultSet resultSet = statement.executeQuery();
@@ -717,8 +724,7 @@ public class DamengClient {
         }
         String version = "";
         try {
-            Connection conn = this.connection();
-            Statement stmt = conn.createStatement();
+            Statement stmt = this.connection().createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT BANNER FROM V$VERSION FETCH FIRST 1 ROWS ONLY");
             if (resultSet.next()) {
                 version = resultSet.getString(1);
@@ -732,18 +738,18 @@ public class DamengClient {
         return version;
     }
 
-    public void dropEvent(String dbName, DamengEvent event) {
-        try {
-            String sql = "DROP EVENT " + DBUtil.wrap(event.getDbName(), event.getName(), DBDialect.DAMENG);
-            DBUtil.printSql(sql);
-            Statement statement = this.connection(dbName).createStatement();
-            statement.executeUpdate(sql);
-            DBUtil.close(statement);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new DBException(ex);
-        }
-    }
+    //public void dropEvent(String dbName, DamengEvent event) {
+    //    try {
+    //        String sql = "DROP EVENT " + DBUtil.wrap(event.getDbName(), event.getName(), DBDialect.DAMENG);
+    //        DBUtil.printSql(sql);
+    //        Statement statement = this.connection(dbName).createStatement();
+    //        statement.executeUpdate(sql);
+    //        DBUtil.close(statement);
+    //    } catch (Exception ex) {
+    //        ex.printStackTrace();
+    //        throw new DBException(ex);
+    //    }
+    //}
 
     //    public void createEvent(String dbName, DamengEvent event) {
     //        try {
@@ -894,6 +900,7 @@ public class DamengClient {
 
     public List<DamengTable> selectTables(String dbName) {
         DamengSelectTableParam param = new DamengSelectTableParam();
+        param.setFull(true);
         param.setDbName(dbName);
         return this.selectTables(param);
     }
@@ -1029,7 +1036,7 @@ public class DamengClient {
                     AND
                         C.TABLE_NAME = ?
                     """;
-            Connection connection = this.connection();
+            Connection connection = this.connection(dbName);
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, tableName);
@@ -1381,7 +1388,7 @@ public class DamengClient {
 
     public String showCreateFunction(String dbName, String functionName) {
         try {
-            Connection connection = this.connection(dbName);
+            Connection connection = this.functionConnection(dbName);
             String sql = "SELECT DBMS_METADATA.GET_DDL('FUNCTION', ?) FROM DUAL";
             DBUtil.printSql(sql);
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -1402,7 +1409,7 @@ public class DamengClient {
 
     public String showCreateProcedure(String dbName, String procedureName) {
         try {
-            Connection connection = this.connection(dbName);
+            Connection connection = this.procedureConnection(dbName);
             String sql = "SELECT DBMS_METADATA.GET_DDL('PROCEDURE', ?) FROM DUAL";
             DBUtil.printSql(sql);
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -1522,6 +1529,15 @@ public class DamengClient {
 
     public DamengTable selectTable(String dbName, String tableName) {
         DamengSelectTableParam param = new DamengSelectTableParam();
+        param.setFull(true);
+        param.setDbName(dbName);
+        param.setTableName(tableName);
+        return this.selectTable(param);
+    }
+
+    public DamengTable selectTableSimple(String dbName, String tableName) {
+        DamengSelectTableParam param = new DamengSelectTableParam();
+        param.setFull(false);
         param.setDbName(dbName);
         param.setTableName(tableName);
         return this.selectTable(param);
@@ -1535,84 +1551,22 @@ public class DamengClient {
             table.setDbName(dbName);
             table.setName(tableName);
             Connection connection = this.connection(dbName);
-            if (param.isFull()) {
-                String sql = """
-                            SELECT 
-                                C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "TABLE_SPACE" 
-                            FROM 
-                                ALL_TABLES T 
-                            LEFT JOIN 
-                                ALL_TAB_COMMENTS C
-                            ON 
-                                T.OWNER = C.OWNER 
-                            AND 
-                                T.TABLE_NAME = C.TABLE_NAME 
-                            WHERE 
-                                T.OWNER = ? 
-                            AND 
-                                T.TABLE_NAME = ?
-                        """;
-                DBUtil.printSql(sql);
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, dbName);
-                statement.setString(2, tableName);
-                ResultSet resultSet = statement.executeQuery();
-                DBUtil.printMetaData(resultSet);
-                String showCreateTable = this.showCreateTable(dbName, tableName);
-                while (resultSet.next()) {
-                    String tableSpace = resultSet.getString("TABLE_SPACE");
-                    String tableComment = resultSet.getString("TABLE_COMMENT");
-                    table.setComment(tableComment);
-                    table.setTableSpace(tableSpace);
-                    table.setCreateDefinition(showCreateTable);
-                }
-                DBUtil.close(resultSet);
-                DBUtil.close(statement);
-            } else {
-                String sql = "SELECT COMMENTS AS REMARKS FROM ALL_TAB_COMMENTS WHERE OWNER = ? AND TABLE_NAME = ?";
-                DBUtil.printSql(sql);
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, dbName);
-                statement.setString(2, tableName);
-                ResultSet resultSet = statement.executeQuery();
-                DBUtil.printMetaData(resultSet);
-                while (resultSet.next()) {
-                    String remarks = resultSet.getString("REMARKS");
-                    table.setComment(remarks);
-                }
-                DBUtil.close(resultSet);
-                DBUtil.close(statement);
-            }
-            return table;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new DBException(ex);
-        }
-    }
-
-    public DamengTable selectFullTable(DamengSelectTableParam param) {
-        try {
-            String dbName = param.getDbName();
-            String tableName = param.getTableName();
-            DamengTable table = new DamengTable();
-            table.setDbName(dbName);
-            table.setName(tableName);
-            Connection connection = this.connection(dbName);
+            //if (param.isFull()) {
             String sql = """
-                            SELECT 
-                                C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "TABLE_SPACE" 
-                            FROM 
-                                ALL_TABLES T 
-                            LEFT JOIN 
-                                ALL_TAB_COMMENTS C 
-                            ON 
-                                T.OWNER = C.OWNER 
-                            AND 
-                                T.TABLE_NAME = C.TABLE_NAME 
-                            WHERE 
-                                T.OWNER = ? 
-                            AND 
-                                T.TABLE_NAME = ?
+                        SELECT 
+                            C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "TABLE_SPACE" 
+                        FROM 
+                            ALL_TABLES T 
+                        LEFT JOIN 
+                            ALL_TAB_COMMENTS C
+                        ON 
+                            T.OWNER = C.OWNER 
+                        AND 
+                            T.TABLE_NAME = C.TABLE_NAME 
+                        WHERE 
+                            T.OWNER = ? 
+                        AND 
+                            T.TABLE_NAME = ?
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -1620,22 +1574,86 @@ public class DamengClient {
             statement.setString(2, tableName);
             ResultSet resultSet = statement.executeQuery();
             DBUtil.printMetaData(resultSet);
-            String showCreateTable = this.showCreateTable(dbName, tableName);
             while (resultSet.next()) {
                 String tableSpace = resultSet.getString("TABLE_SPACE");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
                 table.setComment(tableComment);
                 table.setTableSpace(tableSpace);
+            }
+            if (param.isFull()) {
+                String showCreateTable = this.showCreateTable(dbName, tableName);
                 table.setCreateDefinition(showCreateTable);
             }
             DBUtil.close(resultSet);
             DBUtil.close(statement);
+            //} else {
+            //    String sql = "SELECT COMMENTS AS REMARKS FROM ALL_TAB_COMMENTS WHERE OWNER = ? AND TABLE_NAME = ?";
+            //    DBUtil.printSql(sql);
+            //    PreparedStatement statement = connection.prepareStatement(sql);
+            //    statement.setString(1, dbName);
+            //    statement.setString(2, tableName);
+            //    ResultSet resultSet = statement.executeQuery();
+            //    DBUtil.printMetaData(resultSet);
+            //    while (resultSet.next()) {
+            //        String remarks = resultSet.getString("REMARKS");
+            //        table.setComment(remarks);
+            //    }
+            //    DBUtil.close(resultSet);
+            //    DBUtil.close(statement);
+            //}
             return table;
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new DBException(ex);
         }
     }
+
+    //public DamengTable selectFullTable(DamengSelectTableParam param) {
+    //    try {
+    //        String dbName = param.getDbName();
+    //        String tableName = param.getTableName();
+    //        DamengTable table = new DamengTable();
+    //        table.setDbName(dbName);
+    //        table.setName(tableName);
+    //        Connection connection = this.connection(dbName);
+    //        String sql = """
+    //                        SELECT
+    //                            C.COMMENTS AS "TABLE_COMMENT", T.TABLESPACE_NAME AS "TABLE_SPACE"
+    //                        FROM
+    //                            ALL_TABLES T
+    //                        LEFT JOIN
+    //                            ALL_TAB_COMMENTS C
+    //                        ON
+    //                            T.OWNER = C.OWNER
+    //                        AND
+    //                            T.TABLE_NAME = C.TABLE_NAME
+    //                        WHERE
+    //                            T.OWNER = ?
+    //                        AND
+    //                            T.TABLE_NAME = ?
+    //                """;
+    //        DBUtil.printSql(sql);
+    //        PreparedStatement statement = connection.prepareStatement(sql);
+    //        statement.setString(1, dbName);
+    //        statement.setString(2, tableName);
+    //        ResultSet resultSet = statement.executeQuery();
+    //        DBUtil.printMetaData(resultSet);
+    //        String showCreateTable = this.showCreateTable(dbName, tableName);
+    //        while (resultSet.next()) {
+    //            String tableSpace = resultSet.getString("TABLE_SPACE");
+    //            String tableComment = resultSet.getString("TABLE_COMMENT");
+    //            table.setComment(tableComment);
+    //            table.setTableSpace(tableSpace);
+    //            table.setCreateDefinition(showCreateTable);
+    //        }
+    //        DBUtil.close(resultSet);
+    //        DBUtil.close(statement);
+    //        return table;
+    //    } catch (Exception ex) {
+    //        ex.printStackTrace();
+    //        throw new DBException(ex);
+    //    }
+    //}
 
     public DamengView selectView(String dbName, String viewName) {
         try {
@@ -1656,7 +1674,8 @@ public class DamengClient {
                             VIEW_NAME = ?
                     """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            Connection connection = this.connection(dbName);
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, viewName);
             // 执行SQL查询并获取结果集
@@ -1671,13 +1690,14 @@ public class DamengClient {
                 String definition = resultSet.getString("DEFINITION");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
                 if (readOnly == null) {
-                    readOnly = this.getViewReadOnly(name);
+                    view.setUpdatable(DamengHelper.isViewUpdatable(connection, dbName, viewName));
+                } else {
+                    view.setUpdatable(!StringUtil.equalsIgnoreCase("Y", readOnly));
                 }
                 view.setDbName(dbName);
                 view.setName(name);
                 view.setComment(tableComment);
                 view.setDefinition(definition);
-                view.setUpdatable(!StringUtil.equalsIgnoreCase("Y", readOnly));
             }
             // 关闭连接和释放资源
             DBUtil.close(resultSet);
@@ -1707,7 +1727,8 @@ public class DamengClient {
                             V.OWNER = ?
                     """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            Connection connection = this.connection(dbName);
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, dbName);
             ResultSet resultSet = statement.executeQuery();
             // 打印元数据
@@ -1720,7 +1741,9 @@ public class DamengClient {
                 String definition = resultSet.getString("DEFINITION");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
                 if (readOnly == null) {
-                    readOnly = this.getViewReadOnly(name);
+                    view.setUpdatable(DamengHelper.isViewUpdatable(connection, dbName, name));
+                } else {
+                    view.setUpdatable(!StringUtil.equalsIgnoreCase("Y", readOnly));
                 }
                 view.setDbName(dbName);
                 view.setName(name);
@@ -1756,7 +1779,7 @@ public class DamengClient {
         boolean result;
         try {
             String sql = "SELECT COUNT(*) FROM ALL_VIEWS WHERE OWNER = ? AND VIEW_NAME = ?";
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.connection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, viewName);
             ResultSet resultSet = statement.executeQuery();
@@ -1837,7 +1860,7 @@ public class DamengClient {
 
     public DamengIndexes indexes(String dbName, String tableName) {
         try {
-            Connection connection = this.connection();
+            Connection connection = this.connection(dbName);
             String sql = """
                     SELECT
                         i.INDEX_NAME AS "Key_name",
@@ -1903,7 +1926,7 @@ public class DamengClient {
                         AND TABLE_NAME = ?
                     """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.connection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, tableName);
             ResultSet resultSet = statement.executeQuery();
@@ -1951,7 +1974,7 @@ public class DamengClient {
                     AND ac.TABLE_NAME = ?
                     """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.connection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, tableName);
             ResultSet resultSet = statement.executeQuery();
@@ -2052,7 +2075,7 @@ public class DamengClient {
             //                        C.COLUMN_ID
             //                    """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.connection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, viewName);
             ResultSet resultSet = statement.executeQuery();
@@ -2085,7 +2108,7 @@ public class DamengClient {
 
             sql = "SELECT * FROM " + DBUtil.wrap(dbName, viewName, DBDialect.DAMENG) + " FETCH FIRST 1 ROWS ONLY";
             DBUtil.printSql(sql);
-            PreparedStatement statement1 = this.connection().prepareStatement(sql);
+            PreparedStatement statement1 = this.connection(dbName).prepareStatement(sql);
             ResultSet resultSet1 = statement1.executeQuery();
             DBUtil.printMetaData(resultSet1);
             DamengColumns dbColumns = DamengHelper.parseColumns(resultSet1);
@@ -2207,7 +2230,7 @@ public class DamengClient {
         boolean result;
         try {
             String sql = "SELECT COUNT(*) FROM ALL_TABLES WHERE OWNER = ? AND TABLE_NAME = ?";
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.connection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, tableName);
             ResultSet resultSet = statement.executeQuery();
@@ -2333,7 +2356,7 @@ public class DamengClient {
         boolean result = false;
         try {
             String sql = "SELECT COUNT(*) FROM ALL_USERS WHERE USERNAME = ?";
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.connection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -2381,7 +2404,7 @@ public class DamengClient {
         try {
             String sql = "DROP SCHEMA " + DBUtil.wrap(dbName, DBDialect.DAMENG) + " CASCADE";
             DBUtil.printSql(sql);
-            Statement statement = this.connection().createStatement();
+            Statement statement = this.connection(dbName).createStatement();
             statement.executeUpdate(sql);
             DBUtil.close(statement);
             return true;
@@ -2516,25 +2539,25 @@ public class DamengClient {
         return result;
     }
 
-    //    public DbType dbType() {
-    //        return DBDialect.DAMENG.dbType();
-    //    }
-    //
+    public DbType dbType() {
+        return DBDialect.DAMENG.dbType();
+    }
+
     public DBDialect dialect() {
         return DBDialect.DAMENG;
     }
 
     public List<DamengFunction> selectFunctions(String dbName) {
         DamengSelectFunctionParam param = new DamengSelectFunctionParam();
-        param.setDbName(dbName);
         param.setFull(true);
+        param.setDbName(dbName);
         return this.selectFunctions(param);
     }
 
     public List<DamengFunction> selectFunctionsSimple(String dbName) {
         DamengSelectFunctionParam param = new DamengSelectFunctionParam();
-        param.setDbName(dbName);
         param.setFull(false);
+        param.setDbName(dbName);
         return this.selectFunctions(param);
     }
 
@@ -2559,7 +2582,7 @@ public class DamengClient {
                         O.OBJECT_TYPE = 'FUNCTION'
                     """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.functionConnection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             // 执行SQL查询并获取结果集
             ResultSet resultSet = statement.executeQuery();
@@ -2569,7 +2592,7 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengFunction function = new DamengFunction();
                 String name = resultSet.getString("ROUTINE_NAME");
-                List<DamengRoutineParam> params = DamengHelper.listFunctionParam(this.connection(), dbName, name);
+                List<DamengRoutineParam> params = this.listFunctionParam(dbName, name);
                 String securityType = resultSet.getString("SECURITY_TYPE");
                 String aggregate = resultSet.getString("AGGREGATE");
                 String pipelined = resultSet.getString("PIPELINED");
@@ -2616,15 +2639,15 @@ public class DamengClient {
 
     public List<DamengProcedure> selectProcedures(String dbName) {
         DamengSelectProcedureParam param = new DamengSelectProcedureParam();
-        param.setDbName(dbName);
         param.setFull(true);
+        param.setDbName(dbName);
         return this.selectProcedures(param);
     }
 
     public List<DamengProcedure> selectProceduresSimple(String dbName) {
         DamengSelectProcedureParam param = new DamengSelectProcedureParam();
-        param.setDbName(dbName);
         param.setFull(false);
+        param.setDbName(dbName);
         return this.selectProcedures(param);
     }
 
@@ -2649,7 +2672,7 @@ public class DamengClient {
                         O.OBJECT_TYPE = 'PROCEDURE'
                     """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.procedureConnection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             // 执行SQL查询并获取结果集
             ResultSet resultSet = statement.executeQuery();
@@ -2659,7 +2682,7 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengProcedure procedure = new DamengProcedure();
                 String name = resultSet.getString("ROUTINE_NAME");
-                List<DamengRoutineParam> params = DamengHelper.listProcedureParam(this.connection(), dbName, name);
+                List<DamengRoutineParam> params = this.listProcedureParam(dbName, name);
                 String securityType = resultSet.getString("SECURITY_TYPE");
                 String aggregate = resultSet.getString("AGGREGATE");
                 String pipelined = resultSet.getString("PIPELINED");
@@ -2704,8 +2727,26 @@ public class DamengClient {
         }
     }
 
-    public DamengProcedure selectProcedure(String dbName, String produceName) {
+    public DamengProcedure selectProcedure(String dbName, String procedureName) {
+        DamengSelectProcedureParam param = new DamengSelectProcedureParam();
+        param.setFull(true);
+        param.setDbName(dbName);
+        param.setProcedureName(procedureName);
+        return this.selectProcedure(param);
+    }
+
+    public DamengProcedure selectProcedureSimple(String dbName, String procedureName) {
+        DamengSelectProcedureParam param = new DamengSelectProcedureParam();
+        param.setFull(false);
+        param.setDbName(dbName);
+        param.setProcedureName(procedureName);
+        return this.selectProcedure(param);
+    }
+
+    public DamengProcedure selectProcedure(DamengSelectProcedureParam param) {
         try {
+            String dbName = param.getDbName();
+            String produceName = param.getProcedureName();
             String sql = """
                     SELECT
                         P.AUTHID AS "SECURITY_TYPE",
@@ -2724,7 +2765,7 @@ public class DamengClient {
                         O.OBJECT_TYPE = 'PROCEDURE'
                     """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.procedureConnection(dbName).prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, produceName);
             // 执行SQL查询并获取结果集
@@ -2736,19 +2777,25 @@ public class DamengClient {
             procedure.setName(produceName);
             // 遍历结果集
             while (resultSet.next()) {
-                String createDefinition = this.showCreateProcedure(dbName, produceName);
-                List<DamengRoutineParam> params = DamengHelper.listProcedureParam(this.connection(), dbName, produceName);
                 String securityType = resultSet.getString("SECURITY_TYPE");
-                String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
+
                 String aggregate = resultSet.getString("AGGREGATE");
                 String pipelined = resultSet.getString("PIPELINED");
                 String deterministic = resultSet.getString("DETERMINISTIC");
                 StringBuilder characteristic = new StringBuilder();
-                if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
-                    characteristic.append(",PARALLEL_ENABLE");
-                }
-                if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
-                    characteristic.append(",RESULT_CACHE");
+                if (param.isFull()) {
+                    List<DamengRoutineParam> params = this.listProcedureParam(dbName, produceName);
+                    procedure.setParams(params);
+                    String createDefinition = this.showCreateProcedure(dbName, produceName);
+                    String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
+                    if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
+                        characteristic.append(",PARALLEL_ENABLE");
+                    }
+                    if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
+                        characteristic.append(",RESULT_CACHE");
+                    }
+                    procedure.setDefinition(definition);
+                    procedure.setCreateDefinition(createDefinition);
                 }
                 if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
                     characteristic.append(",AGGREGATE");
@@ -2763,10 +2810,7 @@ public class DamengClient {
                     procedure.setCharacteristic(characteristic.substring(1));
                 }
                 procedure.setDbName(dbName);
-                procedure.setParams(params);
-                procedure.setDefinition(definition);
                 procedure.setSecurityType(securityType);
-                procedure.setCreateDefinition(createDefinition);
             }
             // 关闭连接和释放资源
             DBUtil.close(resultSet);
@@ -2782,7 +2826,7 @@ public class DamengClient {
         try {
             String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(dbName, routine.getName(), DBDialect.DAMENG);
             DBUtil.printSql(sql);
-            Statement statement = this.connection(dbName).createStatement();
+            Statement statement = this.procedureConnection(dbName).createStatement();
             statement.executeUpdate(sql);
             DBUtil.close(statement);
         } catch (Exception ex) {
@@ -2800,7 +2844,7 @@ public class DamengClient {
         try {
             String sql = DamengProcedureCreateSqlGenerator.generateSqlSingle(param);
             DBUtil.printSql(sql);
-            Statement statement = this.connection(param.getDbName()).createStatement();
+            Statement statement = this.procedureConnection(param.getDbName()).createStatement();
             statement.executeUpdate(sql);
             DBUtil.close(statement);
         } catch (Exception ex) {
@@ -2818,7 +2862,7 @@ public class DamengClient {
         try {
             String sql = DamengProcedureAlertSqlGenerator.generateSqlSingle(param);
             DBUtil.printSql(sql);
-            Statement statement = this.connection(param.getDbName()).createStatement();
+            Statement statement = this.procedureConnection(param.getDbName(), null).createStatement();
             statement.executeUpdate(sql);
             DBUtil.close(statement);
         } catch (Exception ex) {
@@ -2831,7 +2875,7 @@ public class DamengClient {
         try {
             String sql = "DROP function IF EXISTS " + DBUtil.wrap(dbName, function.getName(), DBDialect.DAMENG);
             DBUtil.printSql(sql);
-            Statement statement = this.connection(dbName).createStatement();
+            Statement statement = this.functionConnection(dbName, null).createStatement();
             statement.executeUpdate(sql);
             DBUtil.close(statement);
         } catch (Exception ex) {
@@ -2841,7 +2885,31 @@ public class DamengClient {
     }
 
     public DamengFunction selectFunction(String dbName, String functionName) {
+        DamengSelectFunctionParam param = new DamengSelectFunctionParam();
+        param.setFull(true);
+        param.setDbName(dbName);
+        param.setFunctionName(functionName);
+        return this.selectFunction(param);
+    }
+
+    public DamengFunction selectFunctionSimple(String dbName, String functionName) {
+        DamengSelectFunctionParam param = new DamengSelectFunctionParam();
+        param.setFull(false);
+        param.setDbName(dbName);
+        param.setFunctionName(functionName);
+        return this.selectFunction(param);
+    }
+
+    /**
+     * 查询函数
+     *
+     * @param param 参数
+     * @return 结果
+     */
+    public DamengFunction selectFunction(DamengSelectFunctionParam param) {
         try {
+            String dbName = param.getDbName();
+            String functionName = param.getFunctionName();
             String sql = """
                     SELECT
                         P.AUTHID AS "SECURITY_TYPE",
@@ -2860,7 +2928,7 @@ public class DamengClient {
                         O.OBJECT_TYPE = 'FUNCTION'
                     """;
             DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
+            PreparedStatement statement = this.functionConnection(dbName, null).prepareStatement(sql);
             statement.setString(1, dbName);
             statement.setString(2, functionName);
             // 执行SQL查询并获取结果集
@@ -2873,18 +2941,23 @@ public class DamengClient {
             // 遍历结果集
             while (resultSet.next()) {
                 String securityType = resultSet.getString("SECURITY_TYPE");
-                List<DamengRoutineParam> params = DamengHelper.listFunctionParam(this.connection(), dbName, functionName);
-                String createDefinition = this.showCreateFunction(dbName, functionName);
-                String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
                 String aggregate = resultSet.getString("AGGREGATE");
                 String pipelined = resultSet.getString("PIPELINED");
                 String deterministic = resultSet.getString("DETERMINISTIC");
                 StringBuilder characteristic = new StringBuilder();
-                if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
-                    characteristic.append(",PARALLEL_ENABLE");
-                }
-                if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
-                    characteristic.append(",RESULT_CACHE");
+                if (param.isFull()) {
+                    List<DamengRoutineParam> params = this.listFunctionParam(dbName, functionName);
+                    function.setParams(params);
+                    String createDefinition = this.showCreateFunction(dbName, functionName);
+                    String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
+                    if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
+                        characteristic.append(",PARALLEL_ENABLE");
+                    }
+                    if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
+                        characteristic.append(",RESULT_CACHE");
+                    }
+                    function.setDefinition(definition);
+                    function.setCreateDefinition(createDefinition);
                 }
                 if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
                     characteristic.append(",AGGREGATE");
@@ -2899,10 +2972,7 @@ public class DamengClient {
                     function.setCharacteristic(characteristic.substring(1));
                 }
                 function.setDbName(dbName);
-                function.setParams(params);
-                function.setDefinition(definition);
                 function.setSecurityType(securityType);
-                function.setCreateDefinition(createDefinition);
             }
             // 关闭连接和释放资源
             DBUtil.close(resultSet);
@@ -2923,7 +2993,7 @@ public class DamengClient {
         try {
             String sql = DamengFunctionCreateSqlGenerator.generateSqlSingle(param);
             DBUtil.printSql(sql);
-            Statement statement = this.connection(param.getDbName()).createStatement();
+            Statement statement = this.functionConnection(param.getDbName()).createStatement();
             statement.executeUpdate(sql);
             DBUtil.close(statement);
         } catch (Exception ex) {
@@ -3156,36 +3226,99 @@ public class DamengClient {
         return this.dbConnect == null ? null : this.dbConnect.getId();
     }
 
-    /**
-     * 获取视图更新标志位
-     *
-     * @param viewName 定义
-     * @return 结果
-     */
-    public String getViewReadOnly(String viewName) {
+    /// **
+    // * 获取视图更新标志位
+    // *
+    // * @param viewName 定义
+    // * @return 结果
+    // */
+    //public String isViewUpdateable(String viewName) {
+    //    try {
+    //        String sql = """
+    //                    SELECT
+    //                        READ_ONLY
+    //                    FROM
+    //                        USER_VIEWS
+    //                    WHERE
+    //                        VIEW_NAME = ?
+    //                """;
+    //        DBUtil.printSql(sql);
+    //        PreparedStatement statement = this.connection().prepareStatement(sql);
+    //        statement.setString(1, viewName);
+    //        // 执行SQL查询并获取结果集
+    //        ResultSet resultSet = statement.executeQuery();
+    //        // 打印元数据
+    //        DBUtil.printMetaData(resultSet);
+    //        if (resultSet.next()) {
+    //            return resultSet.getString(1);
+    //        }
+    //    } catch (Exception ex) {
+    //        ex.printStackTrace();
+    //    }
+    //    return null;
+    //}
+    public List<DamengRoutineParam> listRoutineParam(String dbName, String routineName, String routineType) throws Exception {
         try {
+            Connection connection = this.connection(dbName);
             String sql = """
-                        SELECT 
-                            READ_ONLY
-                        FROM 
-                            USER_VIEWS 
-                        WHERE 
-                            VIEW_NAME = ?
+                    
+                        SELECT
+                    	a.POSITION,
+                    	a.DATA_TYPE,
+                    	a.DATA_LENGTH AS SIZE,
+                    	a.DATA_SCALE AS DIGITS,
+                    	a.IN_OUT AS PARAMETER_MODE,
+                    	a.ARGUMENT_NAME AS PARAMETER_NAME,
+                    	a.CHARACTER_SET_NAME
+                    FROM
+                    	ALL_ARGUMENTS a
+                    WHERE
+                    	a.OWNER = ?
+                    AND
+                    	a.OBJECT_NAME = ?
+                    AND
+                    	a.PACKAGE_NAME IS NULL
+                    
                     """;
-            DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
-            statement.setString(1, viewName);
+            List<DamengRoutineParam> params = new
+                    ArrayList<>();
+            PreparedStatement statement = connection.
+                    prepareStatement(sql);
+            statement.setString(1, dbName);
+            statement.
+                    setString(2,
+                            routineName);
             // 执行SQL查询并获取结果集
-            ResultSet resultSet = statement.executeQuery();
-            // 打印元数据
-            DBUtil.printMetaData(resultSet);
-            if (resultSet.next()) {
-                return resultSet.getString(1);
+            ResultSet resultSet = statement.executeQuery
+                    ();
+            while (resultSet.next()) {
+                DamengRoutineParam param = new DamengRoutineParam();
+                param.setSize(resultSet.getInt("SIZE"));
+                param.setDigits(resultSet.getInt("DIGITS"));
+                param.setPosition(resultSet.getInt("POSITION"));
+                param.setType(resultSet.getString("DATA_TYPE"));
+                param.setName(resultSet.getString("PARAMETER_NAME"));
+                param.setMode(resultSet.getString("PARAMETER_MODE"));
+                param.
+                        setCharset(
+                                resultSet.getString("CHARACTER_SET_NAME"));
+                params.add(param);
             }
+            DBUtil.close(resultSet);
+            DBUtil.close(statement);
+            return params;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return null;
+        return Collections.emptyList();
+    }
+
+    public List<DamengRoutineParam> listFunctionParam(String dbName, String functionName) throws Exception {
+        return listRoutineParam(dbName, functionName, "FUNCTION");
+    }
+
+    public List<DamengRoutineParam> listProcedureParam(String dbName, String procedureName) throws Exception {
+        return listRoutineParam(dbName, procedureName, "PROCEDURE");
     }
 
     /**
@@ -3206,9 +3339,5 @@ public class DamengClient {
             ex.printStackTrace();
         }
         DamengEventUtil.printSql(compressedSql, this.dbConnect);
-    }
-
-    private DbType dbType() {
-        return this.dialect().dbType();
     }
 }

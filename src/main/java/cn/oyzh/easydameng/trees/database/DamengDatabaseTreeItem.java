@@ -9,7 +9,6 @@ import cn.oyzh.easydameng.dameng.DamengClient;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
-import cn.oyzh.easydameng.dameng.event.DamengEvent;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
 import cn.oyzh.easydameng.dameng.function.DamengAlertFunctionParam;
 import cn.oyzh.easydameng.dameng.function.DamengCreateFunctionParam;
@@ -26,7 +25,6 @@ import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.dameng.table.DamengAlertTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengCreateTableParam;
-import cn.oyzh.easydameng.dameng.table.DamengSelectTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
@@ -477,12 +475,12 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         return this.client().existAutoIncrement(this.dbName(), tableName);
     }
 
-    public DamengTable selectFullTable(String tableName) {
-        DamengSelectTableParam param = new DamengSelectTableParam();
-        param.setDbName(this.dbName());
-        param.setTableName(tableName);
-        return this.client().selectFullTable(param);
-    }
+    //public DamengTable selectFullTable(String tableName) {
+    //    DamengSelectTableParam param = new DamengSelectTableParam();
+    //    param.setDbName(this.dbName());
+    //    param.setTableName(tableName);
+    //    return this.client().selectFullTable(param);
+    //}
 
     @Deprecated
     public boolean existTable(String tableName) {
@@ -571,7 +569,6 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         return this.client().selectFunction(this.dbName(), functionName);
     }
 
-
     public DamengView selectView(String viewName) {
         return this.client().selectView(this.dbName(), viewName);
     }
@@ -625,9 +622,9 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     //        this.client().createEvent(this.dbName(), event);
     //    }
 
-    public void dropEvent(DamengEvent event) {
-        this.client().dropEvent(this.dbName(), event);
-    }
+    //public void dropEvent(DamengEvent event) {
+    //    this.client().dropEvent(this.dbName(), event);
+    //}
 
     public boolean isSupportCheckFeature() {
         return this.client().isSupportCheckFeature();

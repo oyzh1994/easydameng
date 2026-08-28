@@ -10,6 +10,8 @@ public class DamengSelectProcedureParam {
 
     private String dbName;
 
+    private String procedureName;
+
     public boolean isFull() {
         return full;
     }
@@ -24,5 +26,13 @@ public class DamengSelectProcedureParam {
 
     public void setDbName(String dbName) {
         this.dbName = dbName;
+    }
+
+    public String getProcedureName() {
+        return procedureName;
+    }
+
+    public void setProcedureName(String procedureName) {
+        this.procedureName = procedureName;
     }
 }

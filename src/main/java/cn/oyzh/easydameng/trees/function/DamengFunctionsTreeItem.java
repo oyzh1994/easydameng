@@ -157,7 +157,7 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
     //}
 
     public Integer functionSize() {
-        return this.client().functionSize(this.dbName(), null);
+        return this.client().functionSize(this.dbName());
     }
 
     public void addFunction(DamengFunction function) {

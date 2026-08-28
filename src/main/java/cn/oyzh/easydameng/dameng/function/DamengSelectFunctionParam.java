@@ -10,6 +10,8 @@ public class DamengSelectFunctionParam {
 
     private String dbName;
 
+    private String functionName;
+
     public boolean isFull() {
         return full;
     }
@@ -24,5 +26,13 @@ public class DamengSelectFunctionParam {
 
     public void setDbName(String dbName) {
         this.dbName = dbName;
+    }
+
+    public String getFunctionName() {
+        return functionName;
+    }
+
+    public void setFunctionName(String functionName) {
+        this.functionName = functionName;
     }
 }

@@ -1,5 +1,6 @@
 package cn.oyzh.easydameng.dameng.generator.view;
 
+import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.db.DBDialect;
@@ -37,7 +38,7 @@ public class DamengViewAlertSqlGenerator extends DBSqlGenerator {
         this.sqlBuilder.append(";");
 
         // 注释
-        if (view.getComment() != null) {
+        if (StringUtil.isNotBlank(view.getComment())) {
             StringBuilder builder = new StringBuilder();
             builder.append("COMMENT ON VIEW ")
                     .append(viewFullName)

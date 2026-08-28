@@ -63,7 +63,7 @@ public class DamengTableInfoController extends StageController {
      */
     private void initInfo() {
         DamengDatabaseTreeItem dbItem = this.treeItem.dbItem();
-        DamengTable table = dbItem.selectFullTable(treeItem.tableName());
+        DamengTable table = dbItem.selectTable(treeItem.tableName());
         this.name.setText(table.getName());
         this.comment.setText(table.getComment());
         this.tableSpace.setText(table.getTableSpace());

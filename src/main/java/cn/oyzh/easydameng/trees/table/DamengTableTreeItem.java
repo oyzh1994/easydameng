@@ -20,7 +20,6 @@ import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengUpdateRecordParam;
-import cn.oyzh.easydameng.dameng.table.DamengSelectTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.domain.DamengConnect;
@@ -91,24 +90,24 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
     @Override
     public List<MenuItem> getMenuItems() {
         List<MenuItem> items = new ArrayList<>();
-        FXMenuItem openTable = MenuItemHelper.openTable( this::onPrimaryDoubleClick);
+        FXMenuItem openTable = MenuItemHelper.openTable(this::onPrimaryDoubleClick);
         items.add(openTable);
-        FXMenuItem updateTable = MenuItemHelper.designTable( this::designTable);
+        FXMenuItem updateTable = MenuItemHelper.designTable(this::designTable);
         items.add(updateTable);
-        FXMenuItem renameTable = MenuItemHelper.renameTable( this::rename);
+        FXMenuItem renameTable = MenuItemHelper.renameTable(this::rename);
         items.add(renameTable);
-        FXMenuItem clearTable = MenuItemHelper.clearTableData( this::clearTableData);
+        FXMenuItem clearTable = MenuItemHelper.clearTableData(this::clearTableData);
         items.add(clearTable);
-        FXMenuItem truncateTable = MenuItemHelper.truncateTable( this::truncateTable);
+        FXMenuItem truncateTable = MenuItemHelper.truncateTable(this::truncateTable);
         items.add(truncateTable);
-        FXMenuItem dropTable = MenuItemHelper.deleteTable( this::delete);
+        FXMenuItem dropTable = MenuItemHelper.deleteTable(this::delete);
         items.add(dropTable);
         items.add(MenuItemHelper.separator());
-        FXMenuItem dumpTable = MenuItemHelper.dumpData( this::dump);
+        FXMenuItem dumpTable = MenuItemHelper.dumpData(this::dump);
         items.add(dumpTable);
-        FXMenuItem exportTable = MenuItemHelper.exportData( this::export);
+        FXMenuItem exportTable = MenuItemHelper.exportData(this::export);
         items.add(exportTable);
-        FXMenuItem tableInfo = MenuItemHelper.tableInfo( this::tableInfo);
+        FXMenuItem tableInfo = MenuItemHelper.tableInfo(this::tableInfo);
         items.add(tableInfo);
 
         // 克隆表
@@ -205,7 +204,8 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
     @Override
     public void delete() {
         try {
-            if (MessageBox.confirm(I18nHelper.deleteTable() + "[" + this.tableName() + "]")) {                this.dbItem().dropTable(this.tableName());
+            if (MessageBox.confirm(I18nHelper.deleteTable() + "[" + this.tableName() + "]")) {
+                this.dbItem().dropTable(this.tableName());
                 DamengEventUtil.tableDropped(this, this.dbItem());
                 this.remove();
             }
@@ -332,11 +332,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
     @Override
     public void loadChild() {
         try {
-            DamengSelectTableParam param = new DamengSelectTableParam();
-            param.setFull(true);
-            param.setDbName(this.dbName());
-            param.setTableName(this.tableName());
-            DamengTable table = this.client().selectTable(param);
+            DamengTable table = this.client().selectTable(this.dbName(), this.tableName());
             if (table != null) {
                 this.value.copy(table);
             }

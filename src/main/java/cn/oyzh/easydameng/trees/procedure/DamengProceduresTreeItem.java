@@ -9,7 +9,6 @@ import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
-import cn.oyzh.fx.gui.tree.view.RichTreeItemFilter;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.menu.FXMenuItem;
@@ -69,7 +68,7 @@ public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeIte
             this.setLoading(true);
             Task task = TaskBuilder.newBuilder()
                     .onStart(() -> {
-                        List<DamengProcedure> procedures = this.client().selectProcedures(this.dbName());
+                        List<DamengProcedure> procedures = this.client().selectProceduresSimple(this.dbName());
                         // 无数据直接更新列表
                         if (this.isChildEmpty()) {
                             List<TreeItem<?>> list = new ArrayList<>();
@@ -156,7 +155,7 @@ public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeIte
     //}
 
     public Integer procedureSize() {
-        return this.client().procedureSize(this.dbName(), null);
+        return this.client().procedureSize(this.dbName());
     }
 
     public void addProcedure(DamengProcedure procedure) {

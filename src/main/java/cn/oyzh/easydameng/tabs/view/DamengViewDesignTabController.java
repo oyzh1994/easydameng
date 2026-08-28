@@ -121,7 +121,7 @@ public class DamengViewDesignTabController extends RichTabController {
         // 如果是新数据，则默认触发变更
         if (this.newData) {
             this.unsaved = true;
-            this.securityType.selectFirst();
+            //this.securityType.selectFirst();
             NodeGroupUtil.disappear(this.getTab(), "action3");
         } else {
             // 查询视图信息
@@ -163,7 +163,6 @@ public class DamengViewDesignTabController extends RichTabController {
 
         // 初始化信息
         FXUtil.runWait(this::initInfo);
-        //        this.initInfo();
 
         // 监听组件
         //        DBStatusListenerManager.bindListener(this.definer, this.listener);
@@ -255,7 +254,7 @@ public class DamengViewDesignTabController extends RichTabController {
 
             // 视图名称
             if (this.newData) {
-                this.viewName = MessageBox.prompt(I18nHelper.pleaseInputViewName(), viewName);
+                this.viewName = MessageBox.prompt(I18nHelper.pleaseInputViewName(), this.viewName);
                 if (this.viewName == null) {
                     return;
                 }
@@ -288,7 +287,6 @@ public class DamengViewDesignTabController extends RichTabController {
         } catch (Exception ex) {
             MessageBox.exception(ex);
         } finally {
-            // this.enableTab();
             this.flushTab();
         }
     }
