@@ -56,6 +56,8 @@ import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.exception.ReadonlyOperationException;
 import cn.oyzh.easydameng.sql.DBSqlParser;
 import cn.oyzh.easydameng.util.DBUtil;
+import com.alibaba.druid.DbType;
+import com.alibaba.druid.sql.SQLUtils;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
@@ -941,40 +943,40 @@ public class DamengClient {
         }
     }
 
-//    public List<DamengTable> selectTablesSimple(String dbName) {
-//        try {
-//            List<DamengTable> tables = new ArrayList<>();
-//            Connection connection = this.connection(dbName);
-//            String sql = """
-//                        SELECT
-//                            T.TABLE_NAME, T.TABLESPACE_NAME AS "TABLE_SPACE"
-//                        FROM
-//                            ALL_TABLES T
-//                        WHERE
-//                            T.OWNER = ?
-//                    """;
-//            DBUtil.printSql(sql);
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//            statement.setString(1, dbName);
-//            ResultSet resultSet = statement.executeQuery();
-//            DBUtil.printMetaData(resultSet);
-//            while (resultSet.next()) {
-//                DamengTable table = new DamengTable();
-//                String tableName = resultSet.getString("TABLE_NAME");
-//                String tableSpace = resultSet.getString("TABLE_SPACE");
-//                table.setDbName(dbName);
-//                table.setName(tableName);
-//                table.setTableSpace(tableSpace);
-//                tables.add(table);
-//            }
-//            DBUtil.close(resultSet);
-//            DBUtil.close(statement);
-//            return tables;
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            throw new DBException(ex);
-//        }
-//    }
+    //    public List<DamengTable> selectTablesSimple(String dbName) {
+    //        try {
+    //            List<DamengTable> tables = new ArrayList<>();
+    //            Connection connection = this.connection(dbName);
+    //            String sql = """
+    //                        SELECT
+    //                            T.TABLE_NAME, T.TABLESPACE_NAME AS "TABLE_SPACE"
+    //                        FROM
+    //                            ALL_TABLES T
+    //                        WHERE
+    //                            T.OWNER = ?
+    //                    """;
+    //            DBUtil.printSql(sql);
+    //            PreparedStatement statement = connection.prepareStatement(sql);
+    //            statement.setString(1, dbName);
+    //            ResultSet resultSet = statement.executeQuery();
+    //            DBUtil.printMetaData(resultSet);
+    //            while (resultSet.next()) {
+    //                DamengTable table = new DamengTable();
+    //                String tableName = resultSet.getString("TABLE_NAME");
+    //                String tableSpace = resultSet.getString("TABLE_SPACE");
+    //                table.setDbName(dbName);
+    //                table.setName(tableName);
+    //                table.setTableSpace(tableSpace);
+    //                tables.add(table);
+    //            }
+    //            DBUtil.close(resultSet);
+    //            DBUtil.close(statement);
+    //            return tables;
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //            throw new DBException(ex);
+    //        }
+    //    }
 
     public DamengColumns selectColumns(DamengSelectColumnParam param) {
         try {
@@ -3109,25 +3111,14 @@ public class DamengClient {
      * @return 克隆表名称
      */
     public String cloneTable(String dbName, String tableName, boolean includeRecord) {
-        // // 查询表
-        // DamengSelectTableParam selectTableParam = new DamengSelectTableParam();
-        // selectTableParam.setFull(true);
-        // selectTableParam.setDbName(dbName);
-        // selectTableParam.setTableName(tableName);
-        // DamengTable table = this.selectTable(selectTableParam);
         // 查询检查
         DamengChecks checks = this.checks(dbName, tableName);
-        // // 查询索引
-        // DamengIndexes indexes = this.indexes(dbName, tableName);
+        //        // 查询索引
+        //        DamengIndexes indexes = this.indexes(dbName, tableName);
         // 查询触发器
         DamengTriggers triggers = this.selectTriggers(dbName, tableName);
         // 查询外键
         DamengForeignKeys foreignKeys = this.foreignKeys(dbName, tableName);
-        // // 查询字段
-        // DamengSelectColumnParam selectColumnParam = new DamengSelectColumnParam();
-        // selectColumnParam.setDbName(dbName);
-        // selectColumnParam.setTableName(tableName);
-        // DamengColumns columns = this.selectColumns(selectColumnParam);
         if (checks != null) {
             for (DamengCheck check : checks) {
                 check.setName(check.getName() + DBUtil.genCloneName());
@@ -3144,11 +3135,14 @@ public class DamengClient {
                 trigger.setCreated(true);
             }
         }
-        // if (indexes != null) {
-        //     for (DamengIndex index : indexes) {
-        //         index.setName(index.getName() + DBUtil.genCloneName());
-        //     }
-        // }
+        //         if (indexes != null) {
+        //             for (DamengIndex index : indexes) {
+        //                 index.setName(index.getName() + DBUtil.genCloneName());
+        //                 index.clearStatus();
+        //                 index.clearOriginalData();
+        //                 index.setCreated(true);
+        //             }
+        //         }
         if (foreignKeys != null) {
             for (DamengForeignKey foreignKey : foreignKeys) {
                 foreignKey.setName(foreignKey.getName() + DBUtil.genCloneName());
@@ -3157,52 +3151,20 @@ public class DamengClient {
                 foreignKey.setCreated(true);
             }
         }
-        // table.setName(table.getName() + DBUtil.genCloneName());
-        // // 创建表
-        // DamengCreateTableParam createTableParam = new DamengCreateTableParam();
-        // createTableParam.setTable(table);
-        // createTableParam.setChecks(checks);
-        // createTableParam.setIndexes(indexes);
-        // createTableParam.setColumns(columns);
-        // createTableParam.setTriggers(triggers);
-        // createTableParam.setForeignKeys(foreignKeys);
-        // this.createTable(createTableParam);
-        // // 复制记录
-        // if (includeRecord) {
-        //     // 开始位置
-        //     long start = 0;
-        //     // 限制行
-        //     long limit = 1000;
-        //     while (true) {
-        //         // 查询记录
-        //         DamengSelectRecordParam selectRecordParam = new DamengSelectRecordParam();
-        //         selectRecordParam.setDbName(dbName);
-        //         selectRecordParam.setTableName(tableName);
-        //         selectRecordParam.setStart(start);
-        //         selectRecordParam.setLimit(limit);
-        //         List<DamengRecord> records = this.selectRecords(selectRecordParam);
-        //         // 插入记录
-        //         if (CollectionUtil.isNotEmpty(records)) {
-        //             for (DamengRecord record : records) {
-        //                 DamengInsertRecordParam insertRecordParam = DBUtil.toInsertRecord(columns, record);
-        //                 this.insertRecord(insertRecordParam);
-        //             }
-        //         }
-        //         // 查询结束
-        //         if (CollectionUtil.size(records) != limit) {
-        //             break;
-        //         }
-        //         start += limit;
-        //     }
-        // }
 
         String newTableName = tableName + DBUtil.genCloneName();
         try {
             Connection connection = this.connection(dbName);
-
             // 克隆基本的表结构
-            String sql = "CREATE TABLE " + DBUtil.wrap(dbName, newTableName, DBDialect.DAMENG)
-                    + " LIKE " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
+            //            String sql = "CREATE TABLE " + DBUtil.wrap(dbName, newTableName, DBDialect.DAMENG);
+            //            if (!includeRecord) {
+            //                sql = sql + " AS SELECT * FROM " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
+            //                sql = sql + " WHERE 1 = 0";
+            //            } else {
+            //                sql = sql + " LIKE " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
+            //            }
+            String sql = this.showCreateTable(dbName, tableName);
+            sql = sql.replace(DBUtil.wrap(dbName, tableName, DBDialect.DAMENG), DBUtil.wrap(dbName, newTableName, DBDialect.DAMENG));
             DBUtil.printSql(sql);
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.execute();
@@ -3215,18 +3177,42 @@ public class DamengClient {
             DamengAlertTableParam alertTableParam = new DamengAlertTableParam();
             alertTableParam.setTable(table);
             alertTableParam.setChecks(checks);
+            //            alertTableParam.setIndexes(indexes);
             alertTableParam.setTriggers(triggers);
             alertTableParam.setForeignKeys(foreignKeys);
             this.alertTable(alertTableParam);
 
             // 克隆数据
             if (includeRecord) {
-                sql = "INSERT INTO " + DBUtil.wrap(dbName, newTableName, DBDialect.DAMENG)
-                        + " SELECT * FROM " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
-                DBUtil.printSql(sql);
-                stmt = connection.prepareStatement(sql);
-                stmt.execute();
-                DBUtil.close(stmt);
+
+                // 查询字段列表
+                DamengSelectColumnParam param = new DamengSelectColumnParam();
+                param.setDbName(dbName);
+                param.setTableName(newTableName);
+                DamengColumns columns = this.selectColumns(param);
+                StringBuilder builder = new StringBuilder();
+                for (DamengColumn column : columns) {
+                    builder.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG))
+                            .append(" ,");
+                }
+                StringUtil.deleteLast(builder, ",");
+
+                // 处理数据
+                String sql1 = "SET IDENTITY_INSERT " + DBUtil.wrap(newTableName, DBDialect.DAMENG) + " ON;";
+                String sql2 = "INSERT INTO " + DBUtil.wrap(dbName, newTableName, this.dialect())
+                        + "(" + builder + ")"
+                        + " SELECT " + builder + " FROM " + DBUtil.wrap(dbName, tableName, this.dialect());
+                String sql3 = "SET IDENTITY_INSERT " + DBUtil.wrap(newTableName, DBDialect.DAMENG) + " OFF;";
+                connection.setAutoCommit(false);
+                Statement statement = connection.createStatement();
+                this.printSql(sql1);
+                statement.execute(sql1);
+                this.printSql(sql2);
+                statement.executeUpdate(sql2);
+                this.printSql(sql3);
+                statement.execute(sql3);
+                connection.commit();
+                DBUtil.close(statement);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -3269,5 +3255,29 @@ public class DamengClient {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 打印sql
+     *
+     * @param sql sql
+     */
+    private void printSql(String sql) {
+        DBUtil.printSql(sql);
+        String compressedSql = sql;
+        try {
+            // 压缩sql
+            SQLUtils.FormatOption formatOption = new SQLUtils.FormatOption();
+            formatOption.setUppCase(true);
+            formatOption.setPrettyFormat(false);
+            compressedSql = SQLUtils.format(sql, this.dbType(), formatOption);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        DamengEventUtil.printSql(compressedSql, this.dbConnect);
+    }
+
+    private DbType dbType() {
+        return this.dialect().dbType();
     }
 }

@@ -28,6 +28,7 @@ import cn.oyzh.easydameng.event.query.DamengQueryAddedEvent;
 import cn.oyzh.easydameng.event.query.DamengQueryDeletedEvent;
 import cn.oyzh.easydameng.event.query.DamengQueryOpenEvent;
 import cn.oyzh.easydameng.event.query.DamengQueryRenamedEvent;
+import cn.oyzh.easydameng.event.sql.ShellPrintSqlEvent;
 import cn.oyzh.easydameng.event.table.DamengTableAddedEvent;
 import cn.oyzh.easydameng.event.table.DamengTableAlertedEvent;
 import cn.oyzh.easydameng.event.table.DamengTableClearedEvent;
@@ -435,5 +436,12 @@ public class DamengEventUtil {
      */
     public static void showMessage() {
         EventUtil.post(new ShellShowMessageEvent());
+    }
+
+    public static void printSql(String sql, DamengConnect connect) {
+        ShellPrintSqlEvent event = new ShellPrintSqlEvent();
+        event.data(sql);
+        event.setConnect(connect);
+        EventUtil.post(event);
     }
 }
