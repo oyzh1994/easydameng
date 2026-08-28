@@ -1,12 +1,15 @@
 package cn.oyzh.easydameng.tabs.procedure;
 
 import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.dameng.generator.procedure.DamengProcedureAlertSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.procedure.DamengProcedureCreateSqlGenerator;
+import cn.oyzh.easydameng.dameng.procedure.DamengAlertProcedureParam;
+import cn.oyzh.easydameng.dameng.procedure.DamengCreateProcedureParam;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
-import cn.oyzh.easydameng.dameng.generator.routine.DamengProcedureSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
@@ -312,10 +315,21 @@ public class DamengProcedureDesignTabController extends RichTabController {
      */
     private void initPreview() {
         DamengProcedure temp = this.tempData();
-        if (StringUtil.isBlank(temp.getName())) {
-            temp.setName("Unnamed_Procedure");
+        String sql;
+        if (this.newData) {
+            DamengCreateProcedureParam param = new DamengCreateProcedureParam();
+            param.setDbName(this.dbName());
+            param.setProcedure(temp);
+            if (StringUtil.isBlank(param.getProcedureName())) {
+                param.setProcedureName("Unnamed_Procedure");
+            }
+            sql = DamengProcedureCreateSqlGenerator.generateSqlSingle(param);
+        } else {
+            DamengAlertProcedureParam param = new DamengAlertProcedureParam();
+            param.setDbName(this.dbName());
+            param.setProcedure(temp);
+            sql = DamengProcedureAlertSqlGenerator.generateSqlSingle(param);
         }
-        String sql = DamengProcedureSqlGenerator.generateSqlSingle(temp);
         this.preview.text(sql);
     }
 
@@ -381,6 +395,10 @@ public class DamengProcedureDesignTabController extends RichTabController {
         } catch (Exception ex) {
             MessageBox.exception(ex);
         }
+    }
+
+    public String dbName() {
+        return this.dbItem.dbName();
     }
 
     public boolean isUnsaved() {

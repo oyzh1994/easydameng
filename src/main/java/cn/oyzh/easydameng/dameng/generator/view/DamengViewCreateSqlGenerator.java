@@ -36,7 +36,7 @@ public class DamengViewCreateSqlGenerator extends DBSqlGenerator {
         this.sqlBuilder.append(";");
 
         // 注释
-        if(view.getComment()!=null){
+        if (view.getComment() != null) {
             StringBuilder builder = new StringBuilder();
             builder.append("COMMENT ON TABLE ")
                     .append(viewFullName)

@@ -1,14 +1,17 @@
 package cn.oyzh.easydameng.tabs.function;
 
 import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.dameng.function.DamengAlertFunctionParam;
+import cn.oyzh.easydameng.dameng.function.DamengCreateFunctionParam;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
+import cn.oyzh.easydameng.dameng.generator.function.DamengFunctionAlertSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.function.DamengFunctionCreateSqlGenerator;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
 import cn.oyzh.easydameng.fx.table.DamengFiledTypeComboBox;
-import cn.oyzh.easydameng.dameng.generator.routine.DamengFunctionSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
@@ -347,7 +350,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
             // 创建函数
             if (this.newData) {
                 this.dbItem.createFunction(tempFunction);
-                DamengFunction function = this.dbItem.selectFunction(functionName);
+                DamengFunction function = this.dbItem.selectFunction(this.functionName);
                 this.dbItem.getFunctionTypeChild().addFunction(function);
                 DamengEventUtil.functionAdded(this.dbItem);
                 this.initDBListener();
@@ -431,10 +434,21 @@ public class DamengFunctionDesignTabController extends RichTabController {
      */
     private void initPreview() {
         DamengFunction temp = this.tempData();
-        if (StringUtil.isBlank(temp.getName())) {
-            temp.setName("Unnamed_Function");
+        String sql;
+        if (this.newData) {
+            DamengCreateFunctionParam param = new DamengCreateFunctionParam();
+            param.setDbName(this.dbName());
+            param.setFunction(temp);
+            if (StringUtil.isBlank(param.getFunctionName())) {
+                param.setFunctionName("Unnamed_Function");
+            }
+            sql = DamengFunctionCreateSqlGenerator.generateSqlSingle(param);
+        } else {
+            DamengAlertFunctionParam param = new DamengAlertFunctionParam();
+            param.setDbName(this.dbName());
+            param.setFunction(temp);
+            sql = DamengFunctionAlertSqlGenerator.generateSqlSingle(param);
         }
-        String sql = DamengFunctionSqlGenerator.generateSqlSingle(temp);
         this.preview.text(sql);
     }
 

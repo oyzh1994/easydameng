@@ -13,16 +13,24 @@ import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.event.DamengEvent;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKey;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
+import cn.oyzh.easydameng.dameng.function.DamengAlertFunctionParam;
+import cn.oyzh.easydameng.dameng.function.DamengCreateFunctionParam;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
-import cn.oyzh.easydameng.dameng.generator.routine.DamengFunctionSqlGenerator;
-import cn.oyzh.easydameng.dameng.generator.routine.DamengProcedureSqlGenerator;
+import cn.oyzh.easydameng.dameng.function.DamengSelectFunctionParam;
+import cn.oyzh.easydameng.dameng.generator.function.DamengFunctionAlertSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.function.DamengFunctionCreateSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.procedure.DamengProcedureAlertSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.procedure.DamengProcedureCreateSqlGenerator;
 import cn.oyzh.easydameng.dameng.generator.table.DamengTableAlertSqlGenerator;
 import cn.oyzh.easydameng.dameng.generator.table.DamengTableCreateSqlGenerator;
 import cn.oyzh.easydameng.dameng.generator.view.DamengViewAlertSqlGenerator;
 import cn.oyzh.easydameng.dameng.generator.view.DamengViewCreateSqlGenerator;
 import cn.oyzh.easydameng.dameng.index.DamengIndex;
 import cn.oyzh.easydameng.dameng.index.DamengIndexes;
+import cn.oyzh.easydameng.dameng.procedure.DamengAlertProcedureParam;
+import cn.oyzh.easydameng.dameng.procedure.DamengCreateProcedureParam;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
+import cn.oyzh.easydameng.dameng.procedure.DamengSelectProcedureParam;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
 import cn.oyzh.easydameng.dameng.query.DamengQueryResults;
@@ -567,14 +575,16 @@ public class DamengClient {
         return size;
     }
 
-    public void alertFunction(String dbName, DamengFunction function) {
+    /**
+     * 修改函数
+     *
+     * @param param 参数
+     */
+    public void alertFunction(DamengAlertFunctionParam param) {
         try {
-            //            String sql = "DROP FUNCTION IF EXISTS " + DBUtil.wrap(dbName, function.getName(), DBDialect.DAMENG);
-            //            DBUtil.printSql(sql);
-            Connection connection = this.connection(dbName);
+            Connection connection = this.connection(param.getDbName());
             Statement statement = connection.createStatement();
-            //            statement.executeUpdate(sql);
-            String sql = DamengFunctionSqlGenerator.generateSqlSingle(function);
+            String sql = DamengFunctionAlertSqlGenerator.generateSqlSingle(param);
             DBUtil.printSql(sql);
             statement.executeUpdate(sql);
             DBUtil.close(statement);
@@ -2515,7 +2525,22 @@ public class DamengClient {
     }
 
     public List<DamengFunction> selectFunctions(String dbName) {
+        DamengSelectFunctionParam param = new DamengSelectFunctionParam();
+        param.setDbName(dbName);
+        param.setFull(true);
+        return this.selectFunctions(param);
+    }
+
+    public List<DamengFunction> selectFunctionsSimple(String dbName) {
+        DamengSelectFunctionParam param = new DamengSelectFunctionParam();
+        param.setDbName(dbName);
+        param.setFull(false);
+        return this.selectFunctions(param);
+    }
+
+    public List<DamengFunction> selectFunctions(DamengSelectFunctionParam param) {
         try {
+            String dbName = param.getDbName();
             List<DamengFunction> list = new ArrayList<>();
             String sql = """
                     SELECT
@@ -2546,17 +2571,21 @@ public class DamengClient {
                 String name = resultSet.getString("ROUTINE_NAME");
                 List<DamengRoutineParam> params = DamengHelper.listFunctionParam(this.connection(), dbName, name);
                 String securityType = resultSet.getString("SECURITY_TYPE");
-                String createDefinition = this.showCreateFunction(dbName, name);
-                String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
                 String aggregate = resultSet.getString("AGGREGATE");
                 String pipelined = resultSet.getString("PIPELINED");
                 String deterministic = resultSet.getString("DETERMINISTIC");
                 StringBuilder characteristic = new StringBuilder();
-                if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
-                    characteristic.append(",PARALLEL_ENABLE");
-                }
-                if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
-                    characteristic.append(",RESULT_CACHE");
+                if (param.isFull()) {
+                    String createDefinition = this.showCreateFunction(dbName, name);
+                    String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
+                    if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
+                        characteristic.append(",PARALLEL_ENABLE");
+                    }
+                    if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
+                        characteristic.append(",RESULT_CACHE");
+                    }
+                    function.setDefinition(definition);
+                    function.setCreateDefinition(createDefinition);
                 }
                 if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
                     characteristic.append(",AGGREGATE");
@@ -2573,69 +2602,6 @@ public class DamengClient {
                 function.setName(name);
                 function.setDbName(dbName);
                 function.setParams(params);
-                function.setDefinition(definition);
-                function.setSecurityType(securityType);
-                function.setCreateDefinition(createDefinition);
-                list.add(function);
-            }
-            // 关闭连接和释放资源
-            DBUtil.close(resultSet);
-            DBUtil.close(statement);
-            return list;
-        } catch (Exception ex) {
-            throw new DBException(ex);
-        }
-    }
-
-    public List<DamengFunction> selectFunctionsSimple(String dbName) {
-        try {
-            List<DamengFunction> list = new ArrayList<>();
-            String sql = """
-                    SELECT
-                        O.OBJECT_NAME AS "ROUTINE_NAME",
-                        P.AUTHID AS "SECURITY_TYPE",
-                        P.AGGREGATE,
-                        P.PIPELINED,
-                        P.DETERMINISTIC
-                    FROM 
-                        ALL_OBJECTS O
-                    LEFT JOIN 
-                        ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
-                    WHERE 
-                        O.OWNER = ?
-                    AND 
-                        O.OBJECT_TYPE = 'FUNCTION'
-                    """;
-            DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
-            statement.setString(1, dbName);
-            // 执行SQL查询并获取结果集
-            ResultSet resultSet = statement.executeQuery();
-            // 打印元数据
-            DBUtil.printMetaData(resultSet);
-            // 遍历结果集
-            while (resultSet.next()) {
-                DamengFunction function = new DamengFunction();
-                String name = resultSet.getString("ROUTINE_NAME");
-                String securityType = resultSet.getString("SECURITY_TYPE");
-                String aggregate = resultSet.getString("AGGREGATE");
-                String pipelined = resultSet.getString("PIPELINED");
-                String deterministic = resultSet.getString("DETERMINISTIC");
-                StringBuilder characteristic = new StringBuilder();
-                if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
-                    characteristic.append(",AGGREGATE");
-                }
-                if (StringUtil.equalsIgnoreCase("YES", pipelined)) {
-                    characteristic.append(",PIPELINED");
-                }
-                if (StringUtil.equalsIgnoreCase("YES", deterministic)) {
-                    characteristic.append(",DETERMINISTIC");
-                }
-                if (!characteristic.isEmpty()) {
-                    function.setCharacteristic(characteristic.substring(1));
-                }
-                function.setName(name);
-                function.setDbName(dbName);
                 function.setSecurityType(securityType);
                 list.add(function);
             }
@@ -2649,7 +2615,22 @@ public class DamengClient {
     }
 
     public List<DamengProcedure> selectProcedures(String dbName) {
+        DamengSelectProcedureParam param = new DamengSelectProcedureParam();
+        param.setDbName(dbName);
+        param.setFull(true);
+        return this.selectProcedures(param);
+    }
+
+    public List<DamengProcedure> selectProceduresSimple(String dbName) {
+        DamengSelectProcedureParam param = new DamengSelectProcedureParam();
+        param.setDbName(dbName);
+        param.setFull(false);
+        return this.selectProcedures(param);
+    }
+
+    public List<DamengProcedure> selectProcedures(DamengSelectProcedureParam param) {
         try {
+            String dbName = param.getDbName();
             List<DamengProcedure> list = new ArrayList<>();
             String sql = """
                     SELECT
@@ -2678,19 +2659,23 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengProcedure procedure = new DamengProcedure();
                 String name = resultSet.getString("ROUTINE_NAME");
-                String createDefinition = this.showCreateProcedure(dbName, name);
                 List<DamengRoutineParam> params = DamengHelper.listProcedureParam(this.connection(), dbName, name);
                 String securityType = resultSet.getString("SECURITY_TYPE");
-                String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
                 String aggregate = resultSet.getString("AGGREGATE");
                 String pipelined = resultSet.getString("PIPELINED");
                 String deterministic = resultSet.getString("DETERMINISTIC");
                 StringBuilder characteristic = new StringBuilder();
-                if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
-                    characteristic.append(",PARALLEL_ENABLE");
-                }
-                if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
-                    characteristic.append(",RESULT_CACHE");
+                if (param.isFull()) {
+                    String createDefinition = this.showCreateProcedure(dbName, name);
+                    String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
+                    if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
+                        characteristic.append(",PARALLEL_ENABLE");
+                    }
+                    if (StringUtil.contains(createDefinition, "RESULT_CACHE")) {
+                        characteristic.append(",RESULT_CACHE");
+                    }
+                    procedure.setDefinition(definition);
+                    procedure.setCreateDefinition(createDefinition);
                 }
                 if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
                     characteristic.append(",AGGREGATE");
@@ -2707,69 +2692,6 @@ public class DamengClient {
                 procedure.setName(name);
                 procedure.setDbName(dbName);
                 procedure.setParams(params);
-                procedure.setDefinition(definition);
-                procedure.setSecurityType(securityType);
-                procedure.setCreateDefinition(createDefinition);
-                list.add(procedure);
-            }
-            // 关闭连接和释放资源
-            DBUtil.close(resultSet);
-            DBUtil.close(statement);
-            return list;
-        } catch (Exception ex) {
-            throw new DBException(ex);
-        }
-    }
-
-    public List<DamengProcedure> selectProceduresSimple(String dbName) {
-        try {
-            List<DamengProcedure> list = new ArrayList<>();
-            String sql = """
-                    SELECT
-                        O.OBJECT_NAME AS "ROUTINE_NAME",
-                        P.AUTHID AS "SECURITY_TYPE",
-                        P.AGGREGATE,
-                        P.PIPELINED,
-                        P.DETERMINISTIC
-                    FROM 
-                        ALL_OBJECTS O
-                    LEFT JOIN
-                        ALL_PROCEDURES P ON O.OWNER = P.OWNER AND O.OBJECT_NAME = P.OBJECT_NAME
-                    WHERE 
-                        O.OWNER = ?
-                    AND 
-                        O.OBJECT_TYPE = 'PROCEDURE'
-                    """;
-            DBUtil.printSql(sql);
-            PreparedStatement statement = this.connection().prepareStatement(sql);
-            statement.setString(1, dbName);
-            // 执行SQL查询并获取结果集
-            ResultSet resultSet = statement.executeQuery();
-            // 打印元数据
-            DBUtil.printMetaData(resultSet);
-            // 遍历结果集
-            while (resultSet.next()) {
-                DamengProcedure procedure = new DamengProcedure();
-                String name = resultSet.getString("ROUTINE_NAME");
-                String securityType = resultSet.getString("SECURITY_TYPE");
-                String aggregate = resultSet.getString("AGGREGATE");
-                String pipelined = resultSet.getString("PIPELINED");
-                String deterministic = resultSet.getString("DETERMINISTIC");
-                StringBuilder characteristic = new StringBuilder();
-                if (StringUtil.equalsIgnoreCase("YES", aggregate)) {
-                    characteristic.append(",AGGREGATE");
-                }
-                if (StringUtil.equalsIgnoreCase("YES", pipelined)) {
-                    characteristic.append(",PIPELINED");
-                }
-                if (StringUtil.equalsIgnoreCase("YES", deterministic)) {
-                    characteristic.append(",DETERMINISTIC");
-                }
-                if (!characteristic.isEmpty()) {
-                    procedure.setCharacteristic(characteristic.substring(1));
-                }
-                procedure.setName(name);
-                procedure.setDbName(dbName);
                 procedure.setSecurityType(securityType);
                 list.add(procedure);
             }
@@ -2856,7 +2778,6 @@ public class DamengClient {
         }
     }
 
-
     public void dropProcedure(String dbName, DamengProcedure routine) {
         try {
             String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(dbName, routine.getName(), DBDialect.DAMENG);
@@ -2870,11 +2791,16 @@ public class DamengClient {
         }
     }
 
-    public void createProcedure(String dbName, DamengProcedure procedure) {
+    /**
+     * 创建过程
+     *
+     * @param param 参数
+     */
+    public void createProcedure(DamengCreateProcedureParam param) {
         try {
-            String sql = DamengProcedureSqlGenerator.generateSqlSingle(procedure);
+            String sql = DamengProcedureCreateSqlGenerator.generateSqlSingle(param);
             DBUtil.printSql(sql);
-            Statement statement = this.connection(dbName).createStatement();
+            Statement statement = this.connection(param.getDbName()).createStatement();
             statement.executeUpdate(sql);
             DBUtil.close(statement);
         } catch (Exception ex) {
@@ -2883,17 +2809,17 @@ public class DamengClient {
         }
     }
 
-    public void alertProcedure(String dbName, DamengProcedure procedure) {
+    /**
+     * 修改过程
+     *
+     * @param param 参数
+     */
+    public void alertProcedure(DamengAlertProcedureParam param) {
         try {
-            //            String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(dbName, procedure.getName(), DBDialect.DAMENG);
-            //            DBUtil.printSql(sql);
-            Statement statement = this.connection(dbName).createStatement();
-            //            statement.executeUpdate(sql);
-            String sql = DamengProcedureSqlGenerator.generateSqlSingle(procedure);
+            String sql = DamengProcedureAlertSqlGenerator.generateSqlSingle(param);
             DBUtil.printSql(sql);
-            Statement statement1 = this.connection(dbName).createStatement();
-            statement1.executeUpdate(sql);
-            DBUtil.close(statement1);
+            Statement statement = this.connection(param.getDbName()).createStatement();
+            statement.executeUpdate(sql);
             DBUtil.close(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -2988,11 +2914,16 @@ public class DamengClient {
         }
     }
 
-    public void createFunction(String dbName, DamengFunction function) {
+    /**
+     * 创建函数
+     *
+     * @param param 参数
+     */
+    public void createFunction(DamengCreateFunctionParam param) {
         try {
-            String sql = DamengFunctionSqlGenerator.generateSqlSingle(function);
+            String sql = DamengFunctionCreateSqlGenerator.generateSqlSingle(param);
             DBUtil.printSql(sql);
-            Statement statement = this.connection(dbName).createStatement();
+            Statement statement = this.connection(param.getDbName()).createStatement();
             statement.executeUpdate(sql);
             DBUtil.close(statement);
         } catch (Exception ex) {

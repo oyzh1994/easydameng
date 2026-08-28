@@ -40,10 +40,6 @@ public class DamengAlertTableParam {
      */
     private List<String> primaryKeys;
 
-    public String dbName() {
-        return this.table.getDbName();
-    }
-
     public boolean hasColumns() {
         return CollectionUtil.isNotEmpty(this.columns);
     }

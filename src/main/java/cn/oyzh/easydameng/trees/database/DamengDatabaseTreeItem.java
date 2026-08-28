@@ -11,8 +11,12 @@ import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.event.DamengEvent;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
+import cn.oyzh.easydameng.dameng.function.DamengAlertFunctionParam;
+import cn.oyzh.easydameng.dameng.function.DamengCreateFunctionParam;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.dameng.index.DamengIndexes;
+import cn.oyzh.easydameng.dameng.procedure.DamengAlertProcedureParam;
+import cn.oyzh.easydameng.dameng.procedure.DamengCreateProcedureParam;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
@@ -524,7 +528,17 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     }
 
     public void createFunction(DamengFunction function) {
-        this.client().createFunction(this.dbName(), function);
+        DamengCreateFunctionParam param = new DamengCreateFunctionParam();
+        param.setFunction(function);
+        param.setDbName(this.dbName());
+        this.client().createFunction(param);
+    }
+
+    public void alertFunction(DamengFunction function) {
+        DamengAlertFunctionParam param = new DamengAlertFunctionParam();
+        param.setFunction(function);
+        param.setDbName(this.dbName());
+        this.client().alertFunction(param);
     }
 
     public void dropFunction(DamengFunction function) {
@@ -535,12 +549,18 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         return this.client().selectProcedure(this.dbName(), procedureName);
     }
 
-    public void alertProcedure(DamengProcedure procedure) {
-        this.client().alertProcedure(this.dbName(), procedure);
+    public void createProcedure(DamengProcedure procedure) {
+        DamengCreateProcedureParam param = new DamengCreateProcedureParam();
+        param.setProcedure(procedure);
+        param.setDbName(this.dbName());
+        this.client().createProcedure(param);
     }
 
-    public void createProcedure(DamengProcedure procedure) {
-        this.client().createProcedure(this.dbName(), procedure);
+    public void alertProcedure(DamengProcedure procedure) {
+        DamengAlertProcedureParam param = new DamengAlertProcedureParam();
+        param.setProcedure(procedure);
+        param.setDbName(this.dbName());
+        this.client().alertProcedure(param);
     }
 
     public void dropProcedure(DamengProcedure procedure) {
@@ -551,9 +571,6 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         return this.client().selectFunction(this.dbName(), functionName);
     }
 
-    public void alertFunction(DamengFunction function) {
-        this.client().alertFunction(this.dbName(), function);
-    }
 
     public DamengView selectView(String viewName) {
         return this.client().selectView(this.dbName(), viewName);

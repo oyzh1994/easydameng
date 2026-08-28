@@ -17,7 +17,6 @@ import cn.oyzh.easydameng.db.DBDialect;
 import cn.oyzh.easydameng.db.DBSqlGenerator;
 import cn.oyzh.easydameng.util.DBUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,17 +32,11 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
      */
     private boolean changeFlag;
 
-    private List<String> sqlList;
-
-    private StringBuilder sqlBuilder;
-
     private void _generate(DamengCreateTableParam param) {
-        this.sqlList = new ArrayList<>();
-        this.sqlBuilder = new StringBuilder();
         String dbName = param.dbName();
         DamengTable table = param.getTable();
         String tableName = param.tableName();
-        String tableFullName = DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
+        String fullName = DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
         this.sqlBuilder.append("CREATE TABLE ")
                 .append(DBUtil.wrap(dbName, tableName, DBDialect.DAMENG))
                 .append(" ( \n");
@@ -92,7 +85,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         if (StringUtil.isNotBlank(table.getComment())) {
             StringBuilder builder = new StringBuilder();
             builder.append("COMMENT ON TABLE ")
-                    .append(tableFullName)
+                    .append(fullName)
                     .append(" IS ")
                     .append(DBUtil.wrapData(table.getComment(), DBDialect.DAMENG)).append(";");
             this.sqlList.add(builder.toString());
