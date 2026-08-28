@@ -8,7 +8,7 @@ import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
 import cn.oyzh.easydameng.fx.table.DamengFiledTypeComboBox;
-import cn.oyzh.easydameng.generator.routine.DamengFunctionSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.routine.DamengFunctionSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
@@ -27,9 +27,6 @@ import cn.oyzh.i18n.I18nHelper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * db函数内容组件
@@ -420,7 +417,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
         if (StringUtil.isBlank(temp.getName())) {
             temp.setName("Unnamed_Function");
         }
-        String sql = DamengFunctionSqlGenerator.INSTANCE.generate(temp);
+        String sql = DamengFunctionSqlGenerator.generateSqlSingle(temp);
         this.preview.text(sql);
     }
 

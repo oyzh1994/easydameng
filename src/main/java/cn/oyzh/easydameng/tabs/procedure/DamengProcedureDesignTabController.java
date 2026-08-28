@@ -6,7 +6,7 @@ import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
-import cn.oyzh.easydameng.generator.routine.DamengProcedureSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.routine.DamengProcedureSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
@@ -24,9 +24,6 @@ import cn.oyzh.i18n.I18nHelper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
 /**
@@ -302,7 +299,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
         if (StringUtil.isBlank(temp.getName())) {
             temp.setName("Unnamed_Procedure");
         }
-        String sql = DamengProcedureSqlGenerator.INSTANCE.generate(temp);
+        String sql = DamengProcedureSqlGenerator.generateSqlSingle(temp);
         this.preview.text(sql);
     }
 

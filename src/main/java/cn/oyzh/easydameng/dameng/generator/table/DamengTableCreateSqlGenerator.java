@@ -1,4 +1,4 @@
-package cn.oyzh.easydameng.generator.table;
+package cn.oyzh.easydameng.dameng.generator.table;
 
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;

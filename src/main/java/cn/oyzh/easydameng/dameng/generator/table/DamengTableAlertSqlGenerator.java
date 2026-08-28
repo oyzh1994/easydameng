@@ -1,4 +1,4 @@
-package cn.oyzh.easydameng.generator.table;
+package cn.oyzh.easydameng.dameng.generator.table;
 
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
@@ -18,7 +18,6 @@ import cn.oyzh.easydameng.db.DBObjectList;
 import cn.oyzh.easydameng.db.DBSqlGenerator;
 import cn.oyzh.easydameng.util.DBUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

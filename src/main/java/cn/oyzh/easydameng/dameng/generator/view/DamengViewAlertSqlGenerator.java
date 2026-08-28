@@ -1,6 +1,5 @@
-package cn.oyzh.easydameng.generator.view;
+package cn.oyzh.easydameng.dameng.generator.view;
 
-import cn.oyzh.easydameng.dameng.table.DamengAlertTableParam;
 import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.db.DBDialect;

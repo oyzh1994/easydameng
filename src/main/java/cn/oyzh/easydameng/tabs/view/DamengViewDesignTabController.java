@@ -6,8 +6,8 @@ import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
-import cn.oyzh.easydameng.generator.view.DamengViewAlertSqlGenerator;
-import cn.oyzh.easydameng.generator.view.DamengViewCreateSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.view.DamengViewAlertSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.view.DamengViewCreateSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
@@ -23,9 +23,6 @@ import cn.oyzh.fx.plus.window.StageManager;
 import cn.oyzh.i18n.I18nHelper;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * db视图tab内容组件

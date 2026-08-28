@@ -14,6 +14,12 @@ import cn.oyzh.easydameng.dameng.event.DamengEvent;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKey;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
+import cn.oyzh.easydameng.dameng.generator.routine.DamengFunctionSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.routine.DamengProcedureSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.table.DamengTableAlertSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.table.DamengTableCreateSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.view.DamengViewAlertSqlGenerator;
+import cn.oyzh.easydameng.dameng.generator.view.DamengViewCreateSqlGenerator;
 import cn.oyzh.easydameng.dameng.index.DamengIndex;
 import cn.oyzh.easydameng.dameng.index.DamengIndexes;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
@@ -48,12 +54,6 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.exception.ReadonlyOperationException;
-import cn.oyzh.easydameng.generator.routine.DamengFunctionSqlGenerator;
-import cn.oyzh.easydameng.generator.routine.DamengProcedureSqlGenerator;
-import cn.oyzh.easydameng.generator.table.DamengTableAlertSqlGenerator;
-import cn.oyzh.easydameng.generator.table.DamengTableCreateSqlGenerator;
-import cn.oyzh.easydameng.generator.view.DamengViewAlertSqlGenerator;
-import cn.oyzh.easydameng.generator.view.DamengViewCreateSqlGenerator;
 import cn.oyzh.easydameng.sql.DBSqlParser;
 import cn.oyzh.easydameng.util.DBUtil;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -567,12 +567,12 @@ public class DamengClient {
 
     public void alertFunction(String dbName, DamengFunction function) {
         try {
-            String sql = "DROP FUNCTION IF EXISTS " + DBUtil.wrap(dbName, function.getName(), DBDialect.DAMENG);
-            DBUtil.printSql(sql);
+            //            String sql = "DROP FUNCTION IF EXISTS " + DBUtil.wrap(dbName, function.getName(), DBDialect.DAMENG);
+            //            DBUtil.printSql(sql);
             Connection connection = this.connection(dbName);
             Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-            sql = DamengFunctionSqlGenerator.INSTANCE.generate(function);
+            //            statement.executeUpdate(sql);
+            String sql = DamengFunctionSqlGenerator.generateSqlSingle(function);
             DBUtil.printSql(sql);
             statement.executeUpdate(sql);
             DBUtil.close(statement);
@@ -2860,7 +2860,7 @@ public class DamengClient {
 
     public void createProcedure(String dbName, DamengProcedure procedure) {
         try {
-            String sql = DamengProcedureSqlGenerator.INSTANCE.generate(procedure);
+            String sql = DamengProcedureSqlGenerator.generateSqlSingle(procedure);
             DBUtil.printSql(sql);
             Statement statement = this.connection(dbName).createStatement();
             statement.executeUpdate(sql);
@@ -2873,11 +2873,11 @@ public class DamengClient {
 
     public void alertProcedure(String dbName, DamengProcedure procedure) {
         try {
-            String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(dbName, procedure.getName(), DBDialect.DAMENG);
-            DBUtil.printSql(sql);
+            //            String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(dbName, procedure.getName(), DBDialect.DAMENG);
+            //            DBUtil.printSql(sql);
             Statement statement = this.connection(dbName).createStatement();
-            statement.executeUpdate(sql);
-            sql = DamengProcedureSqlGenerator.INSTANCE.generate(procedure);
+            //            statement.executeUpdate(sql);
+            String sql = DamengProcedureSqlGenerator.generateSqlSingle(procedure);
             DBUtil.printSql(sql);
             Statement statement1 = this.connection(dbName).createStatement();
             statement1.executeUpdate(sql);
@@ -2978,7 +2978,7 @@ public class DamengClient {
 
     public void createFunction(String dbName, DamengFunction function) {
         try {
-            String sql = DamengFunctionSqlGenerator.INSTANCE.generate(function);
+            String sql = DamengFunctionSqlGenerator.generateSqlSingle(function);
             DBUtil.printSql(sql);
             Statement statement = this.connection(dbName).createStatement();
             statement.executeUpdate(sql);
