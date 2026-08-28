@@ -2682,13 +2682,14 @@ public class DamengClient {
             while (resultSet.next()) {
                 DamengProcedure procedure = new DamengProcedure();
                 String name = resultSet.getString("ROUTINE_NAME");
-                List<DamengRoutineParam> params = this.listProcedureParam(dbName, name);
-                String securityType = resultSet.getString("SECURITY_TYPE");
                 String aggregate = resultSet.getString("AGGREGATE");
                 String pipelined = resultSet.getString("PIPELINED");
+                String securityType = resultSet.getString("SECURITY_TYPE");
                 String deterministic = resultSet.getString("DETERMINISTIC");
                 StringBuilder characteristic = new StringBuilder();
                 if (param.isFull()) {
+                    List<DamengRoutineParam> params = this.listProcedureParam(dbName, name);
+                    procedure.setParams(params);
                     String createDefinition = this.showCreateProcedure(dbName, name);
                     String definition = createDefinition.substring(createDefinition.indexOf("\nAS\n") + 4);
                     if (StringUtil.contains(createDefinition, "PARALLEL_ENABLE")) {
@@ -2714,7 +2715,6 @@ public class DamengClient {
                 }
                 procedure.setName(name);
                 procedure.setDbName(dbName);
-                procedure.setParams(params);
                 procedure.setSecurityType(securityType);
                 list.add(procedure);
             }
@@ -2777,10 +2777,9 @@ public class DamengClient {
             procedure.setName(produceName);
             // 遍历结果集
             while (resultSet.next()) {
-                String securityType = resultSet.getString("SECURITY_TYPE");
-
                 String aggregate = resultSet.getString("AGGREGATE");
                 String pipelined = resultSet.getString("PIPELINED");
+                String securityType = resultSet.getString("SECURITY_TYPE");
                 String deterministic = resultSet.getString("DETERMINISTIC");
                 StringBuilder characteristic = new StringBuilder();
                 if (param.isFull()) {
@@ -2940,9 +2939,9 @@ public class DamengClient {
             function.setName(functionName);
             // 遍历结果集
             while (resultSet.next()) {
-                String securityType = resultSet.getString("SECURITY_TYPE");
                 String aggregate = resultSet.getString("AGGREGATE");
                 String pipelined = resultSet.getString("PIPELINED");
+                String securityType = resultSet.getString("SECURITY_TYPE");
                 String deterministic = resultSet.getString("DETERMINISTIC");
                 StringBuilder characteristic = new StringBuilder();
                 if (param.isFull()) {
@@ -3185,7 +3184,6 @@ public class DamengClient {
 
             // 克隆数据
             if (includeRecord) {
-
                 // 查询字段列表
                 DamengSelectColumnParam param = new DamengSelectColumnParam();
                 param.setDbName(dbName);
