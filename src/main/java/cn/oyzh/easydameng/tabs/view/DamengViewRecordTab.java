@@ -32,7 +32,7 @@ public class DamengViewRecordTab extends DamengTab {
     public void flushGraphic() {
         ViewSVGGlyph graphic = (ViewSVGGlyph) this.getGraphic();
         if (graphic == null) {
-            graphic = new ViewSVGGlyph("13");
+            graphic = new ViewSVGGlyph();
             graphic.setCursor(Cursor.DEFAULT);
             this.setGraphic(graphic);
         }

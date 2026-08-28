@@ -19,7 +19,7 @@
                     <Insets left="10" top="9"/>
                 </FXHBox.margin>
             </LayoutSVGPane>
-            <TransportSVGLabel onMousePrimaryClicked="#transport" size="12">
+            <TransportSVGLabel onMousePrimaryClicked="#transport">
                 <FXHBox.margin>
                     <Insets left="10" top="7"/>
                 </FXHBox.margin>

@@ -28,7 +28,7 @@ public class DBHomeTab extends RichTab {
     public void flushGraphic() {
         SVGGlyph graphic = (SVGGlyph) this.getGraphic();
         if (graphic == null) {
-            graphic = new HomeSVGGlyph("13");
+            graphic = new HomeSVGGlyph();
             graphic.setCursor(Cursor.DEFAULT);
             this.setGraphic(graphic);
         }

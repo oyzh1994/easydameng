@@ -59,9 +59,9 @@ public class DBJsonTextFiledSkin extends ActionTextFieldSkin {
         textArea.setPromptText(I18nHelper.pleaseInputContent());
         textArea.showData(this.getText());
         // 按钮
-        SubmitSVGGlyph ok = new SubmitSVGGlyph("13");
+        SubmitSVGGlyph ok = new SubmitSVGGlyph();
         ok.setOnMousePrimaryClicked(event -> this.onSubmit(textArea.getTextTrim()));
-        CancelSVGGlyph cancel = new CancelSVGGlyph("12");
+        CancelSVGGlyph cancel = new CancelSVGGlyph();
         cancel.setOnMousePrimaryClicked(event -> this.handleHide());
         HBox.setMargin(ok, new Insets(5, 0, 0, 5));
         HBox.setMargin(cancel, new Insets(5, 0, 0, 15));
@@ -93,7 +93,7 @@ public class DBJsonTextFiledSkin extends ActionTextFieldSkin {
 
     public DBJsonTextFiledSkin(TextField textField) {
         super(textField);
-        // super(textField, new EnlargeSVGGlyph("13"));
+        // super(textField, new EnlargeSVGGlyph());
         // this.button.disappear();
         // this.button.setTipText(I18nHelper.enlarge());
     }
@@ -101,7 +101,7 @@ public class DBJsonTextFiledSkin extends ActionTextFieldSkin {
     @Override
     protected SVGGlyph getButton() {
         if (super.button == null) {
-            super.button = new EnlargeSVGGlyph("13");
+            super.button = new EnlargeSVGGlyph();
             super.initButton(super.button);
         }
         return super.button;

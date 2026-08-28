@@ -1,15 +1,21 @@
 package cn.oyzh.easydameng.tabs.view;
 
+import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
+import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.event.DamengEventUtil;
-import cn.oyzh.easydameng.fx.DBEditor;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
 import cn.oyzh.easydameng.fx.view.DamengViewAlgorithmComboBox;
 import cn.oyzh.easydameng.fx.view.DamengViewCheckOptionComboBox;
+import cn.oyzh.easydameng.generator.view.DamengViewAlertSqlGenerator;
+import cn.oyzh.easydameng.generator.view.DamengViewCreateSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
+import cn.oyzh.fx.plus.controls.tab.FXTabPane;
 import cn.oyzh.fx.plus.controls.text.field.FXTextField;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.node.NodeUtil;
@@ -33,7 +39,7 @@ public class DamengViewDesignTabController extends RichTabController {
     /**
      * 视图对象
      */
-    private DamengView dbView;
+    private DamengView view;
 
     /**
      * db数据库树节点
@@ -68,7 +74,19 @@ public class DamengViewDesignTabController extends RichTabController {
      * 定义
      */
     @FXML
-    private DBEditor definition;
+    private Editor definition;
+
+    /**
+     * 预览
+     */
+    @FXML
+    private Editor preview;
+
+    /**
+     * 切换面板
+     */
+    @FXML
+    private FXTabPane tabPane;
 
     /**
      * 数据监听器
@@ -97,18 +115,6 @@ public class DamengViewDesignTabController extends RichTabController {
         // 更新初始化标志位
         this.initiating = true;
 
-        // 更新新表标志位
-        this.newData = this.dbView.isNew();
-
-        // 初始化数据
-        this.definer.setText(this.dbView.getDefiner());
-        this.algorithm.select(this.dbView.getAlgorithm());
-        this.checkOption.select(this.dbView.getCheckOption());
-        this.securityType.select(this.dbView.getSecurityType());
-        this.definition.setText(this.dbView.getDefinition());
-        this.definition.forgetHistory();
-        this.definition.setDialect(this.dbItem.dialect());
-
         // 如果是新数据，则默认触发变更
         if (this.newData) {
             this.unsaved = true;
@@ -116,6 +122,16 @@ public class DamengViewDesignTabController extends RichTabController {
             this.checkOption.selectFirst();
             this.securityType.selectFirst();
             this.definer.setText("`root`@`%`");
+        } else {
+            // 查询视图信息
+            this.view = this.dbItem.selectView(this.view.getName());
+            // 初始化数据
+            this.definer.setText(this.view.getDefiner());
+            this.algorithm.select(this.view.getAlgorithm());
+            this.definition.setText(this.view.getDefinition());
+            this.checkOption.select(this.view.getCheckOption());
+            this.securityType.select(this.view.getSecurityType());
+            this.definition.forgetHistory();
         }
 
         // 标记为结束
@@ -129,14 +145,24 @@ public class DamengViewDesignTabController extends RichTabController {
      * @param dbItem db库树节点
      */
     public void init(DamengView view, DamengDatabaseTreeItem dbItem) {
-        this.dbView = view;
         this.dbItem = dbItem;
+        this.view = view;
+        // 更新新数据标志位
+        this.newData = this.view.isNew();
+        StageManager.showMask(this::doInit);
+    }
+
+    /**
+     * 执行初始化
+     */
+    private void doInit() {
 
         // 初始化监听器
         this.initDBListener();
 
         // 初始化信息
-        this.initInfo();
+        FXUtil.runWait(this::initInfo);
+//        this.initInfo();
 
         // 监听组件
         DBStatusListenerManager.bindListener(this.definer, this.listener);
@@ -150,13 +176,28 @@ public class DamengViewDesignTabController extends RichTabController {
      * 初始化数据监听器
      */
     private void initDBListener() {
+        // 销毁监听器
+        if (this.listener != null) {
+            this.listener.destroy();
+            DBStatusListenerManager.unbindListener(this.definer, this.listener);
+            DBStatusListenerManager.unbindListener(this.algorithm, this.listener);
+            DBStatusListenerManager.unbindListener(this.definition, this.listener);
+            DBStatusListenerManager.unbindListener(this.checkOption, this.listener);
+            DBStatusListenerManager.unbindListener(this.securityType, this.listener);
+        }
         // 初始化监听器
-        this.listener = new DBStatusListener(this.dbView.getDbName() + ":" + this.dbView.getName()) {
+        this.listener = new DBStatusListener(this.view.getDbName() + ":" + this.view.getName()) {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
                 initChangedFlag();
             }
         };
+        // 监听组件
+        DBStatusListenerManager.bindListener(this.definer, this.listener);
+        DBStatusListenerManager.bindListener(this.algorithm, this.listener);
+        DBStatusListenerManager.bindListener(this.definition, this.listener);
+        DBStatusListenerManager.bindListener(this.checkOption, this.listener);
+        DBStatusListenerManager.bindListener(this.securityType, this.listener);
     }
 
     /**
@@ -178,40 +219,35 @@ public class DamengViewDesignTabController extends RichTabController {
     }
 
     /**
+     * 视图名称
+     */
+    private String viewName;
+
+    /**
      * 执行保存
      */
     private void doSave() {
         try {
             // 创建临时对象
-            DamengView tempView = new DamengView();
+            DamengView tempView = this.tempData();
 
-            String viewName;
             // 视图名称
-            if (this.dbView.getName() == null) {
-                viewName = MessageBox.prompt(I18nHelper.pleaseInputViewName());
-                if (viewName == null) {
+            if (this.newData) {
+                this.viewName = MessageBox.prompt(I18nHelper.pleaseInputViewName(), viewName);
+                if (this.viewName == null) {
                     return;
                 }
-                tempView.setName(viewName);
+                tempView.setName(this.viewName);
             } else {
-                viewName = this.dbView.getName();
-                tempView.setName(viewName);
+                this.viewName = this.view.getName();
             }
-
-            // 数据库
-            tempView.setDbName(this.dbView.getDbName());
-            tempView.setDefiner(this.definer.getTextTrim());
-            tempView.setDefinition(this.definition.getTextTrim());
-            tempView.setAlgorithm(this.algorithm.getSelectedItem());
-            tempView.setCheckOption(this.checkOption.getSelectedItem());
-            tempView.setSecurityType(this.securityType.getSelectedItem());
 
             // this.disableTab();
 
             // 创建视图
             if (this.newData) {
                 this.dbItem.createView(tempView);
-                DamengView view = this.dbItem.selectView(viewName);
+                DamengView view = this.dbItem.selectView(this.viewName);
                 this.dbItem.getViewTypeChild().addView(view);
                 DamengEventUtil.viewAdded(this.dbItem);
                 // 初始化监听器
@@ -224,16 +260,40 @@ public class DamengViewDesignTabController extends RichTabController {
             // this.dbItem.getViewTypeChild().reloadChild();
             // 重置保存标志位
             this.unsaved = false;
-            // 查询视图信息
-            this.dbView = this.dbItem.selectView(viewName);
+            // 更新新数据标志位
+            this.newData = false;
+            this.view = tempView;
             // 更新信息
-            this.initInfo();
+            FXUtil.runWait(this::initInfo);
+            // 初始化预览
+            this.initPreview();
         } catch (Exception ex) {
             MessageBox.exception(ex);
         } finally {
             // this.enableTab();
             this.flushTab();
         }
+    }
+
+    /**
+     * 获取临时数据
+     *
+     * @return 临时数据
+     */
+    private DamengView tempData() {
+        // 创建临时对象
+        DamengView tempView = new DamengView();
+        tempView.setName(this.view.getName());
+
+        // 数据库
+        tempView.setDbName(this.view.getDbName());
+        tempView.setDefiner(this.definer.getTextTrim());
+        tempView.setDefinition(this.definition.getTextTrim());
+        tempView.setAlgorithm(this.algorithm.getSelectedItem());
+        tempView.setCheckOption(this.checkOption.getSelectedItem());
+        tempView.setSecurityType(this.securityType.getSelectedItem());
+
+        return tempView;
     }
 
     @Override
@@ -244,6 +304,13 @@ public class DamengViewDesignTabController extends RichTabController {
         NodeUtil.nodeOnCtrlS(this.getTab(), this::save);
         NodeUtil.nodeOnCtrlS(this.definer, this::save);
         NodeUtil.nodeOnCtrlS(this.definition, this::save);
+
+        // 切换面板监听
+        this.tabPane.selectedIndexChanged((observable, oldValue, newValue) -> {
+            if (newValue.intValue() == 2) {
+                this.initPreview();
+            }
+        });
     }
 
     public String dbName() {
@@ -251,22 +318,37 @@ public class DamengViewDesignTabController extends RichTabController {
     }
 
     public String viewName() {
-        return this.dbView.getName();
+        return this.view.getName();
     }
 
     public DamengDatabaseTreeItem getDbItem() {
         return dbItem;
     }
 
-    // public void setDbItem(DamengDatabaseTreeItem dbItem) {
-    //     this.dbItem = dbItem;
-    // }
-
     public boolean isUnsaved() {
         return unsaved;
     }
 
-    // public void setUnsaved(boolean unsaved) {
-    //     this.unsaved = unsaved;
-    // }
+    /**
+     * 初始化预览
+     */
+    private void initPreview() {
+        DamengView temp = this.tempData();
+        String sql;
+        if (this.newData) {
+            DamengCreateViewParam param = new DamengCreateViewParam();
+            param.setView(temp);
+            param.setDbName(this.dbName());
+            if (StringUtil.isBlank(param.getViewName())) {
+                param.setViewName("Unnamed_View");
+            }
+            sql = DamengViewCreateSqlGenerator.generateSqlSingle(param);
+        } else {
+            DamengAlertViewParam param = new DamengAlertViewParam();
+            param.setView(temp);
+            param.setDbName(this.dbName());
+            sql = DamengViewAlertSqlGenerator.generateSqlSingle(param);
+        }
+        this.preview.text(sql);
+    }
 }

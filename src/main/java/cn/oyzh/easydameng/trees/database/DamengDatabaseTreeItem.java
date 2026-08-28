@@ -5,10 +5,6 @@ import cn.oyzh.common.thread.TaskBuilder;
 import cn.oyzh.easydameng.controller.data.DamengDataDumpController;
 import cn.oyzh.easydameng.controller.data.DamengRunSqlFileController;
 import cn.oyzh.easydameng.controller.database.DamengDatabaseUpdateController;
-import cn.oyzh.easydameng.db.DBDatabase;
-import cn.oyzh.easydameng.db.DBDialect;
-import cn.oyzh.easydameng.domain.DamengConnect;
-import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.dameng.DamengClient;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
@@ -29,7 +25,13 @@ import cn.oyzh.easydameng.dameng.table.DamengCreateTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengSelectTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
+import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
+import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
+import cn.oyzh.easydameng.db.DBDatabase;
+import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.domain.DamengConnect;
+import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
 import cn.oyzh.easydameng.trees.function.DamengFunctionTreeItem;
@@ -98,16 +100,16 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     public List<MenuItem> getMenuItems() {
         List<MenuItem> items = new ArrayList<>();
         if (!this.isChildEmpty()) {
-            FXMenuItem closeDB = MenuItemHelper.closeDatabase( this::closeDB);
+            FXMenuItem closeDB = MenuItemHelper.closeDatabase(this::closeDB);
             items.add(closeDB);
         }
-        FXMenuItem editDB = MenuItemHelper.editDatabase( this::editDB);
+        FXMenuItem editDB = MenuItemHelper.editDatabase(this::editDB);
         items.add(editDB);
-        FXMenuItem dropDB = MenuItemHelper.deleteDatabase( this::delete);
+        FXMenuItem dropDB = MenuItemHelper.deleteDatabase(this::delete);
         items.add(dropDB);
-        FXMenuItem dumpData = MenuItemHelper.dumpData( this::dump);
+        FXMenuItem dumpData = MenuItemHelper.dumpData(this::dump);
         items.add(dumpData);
-        FXMenuItem runSqlFile = MenuItemHelper.runSqlFile( this::runSqlFile);
+        FXMenuItem runSqlFile = MenuItemHelper.runSqlFile(this::runSqlFile);
         items.add(runSqlFile);
         // FXMenuItem dbInfo = MenuItemHelper.databaseInfo( this::dbInfo);
         // items.add(dbInfo);
@@ -311,24 +313,24 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         return list;
     }
 
-//    public DamengEventsTreeItem getEventTypeChild() {
-//        for (RichTreeItem<?> child : this.richChildren()) {
-//            if (child instanceof DamengEventsTreeItem treeItem) {
-//                return treeItem;
-//            }
-//        }
-//        return null;
-//    }
-//
-//    public List<DamengEventTreeItem> getEventChild() {
-//        List<DamengEventTreeItem> list = new ArrayList<>();
-//        for (RichTreeItem<?> child : this.getEventTypeChild().richChildren()) {
-//            if (child instanceof DamengEventTreeItem treeItem) {
-//                list.add(treeItem);
-//            }
-//        }
-//        return list;
-//    }
+    //    public DamengEventsTreeItem getEventTypeChild() {
+    //        for (RichTreeItem<?> child : this.richChildren()) {
+    //            if (child instanceof DamengEventsTreeItem treeItem) {
+    //                return treeItem;
+    //            }
+    //        }
+    //        return null;
+    //    }
+    //
+    //    public List<DamengEventTreeItem> getEventChild() {
+    //        List<DamengEventTreeItem> list = new ArrayList<>();
+    //        for (RichTreeItem<?> child : this.getEventTypeChild().richChildren()) {
+    //            if (child instanceof DamengEventTreeItem treeItem) {
+    //                list.add(treeItem);
+    //            }
+    //        }
+    //        return list;
+    //    }
 
     /**
      * 获取查询类型子节点
@@ -554,7 +556,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     }
 
     public DamengView selectView(String viewName) {
-        return this.client().view(this.dbName(), viewName);
+        return this.client().selectView(this.dbName(), viewName);
     }
 
     public DamengTable selectTable(String tableName) {
@@ -562,11 +564,17 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     }
 
     public void createView(DamengView view) {
-        this.client().createView(this.dbName(), view);
+        DamengCreateViewParam param = new DamengCreateViewParam();
+        param.setView(view);
+        param.setDbName(this.dbName());
+        this.client().createView(param);
     }
 
     public void alertView(DamengView view) {
-        this.client().alertView(this.dbName(), view);
+        DamengAlertViewParam param = new DamengAlertViewParam();
+        param.setView(view);
+        param.setDbName(this.dbName());
+        this.client().alertView(param);
     }
 
     public void dropView(DamengView view) {
@@ -592,13 +600,13 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         return this.client().selectEvent(this.dbName(), eventName);
     }
 
-//    public void alertEvent(DamengEvent event) {
-//        this.client().alertEvent(this.dbName(), event);
-//    }
-//
-//    public void createEvent(DamengEvent event) {
-//        this.client().createEvent(this.dbName(), event);
-//    }
+    //    public void alertEvent(DamengEvent event) {
+    //        this.client().alertEvent(this.dbName(), event);
+    //    }
+    //
+    //    public void createEvent(DamengEvent event) {
+    //        this.client().createEvent(this.dbName(), event);
+    //    }
 
     public void dropEvent(DamengEvent event) {
         this.client().dropEvent(this.dbName(), event);

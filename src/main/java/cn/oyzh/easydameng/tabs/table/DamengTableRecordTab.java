@@ -35,8 +35,7 @@ public class DamengTableRecordTab extends DamengTab {
     public void flushGraphic() {
         SVGGlyph graphic = (SVGGlyph) this.getGraphic();
         if (graphic == null) {
-            graphic = new TableSVGGlyph("13");
-            // graphic = new SVGGlyph("/font/table.svg", "13");
+            graphic = new TableSVGGlyph();
             graphic.setCursor(Cursor.DEFAULT);
             this.setGraphic(graphic);
         }

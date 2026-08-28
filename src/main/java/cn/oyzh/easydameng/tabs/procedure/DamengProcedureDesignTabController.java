@@ -4,14 +4,13 @@ import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.easydameng.event.DamengEventUtil;
-import cn.oyzh.easydameng.fx.DBEditor;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
 import cn.oyzh.easydameng.generator.routine.DamengProcedureSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
-import cn.oyzh.fx.editor.incubator.control.SqlEditor;
+import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.plus.controls.button.FXCheckBox;
 import cn.oyzh.fx.plus.controls.tab.FXTabPane;
@@ -56,13 +55,13 @@ public class DamengProcedureDesignTabController extends RichTabController {
      * 定义
      */
     @FXML
-    private DBEditor definition;
+    private Editor definition;
 
     /**
      * 预览
      */
     @FXML
-    private SqlEditor preview;
+    private Editor preview;
 
     /**
      * 切换面板

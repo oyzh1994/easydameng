@@ -22,6 +22,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
 <?import cn.oyzh.fx.gui.svg.glyph.RefreshSVGGlyph?>
+<?import cn.oyzh.easydameng.fx.ShellDataEditor?>
+<?import cn.oyzh.fx.gui.tabs.RichTabPane?>
 <FXVBox xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="cn.oyzh.easydameng.tabs.table.DamengTableDesignTabController" flexWidth="100%" flexHeight="100%">
     <FXHBox realHeight="25" flexWidth="100%">
@@ -60,7 +62,7 @@
             </HBox.margin>
         </RefreshSVGGlyph>
     </FXHBox>
-    <DamengDesignTabPane fx:id="tabPane" flexWidth="100%" flexHeight="100% - 25">
+    <RichTabPane fx:id="tabPane" flexWidth="100%" flexHeight="100% - 25">
         <FixedTab text="%base.fields" fx:id="columnTab">
             <FXVBox flexHeight="100% " flexWidth="100%">
                 <DBStatusTableView fixedCellSize="30" fx:id="columnTable" flexHeight="100% - 200" flexWidth="100%">
@@ -146,7 +148,7 @@
             </FXTextArea>
         </FixedTab>
         <FixedTab text="%base.preview" fx:id="previewTab">
-            <DBEditor editable="false" fx:id="sqlPreview" flexWidth="100%" flexHeight="100%"/>
+            <ShellDataEditor formatType="SQL" editable="false" fx:id="sqlPreview" flexWidth="100%" flexHeight="100%"/>
         </FixedTab>
-    </DamengDesignTabPane>
+    </RichTabPane>
 </FXVBox>

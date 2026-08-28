@@ -163,35 +163,35 @@ public class DamengQueryPromptListView extends FXListView<FXHBox> {
     private SVGLabel initPromptLabel(DamengQueryPromptItem item) {
         SVGLabel label = null;
         if (item.isDatabaseType()) {
-            DatabaseSVGGlyph svgGlyph = new DatabaseSVGGlyph("12");
+            DatabaseSVGGlyph svgGlyph = new DatabaseSVGGlyph();
             svgGlyph.setColor(Color.BLACK);
             label = new SVGLabel(item.getContent(), svgGlyph);
         } else if (item.isKeywordType()) {
-            KeywordsSVGGlyph svgGlyph = new KeywordsSVGGlyph("12");
+            KeywordsSVGGlyph svgGlyph = new KeywordsSVGGlyph();
             svgGlyph.setColor(Color.BLACK);
             label = new SVGLabel(item.getContent(), svgGlyph);
         } else if (item.isTableType()) {
-            SVGGlyph svgGlyph = new TableSVGGlyph("12");
+            SVGGlyph svgGlyph = new TableSVGGlyph();
             svgGlyph.setColor(Color.BLACK);
             label = new SVGLabel(item.getContent(), svgGlyph);
             label.setRealWidth(240);
         } else if (item.isColumnType()) {
-            SVGGlyph svgGlyph = new ColumnSVGGlyph("12");
+            SVGGlyph svgGlyph = new ColumnSVGGlyph();
             svgGlyph.setColor(Color.BLACK);
             label = new SVGLabel(item.getContent(), svgGlyph);
             label.setRealWidth(240);
         } else if (item.isViewType()) {
-            ViewSVGGlyph svgGlyph = new ViewSVGGlyph("12");
+            ViewSVGGlyph svgGlyph = new ViewSVGGlyph();
             svgGlyph.setColor(Color.BLACK);
             label = new SVGLabel(item.getContent(), svgGlyph);
             label.setRealWidth(240);
         } else if (item.isFunctionType()) {
-            FunctionSVGGlyph svgGlyph = new FunctionSVGGlyph("12");
+            FunctionSVGGlyph svgGlyph = new FunctionSVGGlyph();
             svgGlyph.setColor(Color.BLACK);
             label = new SVGLabel(item.getContent(), svgGlyph);
             label.setRealWidth(240);
         } else if (item.isProcedureType()) {
-            ProcedureSVGGlyph svgGlyph = new ProcedureSVGGlyph("12");
+            ProcedureSVGGlyph svgGlyph = new ProcedureSVGGlyph();
             svgGlyph.setColor(Color.BLACK);
             label = new SVGLabel(item.getContent(), svgGlyph);
             label.setRealWidth(240);

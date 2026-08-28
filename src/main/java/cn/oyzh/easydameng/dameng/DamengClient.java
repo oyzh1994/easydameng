@@ -35,6 +35,8 @@ import cn.oyzh.easydameng.dameng.table.DamengSelectTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
+import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
+import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.db.DBConnConfig;
 import cn.oyzh.easydameng.db.DBConnState;
@@ -50,6 +52,8 @@ import cn.oyzh.easydameng.generator.routine.DamengFunctionSqlGenerator;
 import cn.oyzh.easydameng.generator.routine.DamengProcedureSqlGenerator;
 import cn.oyzh.easydameng.generator.table.DamengTableAlertSqlGenerator;
 import cn.oyzh.easydameng.generator.table.DamengTableCreateSqlGenerator;
+import cn.oyzh.easydameng.generator.view.DamengViewAlertSqlGenerator;
+import cn.oyzh.easydameng.generator.view.DamengViewCreateSqlGenerator;
 import cn.oyzh.easydameng.sql.DBSqlParser;
 import cn.oyzh.easydameng.util.DBUtil;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -1611,7 +1615,7 @@ public class DamengClient {
         }
     }
 
-    public DamengView view(String dbName, String viewName) {
+    public DamengView selectView(String dbName, String viewName) {
         try {
             String sql = """
                         SELECT 
@@ -1625,7 +1629,8 @@ public class DamengClient {
                     """;
             DBUtil.printSql(sql);
             PreparedStatement statement = this.connection().prepareStatement(sql);
-            statement.setString(1, viewName);
+            statement.setString(1, dbName);
+            statement.setString(2, viewName);
             // 执行SQL查询并获取结果集
             ResultSet resultSet = statement.executeQuery();
             // 打印元数据
@@ -1724,11 +1729,10 @@ public class DamengClient {
         return result;
     }
 
-    public void createView(String dbName, DamengView view) {
+    public void createView(DamengCreateViewParam param) {
         try {
-            Statement statement = this.connection(dbName).createStatement();
-            // 达梦不支持 ALGORITHM/DEFINER/SQL SECURITY，使用简洁语法
-            String sql = "CREATE VIEW " + DBUtil.wrap(dbName, view.getName(), this.dialect()) + " AS " + view.getDefinition();
+            Statement statement = this.connection(param.getDbName()).createStatement();
+            String sql = DamengViewCreateSqlGenerator.generateSqlSingle(param);
             DBUtil.printSql(sql);
             statement.execute(sql);
             DBUtil.close(statement);
@@ -1737,11 +1741,10 @@ public class DamengClient {
         }
     }
 
-    public void alertView(String dbName, DamengView view) {
+    public void alertView(DamengAlertViewParam param) {
         try {
-            Statement statement = this.connection(dbName).createStatement();
-            // 达梦使用 CREATE OR REPLACE VIEW
-            String sql = "CREATE OR REPLACE VIEW " + DBUtil.wrap(dbName, view.getName(), this.dialect()) + " AS " + view.getDefinition();
+            Statement statement = this.connection(param.getDbName()).createStatement();
+            String sql = DamengViewAlertSqlGenerator.generateSqlSingle(param);
             DBUtil.printSql(sql);
             statement.execute(sql);
             DBUtil.close(statement);

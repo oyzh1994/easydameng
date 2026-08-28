@@ -3,15 +3,17 @@ package cn.oyzh.easydameng.query;
 import cn.oyzh.common.util.NumberUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.domain.DamengSetting;
 import cn.oyzh.easydameng.sql.DBSqlParser;
-import cn.oyzh.fx.editor.incubator.Editor;
-import cn.oyzh.fx.editor.incubator.EditorFormatType;
+import cn.oyzh.easydameng.store.DamengSettingStore;
 import cn.oyzh.fx.editor.incubator.control.SqlEditor;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
+import cn.oyzh.fx.plus.font.FontManager;
 import cn.oyzh.fx.plus.keyboard.KeyboardUtil;
 import cn.oyzh.fx.plus.menu.FXMenuItem;
 import javafx.scene.control.IndexRange;
 import javafx.scene.control.MenuItem;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -253,5 +255,11 @@ public class DamengQueryEditor extends SqlEditor {
         if (runCallback != null) {
             runCallback.run();
         }
+    }
+
+    @Override
+    protected Font getEditorFont() {
+        DamengSetting setting = DamengSettingStore.SETTING;
+        return FontManager.toFont(setting.editorFontConfig());
     }
 }

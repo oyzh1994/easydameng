@@ -21,7 +21,6 @@ import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggerControl;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.event.DamengEventUtil;
-import cn.oyzh.easydameng.fx.DBEditor;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
 import cn.oyzh.easydameng.fx.table.DamengTableSpaceComboBox;
 import cn.oyzh.easydameng.generator.table.DamengTableAlertSqlGenerator;
@@ -29,6 +28,7 @@ import cn.oyzh.easydameng.generator.table.DamengTableCreateSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.tabs.ParentTabController;
 import cn.oyzh.fx.gui.tabs.SubTabController;
 import cn.oyzh.fx.plus.controls.tab.FXTabPane;
@@ -102,7 +102,7 @@ public class DamengTableDesignTabController extends ParentTabController {
      * sql预览
      */
     @FXML
-    private DBEditor sqlPreview;
+    private Editor sqlPreview;
 
     /**
      * 表字段组件
