@@ -974,13 +974,15 @@ public class DamengClient {
             DamengColumns columns = new DamengColumns();
             String sql = """
                     SELECT
+                        C.COLUMN_ID AS "POSITION",
                         C.COLUMN_NAME AS "Field",
+                        C.DATA_SCALE AS "DATA_SCALE",
+                        C.DATA_LENGTH AS "DATA_LENGTH",
                         CASE WHEN C.NULLABLE='Y' THEN 'YES' ELSE 'NO' END AS "Null",
                         C.DATA_TYPE AS "Type",
                         CC.COMMENT$ AS "Comment",
                         C.DATA_DEFAULT AS "Default",
-                        CASE WHEN CONS.COLUMN_NAME IS NOT NULL THEN 'PRI' ELSE '' END AS "Key",
-                        '' AS "Extra"
+                        CASE WHEN CONS.COLUMN_NAME IS NOT NULL THEN 'PRI' ELSE '' END AS "Key"
                     FROM
                         ALL_TAB_COLUMNS C
                     LEFT JOIN
@@ -1005,8 +1007,6 @@ public class DamengClient {
                         C.OWNER = ?
                     AND
                         C.TABLE_NAME = ?
-                    ORDER BY
-                        C.COLUMN_ID
                     """;
             Connection connection = this.connection();
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -1015,15 +1015,16 @@ public class DamengClient {
             ResultSet resultSet = statement.executeQuery();
             DatabaseMetaData metaData = connection.getMetaData();
             DBUtil.printMetaData(resultSet);
-            int position = 0;
             while (resultSet.next()) {
                 String key = resultSet.getString("Key");
                 String type = resultSet.getString("Type");
                 String field = resultSet.getString("Field");
                 Object def = resultSet.getObject("Default");
-                String extra = resultSet.getString("Extra");
+                int position = resultSet.getInt("POSITION");
                 String nullable = resultSet.getString("Null");
+                int dataScale = resultSet.getInt("DATA_SCALE");
                 String comment = resultSet.getString("Comment");
+                int dataLength = resultSet.getInt("DATA_LENGTH");
                 // 自动递增
                 Boolean autoIncrement = null;
                 ResultSet rs = metaData.getColumns(null, null, tableName, field);
@@ -1033,16 +1034,16 @@ public class DamengClient {
                 IOUtil.close(rs);
                 DamengColumn column = new DamengColumn();
                 column.parseKey(key);
-                column.parseType(type);
-                column.parseExtra(extra);
-                column.setAutoIncrement(autoIncrement);
-
                 column.setName(field);
+                column.setSize(dataLength);
+                column.setDigits(dataScale);
+                column.parseType(type);
                 column.setDbName(dbName);
                 column.setComment(comment);
                 column.setDefaultValue(def);
-                column.setPosition(position++);
+                column.setPosition(position);
                 column.setTableName(tableName);
+                column.setAutoIncrement(autoIncrement);
                 column.setNullable("yes".equalsIgnoreCase(nullable));
                 columns.add(column);
             }
