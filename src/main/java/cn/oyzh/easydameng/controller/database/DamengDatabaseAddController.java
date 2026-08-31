@@ -35,17 +35,17 @@ public class DamengDatabaseAddController extends StageController {
     @FXML
     private ClearableTextField name;
 
-    /**
-     * 字符集
-     */
-    @FXML
-    private DBCharsetComboBox charset;
-
-    /**
-     * 排序方式
-     */
-    @FXML
-    private DBCollationComboBox collation;
+//    /**
+//     * 字符集
+//     */
+//    @FXML
+//    private DBCharsetComboBox charset;
+//
+//    /**
+//     * 排序方式
+//     */
+//    @FXML
+//    private DBCollationComboBox collation;
 
     /**
      * db连接节点
@@ -70,10 +70,10 @@ public class DamengDatabaseAddController extends StageController {
             }
             DBDatabase database = new DBDatabase();
             database.setName(dbName);
-            if (!this.charset.isItemEmpty()) {
-                database.setCharset(this.charset.getSelectedItem());
-                database.setCollation(this.collation.getSelectedItem());
-            }
+//            if (!this.charset.isItemEmpty()) {
+//                database.setCharset(this.charset.getSelectedItem());
+//                database.setCollation(this.collation.getSelectedItem());
+//            }
             this.connectItem.createDatabase(database);
             this.setProp("databaseName", dbName);
             DamengEventUtil.databaseAdded(this.connectItem, database);
@@ -86,17 +86,17 @@ public class DamengDatabaseAddController extends StageController {
     @Override
     protected void bindListeners() {
         super.bindListeners();
-        // 字符集选中事件
-        this.charset.selectedItemChanged((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                this.collation.init(newValue, this.connectItem.getClient());
-                this.collation.select(0);
-                this.collation.enable();
-            } else {
-                this.collation.clearItems();
-                this.collation.disable();
-            }
-        });
+//        // 字符集选中事件
+//        this.charset.selectedItemChanged((observable, oldValue, newValue) -> {
+//            if (newValue != null) {
+//                this.collation.init(newValue, this.connectItem.getClient());
+//                this.collation.select(0);
+//                this.collation.enable();
+//            } else {
+//                this.collation.clearItems();
+//                this.collation.disable();
+//            }
+//        });
     }
 
     @Override
@@ -108,10 +108,10 @@ public class DamengDatabaseAddController extends StageController {
     public void onWindowShown(WindowEvent event) {
         this.connectItem = this.getProp("connectItem");
 
-        // 初始化字符集和排序
-        this.charset.init(this.connectItem.getClient());
-        this.charset.enable();
-        this.collation.disable();
+//        // 初始化字符集和排序
+//        this.charset.init(this.connectItem.getClient());
+//        this.charset.enable();
+//        this.collation.disable();
 
         super.onWindowShown(event);
         this.stage.switchOnTab();

@@ -10,7 +10,7 @@ import java.util.List;
  * @author oyzh
  * @since 2024/09/05
  */
-public class DataTransportProcedureListView extends DBDataTransportObjectListView {
+public class DamengDataTransportProcedureListView extends DBDataTransportObjectListView {
 
     public void of(List<DamengProcedure> procedures) {
         List<DBDataTransportObject> list = CollectionUtil.newArrayList();

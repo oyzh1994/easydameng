@@ -8,11 +8,11 @@ import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.fx.DBDatabaseComboBox;
 import cn.oyzh.easydameng.fx.DBInfoComboBox;
-import cn.oyzh.easydameng.data.dameng.ui.DataTransportFunctionListView;
-import cn.oyzh.easydameng.data.dameng.ui.DataTransportProcedureListView;
-import cn.oyzh.easydameng.data.dameng.ui.DataTransportTableListView;
-import cn.oyzh.easydameng.data.dameng.ui.DataTransportTriggerListView;
-import cn.oyzh.easydameng.data.dameng.ui.DataTransportViewListView;
+import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportFunctionListView;
+import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportProcedureListView;
+import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportTableListView;
+import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportTriggerListView;
+import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportViewListView;
 import cn.oyzh.easydameng.data.dameng.handler.DamengDataTransportHandler;
 import cn.oyzh.fx.gui.text.area.MsgTextArea;
 import cn.oyzh.fx.plus.FXConst;
@@ -216,7 +216,7 @@ public class DamengDataTransportController extends StageController {
      * 表列表
      */
     @FXML
-    private DataTransportTableListView tableList;
+    private DamengDataTransportTableListView tableList;
 
 //    /**
 //     * 事件列表
@@ -228,25 +228,25 @@ public class DamengDataTransportController extends StageController {
      * 视图列表
      */
     @FXML
-    private DataTransportViewListView viewList;
+    private DamengDataTransportViewListView viewList;
 
     /**
      * 函数列表
      */
     @FXML
-    private DataTransportFunctionListView functionList;
+    private DamengDataTransportFunctionListView functionList;
 
     /**
      * 过程列表
      */
     @FXML
-    private DataTransportProcedureListView procedureList;
+    private DamengDataTransportProcedureListView procedureList;
 
     /**
      * 触发器列表
      */
     @FXML
-    private DataTransportTriggerListView triggerList;
+    private DamengDataTransportTriggerListView triggerList;
 
     /**
      * 传输操作任务
