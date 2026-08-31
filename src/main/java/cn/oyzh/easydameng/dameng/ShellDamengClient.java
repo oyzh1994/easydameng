@@ -1497,12 +1497,13 @@ public class ShellDamengClient {
         try {
             Statement statement = this.connManager.connection().createStatement();
             // 查询当前用户有权限访问的schema：优先显示有对象的schema，也包含当前用户自己的schema
-            String sql = """
-                    SELECT DISTINCT OWNER FROM ALL_OBJECTS
-                    UNION
-                    SELECT USERNAME FROM ALL_USERS
-                    ORDER BY 1
-                    """;
+//            String sql = """
+//                    SELECT DISTINCT OWNER FROM ALL_OBJECTS
+//                    UNION
+//                    SELECT USERNAME FROM ALL_USERS
+//                    ORDER BY 1
+//                    """;
+            String sql = "SELECT * FROM SYSOBJECTS WHERE TYPE$ = 'SCH'";
             ResultSet resultSet = statement.executeQuery(sql);
             List<DBDatabase> list = new ArrayList<>();
             while (resultSet.next()) {
