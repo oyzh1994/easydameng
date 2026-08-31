@@ -4,7 +4,7 @@ package cn.oyzh.easydameng.data.db.handler;
 import cn.oyzh.easydameng.data.ShellBatchInsertable;
 import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.domain.DamengConnect;
-import cn.oyzh.easydameng.data.dameng.handler.ShellDataRunFileHandler;
+import cn.oyzh.easydameng.data.ShellDataRunFileHandler;
 
 import java.io.File;
 import java.util.ArrayList;

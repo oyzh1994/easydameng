@@ -15,7 +15,7 @@ import java.io.File;
  * @author oyzh
  * @since 2024/08/30
  */
-public class DataImportFile {
+public class DamengDataImportFile {
 
     private String dbName;
 

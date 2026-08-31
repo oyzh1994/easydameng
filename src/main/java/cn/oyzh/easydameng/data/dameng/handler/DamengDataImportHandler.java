@@ -16,7 +16,8 @@ import cn.oyzh.easydameng.dameng.data.DamengTxtTypeFileReader;
 import cn.oyzh.easydameng.dameng.data.DamengTypeFileReader;
 import cn.oyzh.easydameng.dameng.data.DamengXmlTypeFileReader;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
-import cn.oyzh.easydameng.fx.data.DataImportFile;
+import cn.oyzh.easydameng.data.db.handler.DBDataImportHandler;
+import cn.oyzh.easydameng.fx.data.DamengDataImportFile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,116 +28,34 @@ import java.util.Map;
  * @author oyzh
  * @since 2024/08/27
  */
-public class DataImportHandler extends DataHandler {
-
-    /**
-     * 库名称
-     */
-    private String dbName;
-
-    /**
-     * 文件类型
-     * sql
-     * xml
-     * csv
-     * excel
-     */
-    private String fileType;
+public class DamengDataImportHandler extends DBDataImportHandler<String> {
 
     /**
      * db客户端
      */
-    private ShellDamengClient dbClient;
-
-    /**
-     * 读取限制
-     */
-    private int readLimit = 1000;
-
-    /**
-     * 批量处理限制
-     */
-    private int batchLimit = 200;
+    private final ShellDamengClient dbClient;
 
     /**
      * 导入文件
      */
-    private List<DataImportFile> files;
+    private List<DamengDataImportFile> files;
 
     /**
      * 导入配置
      */
     private final DamengDataImportConfig config;
 
-    public DataImportHandler(ShellDamengClient dbClient, String dbName) {
+    public DamengDataImportHandler(ShellDamengClient dbClient, String dbName) {
+        super(dbName);
         this.dbClient = dbClient;
-        this.dbName = dbName;
         this.config = new DamengDataImportConfig();
     }
 
-    /**
-     * 是否sql类型
-     *
-     * @return 结果
-     */
-    public boolean isSqlType() {
-        return "sql".equalsIgnoreCase(this.fileType);
-    }
-
-    /**
-     * 是否xml类型
-     *
-     * @return 结果
-     */
-    public boolean isXmlType() {
-        return "xml".equalsIgnoreCase(this.fileType);
-    }
-
-    /**
-     * 是否csv类型
-     *
-     * @return 结果
-     */
-    public boolean isCsvType() {
-        return "csv".equalsIgnoreCase(this.fileType);
-    }
-
-    /**
-     * 是否xls类型
-     *
-     * @return 结果
-     */
-    public boolean isExcelType() {
-        return "excel".equalsIgnoreCase(this.fileType);
-    }
-
-    /**
-     * 是否json类型
-     *
-     * @return 结果
-     */
-    public boolean isJsonType() {
-        return "json".equalsIgnoreCase(this.fileType);
-    }
-
-    /**
-     * 是否txt类型
-     *
-     * @return 结果
-     */
-    public boolean isTxtType() {
-        return "txt".equalsIgnoreCase(this.fileType);
-    }
-
-    /**
-     * 执行导入
-     *
-     * @throws Exception 异常
-     */
+    @Override
     public void doImport() throws Exception {
         this.message("Import Starting");
         if (CollectionUtil.isNotEmpty(this.files)) {
-            for (DataImportFile file : files) {
+            for (DamengDataImportFile file : files) {
                 this.checkInterrupt();
                 this.importRecord(file);
             }
@@ -150,7 +69,7 @@ public class DataImportHandler extends DataHandler {
      *
      * @throws Exception 异常
      */
-    protected void importRecord(DataImportFile file) throws Exception {
+    protected void importRecord(DamengDataImportFile file) throws Exception {
         String tableName = file.getTargetTableName();
         this.message("Importing Table " + tableName);
         this.message("Importing Records of Table " + tableName);
@@ -239,7 +158,7 @@ public class DataImportHandler extends DataHandler {
      *
      * @param sqlList 插入sql列表
      */
-    private void addInsertSql(List<String> sqlList) {
+    private void addInsertSql(List<String> sqlList) throws Exception {
         if (CollectionUtil.isNotEmpty(sqlList)) {
             if (this.insertList == null) {
                 this.insertList = new ArrayList<>();
@@ -251,40 +170,13 @@ public class DataImportHandler extends DataHandler {
         }
     }
 
-    /**
-     * 执行批量插入
-     */
-    private void doBatchInsert() {
-        if (CollectionUtil.isNotEmpty(this.insertList)) {
-            try {
-                if (this.insertList.size() <= this.batchLimit) {
-                    this.doBatchInsert(this.insertList, false);
-                } else {
-                    List<List<String>> lists = CollectionUtil.split(this.insertList, this.batchLimit);
-                    List<Runnable> tasks = new ArrayList<>();
-                    for (List<String> list : lists) {
-                        tasks.add(() -> this.doBatchInsert(list, true));
-                    }
-                    ThreadUtil.submit(tasks);
-                }
-            } finally {
-                this.insertList.clear();
-            }
-        }
-    }
-
-    /**
-     * 执行批量插入
-     *
-     * @param sqlList  sql列表
-     * @param parallel 是否并发
-     */
-    private void doBatchInsert(List<String> sqlList, boolean parallel) {
+    @Override
+    public void doBatchInsert(List<String> list, boolean parallel) {
         try {
-            int result = this.dbClient.insertBatch(this.dbName, sqlList, parallel);
+            int result = this.dbClient.insertBatch(this.dbName, list, parallel);
             this.processedIncr(result);
         } catch (Exception ex) {
-            this.processedDecr(sqlList.size());
+            this.processedDecr(list.size());
             throw ex;
         }
     }
@@ -359,51 +251,15 @@ public class DataImportHandler extends DataHandler {
         this.config.setFieldSeparator(fieldSeparator);
     }
 
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
-
-    public String getFileType() {
-        return fileType;
-    }
-
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
-    }
-
     public ShellDamengClient getDbClient() {
         return dbClient;
     }
 
-    public void setDbClient(ShellDamengClient dbClient) {
-        this.dbClient = dbClient;
-    }
-
-    public int getReadLimit() {
-        return readLimit;
-    }
-
-    public void setReadLimit(int readLimit) {
-        this.readLimit = readLimit;
-    }
-
-    public int getBatchLimit() {
-        return batchLimit;
-    }
-
-    public void setBatchLimit(int batchLimit) {
-        this.batchLimit = batchLimit;
-    }
-
-    public List<DataImportFile> getFiles() {
+    public List<DamengDataImportFile> getFiles() {
         return files;
     }
 
-    public void setFiles(List<DataImportFile> files) {
+    public void setFiles(List<DamengDataImportFile> files) {
         this.files = files;
     }
 

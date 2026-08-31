@@ -5,16 +5,16 @@ import cn.oyzh.common.system.SystemUtil;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.fx.data.DamengDataImportFile;
 import cn.oyzh.easydameng.fx.table.DamengTableComboBox;
 import cn.oyzh.easydameng.fx.data.DataDateTextFiled;
 import cn.oyzh.easydameng.fx.data.DataFieldSeparatorComboBox;
-import cn.oyzh.easydameng.fx.data.DataImportFile;
-import cn.oyzh.easydameng.fx.data.DataImportFileTableView;
+import cn.oyzh.easydameng.fx.data.DamengDataImportFileTableView;
 import cn.oyzh.easydameng.fx.data.DataImportTableComboBox;
 import cn.oyzh.easydameng.fx.data.DataRecordLabelComboBox;
 import cn.oyzh.easydameng.fx.data.DataRecordSeparatorComboBox;
 import cn.oyzh.easydameng.fx.data.DataTxtIdentifierComboBox;
-import cn.oyzh.easydameng.data.dameng.handler.DataImportHandler;
+import cn.oyzh.easydameng.data.dameng.handler.DamengDataImportHandler;
 import cn.oyzh.fx.gui.text.area.MsgTextArea;
 import cn.oyzh.fx.gui.text.field.NumberTextField;
 import cn.oyzh.fx.plus.FXConst;
@@ -97,13 +97,13 @@ public class DamengDataImportController extends StageController {
      * 导入表组件
      */
     @FXML
-    private DataImportFileTableView importFileTableView;
+    private DamengDataImportFileTableView importFileTableView;
 
     // /**
     //  * 导入表路径列
     //  */
     // @FXML
-    // private FXTableColumn<DataImportFile, String> importFilePath;
+    // private FXTableColumn<DamengDataImportFile, String> importFilePath;
 
     /**
      *
@@ -219,7 +219,7 @@ public class DamengDataImportController extends StageController {
     /**
      * 导入处理器
      */
-    private DataImportHandler importHandler;
+    private DamengDataImportHandler importHandler;
 
     /**
      * 数据库
@@ -238,7 +238,7 @@ public class DamengDataImportController extends StageController {
         this.importMsg.clear();
         // 生成导入处理器
         if (this.importHandler == null) {
-            this.importHandler = new DataImportHandler(this.dbClient, this.dbName);
+            this.importHandler = new DamengDataImportHandler(this.dbClient, this.dbName);
             this.importHandler.setMessageHandler(str -> this.importMsg.appendLine(str))
                     .setProcessedHandler(count -> {
                         if (count > 0) {
@@ -325,12 +325,12 @@ public class DamengDataImportController extends StageController {
         this.dateFormat.textProperty().addListener((observable, oldValue, newValue) -> this.flushDatePreview());
         this.targetTableCombobox.selectedItemChanged((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                DataImportFile file = this.sourceTableCombobox.getSelectedItem();
+                DamengDataImportFile file = this.sourceTableCombobox.getSelectedItem();
                 file.setTargetTableName(newValue);
             }
         });
         // 初始化文件列表
-        this.importFileTableView.itemList().addListener((ListChangeListener<DataImportFile>) c -> {
+        this.importFileTableView.itemList().addListener((ListChangeListener<DamengDataImportFile>) c -> {
             while (c.next() && (c.wasAdded() || c.wasReplaced())) {
                 this.initFileTable();
             }
@@ -339,7 +339,7 @@ public class DamengDataImportController extends StageController {
     }
 
     private void initFileTable() {
-        for (DataImportFile index : this.importFileTableView.itemList()) {
+        for (DamengDataImportFile index : this.importFileTableView.itemList()) {
             index.setDbName(this.dbName);
             index.setDbClient(this.dbClient);
         }
@@ -501,7 +501,7 @@ public class DamengDataImportController extends StageController {
         FileExtensionFilter filter = FXChooser.extensionFilter(fileType);
         File file = FileChooserHelper.choose(I18nHelper.pleaseSelectFile(), filter);
         if (file != null) {
-            DataImportFile importFile = new DataImportFile();
+            DamengDataImportFile importFile = new DamengDataImportFile();
             importFile.setFile(file);
             this.importFileTableView.addItem(importFile);
         }

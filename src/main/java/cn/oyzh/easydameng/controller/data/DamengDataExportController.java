@@ -15,7 +15,7 @@ import cn.oyzh.easydameng.fx.data.DataExportTableTableView;
 import cn.oyzh.easydameng.fx.data.DataFieldSeparatorComboBox;
 import cn.oyzh.easydameng.fx.data.DataRecordSeparatorComboBox;
 import cn.oyzh.easydameng.fx.data.DataTxtIdentifierComboBox;
-import cn.oyzh.easydameng.data.dameng.handler.DataExportHandler;
+import cn.oyzh.easydameng.data.dameng.handler.DamengDataExportHandler;
 import cn.oyzh.fx.gui.text.area.MsgTextArea;
 import cn.oyzh.fx.plus.FXConst;
 import cn.oyzh.fx.plus.chooser.FXChooser;
@@ -210,7 +210,7 @@ public class DamengDataExportController extends StageController {
     /**
      * 导出处理器
      */
-    private DataExportHandler exportHandler;
+    private DamengDataExportHandler exportHandler;
 
     /**
      * 数据库
@@ -234,7 +234,7 @@ public class DamengDataExportController extends StageController {
         this.exportMsg.clear();
         // 生成导出处理器
         if (this.exportHandler == null) {
-            this.exportHandler = new DataExportHandler(this.dbClient, this.dbName);
+            this.exportHandler = new DamengDataExportHandler(this.dbClient, this.dbName);
             this.exportHandler.setMessageHandler(str -> this.exportMsg.appendLine(str))
                     .setProcessedHandler(count -> {
                         if (count > 0) {

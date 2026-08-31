@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import cn.oyzh.easydameng.fx.data.DataDateTextFiled?>
 <?import cn.oyzh.easydameng.fx.data.DataFieldSeparatorComboBox?>
-<?import cn.oyzh.easydameng.fx.data.DataImportFileTableView?>
+<?import cn.oyzh.easydameng.fx.data.DamengDataImportFileTableView?>
 <?import cn.oyzh.easydameng.fx.data.DataImportTableComboBox?>
 <?import cn.oyzh.easydameng.fx.data.DataRecordLabelComboBox?>
 <?import cn.oyzh.easydameng.fx.data.DataRecordSeparatorComboBox?>
@@ -87,7 +87,7 @@
             </VBox.margin>
         </InfoLabel>
         <FXVBox flexHeight="100% - 100" flexWidth="100%">
-            <DataImportFileTableView fx:id="importFileTableView" flexHeight="100% - 60" flexWidth="100% - 40">
+            <DamengDataImportFileTableView fx:id="importFileTableView" flexHeight="100% - 60" flexWidth="100% - 40">
                 <columns>
                     <FXTableColumn flexWidth="100% -10" valueName="filePathControl" text="%base.filePath"
                                      resizable="false"/>
@@ -95,7 +95,7 @@
                 <VBox.margin>
                     <Insets left="30" top="10"/>
                 </VBox.margin>
-            </DataImportFileTableView>
+            </DamengDataImportFileTableView>
             <FXHBox flexWidth="100%" realHeight="50">
                 <FXButton text="%base.add" onAction="#addFile" realHeight="30">
                     <HBox.margin>
