@@ -9,6 +9,7 @@ import cn.oyzh.fx.editor.incubator.control.LongTextFiled;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.text.field.BinaryTextFiled;
 import cn.oyzh.fx.gui.text.field.BitTextField;
+import cn.oyzh.fx.gui.text.field.BooleanTextFiled;
 import cn.oyzh.fx.gui.text.field.DateTextField;
 import cn.oyzh.fx.gui.text.field.DateTimeTextField;
 import cn.oyzh.fx.gui.text.field.DecimalTextField;
@@ -60,11 +61,16 @@ public class DBRecordUtil {
             textField.setValue(object);
             textField.setBackground(ControlUtil.background(Color.valueOf("#CDECFA")));
             node = textField;
-            // } else if (column.supportBit()) {
-            //     BitTextField textField = new BitTextField();
-            //     textField.setValue(object);
-            //     textField.setBackground(ControlUtil.background(Color.valueOf("#FCE1E4")));
-            //     node = textField;
+        } else if (column.supportBit()) {
+            BitTextField textField = new BitTextField();
+            textField.setValue(object);
+            textField.setBackground(ControlUtil.background(Color.valueOf("#FCE1E4")));
+            node = textField;
+        } else if (column.supportBoolean()) {
+            BooleanTextFiled textField = new BooleanTextFiled();
+            textField.setValue(object);
+            textField.setBackground(ControlUtil.background(Color.valueOf("#FCE1E4")));
+            node = textField;
         } else if (column.isDateType()) {
             DateTextField textField = new DateTextField();
             textField.setValue(object);
@@ -136,6 +142,8 @@ public class DBRecordUtil {
             val = DecimalTextField.format(object);
         } else if (column.supportBit()) {
             val = BitTextField.format(object);
+        } else if (column.supportBoolean()) {
+            val = BooleanTextFiled.format(object);
         } else if (column.isDateType()) {
             val = DateTextField.format(object);
         } else if (column.isTimeType()) {

@@ -55,6 +55,11 @@ public abstract class DamengTypeFileWriter implements Closeable {
             }
             return "0x" + HexUtil.encodeHexStr(bytes, false);
         }
+        if (column.supportBoolean()) {
+            if (value instanceof Boolean b) {
+                return b ? "1" : "0";
+            }
+        }
         if (column.supportBit()) {
             byte[] bytes = (byte[]) value;
             if (bytes.length == 0) {

@@ -84,7 +84,7 @@ public class DamengQueryMainTab extends DamengTab {
      * @param item  db库树节点
      */
     public boolean init(DamengQuery query, DamengDatabaseTreeItem item) {
-        this.controller().init(this, query, item);
+        this.controller().init(query, item);
         this.flush();
         return true;
     }

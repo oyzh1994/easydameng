@@ -2,6 +2,7 @@ package cn.oyzh.easydameng.tabs.query;
 
 import cn.oyzh.common.util.TextUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
+import cn.oyzh.easydameng.dameng.dto.ShellDamengDataExportTable;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengInsertRecordParam;
@@ -19,6 +20,7 @@ import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.easydameng.util.DBRecordUtil;
+import cn.oyzh.easydameng.util.ShellDamengViewFactory;
 import cn.oyzh.easydameng.util.db.ShellDBUtil;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.plus.controls.box.FXVBox;
@@ -388,12 +390,12 @@ public class DamengQuerySelectTabController extends RichTabController {
             if (query.getName() == null) {
                 query.setName(I18nHelper.unnamedQuery());
             }
-            // DamengDataExportTable exportTable = new DamengDataExportTable();
-            // exportTable.setSelected(true);
-            // exportTable.setName(query.getName());
-            // exportTable.columns(this.result.getColumns());
-            // exportTable.setRecords(this.result.getRecords());
-            // ShellDamengViewFactory.exportData(this.dbItem.client(), this.result.dbName(), null, 1, exportTable);
+            ShellDamengDataExportTable exportTable = new ShellDamengDataExportTable();
+            exportTable.setSelected(true);
+            exportTable.setName(query.getName());
+            exportTable.columns(this.result.getColumns());
+            exportTable.setRecords(this.result.getRecords());
+            ShellDamengViewFactory.exportData(this.dbItem.client(), this.result.dbName(), null, 1, exportTable);
         } catch (Exception ex) {
             MessageBox.exception(ex);
         }

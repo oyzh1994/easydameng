@@ -97,6 +97,11 @@ public class DBDataUtil {
             }
             return "0x" + HexUtil.encodeHexStr(bytes, false);
         }
+        if (column.supportBoolean()) {
+            if (value instanceof Boolean b) {
+                return b ? "1" : "0";
+            }
+        }
         if (column.supportBit()) {
             byte[] bytes = (byte[]) value;
             if (bytes.length == 0) {
@@ -153,6 +158,11 @@ public class DBDataUtil {
             }
             return "0x" + HexUtil.encodeHexStr(bytes, false);
         }
+        if (column.supportBoolean()) {
+            if (value instanceof Boolean b) {
+                return b ? "1" : "0";
+            }
+        }
         if (column.supportBit()) {
             byte[] bytes = (byte[]) value;
             if (bytes.length == 0) {
@@ -206,6 +216,11 @@ public class DBDataUtil {
             }
             return "0x" + HexUtil.encodeHexStr(bytes, false);
         }
+        if (column.supportBoolean()) {
+            if (value instanceof Boolean b) {
+                return b ? "1" : "0";
+            }
+        }
         if (column.supportBit()) {
             byte[] bytes = (byte[]) value;
             if (bytes.length == 0) {
@@ -251,10 +266,12 @@ public class DBDataUtil {
             }
             return "0x" + HexUtil.encodeHexStr(bytes, false);
         }
-        if (column.supportBit()) {
+        if (column.supportBoolean()) {
             if (value instanceof Boolean b) {
                 return b ? "1" : "0";
             }
+        }
+        if (column.supportBit()) {
             byte[] bytes = (byte[]) value;
             if (bytes.length == 0) {
                 return "NULL";
@@ -307,6 +324,11 @@ public class DBDataUtil {
                 return "";
             }
             return "0x" + HexUtil.encodeHexStr(bytes, false);
+        }
+        if (column.supportBoolean()) {
+            if (value instanceof Boolean b) {
+                return b ? "1" : "0";
+            }
         }
         if (column.supportBit()) {
             byte[] bytes = (byte[]) value;
@@ -364,6 +386,11 @@ public class DBDataUtil {
                 return "";
             }
             return "0x" + HexUtil.encodeHexStr(bytes, false);
+        }
+        if (column.supportBoolean()) {
+            if (value instanceof Boolean b) {
+                return b ? "1" : "0";
+            }
         }
         if (column.supportBit()) {
             byte[] bytes = (byte[]) value;
@@ -467,7 +494,7 @@ public class DBDataUtil {
             value = parameterizedForSql(column, value);
             builder.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
             builder.append(" = ");
-                builder.append(value);
+            builder.append(value);
             builder.append(", ");
         }
         builder.deleteCharAt(builder.length() - 2);

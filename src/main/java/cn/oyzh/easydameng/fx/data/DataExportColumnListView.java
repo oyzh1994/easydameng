@@ -1,6 +1,7 @@
 package cn.oyzh.easydameng.fx.data;
 
 import cn.oyzh.common.util.CollectionUtil;
+import cn.oyzh.easydameng.dameng.dto.ShellDamengDataExportColumn;
 import cn.oyzh.fx.plus.controls.button.FXCheckBox;
 import cn.oyzh.fx.plus.controls.list.FXListView;
 import cn.oyzh.fx.plus.util.ListViewUtil;
@@ -13,10 +14,10 @@ import java.util.List;
  */
 public class DataExportColumnListView extends FXListView<FXCheckBox> {
 
-    public void init(List<DataExportColumn> columns) {
+    public void init(List<ShellDamengDataExportColumn> columns) {
         this.clearItems();
         if (CollectionUtil.isNotEmpty(columns)) {
-            for (DataExportColumn column : columns) {
+            for (ShellDamengDataExportColumn column : columns) {
                 FXCheckBox checkBox = new FXCheckBox();
                 checkBox.setSelected(column.isSelected());
                 checkBox.setText(column.getName());

@@ -1,11 +1,11 @@
 package cn.oyzh.easydameng.util;
 
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
-import cn.oyzh.fx.editor.incubator.Editor;
-import cn.oyzh.fx.editor.incubator.EditorFormatType;
+import cn.oyzh.fx.editor.incubator.control.JsonTextFiled;
 import cn.oyzh.fx.editor.incubator.control.LongTextFiled;
 import cn.oyzh.fx.gui.text.field.BinaryTextFiled;
 import cn.oyzh.fx.gui.text.field.BitTextField;
+import cn.oyzh.fx.gui.text.field.BooleanTextFiled;
 import cn.oyzh.fx.gui.text.field.ChooseFileTextField;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.gui.text.field.DateTextField;
@@ -108,14 +108,11 @@ public class DBNodeUtil {
         if (column == null) {
             node = new FXTextField();
         } else if (column.supportJson()) {
-            Editor editor = new Editor();
-            editor.setFormatType(EditorFormatType.JSON);
-            node = editor;
-
-            //        } else if (column.supportGeometry()) {
-            //            DBGeometryTextField filed = new DBGeometryTextField();
-            //            filed.setExample(column.exampleValue());
-            //            node = filed;
+            node = new JsonTextFiled();
+        } else if (column.supportJsonArray()) {
+            JsonTextFiled textFiled = new JsonTextFiled();
+            textFiled.setArray(true);
+            node = textFiled;
         } else if (column.supportString()) {
             if (column.supportSize() && column.getSize() != null) {
                 node = new ClearableTextField((long) column.getSize());
@@ -128,6 +125,8 @@ public class DBNodeUtil {
             } else {
                 node = new BitTextField();
             }
+        } else if (column.supportBoolean()) {
+            node = new BooleanTextFiled();
         } else if (column.supportInteger()) {
             Integer size = column.getSize();
             node = new NumberTextField(size == null ? null : size.longValue(), column.minValue(), column.maxValue());

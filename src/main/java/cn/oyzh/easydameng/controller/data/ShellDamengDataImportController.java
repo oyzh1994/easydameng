@@ -233,7 +233,6 @@ public class ShellDamengDataImportController extends StageController {
     private void doImport() {
         // 重置参数
         this.counter.reset();
-        this.importMsg.clear();
         // 开始处理
         this.importMsg.clear();
         // 生成导入处理器
@@ -487,6 +486,7 @@ public class ShellDamengDataImportController extends StageController {
         this.step4.disappear();
         this.step6.disappear();
         this.step5.display();
+        this.importMsg.clear();
     }
 
     @FXML

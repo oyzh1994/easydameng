@@ -313,8 +313,18 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
     }
 
     @Override
+    public boolean supportBoolean() {
+        return DBColumnFieldManager.supportBoolean(DBDialect.DAMENG, this.getType());
+    }
+
+    @Override
     public boolean supportJson() {
         return DBColumnFieldManager.supportJson(DBDialect.DAMENG, this.getType());
+    }
+
+    @Override
+    public boolean supportJsonArray() {
+        return DBColumnFieldManager.supportJsonArray(DBDialect.DAMENG, this.getType());
     }
 
     @Override

@@ -14,10 +14,10 @@ import cn.oyzh.easydameng.dameng.data.DamengSqlTypeFileWriter;
 import cn.oyzh.easydameng.dameng.data.DamengTxtTypeFileWriter;
 import cn.oyzh.easydameng.dameng.data.DamengTypeFileWriter;
 import cn.oyzh.easydameng.dameng.data.DamengXmlTypeFileWriter;
+import cn.oyzh.easydameng.dameng.dto.ShellDamengDataExportTable;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.data.db.handler.DBDataExportHandler;
-import cn.oyzh.easydameng.fx.data.DataExportTable;
 import cn.oyzh.easydameng.util.DBDataUtil;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class DamengDataExportHandler extends DBDataExportHandler {
     /**
      * 导出表
      */
-    private List<DataExportTable> tables;
+    private List<ShellDamengDataExportTable> tables;
 
     public DamengDataExportHandler(ShellDamengClient dbClient, String dbName) {
         super(dbName);
@@ -56,7 +56,7 @@ public class DamengDataExportHandler extends DBDataExportHandler {
     public void doExport() throws Exception {
         this.message("Export Starting");
         if (CollectionUtil.isNotEmpty(this.tables)) {
-            for (DataExportTable table : this.tables) {
+            for (ShellDamengDataExportTable table : this.tables) {
                 this.checkInterrupt();
                 this.exportTable(table);
                 this.processedIncr();
@@ -96,7 +96,7 @@ public class DamengDataExportHandler extends DBDataExportHandler {
      * @param table 表
      * @throws Exception 异常
      */
-    protected void exportTable(DataExportTable table) throws Exception {
+    protected void exportTable(ShellDamengDataExportTable table) throws Exception {
         String tableName = table.getName();
         this.message("Exporting Table " + table.getName());
         this.message("Exporting Records of Table " + table.getName());
@@ -105,22 +105,31 @@ public class DamengDataExportHandler extends DBDataExportHandler {
         try (DamengTypeFileWriter writer = this.initWriter(table.getFilePath(), columns)) {
             this.writeHeader(writer, table, columns);
             if (!columns.isEmpty()) {
-                while (true) {
+                boolean stop = false;
+                while (!stop) {
                     this.checkInterrupt();
-                    long start1 = System.currentTimeMillis();
-                    DamengSelectRecordParam param = new DamengSelectRecordParam();
-                    param.setStart(start);
-                    param.setReadonly(true);
-                    param.setColumns(columns);
-                    param.setDbName(this.dbName);
-                    param.setTableName(tableName);
-                    param.setLimit((long) this.queryLimit);
-                    List<DamengRecord> records = this.dbClient.selectRecords(param);
-                    if (CollectionUtil.isEmpty(records)) {
-                        break;
+                    List<DamengRecord> records;
+                    // 正常导出
+                    if (table.getRecords() == null) {
+                        long start1 = System.currentTimeMillis();
+                        DamengSelectRecordParam param = new DamengSelectRecordParam();
+                        param.setStart(start);
+                        param.setReadonly(true);
+                        param.setColumns(columns);
+                        param.setDbName(this.dbName);
+                        param.setTableName(tableName);
+                        param.setLimit((long) this.queryLimit);
+                        records = this.dbClient.selectRecords(param);
+                        if (CollectionUtil.isEmpty(records)) {
+                            break;
+                        }
+                        long end1 = System.currentTimeMillis();
+                        JulLog.info("查询耗时: {}ms", (end1 - start1));
+                    } else {// 查询导出
+                        records = table.getRecords();
+                        stop = true;
                     }
-                    long end1 = System.currentTimeMillis();
-                    JulLog.info("查询耗时: {}ms", (end1 - start1));
+                    // 写入记录
                     long start2 = System.currentTimeMillis();
                     this.writeRecord(writer, table, columns, records);
                     long end2 = System.currentTimeMillis();
@@ -142,7 +151,7 @@ public class DamengDataExportHandler extends DBDataExportHandler {
      * @param columns 字段列表
      * @throws IOException 异常
      */
-    private void writeHeader(DamengTypeFileWriter writer, DataExportTable table, DamengColumns columns) throws Exception {
+    private void writeHeader(DamengTypeFileWriter writer, ShellDamengDataExportTable table, DamengColumns columns) throws Exception {
         writer.writeHeader();
     }
 
@@ -154,7 +163,7 @@ public class DamengDataExportHandler extends DBDataExportHandler {
      * @param records 记录列表
      * @throws IOException 异常
      */
-    private void writeRecord(DamengTypeFileWriter writer, DataExportTable table, DamengColumns columns, List<DamengRecord> records) throws Exception {
+    private void writeRecord(DamengTypeFileWriter writer, ShellDamengDataExportTable table, DamengColumns columns, List<DamengRecord> records) throws Exception {
         List<Map<String, Object>> objects = new ArrayList<>();
         for (DamengRecord object : records) {
             objects.add(object.toMap());
@@ -175,7 +184,6 @@ public class DamengDataExportHandler extends DBDataExportHandler {
      */
     private void writeTail(DamengTypeFileWriter writer) throws Exception {
         writer.writeTrial();
-        writer.close();
     }
 
     /**
@@ -223,16 +231,16 @@ public class DamengDataExportHandler extends DBDataExportHandler {
         this.dbClient = dbClient;
     }
 
-    public List<DataExportTable> getTables() {
+    public List<ShellDamengDataExportTable> getTables() {
         return tables;
     }
 
-    public void setTables(List<DataExportTable> tables) {
+    public void setTables(List<ShellDamengDataExportTable> tables) {
         this.tables = tables;
     }
 
     public DamengDataExportConfig getConfig() {
         return config;
     }
-}
 
+}

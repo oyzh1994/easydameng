@@ -1,5 +1,6 @@
 package cn.oyzh.easydameng.fx.data;
 
+import cn.oyzh.easydameng.dameng.dto.ShellDamengDataExportTable;
 import cn.oyzh.fx.plus.controls.table.FXTableView;
 
 import java.util.ArrayList;
@@ -9,11 +10,11 @@ import java.util.List;
  * @author oyzh
  * @since 2024/08/27
  */
-public class DataExportTableTableView extends FXTableView<DataExportTable> {
+public class DataExportTableTableView extends FXTableView<ShellDamengDataExportTable> {
 
-    public List<DataExportTable> getSelectedTables() {
-        List<DataExportTable> exportTables = new ArrayList<>();
-        for (DataExportTable item : this.getItems()) {
+    public List<ShellDamengDataExportTable> getSelectedTables() {
+        List<ShellDamengDataExportTable> exportTables = new ArrayList<>();
+        for (ShellDamengDataExportTable item : this.getItems()) {
             if (item.isSelected()) {
                 exportTables.add(item);
             }
@@ -22,7 +23,7 @@ public class DataExportTableTableView extends FXTableView<DataExportTable> {
     }
 
     public boolean hasSelectedTable() {
-        for (DataExportTable item : this.getItems()) {
+        for (ShellDamengDataExportTable item : this.getItems()) {
             if (item.isSelected()) {
                 return true;
             }

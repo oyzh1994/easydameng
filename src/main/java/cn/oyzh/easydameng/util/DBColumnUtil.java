@@ -181,7 +181,7 @@ public class DBColumnUtil {
         DBColumnField bitFiled = new DBColumnField("BIT");
         bitFiled.minValue = 0L;
         bitFiled.maxValue = 1L;
-        bitFiled.supportBit = true;
+        bitFiled.supportBoolean = true;
         bitFiled.supportDefaultValue = true;
 
         //        DBColumnField booleanFiled = new DBColumnField("BOOLEAN");

@@ -83,18 +83,14 @@ public class DamengQueryMainTabController extends RichTabController {
     private DamengQueryInfoTab infoTab;
 
     /**
-     * tab组件
-     */
-    private DamengQueryMainTab tab;
-
-    /**
      * 执行初始化
      *
      * @param query  查询对象
      * @param dbItem db库树节点
      */
-    public void init(DamengQueryMainTab tab, DamengQuery query, DamengDatabaseTreeItem dbItem) {
-        this.tab = tab;
+    public void init(DamengQuery query, DamengDatabaseTreeItem dbItem) {
+        // 设置参数
+        this.resultTabPane.setProp("query", query);
         this.query = query;
         this.dbItem = dbItem;
         this.showNode(0);
@@ -124,25 +120,25 @@ public class DamengQueryMainTabController extends RichTabController {
         this.queryArea.setRunCallback(this::run);
     }
 
-//    @Override
-//    public void onTabInit(FXTab tab) {
-//        super.onTabInit(tab);
-//        // 初始化拉伸事件
-//        NodeHeightResizer.of(this.resultTabPane, this::onResultTabPaneResize, 150f, 650f);
-//    }
+    //    @Override
+    //    public void onTabInit(FXTab tab) {
+    //        super.onTabInit(tab);
+    //        // 初始化拉伸事件
+    //        NodeHeightResizer.of(this.resultTabPane, this::onResultTabPaneResize, 150f, 650f);
+    //    }
 
-//    /**
-//     * 结果组件拉伸事件
-//     *
-//     * @param newHeight 新高度
-//     */
-//    private void onResultTabPaneResize(double newHeight) {
-//        this.resultTabPane.setFlexHeight("");
-//        this.resultTabPane.setRealHeight(newHeight);
-//        this.resultTabPane.setFlexY("100% - " + newHeight);
-//        double newSize = 35 + newHeight;
-//        this.queryArea.setFlexHeight("100% - " + newSize);
-//    }
+    //    /**
+    //     * 结果组件拉伸事件
+    //     *
+    //     * @param newHeight 新高度
+    //     */
+    //    private void onResultTabPaneResize(double newHeight) {
+    //        this.resultTabPane.setFlexHeight("");
+    //        this.resultTabPane.setRealHeight(newHeight);
+    //        this.resultTabPane.setFlexY("100% - " + newHeight);
+    //        double newSize = 35 + newHeight;
+    //        this.queryArea.setFlexHeight("100% - " + newSize);
+    //    }
 
     /**
      * 清理tab组件
@@ -363,16 +359,16 @@ public class DamengQueryMainTabController extends RichTabController {
      * @param type 类型
      */
     private void showNode(int type) {
-//        // 信息
-//        if (type == 0) {
-//            this.resultTabPane.disappear();
-//            this.queryArea.setFlexHeight("100% - 35");
-//        } else if (type == 1 || type == 2) {
-//            this.queryArea.setFlexHeight("30% - 35");
-//            this.resultTabPane.setFlexHeight("70%");
-//            this.resultTabPane.display();
-//        }
-//        this.root.autosize();
+        //        // 信息
+        //        if (type == 0) {
+        //            this.resultTabPane.disappear();
+        //            this.queryArea.setFlexHeight("100% - 35");
+        //        } else if (type == 1 || type == 2) {
+        //            this.queryArea.setFlexHeight("30% - 35");
+        //            this.resultTabPane.setFlexHeight("70%");
+        //            this.resultTabPane.display();
+        //        }
+        //        this.root.autosize();
         // 信息
         if (type == 0) {
             this.resultTabPane.disappear();
