@@ -38,7 +38,7 @@ public class DBColumnUtil {
 
         DBColumnField clobField = new DBColumnField("CLOB");
         clobField.supportText = true;
-        clobField.supportJson = true;
+//        clobField.supportJson = true;
         clobField.supportString = true;
 
         DBColumnField ncharField = new DBColumnField("NCHAR");
