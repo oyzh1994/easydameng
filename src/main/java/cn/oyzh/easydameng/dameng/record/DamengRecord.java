@@ -5,7 +5,7 @@ import cn.oyzh.common.object.Destroyable;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
-import cn.oyzh.easydameng.db.DBObjectStatus;
+import cn.oyzh.easydameng.data.db.DBObjectStatus;
 
 import java.util.HashMap;
 import java.util.List;

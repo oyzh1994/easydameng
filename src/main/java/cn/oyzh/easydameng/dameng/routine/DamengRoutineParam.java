@@ -1,9 +1,9 @@
 package cn.oyzh.easydameng.dameng.routine;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
-import cn.oyzh.easydameng.db.DBDialect;
-import cn.oyzh.easydameng.db.DBObjectStatus;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.data.db.DBDialect;
+import cn.oyzh.easydameng.data.db.DBObjectStatus;
 import cn.oyzh.easydameng.fx.DBCharsetComboBox;
 import cn.oyzh.easydameng.fx.DBCollationComboBox;
 import cn.oyzh.easydameng.fx.routine.DamengParamModeComboBox;
@@ -28,7 +28,7 @@ import java.util.Objects;
  */
 public class DamengRoutineParam extends DBObjectStatus {
 
-    private DamengClient dbClient;
+    private ShellDamengClient dbClient;
 
     /**
      * 名称
@@ -140,7 +140,7 @@ public class DamengRoutineParam extends DBObjectStatus {
         if (this.charsetControl != null) {
             return this.charsetControl;
         }
-        //DamengClient dbClient = CacheHelper.get("dameng:dbClient");
+        //ShellDamengClient dbClient = CacheHelper.get("dameng:dbClient");
         DBCharsetComboBox comboBox = new DBCharsetComboBox();
         this.charsetControl = comboBox;
         comboBox.init(this.dbClient);
@@ -259,7 +259,7 @@ public class DamengRoutineParam extends DBObjectStatus {
     //        if (this.collationControl != null) {
     //            return collationControl;
     //        }
-    //        //DamengClient dbClient = CacheHelper.get("dameng:dbClient");
+    //        //ShellDamengClient dbClient = CacheHelper.get("dameng:dbClient");
     //        DBCollationComboBox comboBox = new DBCollationComboBox();
     //        this.collationControl = comboBox;
     //        comboBox.init(this.getCharset(), this.dbClient);
@@ -409,12 +409,12 @@ public class DamengRoutineParam extends DBObjectStatus {
         return charsetProperty;
     }
 
-    public void setDbClient(DamengClient dbClient) {
+    public void setDbClient(ShellDamengClient dbClient) {
         if (this.dbClient != null) {
             return;
         }
         this.dbClient = dbClient;
-        //DamengClient dbClient = CacheHelper.get("dameng:dbClient");
+        //ShellDamengClient dbClient = CacheHelper.get("dameng:dbClient");
         if (dbClient != null) {
             // 类型变更
             this.typeProperty.addListener((observable, oldValue, newValue) -> {

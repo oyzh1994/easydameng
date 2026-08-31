@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.controller.database;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBDatabase;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBCharsetComboBox;
 import cn.oyzh.easydameng.fx.DBCollationComboBox;

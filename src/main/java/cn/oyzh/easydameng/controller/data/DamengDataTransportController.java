@@ -3,17 +3,17 @@ package cn.oyzh.easydameng.controller.data;
 import cn.oyzh.common.system.SystemUtil;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBClientUtil;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.fx.DBDatabaseComboBox;
 import cn.oyzh.easydameng.fx.DBInfoComboBox;
-import cn.oyzh.easydameng.fx.data.DataTransportFunctionListView;
-import cn.oyzh.easydameng.fx.data.DataTransportProcedureListView;
-import cn.oyzh.easydameng.fx.data.DataTransportTableListView;
-import cn.oyzh.easydameng.fx.data.DataTransportTriggerListView;
-import cn.oyzh.easydameng.fx.data.DataTransportViewListView;
-import cn.oyzh.easydameng.handler.DataTransportHandler;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.data.dameng.ui.DataTransportFunctionListView;
+import cn.oyzh.easydameng.data.dameng.ui.DataTransportProcedureListView;
+import cn.oyzh.easydameng.data.dameng.ui.DataTransportTableListView;
+import cn.oyzh.easydameng.data.dameng.ui.DataTransportTriggerListView;
+import cn.oyzh.easydameng.data.dameng.ui.DataTransportViewListView;
+import cn.oyzh.easydameng.data.dameng.handler.DamengDataTransportHandler;
 import cn.oyzh.fx.gui.text.area.MsgTextArea;
 import cn.oyzh.fx.plus.FXConst;
 import cn.oyzh.fx.plus.controller.StageController;
@@ -30,7 +30,6 @@ import cn.oyzh.fx.plus.window.StageAdapter;
 import cn.oyzh.fx.plus.window.StageAttribute;
 import cn.oyzh.i18n.I18nHelper;
 import javafx.fxml.FXML;
-import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 
 
@@ -152,12 +151,12 @@ public class DamengDataTransportController extends StageController {
     /**
      * 来源客户端
      */
-    private DamengClient sourceClient;
+    private ShellDamengClient sourceClient;
 
     /**
      * 目标客户端
      */
-    private DamengClient targetClient;
+    private ShellDamengClient targetClient;
 
     /**
      * 结束传输按钮
@@ -262,7 +261,7 @@ public class DamengDataTransportController extends StageController {
     /**
      * 传输处理器
      */
-    private DataTransportHandler transportHandler;
+    private DamengDataTransportHandler transportHandler;
 
     /**
      * 执行传输
@@ -276,7 +275,7 @@ public class DamengDataTransportController extends StageController {
         this.transportStatus.clear();
         // 生成传输处理器
         if (this.transportHandler == null ) {
-            this.transportHandler = DataTransportHandler.newHandler();
+            this.transportHandler = new DamengDataTransportHandler();
             this.transportHandler.setMessageHandler(str -> this.transportMsg.appendLine(str))
                     .setProcessedHandler(count -> {
                         if (count > 0) {
@@ -298,17 +297,15 @@ public class DamengDataTransportController extends StageController {
         // 目标库
         this.transportHandler.setTargetDatabase(this.targetDatabase.getSelectedItem());
         // 视图
-        this.transportHandler.setViews(this.viewList.getSelectedViews());
-//        // 事件
-//        this.transportHandler.setEvents(this.eventList.getSelectedEvents());
+        this.transportHandler.setViews(this.viewList.getSelectedObjects());
         // 表
-        this.transportHandler.setTables(this.tableList.getSelectedTables());
+        this.transportHandler.setTables(this.tableList.getSelectedObjects());
         // 触发器
-        this.transportHandler.setTriggers(this.triggerList.getSelectedTriggers());
+        this.transportHandler.setTriggers(this.triggerList.getSelectedObjects());
         // 函数
-        this.transportHandler.setFunctions(this.functionList.getSelectedFunctions());
+        this.transportHandler.setFunctions(this.functionList.getSelectedObjects());
         // 过程
-        this.transportHandler.setProcedures(this.procedureList.getSelectedProcedures());
+        this.transportHandler.setProcedures(this.procedureList.getSelectedObjects());
         // 开始处理
         NodeGroupUtil.disable(this.stage, "exec");
         this.stage.appendTitle("===" + I18nHelper.transportInProgress() + "===");

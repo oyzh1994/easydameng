@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.event.connect;
 
-import cn.oyzh.easydameng.dameng.DamengClient;
-import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.event.Event;
 import cn.oyzh.event.EventFormatter;
@@ -10,7 +10,7 @@ import cn.oyzh.event.EventFormatter;
  * @author oyzh
  * @since 2023/11/28
  */
-public class DBConnectionClosedEvent extends Event<DamengClient> implements EventFormatter {
+public class DBConnectionClosedEvent extends Event<ShellDamengClient> implements EventFormatter {
 
     @Override
     public String eventFormat() {

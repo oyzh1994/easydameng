@@ -8,7 +8,7 @@
 <?import cn.oyzh.fx.gui.text.field.NumberTextField?>
 <?import cn.oyzh.fx.gui.text.area.ReadOnlyTextArea?>
 <?import cn.oyzh.fx.gui.label.SystemLabel?>
-<FXVBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1"
+<FXVBox  xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="cn.oyzh.easydameng.popups.DamengFieldInfoPopupController" realWidth="360"
           realHeight="240">
     <FXHBox realHeight="30">

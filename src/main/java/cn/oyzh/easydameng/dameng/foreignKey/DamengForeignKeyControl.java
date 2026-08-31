@@ -1,11 +1,11 @@
 package cn.oyzh.easydameng.dameng.foreignKey;
 
 import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.fx.DBDatabaseComboBox;
 import cn.oyzh.easydameng.fx.table.DamengFieldTextFiled;
 import cn.oyzh.easydameng.fx.table.DamengForeignKeyPolicyComboBox;
 import cn.oyzh.easydameng.fx.table.DamengTableComboBox;
-import cn.oyzh.easydameng.dameng.DamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.util.DBUtil;
@@ -31,9 +31,9 @@ public class DamengForeignKeyControl extends DamengForeignKey {
         this.dbName = dbName;
     }
 
-    private DamengClient dbClient;
+    private ShellDamengClient dbClient;
 
-    public void setDbClient(DamengClient dbClient) {
+    public void setDbClient(ShellDamengClient dbClient) {
         this.dbClient = dbClient;
     }
 
@@ -99,7 +99,7 @@ public class DamengForeignKeyControl extends DamengForeignKey {
     public DamengTableComboBox getPrimaryKeyTableControl() {
         try {
             DamengTableComboBox comboBox = new DamengTableComboBox();
-            //DamengClient dbClient = CacheHelper.get("dameng:dbClient");
+            //ShellDamengClient dbClient = CacheHelper.get("dameng:dbClient");
             comboBox.init(this.getPrimaryKeyDatabase(), this.dbClient);
             comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setPrimaryKeyTable(newValue));
             comboBox.selectFirstIfNull(this.getPrimaryKeyTable());
@@ -139,7 +139,7 @@ public class DamengForeignKeyControl extends DamengForeignKey {
                 textField.clear();
                 String dbName = this.getPrimaryKeyDatabase();
                 String tableName = this.getPrimaryKeyTable();
-                //DamengClient client = CacheHelper.get("dameng:dbClient");
+                //ShellDamengClient client = CacheHelper.get("dameng:dbClient");
                 textField.setColumns(this.dbClient.selectColumns(new DamengSelectColumnParam(dbName, tableName)));
                 textField.setSelectedColumns(this.getPrimaryKeyColumns());
             };

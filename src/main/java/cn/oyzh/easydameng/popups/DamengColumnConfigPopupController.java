@@ -1,9 +1,7 @@
 package cn.oyzh.easydameng.popups;
 
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
-import cn.oyzh.easydameng.fx.DBCharsetComboBox;
-import cn.oyzh.easydameng.fx.DBCollationComboBox;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
 import cn.oyzh.easydameng.fx.table.DamengDefaultValueTextFiled;
 import cn.oyzh.fx.gui.text.field.NumberTextField;
@@ -120,7 +118,7 @@ public class DamengColumnConfigPopupController extends PopupController {
     /**
      * db客户端
      */
-    private DamengClient dbClient;
+    private ShellDamengClient dbClient;
 
     /**
      * 提交

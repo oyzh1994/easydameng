@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.trees.terminal;
 
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.fx.gui.tree.view.RichTreeItem;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
@@ -26,7 +26,7 @@ public class DamengTerminalTreeItem extends RichTreeItem<DamengTerminalTreeItemV
         return this.parent().info();
     }
 
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.parent().client();
     }
 

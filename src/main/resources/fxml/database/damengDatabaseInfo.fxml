@@ -8,7 +8,7 @@
 <!-- <?import cn.oyzh.fx.gui.text.field.ReadOnlyTextField?> -->
 <!-- <?import cn.oyzh.fx.gui.button.CancelButton?> -->
 <!-- <?import cn.oyzh.fx.gui.label.InfoLabel?> -->
-<!-- <FXVBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1" -->
+<!-- <FXVBox  xmlns:fx="http://javafx.com/fxml/1" -->
 <!--           fx:controller="cn.oyzh.easydameng.controller.database.DamengDatabaseInfoController" realWidth="900" -->
 <!--           realHeight="300"> -->
 <!--     <InfoLabel text="%base.name"> -->

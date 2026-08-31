@@ -2,7 +2,7 @@
 //
 //import cn.oyzh.common.thread.Task;
 //import cn.oyzh.common.thread.TaskBuilder;
-//import cn.oyzh.easydameng.dameng.DamengClient;
+//import cn.oyzh.easydameng.dameng.ShellDamengClient;
 //import cn.oyzh.easydameng.dameng.event.DamengEvent;
 //import cn.oyzh.easydameng.domain.DamengConnect;
 //import cn.oyzh.easydameng.event.DamengEventUtil;
@@ -123,7 +123,7 @@
 //        return this.parent().dbName();
 //    }
 //
-//    public DamengClient client() {
+//    public ShellDamengClient client() {
 //        return this.parent().client();
 //    }
 //

@@ -1,8 +1,8 @@
 package cn.oyzh.easydameng.fx;
 
 import cn.oyzh.common.util.CollectionUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
-import cn.oyzh.easydameng.db.DBDatabase;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.data.db.DBDatabase;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 
 import java.util.List;
@@ -15,11 +15,11 @@ import java.util.List;
  */
 public class DBDatabaseComboBox extends FXComboBox<String> {
 
-    public void init(DamengClient client) {
+    public void init(ShellDamengClient client) {
         this.init(client, null);
     }
 
-    public void init(DamengClient client, String dbName) {
+    public void init(ShellDamengClient client, String dbName) {
         this.clearItems();
         List<DBDatabase> databases = client.databases();
         if (CollectionUtil.isNotEmpty(databases)) {

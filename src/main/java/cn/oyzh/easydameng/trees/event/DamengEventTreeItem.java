@@ -1,7 +1,7 @@
 //package cn.oyzh.easydameng.trees.event;
 //
 //import cn.oyzh.common.util.StringUtil;
-//import cn.oyzh.easydameng.dameng.DamengClient;
+//import cn.oyzh.easydameng.dameng.ShellDamengClient;
 //import cn.oyzh.easydameng.dameng.event.DamengEvent;
 //import cn.oyzh.easydameng.domain.DamengConnect;
 //import cn.oyzh.easydameng.event.DamengEventUtil;
@@ -56,7 +56,7 @@
 //     *
 //     * @return db客户端
 //     */
-//    public DamengClient client() {
+//    public ShellDamengClient client() {
 //        return this.parent().client();
 //    }
 //

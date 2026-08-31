@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.fx;
 
-import cn.oyzh.easydameng.db.DBObjectStatus;
+import cn.oyzh.easydameng.data.db.DBObjectStatus;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.fx.plus.controls.table.FXTableView;
 import javafx.collections.ListChangeListener;

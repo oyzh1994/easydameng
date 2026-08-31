@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.tabs;
 
 import cn.oyzh.easydameng.event.terminal.DBTerminalCloseEvent;
 import cn.oyzh.easydameng.event.terminal.DBTerminalOpenEvent;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.tabs.home.DBHomeTab;
 import cn.oyzh.easydameng.tabs.terminal.DamengTerminalTab;
 import cn.oyzh.event.EventSubscribe;
@@ -99,7 +99,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     //         func.accept(tabs);
     //     } else if (setting.isSingleTabLimitStrategy()) {// 限制单个连接
     //         // 分组处理
-    //         Map<DamengClient, List<DamengTableDataTab>> map = new HashMap<>();
+    //         Map<ShellDamengClient, List<DamengTableDataTab>> map = new HashMap<>();
     //         // 按分组添加到map
     //         for (DamengTableDataTab tab : tabs) {
     //             List<DamengTableDataTab> list = map.computeIfAbsent(tab.client(), k -> new ArrayList<>());
@@ -151,7 +151,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
      * @param client dameng客户端
      * @return 终端tab
      */
-    private DamengTerminalTab getTerminalTab(DamengClient client, String dbName) {
+    private DamengTerminalTab getTerminalTab(ShellDamengClient client, String dbName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengTerminalTab terminalTab && terminalTab.client() == client && terminalTab.dbName().equals(dbName)) {
                 return terminalTab;
@@ -167,7 +167,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
      */
     @EventSubscribe
     private void terminalOpen(DBTerminalOpenEvent event) {
-        DamengClient client = event.data();
+        ShellDamengClient client = event.data();
         String dbName = event.getDbName();
         DamengTerminalTab tab = this.getTerminalTab(client, dbName);
         if (tab == null) {
@@ -184,7 +184,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
      */
     @EventSubscribe
     private void terminalClose(DBTerminalCloseEvent event) {
-        DamengClient client = event.data();
+        ShellDamengClient client = event.data();
         List<Tab> toRemove = new ArrayList<>();
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengTerminalTab terminalTab && terminalTab.client() == client) {

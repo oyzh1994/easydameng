@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.dameng.table;
 import cn.oyzh.common.object.ObjectComparator;
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBObjectStatus;
+import cn.oyzh.easydameng.data.db.DBObjectStatus;
 import javafx.beans.property.SimpleStringProperty;
 
 /**

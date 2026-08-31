@@ -9,7 +9,7 @@ import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
-import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.data.db.DBDialect;
 import dm.jdbc.driver.DmdbBlob;
 import dm.jdbc.driver.DmdbClob;
 
@@ -41,7 +41,7 @@ public class DBDataUtil {
             StringBuilder sb = new StringBuilder();
             for (char c : str.toCharArray()) {
                 if (c == '\'') {
-//                    sb.append("\\'");
+                    //                    sb.append("\\'");
                     sb.append(c);
                 } else if (c == '"') {
                     sb.append("\\\"");
@@ -71,9 +71,10 @@ public class DBDataUtil {
         if (value == null) {
             return null;
         }
-//        if (column.supportGeometry()) {
-//            return "ST_GeomFromText('" + value + "')";
-//        }
+        value = valueStandardization(value);
+        //        if (column.supportGeometry()) {
+        //            return "ST_GeomFromText('" + value + "')";
+        //        }
         if (column.isDateType()) {
             Date date = (Date) value;
             return DateHelper.formatDate(date);
@@ -103,9 +104,9 @@ public class DBDataUtil {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-//        if (column.supportEnum()) {
-//            return value.toString();
-//        }
+        //        if (column.supportEnum()) {
+        //            return value.toString();
+        //        }
         if (column.supportString()) {
             return escapeQuotes((String) value);
         }
@@ -126,9 +127,10 @@ public class DBDataUtil {
         if (value == null) {
             return null;
         }
-//        if (column.supportGeometry()) {
-//            return "ST_GeomFromText('" + value + "')";
-//        }
+        value = valueStandardization(value);
+        //        if (column.supportGeometry()) {
+        //            return "ST_GeomFromText('" + value + "')";
+        //        }
         if (column.isDateType()) {
             Date date = (Date) value;
             return DateHelper.formatDate(date);
@@ -158,9 +160,9 @@ public class DBDataUtil {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-//        if (column.supportEnum()) {
-//            return value.toString();
-//        }
+        //        if (column.supportEnum()) {
+        //            return value.toString();
+        //        }
         if (column.supportString()) {
             return escapeQuotes((String) value);
         }
@@ -181,9 +183,10 @@ public class DBDataUtil {
         if (value == null) {
             return "";
         }
-//        if (column.supportGeometry()) {
-//            return "\"ST_GeomFromText('" + value + "')\"";
-//        }
+        value = valueStandardization(value);
+        //        if (column.supportGeometry()) {
+        //            return "\"ST_GeomFromText('" + value + "')\"";
+        //        }
         if (column.isDateType()) {
             Date date = (Date) value;
             return "\"" + DateHelper.formatDate(date) + "\"";
@@ -227,9 +230,10 @@ public class DBDataUtil {
         if (value == null) {
             return "NULL";
         }
-//        if (column.supportGeometry()) {
-//            return "ST_GeomFromText('" + value + "')";
-//        }
+        value = valueStandardization(value);
+        //        if (column.supportGeometry()) {
+        //            return "ST_GeomFromText('" + value + "')";
+        //        }
         if (column.isDateType()) {
             Date date = (Date) value;
             return "'" + DateHelper.formatDate(date) + "'";
@@ -257,9 +261,9 @@ public class DBDataUtil {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-//        if (column.supportEnum()) {
-//            return "'" + value + "'";
-//        }
+        //        if (column.supportEnum()) {
+        //            return "'" + value + "'";
+        //        }
         if (column.supportString()) {
             String str = escapeQuotes((String) value);
             return "'" + str + "'";
@@ -278,9 +282,10 @@ public class DBDataUtil {
         if (value == null) {
             return "";
         }
-//        if (column.supportGeometry()) {
-//            return "ST_GeomFromText('" + value + "')";
-//        }
+        //        if (column.supportGeometry()) {
+        //            return "ST_GeomFromText('" + value + "')";
+        //        }
+        value = valueStandardization(value);
         if (column.isDateType()) {
             Date date = (Date) value;
             return DateHelper.formatDate(date);
@@ -310,9 +315,9 @@ public class DBDataUtil {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-//        if (column.supportEnum()) {
-//            return value.toString();
-//        }
+        //        if (column.supportEnum()) {
+        //            return value.toString();
+        //        }
         if (column.supportString()) {
             return escapeQuotes((String) value);
         }
@@ -333,9 +338,10 @@ public class DBDataUtil {
         if (value == null) {
             return null;
         }
-//        if (column.supportGeometry()) {
-//            return "ST_GeomFromText('" + value + "')";
-//        }
+        //        if (column.supportGeometry()) {
+        //            return "ST_GeomFromText('" + value + "')";
+        //        }
+        value = valueStandardization(value);
         if (column.isDateType()) {
             if (value instanceof Date date) {
                 return DateHelper.formatDate(date);
@@ -366,9 +372,9 @@ public class DBDataUtil {
             }
             return "b'" + TextUtil.byteToBitStr(bytes) + "'";
         }
-//        if (column.supportEnum()) {
-//            return value.toString();
-//        }
+        //        if (column.supportEnum()) {
+        //            return value.toString();
+        //        }
         if (column.supportString()) {
             return escapeQuotes((String) value);
         }

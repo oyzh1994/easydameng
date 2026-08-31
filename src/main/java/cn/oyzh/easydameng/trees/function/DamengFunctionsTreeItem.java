@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.trees.function;
 
 import cn.oyzh.common.thread.Task;
 import cn.oyzh.common.thread.TaskBuilder;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
@@ -129,7 +129,7 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
         return this.parent().dbName();
     }
 
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.parent().client();
     }
 

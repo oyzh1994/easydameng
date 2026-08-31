@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.condition;
 
 import cn.oyzh.common.util.CollectionUtil;
-import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.util.Collection;

@@ -2,15 +2,14 @@ package cn.oyzh.easydameng.trees.query;
 
 import cn.oyzh.common.thread.Task;
 import cn.oyzh.common.thread.TaskBuilder;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.event.DamengEventUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
 import cn.oyzh.easydameng.store.DamengQueryStore;
 import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
-import cn.oyzh.fx.gui.tree.view.RichTreeItemFilter;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.menu.FXMenuItem;
@@ -98,7 +97,7 @@ public class DamengQueriesTreeItem extends DBTreeItem<DamengQueriesTreeItemValue
         return this.parent().dbName();
     }
 
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.parent().client();
     }
 

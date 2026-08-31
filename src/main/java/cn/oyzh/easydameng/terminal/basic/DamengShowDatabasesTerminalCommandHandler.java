@@ -1,7 +1,6 @@
 package cn.oyzh.easydameng.terminal.basic;
 
-import cn.oyzh.easydameng.dameng.DamengClient;
-import cn.oyzh.easydameng.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBDatabase;
 import cn.oyzh.easydameng.terminal.DamengTerminalCommandHandler;
 import cn.oyzh.easydameng.terminal.DamengTerminalPane;
 import cn.oyzh.fx.terminal.command.TerminalCommand;

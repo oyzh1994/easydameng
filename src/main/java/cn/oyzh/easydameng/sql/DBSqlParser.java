@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.sql;
 
-import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.data.db.DBDialect;
 
 import java.util.ArrayList;
 import java.util.List;

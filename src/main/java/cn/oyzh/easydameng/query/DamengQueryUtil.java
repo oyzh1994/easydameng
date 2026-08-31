@@ -1,11 +1,10 @@
 package cn.oyzh.easydameng.query;
 
 import cn.oyzh.common.thread.ThreadUtil;
-import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.common.util.TextUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
-import cn.oyzh.easydameng.db.DBDatabase;
-import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.data.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
@@ -171,11 +170,11 @@ public class DamengQueryUtil {
         return DB_COLUMNS;
     }
 
-    public static void updateIndex(DamengClient client) {
+    public static void updateIndex(ShellDamengClient client) {
         updateIndex(client, true);
     }
 
-    public static void updateIndex(DamengClient client, boolean async) {
+    public static void updateIndex(ShellDamengClient client, boolean async) {
         Runnable task = () -> {
             if (indexStatus == 0) {
                 try {

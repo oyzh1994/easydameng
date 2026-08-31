@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.trees.view;
 
 import cn.oyzh.common.dto.Paging;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
@@ -59,7 +59,7 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
     }
 
 
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.parent().client();
     }
 

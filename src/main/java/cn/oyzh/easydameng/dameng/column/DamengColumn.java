@@ -6,7 +6,7 @@ import cn.oyzh.common.util.BooleanUtil;
 import cn.oyzh.common.util.NumberUtil;
 import cn.oyzh.common.util.RegexUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBObjectStatus;
+import cn.oyzh.easydameng.data.db.DBObjectStatus;
 import cn.oyzh.easydameng.util.DBColumnUtil;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;

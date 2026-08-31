@@ -4,7 +4,7 @@ import cn.oyzh.common.date.DateUtil;
 import cn.oyzh.common.system.SystemUtil;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.fx.data.DataDateTextFiled;
@@ -15,7 +15,7 @@ import cn.oyzh.easydameng.fx.data.DataExportTableTableView;
 import cn.oyzh.easydameng.fx.data.DataFieldSeparatorComboBox;
 import cn.oyzh.easydameng.fx.data.DataRecordSeparatorComboBox;
 import cn.oyzh.easydameng.fx.data.DataTxtIdentifierComboBox;
-import cn.oyzh.easydameng.handler.DataExportHandler;
+import cn.oyzh.easydameng.data.dameng.handler.DataExportHandler;
 import cn.oyzh.fx.gui.text.area.MsgTextArea;
 import cn.oyzh.fx.plus.FXConst;
 import cn.oyzh.fx.plus.chooser.FXChooser;
@@ -35,7 +35,6 @@ import cn.oyzh.fx.plus.window.StageAttribute;
 import cn.oyzh.i18n.I18nHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
-import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 
 import java.util.Date;
@@ -130,7 +129,7 @@ public class DamengDataExportController extends StageController {
     /**
      * db客户端
      */
-    private DamengClient dbClient;
+    private ShellDamengClient dbClient;
 
     /**
      * 日期预览

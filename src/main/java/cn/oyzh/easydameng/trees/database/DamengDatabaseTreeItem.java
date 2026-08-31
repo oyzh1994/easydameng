@@ -5,7 +5,7 @@ import cn.oyzh.common.thread.TaskBuilder;
 import cn.oyzh.easydameng.controller.data.DamengDataDumpController;
 import cn.oyzh.easydameng.controller.data.DamengRunSqlFileController;
 import cn.oyzh.easydameng.controller.database.DamengDatabaseUpdateController;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
@@ -30,8 +30,8 @@ import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
-import cn.oyzh.easydameng.db.DBDatabase;
-import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.data.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
@@ -368,7 +368,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
      *
      * @return db客户端
      */
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.parent().getClient();
     }
 

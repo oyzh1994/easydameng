@@ -25,26 +25,6 @@
             <Insets left="30" top="5"/>
         </VBox.margin>
     </ClearableTextField>
-    <!-- <InfoLabel text="%base.charset"> -->
-    <!--     <VBox.margin> -->
-    <!--         <Insets left="30" top="10"/> -->
-    <!--     </VBox.margin> -->
-    <!-- </InfoLabel> -->
-    <!-- <DBCharsetComboBox fx:id="charset" realHeight="30" flexWidth="100% - 180"> -->
-    <!--     <VBox.margin> -->
-    <!--         <Insets left="30" top="5"/> -->
-    <!--     </VBox.margin> -->
-    <!-- </DBCharsetComboBox> -->
-    <!-- <InfoLabel text="%base.collation"> -->
-    <!--     <VBox.margin> -->
-    <!--         <Insets left="30" top="10"/> -->
-    <!--     </VBox.margin> -->
-    <!-- </InfoLabel> -->
-    <!-- <DBCollationComboBox disable="true" fx:id="collation" realHeight="30" flexWidth="100% - 180"> -->
-    <!--     <VBox.margin> -->
-    <!--         <Insets left="30" top="5"/> -->
-    <!--     </VBox.margin> -->
-    <!-- </DBCollationComboBox> -->
     <FXHBox flexWidth="100%">
         <SubmitButton onAction="#add" text="%base.add">
             <HBox.margin>

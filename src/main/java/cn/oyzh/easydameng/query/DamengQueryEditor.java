@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.query;
 
 import cn.oyzh.common.util.NumberUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.domain.DamengSetting;
 import cn.oyzh.easydameng.sql.DBSqlParser;
 import cn.oyzh.easydameng.store.DamengSettingStore;

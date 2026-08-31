@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.dameng.foreignKey;
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBObjectStatus;
+import cn.oyzh.easydameng.data.db.DBObjectStatus;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.ArrayList;
@@ -171,7 +171,7 @@ public class DamengForeignKey extends DBObjectStatus implements ObjectCopier<Dam
     // public DamengTableComboBox getPrimaryKeyTableControl() {
     //     try {
     //         DamengTableComboBox comboBox = new DamengTableComboBox();
-    //         DamengClient dbClient = CacheHelper.get("dbClient");
+    //         ShellDamengClient dbClient = CacheHelper.get("dbClient");
     //         comboBox.init(this.getPrimaryKeyDatabase(), dbClient);
     //         comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setPrimaryKeyTable(newValue));
     //         comboBox.selectFirstIfNull(this.getPrimaryKeyTable());
@@ -216,7 +216,7 @@ public class DamengForeignKey extends DBObjectStatus implements ObjectCopier<Dam
     //             textField.clear();
     //             String dbName = this.getPrimaryKeyDatabase();
     //             String tableName = this.getPrimaryKeyTable();
-    //             DamengClient client = CacheHelper.get("dbClient");
+    //             ShellDamengClient client = CacheHelper.get("dbClient");
     //             textField.setColumns(client.selectColumns(new DamengSelectColumnParam(dbName, tableName)));
     //             textField.setSelectedColumns(this.primaryKeyColumns);
     //         };

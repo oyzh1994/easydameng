@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.fx;
 
-import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 
 /**

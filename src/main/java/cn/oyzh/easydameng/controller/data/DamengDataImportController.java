@@ -4,8 +4,8 @@ import cn.oyzh.common.date.DateUtil;
 import cn.oyzh.common.system.SystemUtil;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.fx.table.DamengTableComboBox;
-import cn.oyzh.easydameng.dameng.DamengClient;
 import cn.oyzh.easydameng.fx.data.DataDateTextFiled;
 import cn.oyzh.easydameng.fx.data.DataFieldSeparatorComboBox;
 import cn.oyzh.easydameng.fx.data.DataImportFile;
@@ -14,7 +14,7 @@ import cn.oyzh.easydameng.fx.data.DataImportTableComboBox;
 import cn.oyzh.easydameng.fx.data.DataRecordLabelComboBox;
 import cn.oyzh.easydameng.fx.data.DataRecordSeparatorComboBox;
 import cn.oyzh.easydameng.fx.data.DataTxtIdentifierComboBox;
-import cn.oyzh.easydameng.handler.DataImportHandler;
+import cn.oyzh.easydameng.data.dameng.handler.DataImportHandler;
 import cn.oyzh.fx.gui.text.area.MsgTextArea;
 import cn.oyzh.fx.gui.text.field.NumberTextField;
 import cn.oyzh.fx.plus.FXConst;
@@ -38,7 +38,6 @@ import cn.oyzh.i18n.I18nHelper;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
-import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 
 import java.io.File;
@@ -127,7 +126,7 @@ public class DamengDataImportController extends StageController {
     /**
      * db客户端
      */
-    private DamengClient dbClient;
+    private ShellDamengClient dbClient;
 
     /**
      * 结束导入按钮

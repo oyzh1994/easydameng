@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.fx.table;
 
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 
@@ -14,11 +14,11 @@ import java.util.List;
  */
 public class DamengTableComboBox extends FXComboBox<String> {
 
-    public void init(String dbName, DamengClient client) {
+    public void init(String dbName, ShellDamengClient client) {
         this.init(dbName, null, client);
     }
 
-    public void init(String dbName, String tableName, DamengClient client) {
+    public void init(String dbName, String tableName, ShellDamengClient client) {
         List<DamengTable> list = client.selectTables(dbName);
         this.setItem(list.parallelStream().map(DamengTable::getName).toList());
         if (tableName != null) {

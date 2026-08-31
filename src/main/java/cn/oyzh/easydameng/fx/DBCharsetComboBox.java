@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.fx;
 
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 
 /**
@@ -9,7 +9,7 @@ import cn.oyzh.fx.plus.controls.combo.FXComboBox;
  */
 public class DBCharsetComboBox extends FXComboBox<String> {
 
-    public void init(DamengClient client) {
+    public void init(ShellDamengClient client) {
         this.clearItems();
         // 空数据
         this.addItem("");

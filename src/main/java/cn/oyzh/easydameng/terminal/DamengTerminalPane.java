@@ -1,12 +1,10 @@
 package cn.oyzh.easydameng.terminal;
 
-import cn.oyzh.common.log.JulLog;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengQueryResults;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
-import cn.oyzh.easydameng.db.DBConnState;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengSetting;
 import cn.oyzh.easydameng.store.DamengSettingStore;
@@ -39,9 +37,9 @@ public class DamengTerminalPane extends TerminalPane {
     /**
      * dameng客户端
      */
-    private DamengClient client;
+    private ShellDamengClient client;
 
-    public DamengClient getClient() {
+    public ShellDamengClient getClient() {
         return client;
     }
 
@@ -97,7 +95,7 @@ public class DamengTerminalPane extends TerminalPane {
      *
      * @param client 客户端
      */
-    public void init(DamengClient client, String dbName) {
+    public void init(ShellDamengClient client, String dbName) {
         this.client = client;
         this.dbName = dbName;
         FXUtil.runLater(() -> {

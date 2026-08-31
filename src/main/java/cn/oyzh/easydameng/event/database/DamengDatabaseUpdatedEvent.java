@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.event.database;
 
-import cn.oyzh.easydameng.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBDatabase;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
 import cn.oyzh.event.Event;
 import cn.oyzh.event.EventFormatter;

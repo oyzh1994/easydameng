@@ -1,6 +1,7 @@
 package cn.oyzh.easydameng.event;
 
-import cn.oyzh.easydameng.db.DBDatabase;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.data.db.DBDatabase;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.event.connect.DBAddConnectEvent;
@@ -47,7 +48,6 @@ import cn.oyzh.easydameng.event.view.DamengViewDesignEvent;
 import cn.oyzh.easydameng.event.view.DamengViewFilteredEvent;
 import cn.oyzh.easydameng.event.view.DamengViewOpenEvent;
 import cn.oyzh.easydameng.event.view.DamengViewRenamedEvent;
-import cn.oyzh.easydameng.dameng.DamengClient;
 import cn.oyzh.easydameng.dameng.event.DamengEvent;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
@@ -320,7 +320,7 @@ public class DamengEventUtil {
      *
      * @param client redis客户端
      */
-    public static void connectionClosed(DamengClient client) {
+    public static void connectionClosed(ShellDamengClient client) {
         DBConnectionClosedEvent event = new DBConnectionClosedEvent();
         event.data(client);
         EventUtil.post(event);
@@ -331,7 +331,7 @@ public class DamengEventUtil {
      *
      * @param client redis客户端
      */
-    public static void connectionConnected(DamengClient client) {
+    public static void connectionConnected(ShellDamengClient client) {
         DBConnectionConnectedEvent event = new DBConnectionConnectedEvent();
         event.data(client);
         EventUtil.post(event);
@@ -340,7 +340,7 @@ public class DamengEventUtil {
     /**
      * 终端打开事件
      */
-    public static void terminalOpen(DamengClient client, String dbName) {
+    public static void terminalOpen(ShellDamengClient client, String dbName) {
         DBTerminalOpenEvent event = new DBTerminalOpenEvent();
         event.data(client);
         event.setDbName(dbName);
@@ -352,7 +352,7 @@ public class DamengEventUtil {
      *
      * @param client dameng客户端
      */
-    public static void terminalClose(DamengClient client) {
+    public static void terminalClose(ShellDamengClient client) {
         DBTerminalCloseEvent event = new DBTerminalCloseEvent();
         event.data(client);
         EventUtil.post(event);

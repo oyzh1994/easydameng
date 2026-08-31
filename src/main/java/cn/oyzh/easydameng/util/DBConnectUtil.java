@@ -1,8 +1,8 @@
 package cn.oyzh.easydameng.util;
 
 import cn.oyzh.common.thread.ThreadUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
-import cn.oyzh.easydameng.db.DBClientUtil;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.window.StageAdapter;
@@ -27,7 +27,7 @@ public class DBConnectUtil {
                 view.disable();
                 view.waitCursor();
                 view.appendTitle("==连接测试中...");
-                DamengClient client = DBClientUtil.newClient(dbInfo);
+                ShellDamengClient client = DBClientUtil.newClient(dbInfo);
                 if (client != null) {
                     client.start();
                     if (client.isConnected()) {
@@ -54,7 +54,7 @@ public class DBConnectUtil {
      * @param client db客户端
      * @param async  是否异步
      */
-    public static void close(DamengClient client, boolean async) {
+    public static void close(ShellDamengClient client, boolean async) {
         try {
             if (client != null && client.isConnected()) {
                 Runnable func = client::close;

@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.tabs.view;
 
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.tabs.DamengTab;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
@@ -68,7 +68,7 @@ public class DamengViewRecordTab extends DamengTab {
         return this.controller().getItem();
     }
 
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.item().client();
     }
 

@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.tabs.table;
 
 import cn.oyzh.common.dto.Paging;
 import cn.oyzh.common.util.CollectionUtil;
-import cn.oyzh.easydameng.db.DBObjectList;
+import cn.oyzh.easydameng.data.db.DBObjectList;
 import cn.oyzh.easydameng.domain.DamengSetting;
 import cn.oyzh.easydameng.fx.DBStatusColumn;
 import cn.oyzh.easydameng.fx.record.DamengRecordColumn;
@@ -40,10 +40,8 @@ import javafx.collections.ListChangeListener;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * db表tab内容组件

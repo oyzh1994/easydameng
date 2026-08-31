@@ -5,8 +5,8 @@ import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.procedure.DamengCreateProcedureParam;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
-import cn.oyzh.easydameng.db.DBDialect;
-import cn.oyzh.easydameng.db.DBSqlGenerator;
+import cn.oyzh.easydameng.data.db.DBDialect;
+import cn.oyzh.easydameng.data.db.DBSqlGenerator;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.util.List;

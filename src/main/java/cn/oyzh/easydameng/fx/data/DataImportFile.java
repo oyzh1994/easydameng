@@ -1,8 +1,8 @@
 package cn.oyzh.easydameng.fx.data;
 
 import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.fx.table.DamengTableComboBox;
-import cn.oyzh.easydameng.dameng.DamengClient;
 import cn.oyzh.fx.gui.text.field.ChooseFileTextField;
 import cn.oyzh.fx.plus.tableview.TableViewUtil;
 import cn.oyzh.fx.plus.window.StageManager;
@@ -23,9 +23,9 @@ public class DataImportFile {
         this.dbName = dbName;
     }
 
-    private DamengClient dbClient;
+    private ShellDamengClient dbClient;
 
-    public void setDbClient(DamengClient dbClient) {
+    public void setDbClient(ShellDamengClient dbClient) {
         this.dbClient = dbClient;
     }
 

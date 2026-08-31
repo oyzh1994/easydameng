@@ -1,9 +1,7 @@
 package cn.oyzh.easydameng.tabs.table;
 
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
-import cn.oyzh.easydameng.fx.DBCharsetComboBox;
-import cn.oyzh.easydameng.fx.DBCollationComboBox;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
 import cn.oyzh.easydameng.fx.table.DamengDefaultValueTextFiled;
 import cn.oyzh.fx.gui.tabs.SubTabController;
@@ -105,7 +103,7 @@ public class DamengTableColumnExtraController extends SubTabController {
     /**
      * db客户端
      */
-    private DamengClient dbClient;
+    private ShellDamengClient dbClient;
 
     /**
      * 应用
@@ -169,7 +167,7 @@ public class DamengTableColumnExtraController extends SubTabController {
      * @param column   字段
      * @param dbClient 客户端
      */
-    public void init(DamengColumn column, DamengClient dbClient) {
+    public void init(DamengColumn column, ShellDamengClient dbClient) {
         // 移除旧的监听器
         if (this.column != null) {
             this.column.typeProperty().removeListener(this::listenColumnTypeChanged);

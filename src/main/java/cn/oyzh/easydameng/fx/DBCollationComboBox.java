@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.fx;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 
 /**
@@ -10,7 +10,7 @@ import cn.oyzh.fx.plus.controls.combo.FXComboBox;
  */
 public class DBCollationComboBox extends FXComboBox<String> {
 
-    public void init(String charset, DamengClient client) {
+    public void init(String charset, ShellDamengClient client) {
         if (charset == null) {
             return;
         }

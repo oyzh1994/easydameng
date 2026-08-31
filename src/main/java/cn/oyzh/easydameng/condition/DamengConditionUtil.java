@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.condition;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBDialect;
+import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.util.DBNodeUtil;

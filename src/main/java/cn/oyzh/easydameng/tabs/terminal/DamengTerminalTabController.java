@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.tabs.terminal;
 
 import cn.oyzh.easydameng.domain.DamengConnect;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.terminal.DamengTerminalPane;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import javafx.event.Event;
@@ -28,7 +28,7 @@ public class DamengTerminalTabController extends RichTabController {
      *
      * @param client dameng客户端
      */
-    public void init(DamengClient client, String dbName) {
+    public void init(ShellDamengClient client, String dbName) {
         this.terminal.init(client, dbName);
         this.dbName = dbName;
     }
@@ -46,7 +46,7 @@ public class DamengTerminalTabController extends RichTabController {
         return this.terminal.shellConnect();
     }
 
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.terminal.getClient();
     }
 

@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.trees.group;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.controller.connect.DamengConnectAddController;
-import cn.oyzh.easydameng.db.DBConnectManager;
+import cn.oyzh.easydameng.data.db.DBConnectManager;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengGroup;
 import cn.oyzh.easydameng.store.DamengConnectStore;

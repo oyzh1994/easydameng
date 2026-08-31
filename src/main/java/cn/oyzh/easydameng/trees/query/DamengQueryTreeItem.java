@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.trees.query;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.event.DamengEventUtil;
@@ -53,7 +53,7 @@ public class DamengQueryTreeItem extends DBTreeItem<DamengQueryTreeItemValue> {
      *
      * @return db客户端
      */
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.parent().client();
     }
 

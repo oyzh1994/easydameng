@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.trees.procedure;
 
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
@@ -50,7 +50,7 @@ public class DamengProcedureTreeItem extends DBTreeItem<DamengProcedureTreeItemV
      *
      * @return db客户端
      */
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.parent().client();
     }
 

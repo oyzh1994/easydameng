@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.trees.function;
 
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
@@ -46,7 +46,7 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
      *
      * @return db客户端
      */
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.parent().client();
     }
 

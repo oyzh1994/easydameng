@@ -6,10 +6,10 @@ import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.controller.connect.DamengConnectUpdateController;
 import cn.oyzh.easydameng.controller.database.DamengDatabaseAddController;
-import cn.oyzh.easydameng.dameng.DamengClient;
-import cn.oyzh.easydameng.db.DBClientUtil;
-import cn.oyzh.easydameng.db.DBConnectManager;
-import cn.oyzh.easydameng.db.DBDatabase;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.data.db.DBClientUtil;
+import cn.oyzh.easydameng.data.db.DBConnectManager;
+import cn.oyzh.easydameng.data.db.DBDatabase;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.store.DamengConnectStore;
@@ -47,7 +47,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     /**
      * db客户端
      */
-    private DamengClient client;
+    private ShellDamengClient client;
 
     /**
      * 已取消操作标志位
@@ -355,7 +355,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     }
 
 
-    public DamengClient getClient() {
+    public ShellDamengClient getClient() {
         return client;
     }
 }

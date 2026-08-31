@@ -5,7 +5,7 @@ import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.controller.data.DamengDataDumpController;
 import cn.oyzh.easydameng.controller.data.DamengDataExportController;
 import cn.oyzh.easydameng.controller.table.DamengTableInfoController;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
@@ -66,7 +66,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         return (DamengTablesTreeItem) super.parent();
     }
 
-    public DamengClient client() {
+    public ShellDamengClient client() {
         return this.parent().client();
     }
 

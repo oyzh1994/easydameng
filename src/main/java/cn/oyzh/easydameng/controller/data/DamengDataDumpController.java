@@ -3,10 +3,10 @@ package cn.oyzh.easydameng.controller.data;
 import cn.oyzh.common.file.FileUtil;
 import cn.oyzh.common.system.SystemUtil;
 import cn.oyzh.common.thread.ThreadUtil;
-import cn.oyzh.easydameng.dameng.DamengClient;
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.fx.data.DBDumpDataTypeComboBox;
-import cn.oyzh.easydameng.handler.DataDumpHandler;
+import cn.oyzh.easydameng.data.dameng.handler.DamengDataDumpHandler;
 import cn.oyzh.fx.gui.text.area.MsgTextArea;
 import cn.oyzh.fx.gui.text.field.ReadOnlyTextField;
 import cn.oyzh.fx.plus.FXConst;
@@ -55,7 +55,7 @@ public class DamengDataDumpController extends StageController {
     /**
      * db客户端
      */
-    private DamengClient dbClient;
+    private ShellDamengClient dbClient;
 
     /**
      * 1 库
@@ -129,7 +129,7 @@ public class DamengDataDumpController extends StageController {
     /**
      * 转储处理器
      */
-    private DataDumpHandler dumpHandler;
+    private DamengDataDumpHandler dumpHandler;
 
     /**
      * 检查转储文件
@@ -175,8 +175,8 @@ public class DamengDataDumpController extends StageController {
         this.dumpMsg.clear();
         // 生成转储处理器
         if (this.dumpHandler == null) {
-            this.dumpHandler = DataDumpHandler.newHandler(this.dbClient, this.database.getText());
-            this.dumpHandler.setDbInfo(this.dbInfo)
+            this.dumpHandler = new DamengDataDumpHandler(this.dbClient, this.database.getText());
+            this.dumpHandler.connect(this.dbInfo)
                     .setQueryLimit(10_000)
                     .setMessageHandler(str -> this.dumpMsg.appendLine(str))
                     .setProcessedHandler(count -> {
