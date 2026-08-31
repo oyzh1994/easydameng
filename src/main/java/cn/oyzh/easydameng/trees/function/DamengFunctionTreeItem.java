@@ -6,6 +6,7 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.util.ShellDamengViewFactory;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
 import cn.oyzh.fx.plus.information.MessageBox;
@@ -64,17 +65,18 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
         List<MenuItem> items = new ArrayList<>();
         // FXMenuItem open = MenuItemHelper.openFunction( this::onPrimaryDoubleClick);
         // items.add(open);
-        FXMenuItem design = MenuItemHelper.designFunction( this::onPrimaryDoubleClick);
+        FXMenuItem design = MenuItemHelper.designFunction(this::onPrimaryDoubleClick);
         items.add(design);
-        FXMenuItem delete = MenuItemHelper.deleteFunction( this::delete);
+        FXMenuItem delete = MenuItemHelper.deleteFunction(this::delete);
         items.add(delete);
-        // FXMenuItem info = MenuItemHelper.functionInfo( this::functionInfo);
-        // items.add(info);
+        FXMenuItem info = MenuItemHelper.functionInfo(this::functionInfo);
+        items.add(info);
         return items;
     }
 
-    // private void functionInfo() {
-    // }
+    private void functionInfo() {
+        ShellDamengViewFactory.functionInfo(this);
+    }
 
     @Override
     public void delete() {

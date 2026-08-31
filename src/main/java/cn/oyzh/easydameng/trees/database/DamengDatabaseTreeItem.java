@@ -2,9 +2,9 @@ package cn.oyzh.easydameng.trees.database;
 
 import cn.oyzh.common.thread.Task;
 import cn.oyzh.common.thread.TaskBuilder;
-import cn.oyzh.easydameng.controller.data.DamengDataDumpController;
-import cn.oyzh.easydameng.controller.data.DamengDataRunSqlFileController;
-import cn.oyzh.easydameng.controller.database.DamengDatabaseUpdateController;
+import cn.oyzh.easydameng.controller.data.ShellDamengDataDumpController;
+import cn.oyzh.easydameng.controller.data.ShellDamengDataRunSqlFileController;
+import cn.oyzh.easydameng.controller.database.ShellDamengDatabaseUpdateController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
@@ -122,7 +122,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
      * 运行sql文件
      */
     private void runSqlFile() {
-        StageAdapter fxView = StageManager.parseStage(DamengDataRunSqlFileController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataRunSqlFileController.class, this.window());
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.dbName());
         fxView.setProp("dbClient", this.client());
@@ -133,7 +133,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
      * 转储
      */
     private void dump() {
-        StageAdapter fxView = StageManager.parseStage(DamengDataDumpController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataDumpController.class, this.window());
         fxView.setProp("dumpType", 1);
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.dbName());
@@ -169,7 +169,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
      * 编辑数据库
      */
     public void editDB() {
-        StageAdapter fxView = StageManager.parseStage(DamengDatabaseUpdateController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDatabaseUpdateController.class, this.window());
         fxView.setProp("database", this.value);
         fxView.setProp("connectItem", this.parent());
         fxView.display();

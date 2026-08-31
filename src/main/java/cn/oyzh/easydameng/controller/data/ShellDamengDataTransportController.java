@@ -21,7 +21,6 @@ import cn.oyzh.fx.plus.controls.box.FXVBox;
 import cn.oyzh.fx.plus.controls.button.FXButton;
 import cn.oyzh.fx.plus.controls.label.FXLabel;
 import cn.oyzh.fx.plus.controls.pane.FXTitledPane;
-import cn.oyzh.fx.plus.controls.tab.FXTab;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.node.NodeGroupUtil;
 import cn.oyzh.fx.plus.util.Counter;
@@ -45,7 +44,7 @@ import javafx.stage.WindowEvent;
 //        modality = Modality.WINDOW_MODAL,
         value = FXConst.FXML_PATH + "data/dbDataTransport.fxml"
 )
-public class DamengDataTransportController extends StageController {
+public class ShellDamengDataTransportController extends StageController {
 
     /**
      * 第一步

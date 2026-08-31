@@ -393,7 +393,7 @@ public class DamengQuerySelectTabController extends RichTabController {
             // exportTable.setName(query.getName());
             // exportTable.columns(this.result.getColumns());
             // exportTable.setRecords(this.result.getRecords());
-            // ShellMysqlViewFactory.exportData(this.dbItem.client(), this.result.dbName(), null, 1, exportTable);
+            // ShellDamengViewFactory.exportData(this.dbItem.client(), this.result.dbName(), null, 1, exportTable);
         } catch (Exception ex) {
             MessageBox.exception(ex);
         }

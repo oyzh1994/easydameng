@@ -21,7 +21,6 @@ import cn.oyzh.fx.plus.i18n.I18nResourceBundle;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.node.NodeGroupUtil;
 import cn.oyzh.fx.plus.util.Counter;
-import cn.oyzh.fx.plus.util.FXUtil;
 import cn.oyzh.fx.plus.window.FXStageStyle;
 import cn.oyzh.fx.plus.window.StageAdapter;
 import cn.oyzh.fx.plus.window.StageAttribute;
@@ -45,7 +44,7 @@ import java.util.List;
         //        modality = Modality.WINDOW_MODAL,
         value = FXConst.FXML_PATH + "data/dbDataDump.fxml"
 )
-public class DamengDataDumpController extends StageController {
+public class ShellDamengDataDumpController extends StageController {
 
     /**
      * 连接信息
@@ -270,7 +269,7 @@ public class DamengDataDumpController extends StageController {
         if (extraMsg != null) {
             this.counter.setExtraMsg(extraMsg);
         }
-        FXUtil.runLater(() -> this.dumpStatus.setText(this.counter.unknownFormat()));
+        this.dumpStatus.text(this.counter.unknownFormat());
     }
 
     @Override

@@ -15,7 +15,7 @@
 <?import cn.oyzh.fx.plus.controls.FXHeaderBar?>
 <?import cn.oyzh.easydameng.fx.ShellDataEditor?>
 <FXVBox xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="cn.oyzh.easydameng.controller.table.DamengTableInfoController" realWidth="900" realHeight="600">
+        fx:controller="cn.oyzh.easydameng.controller.table.ShellDamengTableInfoController" realWidth="900" realHeight="600">
     <FXHeaderBar/>
     <FXTabPane flexWidth="100%" flexHeight="100% - 90">
         <FixedTab text="%base.base">

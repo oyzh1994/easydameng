@@ -2,6 +2,7 @@ package cn.oyzh.easydameng.trees.view;
 
 import cn.oyzh.common.dto.Paging;
 import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.controller.view.DamengViewInfoController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
@@ -18,10 +19,13 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.util.ShellDamengViewFactory;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.menu.FXMenuItem;
+import cn.oyzh.fx.plus.window.StageAdapter;
+import cn.oyzh.fx.plus.window.StageManager;
 import cn.oyzh.i18n.I18nHelper;
 import javafx.scene.control.MenuItem;
 
@@ -84,24 +88,26 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
     @Override
     public List<MenuItem> getMenuItems() {
         List<MenuItem> items = new ArrayList<>();
-        FXMenuItem open = MenuItemHelper.openView( this::onPrimaryDoubleClick);
+        FXMenuItem open = MenuItemHelper.openView(this::onPrimaryDoubleClick);
         items.add(open);
-        FXMenuItem design = MenuItemHelper.designView( this::designView);
+        FXMenuItem design = MenuItemHelper.designView(this::designView);
         items.add(design);
-        FXMenuItem renameView = MenuItemHelper.renameView( this::rename);
+        FXMenuItem renameView = MenuItemHelper.renameView(this::rename);
         items.add(renameView);
-        // FXMenuItem info = MenuItemHelper.viewInfo( this::viewInfo);
-        // items.add(info);
-        FXMenuItem delete = MenuItemHelper.deleteView( this::delete);
+        items.add(MenuItemHelper.separator());
+        FXMenuItem delete = MenuItemHelper.deleteView(this::delete);
         items.add(delete);
+        FXMenuItem info = MenuItemHelper.viewInfo(this::viewInfo);
+        items.add(info);
         return items;
     }
 
-    // private void viewInfo() {
-    //     StageAdapter fxView = StageManager.parseStage(DamengViewInfoController.class, this.window());
-    //     fxView.setProp("item", this);
-    //     fxView.display();
-    // }
+     private void viewInfo() {
+//         StageAdapter fxView = StageManager.parseStage(DamengViewInfoController.class, this.window());
+//         fxView.setProp("item", this);
+//         fxView.display();
+         ShellDamengViewFactory.viewInfo(this);
+     }
 
     private void designView() {
         DamengEventUtil.designView(this.value, this.dbItem());

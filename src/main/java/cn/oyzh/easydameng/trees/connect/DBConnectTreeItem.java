@@ -5,7 +5,7 @@ import cn.oyzh.common.thread.TaskBuilder;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.controller.connect.DamengConnectUpdateController;
-import cn.oyzh.easydameng.controller.database.DamengDatabaseAddController;
+import cn.oyzh.easydameng.controller.database.ShellDamengDatabaseAddController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.data.db.DBConnectManager;
@@ -113,7 +113,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
      */
     @FXML
     private void addDatabase() {
-        StageAdapter fxView = StageManager.parseStage(DamengDatabaseAddController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDatabaseAddController.class, this.window());
         fxView.setProp("connectItem", this);
         fxView.showAndWait();
         String databaseName = fxView.getProp("databaseName");

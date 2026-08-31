@@ -41,7 +41,7 @@ import java.io.IOException;
 //        modality = Modality.WINDOW_MODAL,
         value = FXConst.FXML_PATH + "data/dbRunSqlFile.fxml"
 )
-public class DamengDataRunSqlFileController extends StageController {
+public class ShellDamengDataRunSqlFileController extends StageController {
 
     /**
      * 连接信息

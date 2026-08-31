@@ -66,7 +66,7 @@ public class DamengViewsTreeItem extends DBTreeItem<DamengViewsTreeItemValue> {
             this.setLoading(true);
             Task task = TaskBuilder.newBuilder()
                     .onStart(() -> {
-                        List<DamengView> views = this.client().selectViews(this.dbName());
+                        List<DamengView> views = this.client().selectViewsSimple(this.dbName());
                         // 无数据直接更新列表
                         if (this.isChildEmpty()) {
                             List<TreeItem<?>> list = new ArrayList<>();

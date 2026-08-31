@@ -55,7 +55,7 @@ import java.util.Date;
 //        modality = Modality.WINDOW_MODAL,
         value = FXConst.FXML_PATH + "data/dbDataImport.fxml"
 )
-public class DamengDataImportController extends StageController {
+public class ShellDamengDataImportController extends StageController {
 
     /**
      * 第一步

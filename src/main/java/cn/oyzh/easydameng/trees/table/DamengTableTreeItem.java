@@ -2,9 +2,9 @@ package cn.oyzh.easydameng.trees.table;
 
 import cn.oyzh.common.dto.Paging;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.controller.data.DamengDataDumpController;
-import cn.oyzh.easydameng.controller.data.DamengDataExportController;
-import cn.oyzh.easydameng.controller.table.DamengTableInfoController;
+import cn.oyzh.easydameng.controller.data.ShellDamengDataDumpController;
+import cn.oyzh.easydameng.controller.data.ShellDamengDataExportController;
+import cn.oyzh.easydameng.controller.table.ShellDamengTableInfoController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
@@ -148,7 +148,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
      * 转储
      */
     private void dump() {
-        StageAdapter fxView = StageManager.parseStage(DamengDataDumpController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataDumpController.class, this.window());
         fxView.setProp("dumpType", 2);
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.dbName());
@@ -161,7 +161,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
      * 导出
      */
     private void export() {
-        StageAdapter fxView = StageManager.parseStage(DamengDataExportController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataExportController.class, this.window());
         fxView.setProp("dumpType", 2);
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.dbName());
@@ -215,7 +215,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
     }
 
     private void tableInfo() {
-        StageAdapter fxView = StageManager.parseStage(DamengTableInfoController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengTableInfoController.class, this.window());
         fxView.setProp("item", this);
         fxView.display();
     }

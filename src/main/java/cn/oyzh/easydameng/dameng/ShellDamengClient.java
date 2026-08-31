@@ -50,6 +50,7 @@ import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
+import cn.oyzh.easydameng.dameng.view.DamengSelectViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.data.db.DBConnState;
 import cn.oyzh.easydameng.data.db.DBDatabase;
@@ -899,9 +900,9 @@ public class ShellDamengClient {
         return this.isSupportFeature(DBFeature.CHECK);
     }
 
-//    public boolean isSupportEventFeature() {
-//        return this.isSupportFeature(DBFeature.EVENT);
-//    }
+    //    public boolean isSupportEventFeature() {
+    //        return this.isSupportFeature(DBFeature.EVENT);
+    //    }
 
     public List<DamengTable> selectTables(String dbName) {
         DamengSelectTableParam param = new DamengSelectTableParam();
@@ -1275,7 +1276,6 @@ public class ShellDamengClient {
         try {
             int updateCount;
             String dbName = param.getDbName();
-            String schema = param.getSchema();
             String tableName = param.getTableName();
             DamengRecordData recordData = param.getUpdateRecord();
             StringBuilder builder = new StringBuilder();
@@ -1373,14 +1373,16 @@ public class ShellDamengClient {
     public String showCreateView(String dbName, String viewName) {
         try {
             Connection connection = this.connManager.connection(dbName);
-            String sql = "SELECT TEXT FROM USER_VIEWS WHERE VIEW_NAME = ?";
+            //            String sql = "SELECT TEXT FROM USER_VIEWS WHERE VIEW_NAME = ?";
+            String sql = "SELECT DBMS_METADATA.GET_DDL('VIEW', ?) FROM DUAL";
             this.printSql(sql);
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, viewName);
             ResultSet resultSet = stmt.executeQuery();
             String createDefinition = "";
             if (resultSet.next()) {
-                createDefinition = "CREATE OR REPLACE VIEW " + viewName + " AS\n" + resultSet.getString(1);
+                //                createDefinition = "CREATE OR REPLACE VIEW " + viewName + " AS\n" + resultSet.getString(1);
+                createDefinition = resultSet.getString(1);
             }
             IOUtil.close(resultSet);
             IOUtil.close(stmt);
@@ -1454,26 +1456,26 @@ public class ShellDamengClient {
         }
     }
 
-//    public String showCreateEvent(String dbName, String eventName) {
-//        try {
-//            Connection connection = this.connManager.connection(dbName);
-//            String sql = "SELECT DBMS_METADATA.GET_DDL('EVENT', ?) FROM DUAL";
-//            this.printSql(sql);
-//            PreparedStatement stmt = connection.prepareStatement(sql);
-//            stmt.setString(1, eventName);
-//            ResultSet resultSet = stmt.executeQuery();
-//            String createDefinition = "";
-//            if (resultSet.next()) {
-//                createDefinition = resultSet.getString(1);
-//            }
-//            IOUtil.close(resultSet);
-//            IOUtil.close(stmt);
-//            return createDefinition;
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            throw new DBException(ex);
-//        }
-//    }
+    //    public String showCreateEvent(String dbName, String eventName) {
+    //        try {
+    //            Connection connection = this.connManager.connection(dbName);
+    //            String sql = "SELECT DBMS_METADATA.GET_DDL('EVENT', ?) FROM DUAL";
+    //            this.printSql(sql);
+    //            PreparedStatement stmt = connection.prepareStatement(sql);
+    //            stmt.setString(1, eventName);
+    //            ResultSet resultSet = stmt.executeQuery();
+    //            String createDefinition = "";
+    //            if (resultSet.next()) {
+    //                createDefinition = resultSet.getString(1);
+    //            }
+    //            IOUtil.close(resultSet);
+    //            IOUtil.close(stmt);
+    //            return createDefinition;
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //            throw new DBException(ex);
+    //        }
+    //    }
 
     public List<String> tableSpaces() {
         try {
@@ -1497,12 +1499,12 @@ public class ShellDamengClient {
         try {
             Statement statement = this.connManager.connection().createStatement();
             // 查询当前用户有权限访问的schema：优先显示有对象的schema，也包含当前用户自己的schema
-//            String sql = """
-//                    SELECT DISTINCT OWNER FROM ALL_OBJECTS
-//                    UNION
-//                    SELECT USERNAME FROM ALL_USERS
-//                    ORDER BY 1
-//                    """;
+            //            String sql = """
+            //                    SELECT DISTINCT OWNER FROM ALL_OBJECTS
+            //                    UNION
+            //                    SELECT USERNAME FROM ALL_USERS
+            //                    ORDER BY 1
+            //                    """;
             String sql = "SELECT * FROM SYSOBJECTS WHERE TYPE$ = 'SCH'";
             ResultSet resultSet = statement.executeQuery(sql);
             List<DBDatabase> list = new ArrayList<>();
@@ -1525,7 +1527,7 @@ public class ShellDamengClient {
         try {
             DBDatabase database = new DBDatabase();
             database.setName(dbName);
-//            database.setCharsetAndCollation(this.databaseCollation(dbName));
+            //            database.setCharsetAndCollation(this.databaseCollation(dbName));
             return database;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1662,7 +1664,25 @@ public class ShellDamengClient {
     //}
 
     public DamengView selectView(String dbName, String viewName) {
+        DamengSelectViewParam param = new DamengSelectViewParam();
+        param.setFull(true);
+        param.setDbName(dbName);
+        param.setViewName(viewName);
+        return this.selectView(param);
+    }
+
+    public DamengView selectViewSimple(String dbName, String viewName) {
+        DamengSelectViewParam param = new DamengSelectViewParam();
+        param.setFull(false);
+        param.setDbName(dbName);
+        param.setViewName(viewName);
+        return this.selectView(param);
+    }
+
+    public DamengView selectView(DamengSelectViewParam param) {
         try {
+            String dbName = param.getDbName();
+            String viewName = param.getViewName();
             String sql = """
                         SELECT 
                             v.TEXT AS DEFINITION, v.VIEW_NAME, v.READ_ONLY, c.COMMENTS AS TABLE_COMMENT 
@@ -1695,6 +1715,9 @@ public class ShellDamengClient {
                 String readOnly = resultSet.getString("READ_ONLY");
                 String definition = resultSet.getString("DEFINITION");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
+                if (param.isFull()) {
+                    view.setCreateDefinition(this.showCreateView(dbName, viewName));
+                }
                 if (readOnly == null) {
                     view.setUpdatable(DamengHelper.isViewUpdatable(connection, dbName, viewName));
                 } else {
@@ -1716,7 +1739,22 @@ public class ShellDamengClient {
     }
 
     public List<DamengView> selectViews(String dbName) {
+        DamengSelectViewParam param = new DamengSelectViewParam();
+        param.setFull(true);
+        param.setDbName(dbName);
+        return this.selectViews(param);
+    }
+
+    public List<DamengView> selectViewsSimple(String dbName) {
+        DamengSelectViewParam param = new DamengSelectViewParam();
+        param.setFull(false);
+        param.setDbName(dbName);
+        return this.selectViews(param);
+    }
+
+    public List<DamengView> selectViews(DamengSelectViewParam param) {
         try {
+            String dbName = param.getDbName();
             List<DamengView> list = new ArrayList<>();
             String sql = """
                         SELECT 
@@ -1746,6 +1784,9 @@ public class ShellDamengClient {
                 String readOnly = resultSet.getString("READ_ONLY");
                 String definition = resultSet.getString("DEFINITION");
                 String tableComment = resultSet.getString("TABLE_COMMENT");
+                if (param.isFull()) {
+                    view.setCreateDefinition(this.showCreateView(dbName, name));
+                }
                 if (readOnly == null) {
                     view.setUpdatable(DamengHelper.isViewUpdatable(connection, dbName, name));
                 } else {
@@ -2400,10 +2441,10 @@ public class ShellDamengClient {
         }
     }
 
-//    public String databaseCollation(String dbName) {
-//        // 达梦不使用MySQL式的排序规则，返回null
-//        return null;
-//    }
+    //    public String databaseCollation(String dbName) {
+    //        // 达梦不使用MySQL式的排序规则，返回null
+    //        return null;
+    //    }
 
     public boolean dropDatabase(String dbName) {
         try {

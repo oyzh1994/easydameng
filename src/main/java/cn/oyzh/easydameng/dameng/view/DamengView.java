@@ -65,6 +65,19 @@ public class DamengView extends DBObjectStatus implements ObjectCopier<DamengVie
         return this.definitionProperty == null ? null : this.definitionProperty.get();
     }
 
+    /**
+     * 视图创建定义
+     */
+    private String createDefinition;
+
+    public void setCreateDefinition(String createDefinition) {
+        this.createDefinition = createDefinition;
+    }
+
+    public String getCreateDefinition() {
+        return this.createDefinition;
+    }
+
     @Override
     public void copy(DamengView f) {
         if (f != null) {

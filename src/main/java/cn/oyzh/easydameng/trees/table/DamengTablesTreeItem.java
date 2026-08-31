@@ -2,8 +2,8 @@ package cn.oyzh.easydameng.trees.table;
 
 import cn.oyzh.common.thread.Task;
 import cn.oyzh.common.thread.TaskBuilder;
-import cn.oyzh.easydameng.controller.data.DamengDataExportController;
-import cn.oyzh.easydameng.controller.data.DamengDataImportController;
+import cn.oyzh.easydameng.controller.data.ShellDamengDataExportController;
+import cn.oyzh.easydameng.controller.data.ShellDamengDataImportController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.domain.DamengConnect;
@@ -60,7 +60,7 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
      * 导出数据
      */
     private void exportData() {
-        StageAdapter fxView = StageManager.parseStage(DamengDataExportController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataExportController.class, this.window());
         fxView.setProp("dumpType", 2);
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.dbName());
@@ -72,7 +72,7 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
      * 导入数据
      */
     private void importData() {
-        StageAdapter fxView = StageManager.parseStage(DamengDataImportController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataImportController.class, this.window());
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.dbName());
         fxView.setProp("dbClient", this.client());

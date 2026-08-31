@@ -52,7 +52,7 @@ import java.util.List;
 //        modality = Modality.WINDOW_MODAL,
         value = FXConst.FXML_PATH + "data/dbDataExport.fxml"
 )
-public class DamengDataExportController extends StageController {
+public class ShellDamengDataExportController extends StageController {
 
     /**
      * 第一步

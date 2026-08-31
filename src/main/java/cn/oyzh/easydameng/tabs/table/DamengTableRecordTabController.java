@@ -20,6 +20,7 @@ import cn.oyzh.easydameng.popups.DamengTableRecordFilterPopupController;
 import cn.oyzh.easydameng.store.DamengSettingStore;
 import cn.oyzh.easydameng.trees.table.DamengTableTreeItem;
 import cn.oyzh.easydameng.util.DBRecordUtil;
+import cn.oyzh.easydameng.util.ShellDamengViewFactory;
 import cn.oyzh.easydameng.util.db.ShellDBUtil;
 import cn.oyzh.fx.gui.page.PageBox;
 import cn.oyzh.fx.gui.page.PageEvent;
@@ -40,6 +41,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -621,5 +623,21 @@ public class DamengTableRecordTabController extends RichTabController {
 
     public void setFilters(List<DamengRecordFilter> filters) {
         this.filters = filters;
+    }
+
+    /**
+     * 导入数据
+     */
+    @FXML
+    private void importData() {
+        ShellDamengViewFactory.importData(this.getItem().client(), this.getItem().dbName());
+    }
+
+    /**
+     * 导出数据
+     */
+    @FXML
+    private void exportData() {
+        ShellDamengViewFactory.exportData(this.getItem().client(), this.getItem().dbName(), this.getItem().tableName());
     }
 }

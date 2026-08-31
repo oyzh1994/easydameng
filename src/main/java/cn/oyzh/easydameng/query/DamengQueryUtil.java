@@ -198,7 +198,7 @@ public class DamengQueryUtil {
                     // 更新视图索引
                     for (DBDatabase database : DB_DATABASES) {
                         if (!DBUtil.isInternalDatabase(database.getName())) {
-                            List<DamengView> views = client.selectViews(database.getName());
+                            List<DamengView> views = client.selectViewsSimple(database.getName());
                             DB_VIEWS.addAll(views);
                         }
                     }

@@ -12,11 +12,14 @@
 <?import cn.oyzh.fx.plus.controls.box.FXVBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
+<?import cn.oyzh.fx.gui.svg.glyph.ExportSVGGlyph?>
+<?import cn.oyzh.fx.gui.svg.glyph.ImportSVGGlyph?>
 <FXVBox xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
-        fx:controller="cn.oyzh.easydameng.tabs.table.DamengTableRecordTabController" fx:id="root" flexWidth="100%"
+        fx:controller="cn.oyzh.easydameng.tabs.table.DamengTableRecordTabController" fx:id="root"
+        flexWidth="100%"
         flexHeight="100%">
-    <FXHBox realHeight="40" flexWidth="100%">
+    <FXHBox realHeight="30" flexWidth="100%">
         <AddSVGGlyph groupId="action2" onMousePrimaryClicked="#addRecord">
             <HBox.margin>
                 <Insets left="10" top="10"/>
@@ -53,6 +56,16 @@
                 <Insets left="5" top="10"/>
             </HBox.margin>
         </FilterSVGGlyph>
+        <ImportSVGGlyph groupId="action2" onMousePrimaryClicked="#importData">
+            <HBox.margin>
+                <Insets left="5" top="10"/>
+            </HBox.margin>
+        </ImportSVGGlyph>
+        <ExportSVGGlyph groupId="action2" onMousePrimaryClicked="#exportData">
+            <HBox.margin>
+                <Insets left="5" top="10"/>
+            </HBox.margin>
+        </ExportSVGGlyph>
         <PageBox groupId="action2" fx:id="pageBox" onJumpFired="#pageJump" onSettingClicked="#pageSetting"
                  onNextClicked="#nextPage" onPrevClicked="#prevPage"
                  onLastClicked="#lastPage"
@@ -62,6 +75,7 @@
             </HBox.margin>
         </PageBox>
     </FXHBox>
-    <DamengRecordTableView fixedCellSize="30" fx:id="recordTable" flexHeight="100% - 30" flexWidth="100%" tableMenuButtonVisible="true">
+    <DamengRecordTableView fixedCellSize="30" fx:id="recordTable" flexHeight="100% - 30" flexWidth="100%"
+                           tableMenuButtonVisible="true">
     </DamengRecordTableView>
 </FXVBox>

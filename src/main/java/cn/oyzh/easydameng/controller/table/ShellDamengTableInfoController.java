@@ -27,7 +27,7 @@ import javafx.stage.WindowEvent;
         modality = Modality.APPLICATION_MODAL,
         value = FXConst.FXML_PATH + "table/damengTableInfo.fxml"
 )
-public class DamengTableInfoController extends StageController {
+public class ShellDamengTableInfoController extends StageController {
 
     /**
      * 名称

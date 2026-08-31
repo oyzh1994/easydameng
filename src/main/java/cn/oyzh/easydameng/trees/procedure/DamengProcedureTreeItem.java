@@ -6,6 +6,7 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.util.ShellDamengViewFactory;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
 import cn.oyzh.fx.plus.information.MessageBox;
@@ -41,7 +42,7 @@ public class DamengProcedureTreeItem extends DBTreeItem<DamengProcedureTreeItemV
     }
 
     @Override
-    public DamengProceduresTreeItem parent(){
+    public DamengProceduresTreeItem parent() {
         return (DamengProceduresTreeItem) super.parent();
     }
 
@@ -68,17 +69,18 @@ public class DamengProcedureTreeItem extends DBTreeItem<DamengProcedureTreeItemV
         List<MenuItem> items = new ArrayList<>();
         // FXMenuItem open = MenuItemHelper.openProcedure( this::onPrimaryDoubleClick);
         // items.add(open);
-        FXMenuItem design = MenuItemHelper.designProcedure( this::onPrimaryDoubleClick);
+        FXMenuItem design = MenuItemHelper.designProcedure(this::onPrimaryDoubleClick);
         items.add(design);
-        FXMenuItem delete = MenuItemHelper.deleteProcedure( this::delete);
+        FXMenuItem delete = MenuItemHelper.deleteProcedure(this::delete);
         items.add(delete);
-        // FXMenuItem info = MenuItemHelper.procedureInfo( this::procedureInfo);
-        // items.add(info);
+        FXMenuItem info = MenuItemHelper.procedureInfo(this::procedureInfo);
+        items.add(info);
         return items;
     }
 
-    // private void procedureInfo() {
-    // }
+    private void procedureInfo() {
+        ShellDamengViewFactory.procedureInfo(this);
+    }
 
     @Override
     public void delete() {

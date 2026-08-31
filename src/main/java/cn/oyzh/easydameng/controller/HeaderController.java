@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.controller;
 
 import cn.oyzh.common.SysConst;
-import cn.oyzh.easydameng.controller.data.DamengDataTransportController;
+import cn.oyzh.easydameng.controller.data.ShellDamengDataTransportController;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.event.EventSubscribe;
 import cn.oyzh.fx.gui.event.Layout1Event;
@@ -46,11 +46,11 @@ public class HeaderController extends SubStageController {
      */
     @FXML
     private void transport() {
-        StageAdapter wrapper = StageManager.getStage(DamengDataTransportController.class);
+        StageAdapter wrapper = StageManager.getStage(ShellDamengDataTransportController.class);
         if (wrapper != null) {
             wrapper.toFront();
         } else {
-            StageManager.showStage(DamengDataTransportController.class);
+            StageManager.showStage(ShellDamengDataTransportController.class);
         }
     }
 

@@ -2,8 +2,6 @@ package cn.oyzh.easydameng.controller.database;
 
 import cn.oyzh.easydameng.data.db.DBDatabase;
 import cn.oyzh.easydameng.event.DamengEventUtil;
-import cn.oyzh.easydameng.fx.DBCharsetComboBox;
-import cn.oyzh.easydameng.fx.DBCollationComboBox;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.plus.FXConst;
@@ -27,7 +25,7 @@ import javafx.stage.WindowEvent;
         modality = Modality.APPLICATION_MODAL,
         value = FXConst.FXML_PATH + "database/damengDatabaseAdd.fxml"
 )
-public class DamengDatabaseAddController extends StageController {
+public class ShellDamengDatabaseAddController extends StageController {
 
     /**
      * 名称

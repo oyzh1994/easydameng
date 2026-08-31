@@ -53,10 +53,10 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
             this.dumpFunction();
             this.dumpProcedure();
             this.dumpTrigger();
-            // this.dumpEvent();
         } else if (this.dumpType == 2) {
             DamengTable table = this.dbClient.selectTable(this.dbName, this.tableName);
             this.dumpTable(table);
+            this.processedIncr();
         }
         this.writeTail();
         this.fileWriter.close();
@@ -109,8 +109,8 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
             for (DamengTable table : tables) {
                 this.checkInterrupt();
                 this.dumpTable(table);
+                this.processedIncr();
             }
-            this.processed(tables.size());
         }
     }
 
@@ -217,8 +217,8 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
                     createDefinition += ";";
                 }
                 this.fileWriter.appendLines(List.of(line0, line1, line2, line3, dropTable, createDefinition));
+                this.processedIncr();
             }
-            this.processed(views.size());
         }
     }
 
@@ -238,8 +238,8 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
                 String line6 = "delimiter ;";
                 String createDefinition = this.dbClient.showCreateFunction(this.dbName, function.getName());
                 this.fileWriter.appendLines(List.of(line0, line1, line2, line3, dropFunction, line4, createDefinition, line5, line6));
+                this.processedIncr();
             }
-            this.processed(functions.size());
         }
     }
 
@@ -259,8 +259,8 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
                 String line6 = "delimiter ;";
                 String createDefinition = this.dbClient.showCreateProcedure(this.dbName, procedure.getName());
                 this.fileWriter.appendLines(List.of(line0, line1, line2, line3, dropProcedure, line4, createDefinition, line5, line6));
+                this.processedIncr();
             }
-            this.processed(procedures.size());
         }
     }
 
@@ -279,8 +279,8 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
                 String line6 = "delimiter ;";
                 String createDefinition = this.dbClient.showCreateTrigger(this.dbName, trigger.getName());
                 this.fileWriter.appendLines(List.of(line0, line1, line2, line3, dropTrigger, line4, createDefinition, line5, line6));
+                this.processedIncr();
             }
-            this.processed(triggers.size());
         }
     }
 

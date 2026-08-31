@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <FXVBox xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="cn.oyzh.easydameng.controller.data.DamengDataRunSqlFileController" realWidth="700"
+        fx:controller="cn.oyzh.easydameng.controller.data.ShellDamengDataRunSqlFileController" realWidth="700"
         realHeight="700">
     <FXHeaderBar/>
     <InfoLabel text="%base.connect">

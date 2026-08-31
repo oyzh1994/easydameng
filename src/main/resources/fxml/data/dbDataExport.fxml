@@ -27,7 +27,7 @@
 <?import cn.oyzh.fx.gui.label.InfoLabel?>
 <?import cn.oyzh.fx.plus.controls.FXHeaderBar?>
 <FXVBox xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="cn.oyzh.easydameng.controller.data.DamengDataExportController" realWidth="700" realHeight="650">
+        fx:controller="cn.oyzh.easydameng.controller.data.ShellDamengDataExportController" realWidth="700" realHeight="650">
     <FXHeaderBar/>
     <FXVBox fx:id="step1" flexHeight="100% - 30" flexWidth="100%">
         <InfoLabel text="%db.export.tip4">
