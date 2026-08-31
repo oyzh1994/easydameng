@@ -4,12 +4,12 @@ import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.data.db.DBObjectStatus;
+import cn.oyzh.easydameng.db.DBColumnFieldManager;
 import cn.oyzh.easydameng.fx.DBCharsetComboBox;
 import cn.oyzh.easydameng.fx.DBCollationComboBox;
 import cn.oyzh.easydameng.fx.routine.DamengParamModeComboBox;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
 import cn.oyzh.easydameng.fx.table.DamengFiledTypeComboBox;
-import cn.oyzh.easydameng.util.DBColumnUtil;
 import cn.oyzh.easydameng.util.DBUtil;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.gui.text.field.NumberTextField;
@@ -311,13 +311,13 @@ public class DamengRoutineParam extends DBObjectStatus {
         }
         definition += " " + this.getType();
         definition += " (";
-        if (DBColumnUtil.supportSize(this.getType()) && this.getSize() != null) {
+        if (DBColumnFieldManager.supportSize(DBDialect.DAMENG, this.getType()) && this.getSize() != null) {
             definition += this.getSize();
-            if (DBColumnUtil.supportDigits(this.getType()) && this.getDigits() != null) {
+            if (DBColumnFieldManager.supportDigits(DBDialect.DAMENG, this.getType()) && this.getDigits() != null) {
                 definition += "," + this.getDigits();
             }
         }
-        if (DBColumnUtil.supportValue(this.getType()) && this.getValue() != null) {
+        if (DBColumnFieldManager.supportValue(DBDialect.DAMENG, this.getType()) && this.getValue() != null) {
             definition += this.getValue();
         }
         definition += ")";
@@ -337,7 +337,7 @@ public class DamengRoutineParam extends DBObjectStatus {
             //            if (DBColumnUtil.supportEnum(type)) {
             //                this.setValue(sub1);
             //            } else if (DBColumnUtil.supportDigits(type) && sub1.contains(",")) {
-            if (DBColumnUtil.supportDigits(type) && sub1.contains(",")) {
+            if (DBColumnFieldManager.supportDigits(DBDialect.DAMENG, type) && sub1.contains(",")) {
                 String[] arr = sub1.split(",");
                 this.setSize(Integer.parseInt(arr[0]));
                 this.setDigits(Integer.parseInt(arr[1]));
@@ -427,19 +427,19 @@ public class DamengRoutineParam extends DBObjectStatus {
                 //                    this.getCollationControl().disable();
                 //                    this.getCollationControl().clearSelection();
                 //                }
-                if (DBColumnUtil.supportDigits(this.getType())) {
+                if (DBColumnFieldManager.supportDigits(DBDialect.DAMENG, this.getType())) {
                     this.getDigitsControl().enable();
                 } else {
                     this.getDigitsControl().disable();
                     this.getDigitsControl().clear();
                 }
-                if (DBColumnUtil.supportSize(this.getType())) {
+                if (DBColumnFieldManager.supportSize(DBDialect.DAMENG, this.getType())) {
                     this.getSizeControl().enable();
                 } else {
                     this.getSizeControl().disable();
                     this.getSizeControl().clear();
                 }
-                if (DBColumnUtil.supportValue(this.getType())) {
+                if (DBColumnFieldManager.supportValue(DBDialect.DAMENG, this.getType())) {
                     this.getValueControl().enable();
                 } else {
                     this.getValueControl().disable();

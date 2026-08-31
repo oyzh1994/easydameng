@@ -16,7 +16,6 @@ import cn.oyzh.fx.gui.text.field.NumberTextField;
 import cn.oyzh.fx.gui.text.field.TimeTextField;
 import cn.oyzh.fx.gui.text.field.YearTextField;
 import cn.oyzh.fx.plus.controls.text.field.FXTextField;
-import cn.oyzh.fx.plus.font.FontUtil;
 import cn.oyzh.fx.plus.menu.FXMenuItem;
 import cn.oyzh.fx.plus.util.ControlUtil;
 import javafx.scene.Node;
@@ -99,7 +98,11 @@ public class DBRecordUtil {
         }
         if (node instanceof FXTextField textField) {
             if (object == null) {
-                textField.setPromptText(ShellDBUtil.nullPromptText());
+                if (column.exampleValue() == null) {
+                    textField.setPromptText(ShellDBUtil.nullPromptText());
+                } else {
+                    textField.setPromptText(column.exampleValue().toString());
+                }
             }
             textField.setContextMenu(getColumnContextMenu(property));
             textField.addTextChangeListener((observable, oldValue, newValue) -> property.setChanged(true));
@@ -125,8 +128,8 @@ public class DBRecordUtil {
             val = JsonTextFiled.format(object);
         } else if (column.supportBinary()) {
             val = BinaryTextFiled.format(object);
-//        } else if (column.supportEnum()) {
-//            val = SelectTextFiled.format(object);
+            //        } else if (column.supportEnum()) {
+            //            val = SelectTextFiled.format(object);
         } else if (column.supportInteger()) {
             val = NumberTextField.format(object);
         } else if (column.supportDigits()) {
@@ -143,35 +146,35 @@ public class DBRecordUtil {
             val = LongTextFiled.format(object);
             // } else if (column.supportString()) {
             //     val = FXTextField.format(object);
-//        } else if (column.supportGeometry()) {
-//            val = ExampleTextField.format(object);
+            //        } else if (column.supportGeometry()) {
+            //            val = ExampleTextField.format(object);
         } else {
             val = FXTextField.format(object);
         }
         return val;
     }
 
-//    public static String nullPromptText() {
-//        return "(Null)";
-//    }
+    //    public static String nullPromptText() {
+    //        return "(Null)";
+    //    }
 
-//    /**
-//     * 计算合适的字段宽
-//     *
-//     * @param column 字段
-//     * @return 结果
-//     */
-//    public static double suitableColumnWidth(DamengColumn column) {
-//        double w1 = FontUtil.textWidth(column.getName());
-//        double w2;
-//        if (column.supportSize() && column.getSize() != null) {
-//            w2 = FontUtil.textWidth(column.getType() + "(" + column.getSize() + ")");
-//        } else {
-//            w2 = FontUtil.textWidth(column.getType());
-//        }
-//        double w3 = Math.max(w1, w2);
-//        return w3 + 30;
-//    }
+    //    /**
+    //     * 计算合适的字段宽
+    //     *
+    //     * @param column 字段
+    //     * @return 结果
+    //     */
+    //    public static double suitableColumnWidth(DamengColumn column) {
+    //        double w1 = FontUtil.textWidth(column.getName());
+    //        double w2;
+    //        if (column.supportSize() && column.getSize() != null) {
+    //            w2 = FontUtil.textWidth(column.getType() + "(" + column.getSize() + ")");
+    //        } else {
+    //            w2 = FontUtil.textWidth(column.getType());
+    //        }
+    //        double w3 = Math.max(w1, w2);
+    //        return w3 + 30;
+    //    }
 
     public static ContextMenu getColumnContextMenu(DamengRecordProperty property) {
         ContextMenu contextMenu = new ContextMenu();

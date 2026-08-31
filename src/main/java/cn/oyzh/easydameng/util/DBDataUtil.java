@@ -467,11 +467,7 @@ public class DBDataUtil {
             value = parameterizedForSql(column, value);
             builder.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
             builder.append(" = ");
-            if (column.isGeometryType()) {
-                builder.append(" ST_GeomFromText(").append(value).append(")");
-            } else {
                 builder.append(value);
-            }
             builder.append(", ");
         }
         builder.deleteCharAt(builder.length() - 2);

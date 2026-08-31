@@ -1,9 +1,10 @@
 package cn.oyzh.easydameng.util;
 
 
-import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.data.db.DBDialect;
+import cn.oyzh.easydameng.db.DBColumnField;
+import cn.oyzh.easydameng.db.DBColumnFieldManager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,9 +14,9 @@ import java.util.stream.Collectors;
  */
 public class DBColumnUtil {
 
-    private static final List<DBColumnField> COLUMN_FIELD = new ArrayList<>();
+    //    private static final List<DBColumnField> COLUMN_FIELD = new ArrayList<>();
 
-    static {
+    public static void init() {
         // ===== 字符类型 =====
         DBColumnField charFiled = new DBColumnField("CHAR");
         charFiled.suggestSize = 255;
@@ -37,6 +38,7 @@ public class DBColumnUtil {
 
         DBColumnField clobField = new DBColumnField("CLOB");
         clobField.supportText = true;
+        clobField.supportJson = true;
         clobField.supportString = true;
 
         DBColumnField ncharField = new DBColumnField("NCHAR");
@@ -125,14 +127,18 @@ public class DBColumnUtil {
         datetimeField.supportDefaultValue = true;
 
         DBColumnField timeField = new DBColumnField("TIME");
+        timeField.supportTimestamp = true;
         timeField.supportDefaultValue = true;
 
         DBColumnField timeWithTzField = new DBColumnField("TIME WITH TIME ZONE");
+        timeWithTzField.supportTimestamp = true;
         timeWithTzField.supportDefaultValue = true;
 
         DBColumnField timestampWithTzField = new DBColumnField("TIMESTAMP WITH TIME ZONE");
+        timestampWithTzField.alias = "DATETIME WITH TIME ZONE";
         timestampWithTzField.supportTimestamp = true;
         timestampWithTzField.supportDefaultValue = true;
+
 
         DBColumnField timestampWithLocalTzField = new DBColumnField("TIMESTAMP WITH LOCAL TIME ZONE");
         timestampWithLocalTzField.supportTimestamp = true;
@@ -140,9 +146,11 @@ public class DBColumnUtil {
 
         DBColumnField intervalYmField = new DBColumnField("INTERVAL YEAR TO MONTH");
         intervalYmField.supportDefaultValue = true;
+        intervalYmField.exampleValue = "INTERVAL '2-5' YEAR TO MONTH";
 
         DBColumnField intervalDsField = new DBColumnField("INTERVAL DAY TO SECOND");
         intervalDsField.supportDefaultValue = true;
+        intervalDsField.exampleValue = "INTERVAL 'DD HH:MI:SS.FF' DAY TO SECOND";
 
         // ===== 二进制类型 =====
         DBColumnField blobField = new DBColumnField("BLOB");
@@ -176,14 +184,14 @@ public class DBColumnUtil {
         bitFiled.supportBit = true;
         bitFiled.supportDefaultValue = true;
 
-//        DBColumnField booleanFiled = new DBColumnField("BOOLEAN");
-////        booleanFiled.supportBit = true;
-//        booleanFiled.supportDefaultValue = true;
+        //        DBColumnField booleanFiled = new DBColumnField("BOOLEAN");
+        ////        booleanFiled.supportBit = true;
+        //        booleanFiled.supportDefaultValue = true;
 
-        // ===== 大文本类型（JSON数据用CLOB模拟） =====
-        DBColumnField jsonField = new DBColumnField("CLOB");
-        jsonField.supportJson = true;
-        jsonField.supportString = true;
+//        // ===== 大文本类型（JSON数据用CLOB模拟） =====
+//        DBColumnField jsonField = new DBColumnField("CLOB");
+//        jsonField.supportJson = true;
+//        jsonField.supportString = true;
 
         // ===== 注册到列表 =====
         putFiled(charFiled);
@@ -223,397 +231,397 @@ public class DBColumnUtil {
 
         putFiled(bitFiled);
         //putFiled(booleanFiled);
-        putFiled(jsonField);
+//        putFiled(jsonField);
     }
 
     private static void putFiled(DBColumnField columnField) {
-        COLUMN_FIELD.add(columnField);
+        DBColumnFieldManager.putFiled(DBDialect.DAMENG, columnField);
     }
 
     public static List<String> fields() {
-        return COLUMN_FIELD.parallelStream().map(DBColumnField::getName).collect(Collectors.toList());
+        return DBColumnFieldManager.fields(DBDialect.DAMENG).parallelStream().map(DBColumnField::getName).collect(Collectors.toList());
     }
-
-    private static class DBColumnField {
-
-        private String name;
-
-        private Long maxValue;
-
-        private Long minValue;
-
-        /**
-         * 推荐字段长
-         */
-        private Integer suggestSize;
-
-        private boolean supportBit;
-
-        private String exampleValue;
-
-        private boolean supportSize;
-
-        private boolean supportJson;
-
-        private boolean supportText;
-
-        private boolean supportValue;
-
-        private boolean supportBinary;
-
-        private boolean supportDigits;
-
-        private boolean supportString;
-
-        private boolean supportKeySize;
-
-        private boolean supportInteger;
-
-        private boolean supportUnsigned;
-
-        private boolean supportTimestamp;
-
-        private boolean supportDefaultValue;
-
-        private boolean supportAutoIncrement;
-
-        public DBColumnField(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Long getMaxValue() {
-            return maxValue;
-        }
-
-        public void setMaxValue(Long maxValue) {
-            this.maxValue = maxValue;
-        }
-
-        public Long getMinValue() {
-            return minValue;
-        }
-
-        public void setMinValue(Long minValue) {
-            this.minValue = minValue;
-        }
-
-        public Integer getSuggestSize() {
-            return suggestSize;
-        }
-
-        public void setSuggestSize(Integer suggestSize) {
-            this.suggestSize = suggestSize;
-        }
-
-        public boolean isSupportBit() {
-            return supportBit;
-        }
-
-        public void setSupportBit(boolean supportBit) {
-            this.supportBit = supportBit;
-        }
-
-        public String getExampleValue() {
-            return exampleValue;
-        }
-
-        public void setExampleValue(String exampleValue) {
-            this.exampleValue = exampleValue;
-        }
-
-        public boolean isSupportSize() {
-            return supportSize;
-        }
-
-        public void setSupportSize(boolean supportSize) {
-            this.supportSize = supportSize;
-        }
-
-        public boolean isSupportJson() {
-            return supportJson;
-        }
-
-        public void setSupportJson(boolean supportJson) {
-            this.supportJson = supportJson;
-        }
-
-        public boolean isSupportValue() {
-            return supportValue;
-        }
-
-        public void setSupportValue(boolean supportValue) {
-            this.supportValue = supportValue;
-        }
-
-        public boolean isSupportBinary() {
-            return supportBinary;
-        }
-
-        public void setSupportBinary(boolean supportBinary) {
-            this.supportBinary = supportBinary;
-        }
-
-        public boolean isSupportDigits() {
-            return supportDigits;
-        }
-
-        public void setSupportDigits(boolean supportDigits) {
-            this.supportDigits = supportDigits;
-        }
-
-        public boolean isSupportString() {
-            return supportString;
-        }
-
-        public void setSupportString(boolean supportString) {
-            this.supportString = supportString;
-        }
-
-        public boolean isSupportKeySize() {
-            return supportKeySize;
-        }
-
-        public void setSupportKeySize(boolean supportKeySize) {
-            this.supportKeySize = supportKeySize;
-        }
-
-        public boolean isSupportInteger() {
-            return supportInteger;
-        }
-
-        public void setSupportInteger(boolean supportInteger) {
-            this.supportInteger = supportInteger;
-        }
-
-        public boolean isSupportUnsigned() {
-            return supportUnsigned;
-        }
-
-        public void setSupportUnsigned(boolean supportUnsigned) {
-            this.supportUnsigned = supportUnsigned;
-        }
-
-//        public boolean isSupportGeometry() {
-//            return supportGeometry;
-//        }
-//
-//        public void setSupportGeometry(boolean supportGeometry) {
-//            this.supportGeometry = supportGeometry;
-//        }
-
-        public boolean isSupportTimestamp() {
-            return supportTimestamp;
-        }
-
-        public void setSupportTimestamp(boolean supportTimestamp) {
-            this.supportTimestamp = supportTimestamp;
-        }
-
-        public boolean isSupportDefaultValue() {
-            return supportDefaultValue;
-        }
-
-        public void setSupportDefaultValue(boolean supportDefaultValue) {
-            this.supportDefaultValue = supportDefaultValue;
-        }
-
-        public boolean isSupportAutoIncrement() {
-            return supportAutoIncrement;
-        }
-
-        public void setSupportAutoIncrement(boolean supportAutoIncrement) {
-            this.supportAutoIncrement = supportAutoIncrement;
-        }
-    }
-
-    public static boolean supportSize(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportSize;
-            }
-        }
-        return false;
-    }
-
-    public static Integer suggestSize(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.suggestSize;
-            }
-        }
-        return null;
-    }
-
-    public static boolean supportUnsigned(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportUnsigned;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportJson(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportJson;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportText(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportText;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportKeySize(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportKeySize;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportString(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportString;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportValue(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportValue;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportBit(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportBit;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportBinary(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportBinary;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportDigits(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportDigits;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportDefaultValue(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportDefaultValue;
-            }
-        }
-        return false;
-    }
-
-//    public static boolean supportGeometry(String type) {
-//        for (DBColumnField value : COLUMN_FIELD) {
-//            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-//                return value.supportGeometry;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    public static boolean supportEnum(String type) {
-//        for (DBColumnField value : COLUMN_FIELD) {
-//            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-//                return value.supportEnum;
-//            }
-//        }
-//        return false;
-//    }
-
-    public static boolean supportTimestamp(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportTimestamp;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportInteger(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportInteger;
-            }
-        }
-        return false;
-    }
-
-    public static boolean supportAutoIncrement(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.supportAutoIncrement;
-            }
-        }
-        return false;
-    }
-
-    public static Object exampleValue(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.exampleValue;
-            }
-        }
-        return false;
-    }
-
-    public static Long minValue(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.minValue;
-            }
-        }
-        return null;
-    }
-
-    public static Long maxValue(String type) {
-        for (DBColumnField value : COLUMN_FIELD) {
-            if (StringUtil.equalsIgnoreCase(value.name, type)) {
-                return value.maxValue;
-            }
-        }
-        return null;
-    }
-
+    //
+    //    private static class DBColumnField {
+    //
+    //        private String name;
+    //
+    //        private Long maxValue;
+    //
+    //        private Long minValue;
+    //
+    //        /**
+    //         * 推荐字段长
+    //         */
+    //        private Integer suggestSize;
+    //
+    //        private boolean supportBit;
+    //
+    //        private String exampleValue;
+    //
+    //        private boolean supportSize;
+    //
+    //        private boolean supportJson;
+    //
+    //        private boolean supportText;
+    //
+    //        private boolean supportValue;
+    //
+    //        private boolean supportBinary;
+    //
+    //        private boolean supportDigits;
+    //
+    //        private boolean supportString;
+    //
+    //        private boolean supportKeySize;
+    //
+    //        private boolean supportInteger;
+    //
+    //        private boolean supportUnsigned;
+    //
+    //        private boolean supportTimestamp;
+    //
+    //        private boolean supportDefaultValue;
+    //
+    //        private boolean supportAutoIncrement;
+    //
+    //        public DBColumnField(String name) {
+    //            this.name = name;
+    //        }
+    //
+    //        public String getName() {
+    //            return name;
+    //        }
+    //
+    //        public void setName(String name) {
+    //            this.name = name;
+    //        }
+    //
+    //        public Long getMaxValue() {
+    //            return maxValue;
+    //        }
+    //
+    //        public void setMaxValue(Long maxValue) {
+    //            this.maxValue = maxValue;
+    //        }
+    //
+    //        public Long getMinValue() {
+    //            return minValue;
+    //        }
+    //
+    //        public void setMinValue(Long minValue) {
+    //            this.minValue = minValue;
+    //        }
+    //
+    //        public Integer getSuggestSize() {
+    //            return suggestSize;
+    //        }
+    //
+    //        public void setSuggestSize(Integer suggestSize) {
+    //            this.suggestSize = suggestSize;
+    //        }
+    //
+    //        public boolean isSupportBit() {
+    //            return supportBit;
+    //        }
+    //
+    //        public void setSupportBit(boolean supportBit) {
+    //            this.supportBit = supportBit;
+    //        }
+    //
+    //        public String getExampleValue() {
+    //            return exampleValue;
+    //        }
+    //
+    //        public void setExampleValue(String exampleValue) {
+    //            this.exampleValue = exampleValue;
+    //        }
+    //
+    //        public boolean isSupportSize() {
+    //            return supportSize;
+    //        }
+    //
+    //        public void setSupportSize(boolean supportSize) {
+    //            this.supportSize = supportSize;
+    //        }
+    //
+    //        public boolean isSupportJson() {
+    //            return supportJson;
+    //        }
+    //
+    //        public void setSupportJson(boolean supportJson) {
+    //            this.supportJson = supportJson;
+    //        }
+    //
+    //        public boolean isSupportValue() {
+    //            return supportValue;
+    //        }
+    //
+    //        public void setSupportValue(boolean supportValue) {
+    //            this.supportValue = supportValue;
+    //        }
+    //
+    //        public boolean isSupportBinary() {
+    //            return supportBinary;
+    //        }
+    //
+    //        public void setSupportBinary(boolean supportBinary) {
+    //            this.supportBinary = supportBinary;
+    //        }
+    //
+    //        public boolean isSupportDigits() {
+    //            return supportDigits;
+    //        }
+    //
+    //        public void setSupportDigits(boolean supportDigits) {
+    //            this.supportDigits = supportDigits;
+    //        }
+    //
+    //        public boolean isSupportString() {
+    //            return supportString;
+    //        }
+    //
+    //        public void setSupportString(boolean supportString) {
+    //            this.supportString = supportString;
+    //        }
+    //
+    //        public boolean isSupportKeySize() {
+    //            return supportKeySize;
+    //        }
+    //
+    //        public void setSupportKeySize(boolean supportKeySize) {
+    //            this.supportKeySize = supportKeySize;
+    //        }
+    //
+    //        public boolean isSupportInteger() {
+    //            return supportInteger;
+    //        }
+    //
+    //        public void setSupportInteger(boolean supportInteger) {
+    //            this.supportInteger = supportInteger;
+    //        }
+    //
+    //        public boolean isSupportUnsigned() {
+    //            return supportUnsigned;
+    //        }
+    //
+    //        public void setSupportUnsigned(boolean supportUnsigned) {
+    //            this.supportUnsigned = supportUnsigned;
+    //        }
+    //
+    ////        public boolean isSupportGeometry() {
+    ////            return supportGeometry;
+    ////        }
+    ////
+    ////        public void setSupportGeometry(boolean supportGeometry) {
+    ////            this.supportGeometry = supportGeometry;
+    ////        }
+    //
+    //        public boolean isSupportTimestamp() {
+    //            return supportTimestamp;
+    //        }
+    //
+    //        public void setSupportTimestamp(boolean supportTimestamp) {
+    //            this.supportTimestamp = supportTimestamp;
+    //        }
+    //
+    //        public boolean isSupportDefaultValue() {
+    //            return supportDefaultValue;
+    //        }
+    //
+    //        public void setSupportDefaultValue(boolean supportDefaultValue) {
+    //            this.supportDefaultValue = supportDefaultValue;
+    //        }
+    //
+    //        public boolean isSupportAutoIncrement() {
+    //            return supportAutoIncrement;
+    //        }
+    //
+    //        public void setSupportAutoIncrement(boolean supportAutoIncrement) {
+    //            this.supportAutoIncrement = supportAutoIncrement;
+    //        }
+    //    }
+    //
+    //    public static boolean supportSize(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportSize;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static Integer suggestSize(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.suggestSize;
+    //            }
+    //        }
+    //        return null;
+    //    }
+    //
+    //    public static boolean supportUnsigned(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportUnsigned;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportJson(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportJson;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportText(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportText;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportKeySize(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportKeySize;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportString(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportString;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportValue(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportValue;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportBit(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportBit;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportBinary(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportBinary;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportDigits(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportDigits;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportDefaultValue(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportDefaultValue;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+
+    /// /    public static boolean supportGeometry(String type) {
+    /// /        for (DBColumnField value : COLUMN_FIELD) {
+    /// /            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    /// /                return value.supportGeometry;
+    /// /            }
+    /// /        }
+    /// /        return false;
+    /// /    }
+    /// /
+    /// /    public static boolean supportEnum(String type) {
+    /// /        for (DBColumnField value : COLUMN_FIELD) {
+    /// /            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    /// /                return value.supportEnum;
+    /// /            }
+    /// /        }
+    /// /        return false;
+    /// /    }
+    //
+    //    public static boolean supportTimestamp(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportTimestamp;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportInteger(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportInteger;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static boolean supportAutoIncrement(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.supportAutoIncrement;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static Object exampleValue(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.exampleValue;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //
+    //    public static Long minValue(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.minValue;
+    //            }
+    //        }
+    //        return null;
+    //    }
+    //
+    //    public static Long maxValue(String type) {
+    //        for (DBColumnField value : COLUMN_FIELD) {
+    //            if (StringUtil.equalsIgnoreCase(value.name, type)) {
+    //                return value.maxValue;
+    //            }
+    //        }
+    //        return null;
+    //    }
     public static boolean isYearType(String type) {
         return "YEAR".equalsIgnoreCase(type);
     }
@@ -663,20 +671,20 @@ public class DBColumnUtil {
     }
 
     public static Object defaultValue(String type) {
-        if (supportDefaultValue(type)) {
-            if (supportDigits(type)) {
+        if (DBColumnFieldManager.supportDefaultValue(DBDialect.DAMENG, type)) {
+            if (DBColumnFieldManager.supportDigits(DBDialect.DAMENG, type)) {
                 return 0.0;
             }
-            if (supportInteger(type)) {
+            if (DBColumnFieldManager.supportInteger(DBDialect.DAMENG, type)) {
                 return 0;
             }
-            if (supportString(type)) {
+            if (DBColumnFieldManager.supportString(DBDialect.DAMENG, type)) {
                 return "";
             }
-            if (supportJson(type)) {
+            if (DBColumnFieldManager.supportJson(DBDialect.DAMENG, type)) {
                 return "{'a':1}";
             }
-            if (supportBinary(type)) {
+            if (DBColumnFieldManager.supportBinary(DBDialect.DAMENG, type)) {
                 return new byte[]{};
             }
         }

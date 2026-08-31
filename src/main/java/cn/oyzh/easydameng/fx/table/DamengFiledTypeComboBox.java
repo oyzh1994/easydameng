@@ -1,5 +1,7 @@
 package cn.oyzh.easydameng.fx.table;
 
+import cn.oyzh.easydameng.data.db.DBDialect;
+import cn.oyzh.easydameng.db.DBColumnFieldManager;
 import cn.oyzh.easydameng.util.DBColumnUtil;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 
@@ -21,25 +23,7 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
      * @return 结果
      */
     public boolean supportSize() {
-        return DBColumnUtil.supportSize(this.getSelectedItem());
-    }
-
-//    /**
-//     * 是否支持字符集及排序
-//     *
-//     * @return 结果
-//     */
-//    public boolean supportCharset() {
-//        return DBColumnUtil.supportCharset(this.getSelectedItem());
-//    }
-
-    /**
-     * 是否支持无符号
-     *
-     * @return 结果
-     */
-    public boolean supportUnsigned() {
-        return DBColumnUtil.supportUnsigned(this.getSelectedItem());
+        return DBColumnFieldManager.supportSize(DBDialect.DAMENG, this.getSelectedItem());
     }
 
     /**
@@ -48,7 +32,7 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
      * @return 结果
      */
     public boolean supportDigits() {
-        return DBColumnUtil.supportDigits(this.getSelectedItem());
+        return DBColumnFieldManager.supportDigits(DBDialect.DAMENG, this.getSelectedItem());
     }
 
     /**
@@ -57,7 +41,7 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
      * @return 结果
      */
     public boolean supportAutoIncrement() {
-        return DBColumnUtil.supportAutoIncrement(this.getSelectedItem());
+        return DBColumnFieldManager.supportAutoIncrement(DBDialect.DAMENG, this.getSelectedItem());
     }
 
     /**
@@ -66,7 +50,7 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
      * @return 结果
      */
     public boolean supportDefaultValue() {
-        return DBColumnUtil.supportDefaultValue(this.getSelectedItem());
+        return DBColumnFieldManager.supportDefaultValue(DBDialect.DAMENG, this.getSelectedItem());
     }
 
     /**
@@ -75,17 +59,8 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
      * @return 结果
      */
     public boolean supportTimestamp() {
-        return DBColumnUtil.supportTimestamp(this.getSelectedItem());
+        return DBColumnFieldManager.supportTimestamp(DBDialect.DAMENG, this.getSelectedItem());
     }
-
-//    /**
-//     * 是否支持集合
-//     *
-//     * @return 结果
-//     */
-//    public boolean supportGeometry() {
-//        return DBColumnUtil.supportGeometry(this.getSelectedItem());
-//    }
 
     /**
      * 是否支持json
@@ -93,17 +68,8 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
      * @return 结果
      */
     public boolean supportJson() {
-        return DBColumnUtil.supportJson(this.getSelectedItem());
+        return DBColumnFieldManager.supportJson(DBDialect.DAMENG, this.getSelectedItem());
     }
-
-//    /**
-//     * 是否支持主键
-//     *
-//     * @return 结果
-//     */
-//    public boolean supportEnum() {
-//        return DBColumnUtil.supportEnum(this.getSelectedItem());
-//    }
 
     /**
      * 是否支持值
@@ -120,7 +86,7 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
      * @return 示例值
      */
     public Object exampleValue() {
-        return DBColumnUtil.exampleValue(this.getSelectedItem());
+        return DBColumnFieldManager.exampleValue(DBDialect.DAMENG, this.getSelectedItem());
     }
 
     /**

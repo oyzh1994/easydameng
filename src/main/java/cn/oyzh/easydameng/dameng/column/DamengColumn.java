@@ -6,8 +6,10 @@ import cn.oyzh.common.util.BooleanUtil;
 import cn.oyzh.common.util.NumberUtil;
 import cn.oyzh.common.util.RegexUtil;
 import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.data.db.DBObjectStatus;
 import cn.oyzh.easydameng.db.DBColumn;
+import cn.oyzh.easydameng.db.DBColumnFieldManager;
 import cn.oyzh.easydameng.util.DBColumnUtil;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -258,7 +260,7 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
 
     @Override
     public boolean supportSize() {
-        return DBColumnUtil.supportSize(this.getType());
+        return DBColumnFieldManager.supportSize(DBDialect.DAMENG, this.getType());
     }
 
     /**
@@ -267,82 +269,82 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
      * @return 推荐长度
      */
     public Integer suggestSize() {
-        return DBColumnUtil.suggestSize(this.getType());
+        return DBColumnFieldManager.suggestSize(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportUnsigned() {
-        return DBColumnUtil.supportUnsigned(this.getType());
+        return DBColumnFieldManager.supportUnsigned(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportDigits() {
-        return DBColumnUtil.supportDigits(this.getType());
+        return DBColumnFieldManager.supportDigits(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportInteger() {
-        return DBColumnUtil.supportInteger(this.getType());
+        return DBColumnFieldManager.supportInteger(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportAutoIncrement() {
-        return DBColumnUtil.supportAutoIncrement(this.getType());
+        return DBColumnFieldManager.supportAutoIncrement(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportDefaultValue() {
-        return DBColumnUtil.supportDefaultValue(this.getType());
+        return DBColumnFieldManager.supportDefaultValue(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportTimestamp() {
-        return DBColumnUtil.supportTimestamp(this.getType());
+        return DBColumnFieldManager.supportTimestamp(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportValue() {
-        return DBColumnUtil.supportValue(this.getType());
+        return DBColumnFieldManager.supportValue(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportBit() {
-        return DBColumnUtil.supportBit(this.getType());
+        return DBColumnFieldManager.supportBit(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportJson() {
-        return DBColumnUtil.supportJson(this.getType());
+        return DBColumnFieldManager.supportJson(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportText() {
-        return DBColumnUtil.supportText(this.getType());
+        return DBColumnFieldManager.supportText(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportKeySize() {
-        return DBColumnUtil.supportKeySize(this.getType());
+        return DBColumnFieldManager.supportKeySize(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public boolean supportString() {
-        return DBColumnUtil.supportString(this.getType());
+        return DBColumnFieldManager.supportString(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public Long minValue() {
-        return DBColumnUtil.minValue(this.getType());
+        return DBColumnFieldManager.minValue(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public Long maxValue() {
-        return DBColumnUtil.maxValue(this.getType());
+        return DBColumnFieldManager.maxValue(DBDialect.DAMENG, this.getType());
     }
 
     @Override
     public Object exampleValue() {
-        return DBColumnUtil.exampleValue(this.getType());
+        return DBColumnFieldManager.exampleValue(DBDialect.DAMENG, this.getType());
     }
 
     @Override
@@ -466,17 +468,13 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
         return DBColumnUtil.isDateTimeType(this.getType());
     }
 
-    public boolean isGeometryType() {
-        return DBColumnUtil.isGeometryType(this.getType());
-    }
-
     public boolean isTimeType() {
         return DBColumnUtil.isTimeType(this.getType());
     }
 
     @Override
     public boolean supportBinary() {
-        return DBColumnUtil.supportBinary(this.getType());
+        return DBColumnFieldManager.supportBinary(DBDialect.DAMENG, this.getType());
     }
 
     @Override
