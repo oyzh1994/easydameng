@@ -12,6 +12,7 @@ import cn.oyzh.easydameng.dameng.record.DamengRecordData;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.exception.DBException;
+import cn.oyzh.easydameng.util.db.ShellDBUtil;
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
@@ -174,25 +175,25 @@ public class DBUtil {
         }
     }
 
-    /**
-     * 打印sql
-     *
-     * @param sql sql语句
-     */
-    public static void printSql(String sql) {
-        JulLog.info("\n" + sql);
-        // JulLog.info("printSql======================>");
-    }
-
-    /**
-     * 打印sql
-     *
-     * @param sqlList sql列表
-     */
-    public static void printSql(List<String> sqlList) {
-        JulLog.info("\n" + Arrays.toString(sqlList.toArray()));
-        // JulLog.info("printSql======================>");
-    }
+//    /**
+//     * 打印sql
+//     *
+//     * @param sql sql语句
+//     */
+//    public static void printSql(String sql) {
+//        JulLog.info("\n" + sql);
+//        // JulLog.info("printSql======================>");
+//    }
+//
+//    /**
+//     * 打印sql
+//     *
+//     * @param sqlList sql列表
+//     */
+//    public static void printSql(List<String> sqlList) {
+//        JulLog.info("\n" + Arrays.toString(sqlList.toArray()));
+//        // JulLog.info("printSql======================>");
+//    }
 
     /**
      * 打印数据
@@ -215,7 +216,7 @@ public class DBUtil {
      * @param data 数据
      */
     public static void printInfo(String sql, DamengRecordData data) {
-        printSql(sql);
+        ShellDBUtil.printSql(sql);
         printData(data);
     }
 
@@ -305,162 +306,162 @@ public class DBUtil {
         return val;
     }
 
-    public static void setVal(PreparedStatement statement, Object val, int index) throws SQLException {
-        if (val == null) {
-            statement.setNull(index, Types.NULL);
-            //            statement.setObject(index, null);
-        } else if (val instanceof byte[] x) {
-            statement.setBytes(index, x);
-        } else if (val instanceof Boolean x) {
-            statement.setBoolean(index, x);
-        } else if (val instanceof Byte x) {
-            statement.setByte(index, x);
-        } else if (val instanceof Short x) {
-            statement.setShort(index, x);
-        } else if (val instanceof Integer x) {
-            statement.setInt(index, x);
-        } else if (val instanceof Long x) {
-            statement.setLong(index, x);
-        } else if (val instanceof Float x) {
-            statement.setFloat(index, x);
-        } else if (val instanceof Double x) {
-            statement.setDouble(index, x);
-        } else if (val instanceof CharSequence x) {
-            statement.setString(index, x.toString());
-        } else if (val instanceof Date x) {
-            statement.setDate(index, x);
-        } else if (val instanceof Timestamp x) {
-            statement.setTimestamp(index, x);
-        } else if (val instanceof java.util.Date x) {
-            statement.setDate(index, new Date(x.getTime()));
-        } else if (val instanceof LocalDate x) {
-            statement.setDate(index, Date.valueOf(x));
-        } else if (val instanceof LocalDateTime x) {
-            statement.setTimestamp(index, Timestamp.valueOf(x));
-        } else if (val instanceof Object x) {
-            statement.setObject(index, x);
-        }
-    }
+//    public static void setVal(PreparedStatement statement, Object val, int index) throws SQLException {
+//        if (val == null) {
+//            statement.setNull(index, Types.NULL);
+//            //            statement.setObject(index, null);
+//        } else if (val instanceof byte[] x) {
+//            statement.setBytes(index, x);
+//        } else if (val instanceof Boolean x) {
+//            statement.setBoolean(index, x);
+//        } else if (val instanceof Byte x) {
+//            statement.setByte(index, x);
+//        } else if (val instanceof Short x) {
+//            statement.setShort(index, x);
+//        } else if (val instanceof Integer x) {
+//            statement.setInt(index, x);
+//        } else if (val instanceof Long x) {
+//            statement.setLong(index, x);
+//        } else if (val instanceof Float x) {
+//            statement.setFloat(index, x);
+//        } else if (val instanceof Double x) {
+//            statement.setDouble(index, x);
+//        } else if (val instanceof CharSequence x) {
+//            statement.setString(index, x.toString());
+//        } else if (val instanceof Date x) {
+//            statement.setDate(index, x);
+//        } else if (val instanceof Timestamp x) {
+//            statement.setTimestamp(index, x);
+//        } else if (val instanceof java.util.Date x) {
+//            statement.setDate(index, new Date(x.getTime()));
+//        } else if (val instanceof LocalDate x) {
+//            statement.setDate(index, Date.valueOf(x));
+//        } else if (val instanceof LocalDateTime x) {
+//            statement.setTimestamp(index, Timestamp.valueOf(x));
+//        } else if (val instanceof Object x) {
+//            statement.setObject(index, x);
+//        }
+//    }
+//
+//    public static boolean isSameVal(Object val, Object nVal) {
+//        if (val == nVal) {
+//            return true;
+//        }
+//        if (Objects.equals(val, nVal)) {
+//            return true;
+//        }
+//        if (val instanceof Number n1 && nVal instanceof Number n2) {
+//            if (n1.doubleValue() == n2.doubleValue()) {
+//                return true;
+//            }
+//        }
+//        if (val instanceof byte[] b1 && nVal instanceof byte[] b2) {
+//            if (StringUtil.equals(new String(b1), new String(b2))) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    public static void rollback(Connection connection) {
+//        try {
+//            if (connection != null && !connection.getAutoCommit()) {
+//                connection.rollback();
+//            }
+//        } catch (SQLException ex) {
+//            throw new DBException(ex);
+//        }
+//    }
+//
+//    public static int executeUpdate(PreparedStatement statement) throws SQLException {
+//        int result = statement.executeUpdate();
+//        statement.close();
+//        return result;
+//    }
+//
+//    public static void close(AutoCloseable o) throws Exception {
+//        if (o instanceof ResultSet resultSet) {
+//            resultSet.close();
+//        } else if (o instanceof Statement statement) {
+//            statement.close();
+//        } else if (o instanceof Connection connection) {
+//            connection.close();
+//        } else if (o != null) {
+//            o.close();
+//        }
+//    }
+//
+//    /**
+//     * 生成索引名称
+//     *
+//     * @return 索引名称
+//     */
+//    public static String genIndexName() {
+//        return "index_" + UUIDUtil.uuidSimple().substring(0, 5);
+//    }
+//
+//    /**
+//     * 生成检查名称
+//     *
+//     * @return 检查名称
+//     */
+//    public static String genCheckName() {
+//        return "check_" + UUIDUtil.uuidSimple().substring(0, 5);
+//    }
+//
+//    /**
+//     * 生成触发器名称
+//     *
+//     * @return 触发器名称
+//     */
+//    public static String genTriggerName() {
+//        return "trigger_" + UUIDUtil.uuidSimple().substring(0, 5);
+//    }
+//
+//    /**
+//     * 生成外键名称
+//     *
+//     * @return 外键名称
+//     */
+//    public static String genForeignKeyName() {
+//        return "fk_" + UUIDUtil.uuidSimple().substring(0, 5);
+//    }
+//
+//    /**
+//     * 生成复制名称
+//     *
+//     * @return 复制名称
+//     */
+//    public static String genCopyName() {
+//        return "_copy_" + UUIDUtil.uuidSimple().substring(0, 5);
+//    }
+//
+//    /**
+//     * 生成克隆名称
+//     *
+//     * @return 复制名称
+//     */
+//    public static String genCloneName() {
+//        return "_clone_" + UUIDUtil.uuidSimple().substring(0, 5);
+//    }
 
-    public static boolean isSameVal(Object val, Object nVal) {
-        if (val == nVal) {
-            return true;
-        }
-        if (Objects.equals(val, nVal)) {
-            return true;
-        }
-        if (val instanceof Number n1 && nVal instanceof Number n2) {
-            if (n1.doubleValue() == n2.doubleValue()) {
-                return true;
-            }
-        }
-        if (val instanceof byte[] b1 && nVal instanceof byte[] b2) {
-            if (StringUtil.equals(new String(b1), new String(b2))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static void rollback(Connection connection) {
-        try {
-            if (connection != null && !connection.getAutoCommit()) {
-                connection.rollback();
-            }
-        } catch (SQLException ex) {
-            throw new DBException(ex);
-        }
-    }
-
-    public static int executeUpdate(PreparedStatement statement) throws SQLException {
-        int result = statement.executeUpdate();
-        statement.close();
-        return result;
-    }
-
-    public static void close(AutoCloseable o) throws Exception {
-        if (o instanceof ResultSet resultSet) {
-            resultSet.close();
-        } else if (o instanceof Statement statement) {
-            statement.close();
-        } else if (o instanceof Connection connection) {
-            connection.close();
-        } else if (o != null) {
-            o.close();
-        }
-    }
-
-    /**
-     * 生成索引名称
-     *
-     * @return 索引名称
-     */
-    public static String genIndexName() {
-        return "index_" + UUIDUtil.uuidSimple().substring(0, 5);
-    }
-
-    /**
-     * 生成检查名称
-     *
-     * @return 检查名称
-     */
-    public static String genCheckName() {
-        return "check_" + UUIDUtil.uuidSimple().substring(0, 5);
-    }
-
-    /**
-     * 生成触发器名称
-     *
-     * @return 触发器名称
-     */
-    public static String genTriggerName() {
-        return "trigger_" + UUIDUtil.uuidSimple().substring(0, 5);
-    }
-
-    /**
-     * 生成外键名称
-     *
-     * @return 外键名称
-     */
-    public static String genForeignKeyName() {
-        return "fk_" + UUIDUtil.uuidSimple().substring(0, 5);
-    }
-
-    /**
-     * 生成复制名称
-     *
-     * @return 复制名称
-     */
-    public static String genCopyName() {
-        return "_copy_" + UUIDUtil.uuidSimple().substring(0, 5);
-    }
-
-    /**
-     * 生成克隆名称
-     *
-     * @return 复制名称
-     */
-    public static String genCloneName() {
-        return "_clone_" + UUIDUtil.uuidSimple().substring(0, 5);
-    }
-
-    /**
-     * 转换为插入参数
-     *
-     * @param columns 字段列表
-     * @param record  记录
-     */
-    public static DamengInsertRecordParam toInsertRecordParam(DamengColumns columns, DamengRecord record) {
-        DamengColumn column = columns.getFirst();
-        DamengRecordData recordData = record.getRecordData();
-        DamengRecordPrimaryKey primaryKey = initPrimaryKey(columns, record);
-        DamengInsertRecordParam insertRecordParam = new DamengInsertRecordParam();
-        insertRecordParam.setRecord(recordData);
-        insertRecordParam.setPrimaryKey(primaryKey);
-        insertRecordParam.setDbName(column.getDbName());
-        insertRecordParam.setTableName(column.getTableName());
-        return insertRecordParam;
-    }
+//    /**
+//     * 转换为插入参数
+//     *
+//     * @param columns 字段列表
+//     * @param record  记录
+//     */
+//    public static DamengInsertRecordParam toInsertRecordParam(DamengColumns columns, DamengRecord record) {
+//        DamengColumn column = columns.getFirst();
+//        DamengRecordData recordData = record.getRecordData();
+//        DamengRecordPrimaryKey primaryKey = initPrimaryKey(columns, record);
+//        DamengInsertRecordParam insertRecordParam = new DamengInsertRecordParam();
+//        insertRecordParam.setRecord(recordData);
+//        insertRecordParam.setPrimaryKey(primaryKey);
+//        insertRecordParam.setDbName(column.getDbName());
+//        insertRecordParam.setTableName(column.getTableName());
+//        return insertRecordParam;
+//    }
 
     /**
      * 初始化主键

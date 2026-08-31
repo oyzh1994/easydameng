@@ -8,6 +8,7 @@ import cn.oyzh.easydameng.fx.DBStatusColumn;
 import cn.oyzh.easydameng.fx.record.DamengRecordColumn;
 import cn.oyzh.easydameng.fx.record.DamengRecordTableView;
 import cn.oyzh.easydameng.util.DBRecordUtil;
+import cn.oyzh.easydameng.util.db.ShellDBUtil;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.plus.controls.table.FXTableColumn;
 import cn.oyzh.fx.plus.controls.text.FXText;
@@ -93,7 +94,7 @@ public class DamengQueryExplainTabController extends RichTabController {
         columnList.add(statusColumn);
         for (DamengColumn column : columns) {
             DamengRecordColumn tableColumn = new DamengRecordColumn(column);
-            tableColumn.setRealWidth(DBRecordUtil.suitableColumnWidth(column));
+            tableColumn.setRealWidth(ShellDBUtil.suitableColumnWidth(column));
             columnList.add(tableColumn);
         }
         this.recordTable.getColumns().setAll(columnList);

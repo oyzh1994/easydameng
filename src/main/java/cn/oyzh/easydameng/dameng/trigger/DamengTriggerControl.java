@@ -3,6 +3,7 @@ package cn.oyzh.easydameng.dameng.trigger;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.fx.table.DamengTriggerPolicyComboBox;
 import cn.oyzh.easydameng.util.DBUtil;
+import cn.oyzh.easydameng.util.db.ShellDBUtil;
 import cn.oyzh.fx.editor.incubator.EditorFormatType;
 import cn.oyzh.fx.editor.incubator.control.EditorEnlargeTextFiled;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
@@ -22,7 +23,7 @@ public class DamengTriggerControl extends DamengTrigger {
         ClearableTextField textField = new ClearableTextField();
         textField.setPromptText(I18nHelper.pleaseInputName());
         if (StringUtil.isEmpty(this.getName())) {
-            this.setName(DBUtil.genTriggerName());
+            this.setName(ShellDBUtil.genTriggerName());
         }
         textField.addTextChangeListener((observable, oldValue, newValue) -> {
             this.setName(newValue);

@@ -1,7 +1,9 @@
 package cn.oyzh.easydameng.tabs.query;
 
+import cn.oyzh.common.util.TextUtil;
 import cn.oyzh.easydameng.dameng.query.DamengQueryResult;
 import cn.oyzh.easydameng.dameng.query.DamengQueryResults;
+import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.plus.controls.text.area.FXTextArea;
 import cn.oyzh.i18n.I18nHelper;
@@ -17,7 +19,7 @@ public class DamengQueryInfoTabController extends RichTabController {
      * 根节点
      */
     @FXML
-    private FXTextArea infoArea;
+    private Editor infoArea;
 
     public void init(DamengQueryResults<?> results) {
         this.infoArea.clear();

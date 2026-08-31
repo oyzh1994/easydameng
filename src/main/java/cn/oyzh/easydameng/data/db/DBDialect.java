@@ -14,6 +14,8 @@ import java.util.List;
  * @since 2024/2/20
  */
 public enum DBDialect {
+    MYSQL,
+    MONGODB,
     DAMENG;
 
     public DbType dbType() {

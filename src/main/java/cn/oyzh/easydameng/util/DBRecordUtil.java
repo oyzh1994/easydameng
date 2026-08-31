@@ -3,6 +3,7 @@ package cn.oyzh.easydameng.util;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.record.DamengRecordProperty;
+import cn.oyzh.easydameng.util.db.ShellDBUtil;
 import cn.oyzh.fx.editor.incubator.control.JsonTextFiled;
 import cn.oyzh.fx.editor.incubator.control.LongTextFiled;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
@@ -98,7 +99,7 @@ public class DBRecordUtil {
         }
         if (node instanceof FXTextField textField) {
             if (object == null) {
-                textField.setPromptText(nullPromptText());
+                textField.setPromptText(ShellDBUtil.nullPromptText());
             }
             textField.setContextMenu(getColumnContextMenu(property));
             textField.addTextChangeListener((observable, oldValue, newValue) -> property.setChanged(true));
@@ -150,27 +151,27 @@ public class DBRecordUtil {
         return val;
     }
 
-    public static String nullPromptText() {
-        return "(Null)";
-    }
+//    public static String nullPromptText() {
+//        return "(Null)";
+//    }
 
-    /**
-     * 计算合适的字段宽
-     *
-     * @param column 字段
-     * @return 结果
-     */
-    public static double suitableColumnWidth(DamengColumn column) {
-        double w1 = FontUtil.textWidth(column.getName());
-        double w2;
-        if (column.supportSize() && column.getSize() != null) {
-            w2 = FontUtil.textWidth(column.getType() + "(" + column.getSize() + ")");
-        } else {
-            w2 = FontUtil.textWidth(column.getType());
-        }
-        double w3 = Math.max(w1, w2);
-        return w3 + 30;
-    }
+//    /**
+//     * 计算合适的字段宽
+//     *
+//     * @param column 字段
+//     * @return 结果
+//     */
+//    public static double suitableColumnWidth(DamengColumn column) {
+//        double w1 = FontUtil.textWidth(column.getName());
+//        double w2;
+//        if (column.supportSize() && column.getSize() != null) {
+//            w2 = FontUtil.textWidth(column.getType() + "(" + column.getSize() + ")");
+//        } else {
+//            w2 = FontUtil.textWidth(column.getType());
+//        }
+//        double w3 = Math.max(w1, w2);
+//        return w3 + 30;
+//    }
 
     public static ContextMenu getColumnContextMenu(DamengRecordProperty property) {
         ContextMenu contextMenu = new ContextMenu();

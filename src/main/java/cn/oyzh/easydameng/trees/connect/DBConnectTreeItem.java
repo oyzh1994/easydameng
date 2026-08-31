@@ -342,9 +342,9 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         return this.client.alterDatabase(database);
     }
 
-    public String databaseCollation(String dbName) {
-        return this.client.databaseCollation(dbName);
-    }
+//    public String databaseCollation(String dbName) {
+//        return this.client.databaseCollation(dbName);
+//    }
 
     public boolean dropDatabase(String dbName) {
         return this.client.dropDatabase(dbName);

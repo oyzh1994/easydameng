@@ -1,10 +1,12 @@
 package cn.oyzh.easydameng.dameng;
 
 import cn.oyzh.common.exception.ExceptionUtil;
+import cn.oyzh.common.util.IOUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.util.DBUtil;
+import cn.oyzh.easydameng.util.db.ShellDBUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -154,7 +156,7 @@ public class DamengHelper {
                         WHERE 
                             VIEW_NAME = ?
                     """;
-            DBUtil.printSql(sql);
+            ShellDBUtil.printSql(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, viewName);
             // 执行SQL查询并获取结果集
@@ -165,8 +167,8 @@ public class DamengHelper {
             if (resultSet.next()) {
                 isUpdatable = resultSet.getString("IS_UPDATABLE");
             }
-            DBUtil.close(resultSet);
-            DBUtil.close(statement);
+            IOUtil.close(resultSet);
+            IOUtil.close(statement);
             return isUpdatable == null || StringUtil.equalsIgnoreCase(isUpdatable, "N");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -320,8 +322,8 @@ public class DamengHelper {
         if (resultSet.next()) {
             insertId = resultSet.getLong(1);
         }
-        DBUtil.close(statement);
-        DBUtil.close(resultSet);
+        IOUtil.close(statement);
+        IOUtil.close(resultSet);
         return insertId;
     }
 

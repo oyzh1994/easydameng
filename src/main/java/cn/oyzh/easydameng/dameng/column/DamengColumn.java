@@ -7,6 +7,7 @@ import cn.oyzh.common.util.NumberUtil;
 import cn.oyzh.common.util.RegexUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.data.db.DBObjectStatus;
+import cn.oyzh.easydameng.db.DBColumn;
 import cn.oyzh.easydameng.util.DBColumnUtil;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,7 +23,7 @@ import java.util.Map;
  * @author oyzh
  * @since 2023/12/20
  */
-public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengColumn>, Destroyable {
+public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopier<DamengColumn>, Destroyable {
 
     /**
      * 库名称
@@ -130,6 +131,7 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return (String) super.getOriginalData("name");
     }
 
+    @Override
     public void setType(String type) {
         if (type != null) {
             type = type.toUpperCase();
@@ -197,11 +199,11 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
                 return NumberUtil.toDouble(valStr);
             }
         }
-//        if (this.supportEnum()) {
-//            if (StringUtil.isBlank(valStr) || StringUtil.equalsIgnoreCase(valStr, "null")) {
-//                return null;
-//            }
-//        }
+        //        if (this.supportEnum()) {
+        //            if (StringUtil.isBlank(valStr) || StringUtil.equalsIgnoreCase(valStr, "null")) {
+        //                return null;
+        //            }
+        //        }
         return defaultValue;
     }
 
@@ -254,11 +256,7 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return BooleanUtil.isTrue(this.updateOnCurrentTimestamp);
     }
 
-    /**
-     * 是否支持长度
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportSize() {
         return DBColumnUtil.supportSize(this.getType());
     }
@@ -272,139 +270,82 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return DBColumnUtil.suggestSize(this.getType());
     }
 
-//    /**
-//     * 是否支持长度
-//     *
-//     * @return 结果
-//     */
-//    public boolean supportGeometry() {
-//        return DBColumnUtil.supportGeometry(this.getType());
-//    }
-
-//    /**
-//     * 是否支持字符集及排序
-//     *
-//     * @return 结果
-//     */
-//    public boolean supportCharset() {
-//        return DBColumnUtil.supportCharset(this.getType());
-//    }
-
-    /**
-     * 是否支持无符号
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportUnsigned() {
         return DBColumnUtil.supportUnsigned(this.getType());
     }
 
-    /**
-     * 是否支持小数
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportDigits() {
         return DBColumnUtil.supportDigits(this.getType());
     }
 
-    /**
-     * 是否支持整数
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportInteger() {
         return DBColumnUtil.supportInteger(this.getType());
     }
 
-    /**
-     * 是否支持自动递增
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportAutoIncrement() {
         return DBColumnUtil.supportAutoIncrement(this.getType());
     }
 
-    /**
-     * 是否支持默认值
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportDefaultValue() {
         return DBColumnUtil.supportDefaultValue(this.getType());
     }
 
-    /**
-     * 是否支持当前时间戳
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportTimestamp() {
         return DBColumnUtil.supportTimestamp(this.getType());
     }
 
-    /**
-     * 是否支持主键
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportValue() {
         return DBColumnUtil.supportValue(this.getType());
     }
 
-    /**
-     * 是否支持填充零
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportBit() {
         return DBColumnUtil.supportBit(this.getType());
     }
 
-    /**
-     * 是否支持填充零
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportJson() {
         return DBColumnUtil.supportJson(this.getType());
     }
 
-    /**
-     * 是否支持文本
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportText() {
         return DBColumnUtil.supportText(this.getType());
     }
 
-    /**
-     * 是否支持键长度
-     *
-     * @return 结果
-     */
+    @Override
     public boolean supportKeySize() {
         return DBColumnUtil.supportKeySize(this.getType());
     }
 
+    @Override
     public boolean supportString() {
         return DBColumnUtil.supportString(this.getType());
     }
 
+    @Override
     public Long minValue() {
         return DBColumnUtil.minValue(this.getType());
     }
 
+    @Override
     public Long maxValue() {
         return DBColumnUtil.maxValue(this.getType());
     }
 
+    @Override
     public Object exampleValue() {
         return DBColumnUtil.exampleValue(this.getType());
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
         super.putOriginalData("name", name);
@@ -419,6 +360,7 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return super.checkOriginalData("comment", this.getType());
     }
 
+    @Override
     public void setSize(Integer size) {
         this.size = size;
         super.putOriginalData("size", size);
@@ -512,14 +454,6 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return BooleanUtil.isTrue(this.nullable);
     }
 
-    // @Override
-    // public void setDeleted(boolean deleted) {
-    //     super.setDeleted(deleted);
-    //     // if (deleted && this.isPrimaryKey()) {
-    //     //     this.setPrimaryKey(false);
-    //     // }
-    // }
-
     public boolean isYearType() {
         return DBColumnUtil.isYearType(this.getType());
     }
@@ -540,13 +474,10 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return DBColumnUtil.isTimeType(this.getType());
     }
 
+    @Override
     public boolean supportBinary() {
         return DBColumnUtil.supportBinary(this.getType());
     }
-
-//    public boolean supportEnum() {
-//        return DBColumnUtil.supportEnum(this.getType());
-//    }
 
     @Override
     public void initStatus() {
@@ -583,87 +514,6 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
             this.setPrimaryKey(true);
         } else {
             this.setPrimaryKey(false);
-        }
-    }
-
-    public void parseType(String type) {
-        if (!type.contains("(") && !type.contains(" ")) {
-            this.setType(type);
-            return;
-        }
-        type = type.toLowerCase();
-        if (type.contains("unsigned")) {
-            this.setUnsigned(true);
-            type = type.replace("unsigned", "").trim();
-        }
-        if (type.contains("zerofill")) {
-            this.setZeroFill(true);
-            type = type.replace("zerofill", "").trim();
-        }
-        if (!type.contains("(")) {
-            this.setType(type);
-            return;
-        }
-
-        String _type = type.substring(0, type.indexOf("("));
-        this.setType(_type);
-        String sub1 = type.substring(type.indexOf("(") + 1, type.lastIndexOf(")"));
-//        // 枚举
-//        if (this.supportEnum()) {
-//            this.setValue(sub1);
-//        }
-        if (this.supportDigits() && sub1.contains(",")) {// 小数
-            String[] arr = sub1.split(",");
-            this.setSize(Integer.parseInt(arr[0]));
-            this.setDigits(Integer.parseInt(arr[1]));
-        } else {// 整数
-            this.setSize(Integer.parseInt(sub1));
-        }
-    }
-
-    public void parseExtra(String extra) {
-        if (StringUtil.isEmpty(extra)) {
-            return;
-        }
-        if (StringUtil.containsIgnoreCase(extra, "auto_increment")) {
-            this.setAutoIncrement(true);
-        }
-        if (StringUtil.containsIgnoreCase(extra, "on update CURRENT_TIMESTAMP")) {
-            this.setUpdateOnCurrentTimestamp(true);
-        }
-    }
-
-    public void initColumn(String columnType, String columnExtra) {
-        if (!columnType.contains("(") && !columnType.contains(" ")) {
-            this.setType(columnType.toUpperCase());
-        } else if (!columnType.contains("(")) {
-            this.setType(columnType.toUpperCase());
-        } else {
-            String type = columnType.substring(0, columnType.indexOf("("));
-            this.setType(type.toUpperCase());
-            String sub1 = columnType.substring(columnType.indexOf("(") + 1, columnType.lastIndexOf(")"));
-//            if (this.supportEnum()) {
-//                this.setValue(sub1);
-//            }
-            if (this.supportDigits() && sub1.contains(",")) {
-                String[] arr = sub1.split(",");
-                this.setSize(Integer.parseInt(arr[0]));
-                this.setDigits(Integer.parseInt(arr[1]));
-            } else {
-                this.setSize(Integer.parseInt(sub1));
-            }
-            if (StringUtil.containsIgnoreCase(columnType, "unsigned")) {
-                this.setUnsigned(true);
-            }
-            if (StringUtil.containsIgnoreCase(columnType, "zerofill")) {
-                this.setZeroFill(true);
-            }
-        }
-        if (StringUtil.containsIgnoreCase(columnExtra, "auto_increment")) {
-            this.setAutoIncrement(true);
-        }
-        if (StringUtil.containsIgnoreCase(columnExtra, "on update CURRENT_TIMESTAMP")) {
-            this.setUpdateOnCurrentTimestamp(true);
         }
     }
 
@@ -780,17 +630,17 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         this.position = position;
     }
 
-//    public boolean isPrimaryKeyProperty() {
-//        return primaryKeyProperty.get();
-//    }
-//
-//    public SimpleBooleanProperty primaryKeyPropertyProperty() {
-//        return primaryKeyProperty;
-//    }
-//
-//    public void setPrimaryKeyProperty(boolean primaryKeyProperty) {
-//        this.primaryKeyProperty.set(primaryKeyProperty);
-//    }
+    //    public boolean isPrimaryKeyProperty() {
+    //        return primaryKeyProperty.get();
+    //    }
+    //
+    //    public SimpleBooleanProperty primaryKeyPropertyProperty() {
+    //        return primaryKeyProperty;
+    //    }
+    //
+    //    public void setPrimaryKeyProperty(boolean primaryKeyProperty) {
+    //        this.primaryKeyProperty.set(primaryKeyProperty);
+    //    }
 
     public Integer getPrimaryKeySize() {
         return primaryKeySize;
@@ -808,6 +658,7 @@ public class DamengColumn extends DBObjectStatus implements ObjectCopier<DamengC
         return autoIncrement;
     }
 
+    @Override
     public String getName() {
         return name;
     }
