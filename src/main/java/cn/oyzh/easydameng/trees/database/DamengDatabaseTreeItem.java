@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.trees.database;
 import cn.oyzh.common.thread.Task;
 import cn.oyzh.common.thread.TaskBuilder;
 import cn.oyzh.easydameng.controller.data.DamengDataDumpController;
-import cn.oyzh.easydameng.controller.data.DamengRunSqlFileController;
+import cn.oyzh.easydameng.controller.data.DamengDataRunSqlFileController;
 import cn.oyzh.easydameng.controller.database.DamengDatabaseUpdateController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
@@ -122,7 +122,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
      * 运行sql文件
      */
     private void runSqlFile() {
-        StageAdapter fxView = StageManager.parseStage(DamengRunSqlFileController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(DamengDataRunSqlFileController.class, this.window());
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.dbName());
         fxView.setProp("dbClient", this.client());

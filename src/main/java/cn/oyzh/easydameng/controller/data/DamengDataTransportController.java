@@ -20,6 +20,7 @@ import cn.oyzh.fx.plus.controller.StageController;
 import cn.oyzh.fx.plus.controls.box.FXVBox;
 import cn.oyzh.fx.plus.controls.button.FXButton;
 import cn.oyzh.fx.plus.controls.label.FXLabel;
+import cn.oyzh.fx.plus.controls.pane.FXTitledPane;
 import cn.oyzh.fx.plus.controls.tab.FXTab;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.node.NodeGroupUtil;
@@ -180,37 +181,37 @@ public class DamengDataTransportController extends StageController {
      * 表组件
      */
     @FXML
-    private FXTab tablePane;
+    private FXTitledPane tablePane;
 
     /**
      * 视图组件
      */
     @FXML
-    private FXTab viewPane;
+    private FXTitledPane viewPane;
 
     /**
      * 函数组件
      */
     @FXML
-    private FXTab functionPane;
+    private FXTitledPane functionPane;
 
     /**
      * 过程组件
      */
     @FXML
-    private FXTab procedurePane;
+    private FXTitledPane procedurePane;
 
     /**
      * 触发器组件
      */
     @FXML
-    private FXTab triggerPane;
+    private FXTitledPane triggerPane;
 
-    /**
-     * 事件组件
-     */
-    @FXML
-    private FXTab eventPane;
+//    /**
+//     * 事件组件
+//     */
+//    @FXML
+//    private FXTab eventPane;
 
     /**
      * 表列表
