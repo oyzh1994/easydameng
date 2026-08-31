@@ -4,11 +4,11 @@ package cn.oyzh.easydameng.dameng;
 import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.db.DBConnManager;
+import dm.jdbc.driver.Configuration;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -30,6 +30,8 @@ public class DamengConnManager extends DBConnManager {
             host += dbName;
         }
         Properties props = new Properties();
+        props.put(Configuration.user.getName(), config.getUser());
+        props.put(Configuration.password.getName(), config.getPassword());
         // 自定义环境参数设置
         String envs = this.config.getEnv();
         if (StringUtil.isNotBlank(envs)) {

@@ -1,16 +1,16 @@
 package cn.oyzh.easydameng.data.dameng.handler;
 
 import cn.oyzh.common.util.CollectionUtil;
+import cn.oyzh.easydameng.dameng.DamengHelper;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
+import cn.oyzh.easydameng.data.db.DBDialect;
 import cn.oyzh.easydameng.data.db.dto.DBDataTransportObject;
 import cn.oyzh.easydameng.data.db.handler.DBDataTransportHandler;
-import cn.oyzh.easydameng.data.db.ui.DBDataTransportObjectListView;
 import cn.oyzh.easydameng.util.DBDataUtil;
 import cn.oyzh.easydameng.util.DBUtil;
 
@@ -61,7 +61,6 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
     public void doTransport() throws Exception {
         this.message("Transport Starting");
         try {
-            this.targetClient.executeSqlSimple(this.targetDatabase, "SET FOREIGN_KEY_CHECKS = 0;");
             if (CollectionUtil.isNotEmpty(this.tables)) {
                 for (DBDataTransportObject table : this.tables) {
                     this.transportTable(table.getName());
@@ -87,7 +86,6 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
                     this.transportTrigger(trigger.getName());
                 }
             }
-            this.targetClient.executeSqlSimple(this.targetDatabase, "SET FOREIGN_KEY_CHECKS = 1;");
         } catch (Exception ex) {
             this.exception(ex);
         } finally {
@@ -111,6 +109,8 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
 
         // 创建表
         String createTable = this.sourceClient.showCreateTable(this.sourceDatabase, tableName);
+        // TODO: 去除特定架构
+        createTable = createTable.replaceAll("CREATE\\s+TABLE\\s+\"[^\"]+\"\\.", "CREATE TABLE ");
         this.targetClient.executeSqlSimple(this.targetDatabase, createTable);
         this.message("Create Table " + tableName);
         this.processedIncr();
@@ -119,6 +119,16 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
         this.message("Transport Table " + tableName + " Starting");
         List<DamengColumn> columns = this.sourceClient.selectColumns(new DamengSelectColumnParam(this.sourceDatabase, tableName));
         DamengColumns dbColumns = new DamengColumns(columns);
+        if (dbColumns.hasAutoIncrement()) {
+            try {
+                String line0 = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName, DBDialect.DAMENG) + " ON;";
+                this.targetClient.executeSqlSimple(this.targetDatabase, line0);
+            } catch (Exception ex) {
+                if (!DamengHelper.isIdentityError(ex)) {
+                    ex.printStackTrace();
+                }
+            }
+        }
         long start = 0;
         while (true) {
             this.checkInterrupt();
@@ -132,9 +142,21 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
             if (CollectionUtil.isEmpty(records)) {
                 break;
             }
-            List<String> list = DBDataUtil.toInsertSql(dbColumns, records);
+            List<String> list = DBDataUtil.toInsertSql(dbColumns, records, true);
             this.addInsert(list);
             start += this.selectLimit;
+        }
+        // 收尾批量插入
+        this.doBatchInsert();
+        if (dbColumns.hasAutoIncrement()) {
+            try {
+                String line1 = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName, DBDialect.DAMENG) + " OFF;";
+                this.targetClient.executeSqlSimple(this.targetDatabase, line1);
+            } catch (Exception ex) {
+                if (!DamengHelper.isIdentityError(ex)) {
+                    ex.printStackTrace();
+                }
+            }
         }
         this.message("Transport Table " + tableName + " Finished");
     }

@@ -104,4 +104,13 @@ public class DamengColumns extends DBObjectList<DamengColumn> {
         }
         return false;
     }
+
+    public boolean hasAutoIncrement() {
+        for (DamengColumn column : this) {
+            if (column.isAutoIncrement()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -103,7 +103,7 @@ public class ShellDamengClient {
     /**
      * 数据库连接管理器
      */
-    protected DamengConnManager connManager = new DamengConnManager();
+    protected DamengConnManager connManager;
 
     //    protected final DBConnConfig connConfig = new DBConnConfig();
     //
@@ -349,6 +349,7 @@ public class ShellDamengClient {
         connConfig.setPort(port);
         connConfig.setUser(this.dbConnect.getUser());
         connConfig.setPassword(this.dbConnect.getPassword());
+        this.connManager = new DamengConnManager();
         this.connManager.setConfig(connConfig);
     }
 
@@ -2539,7 +2540,6 @@ public class ShellDamengClient {
             ex.printStackTrace();
             DBUtil.rollback(connection);
             throw new DBException(ex);
-
         }
         return result;
     }

@@ -67,9 +67,13 @@ public class DamengDataRunSqlFileHandler extends DBDataRunFileHandler<String> {
                         continue;
                     }
                     // 新增记录用批量处理
-                    if (StringUtil.startWithAnyIgnoreCase(line, "INSERT INTO ")) {
+                    if (StringUtil.startWithAnyIgnoreCase(line, "INSERT INTO ", "SET IDENTITY_INSERT ")) {
                         this.addInsert(line);
-                        continue;
+//                        if (StringUtil.endWithIgnoreCase(line, "OFF;")) {
+//                            // 把当前的数据处理
+//                            this.doBatchInsert();
+//                            continue;
+//                        }
                     }
                     // 删除表、函数、过程、触发器、设置变量等
                     if (StringUtil.startWithAnyIgnoreCase(line, "SET ", "DROP ")) {

@@ -163,11 +163,14 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
 
     protected void dumpRecord(String tableName, DamengColumns columns) throws InterruptedException, IOException {
         long start = 0;
-        String line0 = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName, DBDialect.DAMENG) + " ON;";
-        String line1 = "-- ----------------------------";
-        String line2 = "-- Records of " + tableName;
-        String line3 = "-- ----------------------------";
-        this.fileWriter.appendLines(List.of(line0, line1, line2, line3));
+        String line0 = "-- ----------------------------";
+        String line1 = "-- Records of " + tableName;
+        String line2 = "-- ----------------------------";
+        this.fileWriter.appendLines(List.of(line0, line1, line2));
+        if (columns.hasAutoIncrement()) {
+            String line = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName, DBDialect.DAMENG) + " ON;";
+            this.fileWriter.appendLine(line);
+        }
         while (true) {
             this.checkInterrupt();
             long start1 = System.currentTimeMillis();
@@ -192,8 +195,10 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
             start += this.queryLimit;
             this.processed(records.size());
         }
-        String line4 = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName, DBDialect.DAMENG) + " OFF;";
-        this.fileWriter.appendLine(line4);
+        if (columns.hasAutoIncrement()) {
+            String line = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName, DBDialect.DAMENG) + " OFF;";
+            this.fileWriter.appendLine(line);
+        }
     }
 
     protected void dumpView() throws Exception {
