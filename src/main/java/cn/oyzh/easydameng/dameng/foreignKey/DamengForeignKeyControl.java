@@ -8,8 +8,7 @@ import cn.oyzh.easydameng.fx.table.DamengForeignKeyPolicyComboBox;
 import cn.oyzh.easydameng.fx.table.DamengTableComboBox;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
-import cn.oyzh.easydameng.util.DBUtil;
-import cn.oyzh.easydameng.util.db.ShellDBUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.plus.controls.text.field.FXTextField;
 import cn.oyzh.fx.plus.information.MessageBox;
@@ -49,7 +48,7 @@ public class DamengForeignKeyControl extends DamengForeignKey {
             ClearableTextField textField = new ClearableTextField();
             textField.setPromptText(I18nHelper.pleaseInputName());
             if (StringUtil.isEmpty(this.getName())) {
-                this.setName(ShellDBUtil.genForeignKeyName());
+                this.setName(DBUtil.genForeignKeyName());
             }
             textField.addTextChangeListener((observable, oldValue, newValue) -> this.setName(newValue));
             textField.setText(this.getName());

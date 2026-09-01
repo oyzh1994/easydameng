@@ -5,8 +5,7 @@ import cn.oyzh.common.util.IOUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
-import cn.oyzh.easydameng.util.DBUtil;
-import cn.oyzh.easydameng.util.db.ShellDBUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -156,7 +155,7 @@ public class DamengHelper {
                         WHERE 
                             VIEW_NAME = ?
                     """;
-            ShellDBUtil.printSql(sql);
+            DBUtil.printSql(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, viewName);
             // 执行SQL查询并获取结果集

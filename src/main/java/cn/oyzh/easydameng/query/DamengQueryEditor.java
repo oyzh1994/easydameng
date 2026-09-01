@@ -2,10 +2,10 @@ package cn.oyzh.easydameng.query;
 
 import cn.oyzh.common.util.NumberUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.domain.DamengSetting;
-import cn.oyzh.easydameng.sql.DBSqlParser;
 import cn.oyzh.easydameng.store.DamengSettingStore;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.sql.DBSqlParser;
 import cn.oyzh.fx.editor.incubator.control.SqlEditor;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.plus.font.FontManager;

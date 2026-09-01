@@ -15,7 +15,7 @@ import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBSqlGenerator;
-import cn.oyzh.easydameng.util.DBUtil;
+import cn.oyzh.easydameng.util.DamengUtil;
 
 import java.util.List;
 
@@ -36,9 +36,9 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         String dbName = param.dbName();
         DamengTable table = param.getTable();
         String tableName = param.tableName();
-        String fullName = DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
+        String fullName = DamengUtil.wrap(dbName, tableName, DBDialect.DAMENG);
         this.sqlBuilder.append("CREATE TABLE ")
-                .append(DBUtil.wrap(dbName, tableName, DBDialect.DAMENG))
+                .append(DamengUtil.wrap(dbName, tableName, DBDialect.DAMENG))
                 .append(" ( \n");
         // 字段
         if (param.hasColumns()) {
@@ -87,7 +87,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
             builder.append("COMMENT ON TABLE ")
                     .append(fullName)
                     .append(" IS ")
-                    .append(DBUtil.wrapData(table.getComment(), DBDialect.DAMENG)).append(";");
+                    .append(DamengUtil.wrapData(table.getComment(), DBDialect.DAMENG)).append(";");
             this.sqlList.add(builder.toString());
         }
     }
@@ -101,11 +101,11 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
                 body = body + ";";
             }
             builder.append("CREATE OR REPLACE TRIGGER ")
-                    .append(DBUtil.wrap(trigger.getName(), DBDialect.DAMENG))
+                    .append(DamengUtil.wrap(trigger.getName(), DBDialect.DAMENG))
                     .append(" ")
                     .append(trigger.getPolicy())
                     .append(" ON ")
-                    .append(DBUtil.wrap(param.tableName(), DBDialect.DAMENG))
+                    .append(DamengUtil.wrap(param.tableName(), DBDialect.DAMENG))
                     .append(" FOR EACH ROW BEGIN ")
                     .append(body).append(" END;");
             this.sqlList.add(builder.toString());
@@ -114,7 +114,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
 
     protected void columnHandle(StringBuilder builder, DamengCreateTableParam param) {
         for (DamengColumn column : param.getColumns()) {
-            builder.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
+            builder.append(DamengUtil.wrap(column.getName(), DBDialect.DAMENG));
             // 字段类型（达梦不支持MySQL式显示宽度如INT(10)）
             builder.append(" ").append(column.getType());
 
@@ -135,7 +135,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
 
             // 默认值（达梦自增列不能有DEFAULT约束）
             if (!isIdentity && column.getDefaultValueFix() != null) {
-                builder.append(" DEFAULT ").append(DBUtil.wrapData(column.getDefaultValueFix(), DBDialect.DAMENG));
+                builder.append(" DEFAULT ").append(DamengUtil.wrapData(column.getDefaultValueFix(), DBDialect.DAMENG));
             }
 
             // 可为null
@@ -169,7 +169,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
     protected void primaryKeyHandle(StringBuilder builder, DamengCreateTableParam param) {
         builder.append(" PRIMARY KEY (");
         for (DamengColumn column : param.primaryKeys()) {
-            builder.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG))
+            builder.append(DamengUtil.wrap(column.getName(), DBDialect.DAMENG))
                     .append(",");
         }
         StringUtil.deleteLast(builder, ",");
@@ -185,10 +185,10 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
                 builder.append(" UNIQUE");
             }
             builder.append(" INDEX ")
-                    .append(DBUtil.wrap(index.getName(), DBDialect.DAMENG))
+                    .append(DamengUtil.wrap(index.getName(), DBDialect.DAMENG))
                     .append(" (");
             for (DamengIndex.IndexColumn column : index.getColumns()) {
-                builder.append(DBUtil.wrap(column.getColumnName(), DBDialect.DAMENG));
+                builder.append(DamengUtil.wrap(column.getColumnName(), DBDialect.DAMENG));
                 builder.append(",");
             }
             StringUtil.deleteLast(builder, ",");
@@ -207,18 +207,18 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         DamengForeignKeys foreignKeys = param.getForeignKeys();
         for (DamengForeignKey foreignKey : foreignKeys) {
             builder.append(" CONSTRAINT ")
-                    .append(DBUtil.wrap(foreignKey.getName(), DBDialect.DAMENG))
+                    .append(DamengUtil.wrap(foreignKey.getName(), DBDialect.DAMENG))
                     .append(" FOREIGN KEY (");
             for (String column : foreignKey.getColumns()) {
-                builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(",");
+                builder.append(DamengUtil.wrap(column, DBDialect.DAMENG)).append(",");
             }
             StringUtil.deleteLast(builder, ",");
             builder.append(")")
                     .append(" REFERENCES ")
-                    .append(DBUtil.wrap(foreignKey.getPrimaryKeyDatabase(), foreignKey.getPrimaryKeyTable(), DBDialect.DAMENG))
+                    .append(DamengUtil.wrap(foreignKey.getPrimaryKeyDatabase(), foreignKey.getPrimaryKeyTable(), DBDialect.DAMENG))
                     .append(" (");
             for (String column : foreignKey.getPrimaryKeyColumns()) {
-                builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(",");
+                builder.append(DamengUtil.wrap(column, DBDialect.DAMENG)).append(",");
             }
             StringUtil.deleteLast(builder, ",");
             builder.append(")")
@@ -234,7 +234,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         DamengChecks checks = table.getChecks();
         for (DamengCheck check : checks) {
             builder.append(" CONSTRAINT ")
-                    .append(DBUtil.wrap(check.getName(), DBDialect.DAMENG))
+                    .append(DamengUtil.wrap(check.getName(), DBDialect.DAMENG))
                     .append(" CHECK (")
                     .append(check.getClause())
                     .append(")");

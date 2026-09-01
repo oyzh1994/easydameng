@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.condition;
 
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.fx.db.DBDialect;
-import cn.oyzh.easydameng.util.DBUtil;
+import cn.oyzh.easydameng.util.DamengUtil;
 
 import java.util.Collection;
 
@@ -23,10 +23,10 @@ public class DamengBetweenCondition extends DamengCondition {
     @Override
     public String wrapCondition(Object condition) {
         if (condition instanceof Object[] arr) {
-            return this.getValue() + " " + DBUtil.wrapData(arr[0], DBDialect.DAMENG) + " AND " + DBUtil.wrapData(arr[1], DBDialect.DAMENG);
+            return this.getValue() + " " + DamengUtil.wrapData(arr[0], DBDialect.DAMENG) + " AND " + DamengUtil.wrapData(arr[1], DBDialect.DAMENG);
         }
         if (condition instanceof Collection coll) {
-            return this.getValue() + " " + DBUtil.wrapData(CollectionUtil.get(coll, 0), DBDialect.DAMENG) + " AND " + DBUtil.wrapData(CollectionUtil.get(coll, 1), DBDialect.DAMENG);
+            return this.getValue() + " " + DamengUtil.wrapData(CollectionUtil.get(coll, 0), DBDialect.DAMENG) + " AND " + DamengUtil.wrapData(CollectionUtil.get(coll, 1), DBDialect.DAMENG);
         }
         return super.wrapCondition(condition);
     }

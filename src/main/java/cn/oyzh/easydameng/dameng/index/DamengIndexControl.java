@@ -5,8 +5,7 @@ import cn.oyzh.easydameng.fx.table.DamengIndexFieldTextFiled;
 import cn.oyzh.easydameng.fx.table.DamengIndexMethodComboBox;
 import cn.oyzh.easydameng.fx.table.DamengIndexTypeComboBox;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
-import cn.oyzh.easydameng.util.DBUtil;
-import cn.oyzh.easydameng.util.db.ShellDBUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.plus.tableview.TableViewUtil;
 import cn.oyzh.i18n.I18nHelper;
@@ -29,7 +28,7 @@ public class DamengIndexControl extends DamengIndex {
     public ClearableTextField getNameControl() {
         ClearableTextField textField = new ClearableTextField();
         if (StringUtil.isEmpty(this.getName())) {
-            this.setName(ShellDBUtil.genIndexName());
+            this.setName(DBUtil.genIndexName());
         }
         textField.setText(this.getName());
         textField.setPromptText(I18nHelper.pleaseInputName());

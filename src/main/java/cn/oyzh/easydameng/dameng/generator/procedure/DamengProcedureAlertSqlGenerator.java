@@ -7,7 +7,7 @@ import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBSqlGenerator;
-import cn.oyzh.easydameng.util.DBUtil;
+import cn.oyzh.easydameng.util.DamengUtil;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class DamengProcedureAlertSqlGenerator extends DBSqlGenerator {
     private void _generate(DamengAlertProcedureParam param) {
         DamengProcedure procedure = param.getProcedure();
         this.sqlBuilder.append("CREATE OR REPLACE PROCEDURE ");
-        this.sqlBuilder.append(DBUtil.wrap(procedure.getName(), DBDialect.DAMENG));
+        this.sqlBuilder.append(DamengUtil.wrap(procedure.getName(), DBDialect.DAMENG));
         // 参数
         this.sqlBuilder.append(" (");
         List<DamengRoutineParam> params = procedure.getParams();

@@ -21,7 +21,7 @@ import cn.oyzh.easydameng.store.DamengSettingStore;
 import cn.oyzh.easydameng.trees.table.DamengTableTreeItem;
 import cn.oyzh.easydameng.util.DBRecordUtil;
 import cn.oyzh.easydameng.util.ShellDamengViewFactory;
-import cn.oyzh.easydameng.util.db.ShellDBUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 import cn.oyzh.fx.gui.page.PageBox;
 import cn.oyzh.fx.gui.page.PageEvent;
 import cn.oyzh.fx.gui.tabs.RichTabController;
@@ -199,7 +199,7 @@ public class DamengTableRecordTabController extends RichTabController {
         columnList.add(statusColumn);
         for (DamengColumn column : columns) {
             DamengRecordColumn tableColumn = new DamengRecordColumn(column);
-            tableColumn.setPrefWidth(ShellDBUtil.suitableColumnWidth(column));
+            tableColumn.setPrefWidth(DBUtil.suitableColumnWidth(column));
             columnList.add(tableColumn);
         }
         this.recordTable.setColumn(columnList);

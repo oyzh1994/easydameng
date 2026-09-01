@@ -3,40 +3,20 @@ package cn.oyzh.easydameng.util;
 import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.common.util.UUIDUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
-import cn.oyzh.easydameng.dameng.record.DamengInsertRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengRecordData;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.fx.db.DBDialect;
-import cn.oyzh.easydameng.exception.DBException;
-import cn.oyzh.easydameng.util.db.ShellDBUtil;
-import com.alibaba.druid.DbType;
-import com.alibaba.druid.sql.SQLUtils;
-import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.parser.SQLParserFeature;
-import com.alibaba.druid.sql.visitor.SchemaStatVisitor;
-import com.alibaba.druid.stat.TableStat;
+import cn.oyzh.fx.db.util.DBUtil;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * db工具类
@@ -44,7 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author oyzh
  * @since 2023/12/27
  */
-public class DBUtil {
+public class DamengUtil {
 
     public static boolean ENABLE_PRINT_METADATA = true;
 
@@ -216,7 +196,7 @@ public class DBUtil {
      * @param data 数据
      */
     public static void printInfo(String sql, DamengRecordData data) {
-        ShellDBUtil.printSql(sql);
+        DBUtil.printSql(sql);
         printData(data);
     }
 
@@ -483,69 +463,69 @@ public class DBUtil {
         return pk;
     }
 
-    /**
-     * 移除注释
-     *
-     * @param sql sql
-     * @return 结果
-     */
-    public static String removeComment(String sql) {
-        StringBuilder builder = new StringBuilder();
-        AtomicBoolean commentFlag = new AtomicBoolean(false);
-        sql.lines().forEach(line -> {
-            // 单行注释1
-            if (line.stripLeading().startsWith("-- ")) {
-                return;
-            }
-            // 单行注释2
-            if (line.stripLeading().startsWith("#")) {
-                return;
-            }
-            // 多行注释开始
-            if (line.stripLeading().startsWith("/*")) {
-                commentFlag.set(true);
-            }
-            // 多行注释结束
-            if (line.stripTrailing().endsWith("*/")) {
-                commentFlag.set(false);
-                return;
-            }
-            // 正常行
-            if (!commentFlag.get() && StringUtil.isNotBlank(line)) {
-                builder.append(line).append("\n");
-            }
-        });
-        return builder.toString();
-    }
+    ///**
+    // * 移除注释
+    // *
+    // * @param sql sql
+    // * @return 结果
+    // */
+    //public static String removeComment(String sql) {
+    //    StringBuilder builder = new StringBuilder();
+    //    AtomicBoolean commentFlag = new AtomicBoolean(false);
+    //    sql.lines().forEach(line -> {
+    //        // 单行注释1
+    //        if (line.stripLeading().startsWith("-- ")) {
+    //            return;
+    //        }
+    //        // 单行注释2
+    //        if (line.stripLeading().startsWith("#")) {
+    //            return;
+    //        }
+    //        // 多行注释开始
+    //        if (line.stripLeading().startsWith("/*")) {
+    //            commentFlag.set(true);
+    //        }
+    //        // 多行注释结束
+    //        if (line.stripTrailing().endsWith("*/")) {
+    //            commentFlag.set(false);
+    //            return;
+    //        }
+    //        // 正常行
+    //        if (!commentFlag.get() && StringUtil.isNotBlank(line)) {
+    //            builder.append(line).append("\n");
+    //        }
+    //    });
+    //    return builder.toString();
+    //}
 
-    /**
-     * 是否查询全部字段
-     *
-     * @param sql sql
-     * @return 结果
-     */
-    public static boolean isFullColumn(String sql) {
-        sql = removeComment(sql);
-        // druid无法解析这些语句，直接返回
-        if (StringUtil.startWithAnyIgnoreCase(sql,
-                "SHOW VARIABLES LIKE",
-                "SHOW CREATE EVENT"
-        )) {
-            return false;
-        }
-        DbType dbType = DbType.dm;
-        List<SQLStatement> sqlStatements = SQLUtils.parseStatements(sql, dbType, SQLParserFeature.SkipComments);
-        SQLStatement statement = sqlStatements.getFirst();
-        SchemaStatVisitor visitor = new SchemaStatVisitor(dbType);
-        statement.accept(visitor);
-        Collection<TableStat.Column> columns = visitor.getColumns();
-        if (CollectionUtil.isNotEmpty(columns)) {
-            for (TableStat.Column column : columns) {
-                if (StringUtil.equals("*", column.getName())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    ///**
+    // * 是否查询全部字段
+    // *
+    // * @param sql sql
+    // * @return 结果
+    // */
+    //public static boolean isFullColumn(String sql) {
+    //    sql = removeComment(sql);
+    //    // druid无法解析这些语句，直接返回
+    //    if (StringUtil.startWithAnyIgnoreCase(sql,
+    //            "SHOW VARIABLES LIKE",
+    //            "SHOW CREATE EVENT"
+    //    )) {
+    //        return false;
+    //    }
+    //    DbType dbType = DbType.dm;
+    //    List<SQLStatement> sqlStatements = SQLUtils.parseStatements(sql, dbType, SQLParserFeature.SkipComments);
+    //    SQLStatement statement = sqlStatements.getFirst();
+    //    SchemaStatVisitor visitor = new SchemaStatVisitor(dbType);
+    //    statement.accept(visitor);
+    //    Collection<TableStat.Column> columns = visitor.getColumns();
+    //    if (CollectionUtil.isNotEmpty(columns)) {
+    //        for (TableStat.Column column : columns) {
+    //            if (StringUtil.equals("*", column.getName())) {
+    //                return true;
+    //            }
+    //        }
+    //    }
+    //    return false;
+    //}
 }

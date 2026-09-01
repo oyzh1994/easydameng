@@ -58,12 +58,12 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.exception.ReadonlyOperationException;
-import cn.oyzh.easydameng.sql.DBSqlParser;
-import cn.oyzh.easydameng.util.DBUtil;
-import cn.oyzh.easydameng.util.db.ShellDBUtil;
+import cn.oyzh.easydameng.util.DamengUtil;
 import cn.oyzh.fx.db.DBConnConfig;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBFeature;
+import cn.oyzh.fx.db.sql.DBSqlParser;
+import cn.oyzh.fx.db.util.DBUtil;
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.SQLUtils;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -498,7 +498,7 @@ public class ShellDamengClient {
                         if (parser.isSingle()) {
                             result.setFullColumn(parser.isFullColumn());
                         } else {
-                            result.setFullColumn(DBUtil.isFullColumn(execSql));
+                            result.setFullColumn(DBUtil.isFullColumn(this.dialect(), execSql));
                         }
                         result.parseResult(resultSet, connection, !parser.isSelect());
                         IOUtil.close(resultSet);
@@ -518,7 +518,7 @@ public class ShellDamengClient {
             IOUtil.close(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
-            ShellDBUtil.rollback(connection);
+            DBUtil.rollback(connection);
             results.parseError(ex);
         }
         return results;
@@ -1193,7 +1193,7 @@ public class ShellDamengClient {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             int index = 1;
             for (String colName : param.getRecord().columns()) {
-                ShellDBUtil.setVal(statement, param.getRecord().value(colName), index++);
+                DBUtil.setVal(statement, param.getRecord().value(colName), index++);
             }
             int count = statement.executeUpdate();
             DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
@@ -1251,9 +1251,9 @@ public class ShellDamengClient {
                 int index = 1;
                 // 设置参数
                 for (String colName : recordData.notNullColumns()) {
-                    ShellDBUtil.setVal(statement, recordData.value(colName), index++);
+                    DBUtil.setVal(statement, recordData.value(colName), index++);
                 }
-                updateCount = ShellDBUtil.executeUpdate(statement);
+                updateCount = DBUtil.executeUpdate(statement);
             } else {
                 DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
                 builder.append(DBUtil.wrap(primaryKey.getColumnName(), DBDialect.DAMENG))
@@ -1261,8 +1261,8 @@ public class ShellDamengClient {
                 String sql = builder.toString();
                 this.printSql(sql);
                 PreparedStatement statement = connection.prepareStatement(sql);
-                ShellDBUtil.setVal(statement, primaryKey.originalData(), 1);
-                updateCount = ShellDBUtil.executeUpdate(statement);
+                DBUtil.setVal(statement, primaryKey.originalData(), 1);
+                updateCount = DBUtil.executeUpdate(statement);
                 IOUtil.close(statement);
             }
             return updateCount;
@@ -1315,31 +1315,31 @@ public class ShellDamengClient {
                 PreparedStatement statement = connection.prepareStatement(sql);
                 // 设置值
                 for (String colName : recordData.columns()) {
-                    ShellDBUtil.setVal(statement, recordData.value(colName), index++);
+                    DBUtil.setVal(statement, recordData.value(colName), index++);
                 }
                 // 设置参数
                 for (String colName : originalRecordData.columns()) {
                     Object value = originalRecordData.value(colName);
                     if (value != null) {
-                        ShellDBUtil.setVal(statement, value, index++);
+                        DBUtil.setVal(statement, value, index++);
                     }
                 }
-                updateCount = ShellDBUtil.executeUpdate(statement);
+                updateCount = DBUtil.executeUpdate(statement);
                 IOUtil.close(statement);
             } else {
                 DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
                 builder.append(DBUtil.wrap(primaryKey.getColumnName(), DBDialect.DAMENG)).append(" = ?");
                 String sql = builder.toString();
-                DBUtil.printInfo(sql, recordData);
+                DamengUtil.printInfo(sql, recordData);
                 PreparedStatement statement = connection.prepareStatement(sql);
                 int index = 1;
                 // 设置值
                 for (String colName : recordData.columns()) {
-                    ShellDBUtil.setVal(statement, recordData.value(colName), index++);
+                    DBUtil.setVal(statement, recordData.value(colName), index++);
                 }
                 // 设置参数
-                ShellDBUtil.setVal(statement, primaryKey.originalData(), index);
-                updateCount = ShellDBUtil.executeUpdate(statement);
+                DBUtil.setVal(statement, primaryKey.originalData(), index);
+                updateCount = DBUtil.executeUpdate(statement);
                 IOUtil.close(statement);
             }
             return updateCount;
@@ -1867,7 +1867,7 @@ public class ShellDamengClient {
             IOUtil.close(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
-            ShellDBUtil.rollback(connection);
+            DBUtil.rollback(connection);
             throw new DBException(ex);
         }
     }
@@ -1900,7 +1900,7 @@ public class ShellDamengClient {
             IOUtil.close(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
-            ShellDBUtil.rollback(connection);
+            DBUtil.rollback(connection);
             throw new DBException(ex);
         }
     }
@@ -2237,7 +2237,7 @@ public class ShellDamengClient {
             IOUtil.close(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
-            ShellDBUtil.rollback(connection);
+            DBUtil.rollback(connection);
             throw new DBException(ex);
         }
     }
@@ -2265,7 +2265,7 @@ public class ShellDamengClient {
             IOUtil.close(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
-            ShellDBUtil.rollback(connection);
+            DBUtil.rollback(connection);
             throw new DBException(ex);
         }
     }
@@ -2488,7 +2488,7 @@ public class ShellDamengClient {
             IOUtil.close(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
-            ShellDBUtil.rollback(connection);
+            DBUtil.rollback(connection);
             results.parseError(ex);
         }
         return results;
@@ -2512,7 +2512,7 @@ public class ShellDamengClient {
                     if (parser.isSingle()) {
                         result.setFullColumn(parser.isFullColumn());
                     } else {
-                        result.setFullColumn(DBUtil.isFullColumn(execSql));
+                        result.setFullColumn(DBUtil.isFullColumn(this.dialect(), execSql));
                     }
                     result.parseResult(resultSet, connection, !parser.isSelect());
                     IOUtil.close(resultSet);
@@ -2532,7 +2532,7 @@ public class ShellDamengClient {
             IOUtil.close(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
-            ShellDBUtil.rollback(connection);
+            DBUtil.rollback(connection);
         }
         return result;
     }
@@ -2550,7 +2550,7 @@ public class ShellDamengClient {
         } catch (Exception ex) {
             JulLog.warn("sql:\n{}", sql);
             ex.printStackTrace();
-            ShellDBUtil.rollback(connection);
+            DBUtil.rollback(connection);
             throw new DBException(ex);
         }
     }
@@ -2578,7 +2578,7 @@ public class ShellDamengClient {
         } catch (Exception ex) {
             JulLog.warn("sqlList:{}", sqlList);
             ex.printStackTrace();
-            ShellDBUtil.rollback(connection);
+            DBUtil.rollback(connection);
             throw new DBException(ex);
         }
         return result;
@@ -3166,7 +3166,7 @@ public class ShellDamengClient {
         DamengForeignKeys foreignKeys = this.foreignKeys(dbName, tableName);
         if (checks != null) {
             for (DamengCheck check : checks) {
-                check.setName(check.getName() + ShellDBUtil.genCloneName());
+                check.setName(check.getName() + DBUtil.genCloneName());
                 check.clearStatus();
                 check.clearOriginalData();
                 check.setCreated(true);
@@ -3174,7 +3174,7 @@ public class ShellDamengClient {
         }
         if (triggers != null) {
             for (DamengTrigger trigger : triggers) {
-                trigger.setName(trigger.getName() + ShellDBUtil.genCloneName());
+                trigger.setName(trigger.getName() + DBUtil.genCloneName());
                 trigger.clearStatus();
                 trigger.clearOriginalData();
                 trigger.setCreated(true);
@@ -3190,14 +3190,14 @@ public class ShellDamengClient {
         //         }
         if (foreignKeys != null) {
             for (DamengForeignKey foreignKey : foreignKeys) {
-                foreignKey.setName(foreignKey.getName() + ShellDBUtil.genCloneName());
+                foreignKey.setName(foreignKey.getName() + DBUtil.genCloneName());
                 foreignKey.clearStatus();
                 foreignKey.clearOriginalData();
                 foreignKey.setCreated(true);
             }
         }
 
-        String newTableName = tableName + ShellDBUtil.genCloneName();
+        String newTableName = tableName + DBUtil.genCloneName();
         try {
             Connection connection = this.connManager.connection(dbName);
             // 克隆基本的表结构
@@ -3370,7 +3370,7 @@ public class ShellDamengClient {
      * @param sql sql
      */
     private void printSql(String sql) {
-        ShellDBUtil.printSql(sql);
+        DBUtil.printSql(sql);
         String compressedSql = sql;
         try {
             // 压缩sql

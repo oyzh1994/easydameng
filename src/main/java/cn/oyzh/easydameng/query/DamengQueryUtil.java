@@ -10,7 +10,7 @@ import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.view.DamengView;
-import cn.oyzh.easydameng.util.DBUtil;
+import cn.oyzh.easydameng.util.DamengUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -190,28 +190,28 @@ public class DamengQueryUtil {
                     DB_DATABASES.addAll(databases);
                     // 更新表索引
                     for (DBDatabase database : DB_DATABASES) {
-                        if (!DBUtil.isInternalDatabase(database.getName())) {
+                        if (!DamengUtil.isInternalDatabase(database.getName())) {
                             List<DamengTable> tables = client.selectTablesSimple(database.getName());
                             DB_TABLES.addAll(tables);
                         }
                     }
                     // 更新视图索引
                     for (DBDatabase database : DB_DATABASES) {
-                        if (!DBUtil.isInternalDatabase(database.getName())) {
+                        if (!DamengUtil.isInternalDatabase(database.getName())) {
                             List<DamengView> views = client.selectViewsSimple(database.getName());
                             DB_VIEWS.addAll(views);
                         }
                     }
                     // 更新函数索引
                     for (DBDatabase database : DB_DATABASES) {
-                        if (!DBUtil.isInternalDatabase(database.getName())) {
+                        if (!DamengUtil.isInternalDatabase(database.getName())) {
                             List<DamengFunction> functions = client.selectFunctionsSimple(database.getName());
                             DB_FUNCTIONS.addAll(functions);
                         }
                     }
                     // 更新过程索引
                     for (DBDatabase database : DB_DATABASES) {
-                        if (!DBUtil.isInternalDatabase(database.getName())) {
+                        if (!DamengUtil.isInternalDatabase(database.getName())) {
                             List<DamengProcedure> procedures = client.selectProceduresSimple(database.getName());
                             DB_PROCEDURES.addAll(procedures);
                         }
@@ -369,7 +369,7 @@ public class DamengQueryUtil {
                     item.setType((byte) 3);
                     item.setCorrelation(corr);
                     item.setContent(column.getName());
-                    item.setExtContent(DBUtil.wrap(column.getDbName(), column.getTableName(), DBDialect.DAMENG));
+                    item.setExtContent(DamengUtil.wrap(column.getDbName(), column.getTableName(), DBDialect.DAMENG));
                     items.add(item);
                 }
             }));

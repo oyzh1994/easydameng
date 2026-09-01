@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.util;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.record.DamengRecordProperty;
-import cn.oyzh.easydameng.util.db.ShellDBUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 import cn.oyzh.fx.editor.incubator.control.JsonTextFiled;
 import cn.oyzh.fx.editor.incubator.control.LongTextFiled;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
@@ -105,7 +105,7 @@ public class DBRecordUtil {
         if (node instanceof FXTextField textField) {
             if (object == null) {
                 if (column.exampleValue() == null) {
-                    textField.setPromptText(ShellDBUtil.nullPromptText());
+                    textField.setPromptText(DBUtil.nullPromptText());
                 } else {
                     textField.setPromptText(column.exampleValue().toString());
                 }

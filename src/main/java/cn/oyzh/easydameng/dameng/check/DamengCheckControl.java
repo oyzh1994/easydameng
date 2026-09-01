@@ -1,8 +1,7 @@
 package cn.oyzh.easydameng.dameng.check;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.util.DBUtil;
-import cn.oyzh.easydameng.util.db.ShellDBUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.plus.tableview.TableViewUtil;
 import cn.oyzh.i18n.I18nHelper;
@@ -20,7 +19,7 @@ public class DamengCheckControl extends DamengCheck {
         ClearableTextField textField = new ClearableTextField();
         textField.setPromptText(I18nHelper.pleaseInputName());
         if (StringUtil.isEmpty(this.getName())) {
-            this.setName(ShellDBUtil.genCheckName());
+            this.setName(DBUtil.genCheckName());
         }
         textField.addTextChangeListener((observable, oldValue, newValue) -> this.setName(newValue));
         textField.setText(this.getName());

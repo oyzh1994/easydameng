@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.query;
 
 import cn.oyzh.fx.db.DBDialect;
-import cn.oyzh.easydameng.util.DBUtil;
+import cn.oyzh.easydameng.util.DamengUtil;
 
 /**
  * 查询提示内容
@@ -103,7 +103,7 @@ public class DamengQueryPromptItem {
 
     public String wrapContent( ) {
         if(this.isColumnType()){
-            return DBUtil.wrap(this.content, DBDialect.DAMENG);
+            return DamengUtil.wrap(this.content, DBDialect.DAMENG);
         }
         return this.content;
     }

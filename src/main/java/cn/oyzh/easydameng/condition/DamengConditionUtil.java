@@ -5,7 +5,7 @@ import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.util.DBNodeUtil;
-import cn.oyzh.easydameng.util.DBUtil;
+import cn.oyzh.easydameng.util.DamengUtil;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import javafx.scene.Node;
 
@@ -65,7 +65,7 @@ public class DamengConditionUtil {
             DamengRecordFilter filter = filters.get(i);
             String condition = filter.condition();
             if (StringUtil.isNotBlank(condition)) {
-                conditions.append(DBUtil.wrap(filter.column(), DBDialect.DAMENG))
+                conditions.append(DamengUtil.wrap(filter.column(), DBDialect.DAMENG))
                         .append(" ")
                         .append(condition)
                         .append(" ");

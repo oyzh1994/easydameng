@@ -444,13 +444,13 @@ public class DBDataUtil {
         List<String> list = new ArrayList<>();
         String tableName = columns.tableName();
         List<DamengColumn> columnList = columns.sortOfPosition();
-        final String sqlBase = "INSERT INTO " + DBUtil.wrap(tableName, DBDialect.DAMENG);
+        final String sqlBase = "INSERT INTO " + DamengUtil.wrap(tableName, DBDialect.DAMENG);
         for (DamengRecord record : records) {
             StringBuilder sql = new StringBuilder(sqlBase);
             if (includeFields) {
                 sql.append("(");
                 for (DamengColumn dbColumn : columnList) {
-                    sql.append(DBUtil.wrap(dbColumn.getName(), DBDialect.DAMENG)).append(", ");
+                    sql.append(DamengUtil.wrap(dbColumn.getName(), DBDialect.DAMENG)).append(", ");
                 }
                 if (sql.toString().endsWith(", ")) {
                     sql.delete(sql.length() - 2, sql.length());
@@ -480,11 +480,11 @@ public class DBDataUtil {
      * @return 修改sql
      */
     public static String toUpdateSql(DamengColumns columns, DamengRecord record) {
-        DamengRecordPrimaryKey primaryKey = DBUtil.initPrimaryKey(columns, record);
+        DamengRecordPrimaryKey primaryKey = DamengUtil.initPrimaryKey(columns, record);
         String tableName = columns.tableName();
         StringBuilder builder = new StringBuilder();
         builder.append("UPDATE ")
-                .append(DBUtil.wrap(columns.dbName(), tableName, DBDialect.DAMENG))
+                .append(DamengUtil.wrap(columns.dbName(), tableName, DBDialect.DAMENG))
                 .append(" SET ");
         for (DamengColumn column : columns) {
             if (primaryKey != null && column == primaryKey.getColumn()) {
@@ -492,7 +492,7 @@ public class DBDataUtil {
             }
             Object value = record.getValue(column.getName());
             value = parameterizedForSql(column, value);
-            builder.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
+            builder.append(DamengUtil.wrap(column.getName(), DBDialect.DAMENG));
             builder.append(" = ");
             builder.append(value);
             builder.append(", ");
@@ -508,7 +508,7 @@ public class DBDataUtil {
                 } else {
                     builder.append(" AND ");
                 }
-                builder.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
+                builder.append(DamengUtil.wrap(column.getName(), DBDialect.DAMENG));
                 builder.append(" = ");
                 Object value = record.getValue(column.getName());
                 value = parameterizedForSql(column, value);
@@ -516,7 +516,7 @@ public class DBDataUtil {
             }
             builder.append(" LIMIT 1");
         } else {
-            builder.append(DBUtil.wrap(primaryKey.getColumnName(), DBDialect.DAMENG));
+            builder.append(DamengUtil.wrap(primaryKey.getColumnName(), DBDialect.DAMENG));
             builder.append(" = ");
             Object value = parameterizedForSql(primaryKey.getColumn(), primaryKey.getData());
             builder.append(value);
