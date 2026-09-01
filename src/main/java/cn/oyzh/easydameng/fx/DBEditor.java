@@ -1,6 +1,6 @@
 //package cn.oyzh.easydameng.fx;
 //
-//import cn.oyzh.easydameng.db.DBDialect;
+//import cn.oyzh.fx.db.DBDialect;
 //import cn.oyzh.easydameng.domain.DamengSetting;
 //import cn.oyzh.easydameng.store.DamengSettingStore;
 //import cn.oyzh.fx.editor.incubator.Editor;

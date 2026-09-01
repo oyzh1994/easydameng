@@ -3,8 +3,8 @@ package cn.oyzh.easydameng.dameng.generator.view;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
-import cn.oyzh.easydameng.data.db.DBDialect;
-import cn.oyzh.easydameng.data.db.DBSqlGenerator;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.DBSqlGenerator;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.util.List;

@@ -4,7 +4,7 @@
 //import cn.oyzh.common.util.CollectionUtil;
 //import cn.oyzh.common.util.StringUtil;
 //import cn.oyzh.easydameng.dameng.ShellDamengClient;
-//import cn.oyzh.easydameng.db.DBDialect;
+//import cn.oyzh.fx.db.DBDialect;
 //import cn.oyzh.easydameng.domain.DamengConnect;
 //
 //import java.io.File;

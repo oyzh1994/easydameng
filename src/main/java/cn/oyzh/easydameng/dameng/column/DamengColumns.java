@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.dameng.column;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.data.db.DBObjectList;
+import cn.oyzh.fx.db.DBObjectList;
 
 import java.util.ArrayList;
 import java.util.Comparator;

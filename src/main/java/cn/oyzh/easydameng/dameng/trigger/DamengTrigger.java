@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.dameng.trigger;
 
 import cn.oyzh.common.object.ObjectCopier;
-import cn.oyzh.easydameng.data.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBObjectStatus;
 
 /**
  * db表触发器

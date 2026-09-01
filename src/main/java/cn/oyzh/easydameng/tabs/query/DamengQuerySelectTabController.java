@@ -11,7 +11,7 @@ import cn.oyzh.easydameng.dameng.record.DamengRecordData;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengUpdateRecordParam;
-import cn.oyzh.easydameng.data.db.DBObjectList;
+import cn.oyzh.fx.db.DBObjectList;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.fx.DBStatusColumn;
 import cn.oyzh.easydameng.fx.record.DamengRecordColumn;

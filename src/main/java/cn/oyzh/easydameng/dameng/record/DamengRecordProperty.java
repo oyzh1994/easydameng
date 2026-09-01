@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.dameng.record;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
-import cn.oyzh.easydameng.db.DBRecordProperty;
+import cn.oyzh.fx.db.DBRecordProperty;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;

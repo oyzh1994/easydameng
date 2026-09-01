@@ -10,7 +10,7 @@ import cn.oyzh.easydameng.dameng.record.DamengInsertRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengRecordData;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
-import cn.oyzh.easydameng.data.db.DBDialect;
+import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.util.db.ShellDBUtil;
 import com.alibaba.druid.DbType;

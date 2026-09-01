@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.fx.table;
 
-import cn.oyzh.easydameng.data.db.DBDialect;
-import cn.oyzh.easydameng.db.DBColumnFieldManager;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.DBColumnFieldManager;
 import cn.oyzh.easydameng.util.DBColumnUtil;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 

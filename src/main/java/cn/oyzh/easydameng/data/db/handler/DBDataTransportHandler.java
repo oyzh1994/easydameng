@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.data.db.handler;
 
 
 import cn.oyzh.easydameng.data.ShellBatchInsertable;
-import cn.oyzh.easydameng.data.db.DBDialect;
+import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.data.ShellDataTransportHandler;
 
 import java.util.ArrayList;

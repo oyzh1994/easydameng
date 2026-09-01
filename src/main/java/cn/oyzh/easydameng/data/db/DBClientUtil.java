@@ -3,6 +3,7 @@ package cn.oyzh.easydameng.data.db;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.domain.DamengConnect;
+import cn.oyzh.fx.db.DBDialect;
 
 /**
  * db客户端封装

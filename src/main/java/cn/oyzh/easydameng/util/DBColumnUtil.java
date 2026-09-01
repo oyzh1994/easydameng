@@ -1,9 +1,9 @@
 package cn.oyzh.easydameng.util;
 
 
-import cn.oyzh.easydameng.data.db.DBDialect;
-import cn.oyzh.easydameng.db.DBColumnField;
-import cn.oyzh.easydameng.db.DBColumnFieldManager;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.DBColumnField;
+import cn.oyzh.fx.db.DBColumnFieldManager;
 
 import java.util.List;
 import java.util.stream.Collectors;

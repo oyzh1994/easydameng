@@ -13,9 +13,9 @@ import cn.oyzh.easydameng.dameng.table.DamengAlertTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
-import cn.oyzh.easydameng.data.db.DBDialect;
-import cn.oyzh.easydameng.data.db.DBObjectList;
-import cn.oyzh.easydameng.data.db.DBSqlGenerator;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.DBObjectList;
+import cn.oyzh.fx.db.DBSqlGenerator;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.util.List;

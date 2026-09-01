@@ -2,9 +2,9 @@ package cn.oyzh.easydameng.dameng.routine;
 
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.DBDialect;
-import cn.oyzh.easydameng.data.db.DBObjectStatus;
-import cn.oyzh.easydameng.db.DBColumnFieldManager;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBColumnFieldManager;
 import cn.oyzh.easydameng.fx.DBCharsetComboBox;
 import cn.oyzh.easydameng.fx.DBCollationComboBox;
 import cn.oyzh.easydameng.fx.routine.DamengParamModeComboBox;

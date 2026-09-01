@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.dameng.trigger;
 
-import cn.oyzh.easydameng.data.db.DBObjectList;
+import cn.oyzh.fx.db.DBObjectList;
 
 import java.util.List;
 

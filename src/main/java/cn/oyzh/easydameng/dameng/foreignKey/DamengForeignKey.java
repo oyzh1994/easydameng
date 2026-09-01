@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.dameng.foreignKey;
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.data.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBObjectStatus;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.ArrayList;

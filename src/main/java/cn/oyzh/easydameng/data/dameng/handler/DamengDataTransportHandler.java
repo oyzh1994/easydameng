@@ -8,7 +8,7 @@ import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
-import cn.oyzh.easydameng.data.db.DBDialect;
+import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.data.db.dto.DBDataTransportObject;
 import cn.oyzh.easydameng.data.db.handler.DBDataTransportHandler;
 import cn.oyzh.easydameng.util.DBDataUtil;

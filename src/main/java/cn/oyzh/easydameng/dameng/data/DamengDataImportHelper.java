@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.dameng.data;
 
 import cn.oyzh.common.date.DateUtil;
-import cn.oyzh.easydameng.data.db.DBDialect;
+import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;

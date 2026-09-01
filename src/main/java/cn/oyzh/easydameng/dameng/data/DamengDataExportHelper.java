@@ -1,12 +1,12 @@
-// package cn.oyzh.easydameng.db.data;
+// package cn.oyzh.fx.db.data;
 //
 // import cn.oyzh.common.date.DateUtil;
 // import cn.oyzh.common.util.HexUtil;
 // import cn.oyzh.common.util.TextUtil;
-// import cn.oyzh.easydameng.db.DBDialect;
-// import cn.oyzh.easydameng.db.column.DamengColumn;
-// import cn.oyzh.easydameng.db.column.DamengColumns;
-// import cn.oyzh.easydameng.db.record.DamengRecord;
+// import cn.oyzh.fx.db.DBDialect;
+// import cn.oyzh.fx.db.column.DamengColumn;
+// import cn.oyzh.fx.db.column.DamengColumns;
+// import cn.oyzh.fx.db.record.DamengRecord;
 // import cn.oyzh.easydameng.util.DBDataUtil;
 // import cn.oyzh.easydameng.util.DBUtil;
 //

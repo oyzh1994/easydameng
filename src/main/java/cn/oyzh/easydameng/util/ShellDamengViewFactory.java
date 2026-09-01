@@ -14,7 +14,7 @@ import cn.oyzh.easydameng.controller.view.DamengViewInfoController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.database.DamengDatabase;
 import cn.oyzh.easydameng.dameng.dto.ShellDamengDataExportTable;
-import cn.oyzh.easydameng.db.DBConnManager;
+import cn.oyzh.fx.db.DBConnManager;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.trees.function.DamengFunctionTreeItem;
 import cn.oyzh.easydameng.trees.procedure.DamengProcedureTreeItem;

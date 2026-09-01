@@ -3,7 +3,7 @@
 //import cn.oyzh.common.date.DateHelper;
 //import cn.oyzh.common.file.FastFileWriter;
 //import cn.oyzh.easydameng.dameng.ShellDamengClient;
-//import cn.oyzh.easydameng.db.DBDialect;
+//import cn.oyzh.fx.db.DBDialect;
 //import cn.oyzh.easydameng.domain.DamengConnect;
 //
 //import java.io.File;

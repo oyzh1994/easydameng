@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.dameng;
 
 import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.db.DBConnManager;
+import cn.oyzh.fx.db.DBConnManager;
 import dm.jdbc.driver.Configuration;
 
 import java.sql.Connection;

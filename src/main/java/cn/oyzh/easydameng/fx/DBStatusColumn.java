@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.fx;
 
-import cn.oyzh.easydameng.data.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBObjectStatus;
 import cn.oyzh.fx.plus.controls.table.FXTableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 

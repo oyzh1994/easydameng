@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.tabs.table;
 
 import cn.oyzh.common.dto.Paging;
 import cn.oyzh.common.util.CollectionUtil;
-import cn.oyzh.easydameng.data.db.DBObjectList;
+import cn.oyzh.fx.db.DBObjectList;
 import cn.oyzh.easydameng.domain.DamengSetting;
 import cn.oyzh.easydameng.fx.DBStatusColumn;
 import cn.oyzh.easydameng.fx.record.DamengRecordColumn;

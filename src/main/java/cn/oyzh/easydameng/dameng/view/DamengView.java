@@ -6,7 +6,7 @@ import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
-import cn.oyzh.easydameng.data.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBObjectStatus;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Collections;

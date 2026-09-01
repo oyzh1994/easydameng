@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.dameng.check;
 
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.data.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBObjectStatus;
 
 /**
  * @author oyzh

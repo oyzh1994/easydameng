@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.event.connect;
 
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.DBDialect;
+import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.event.Event;
 import cn.oyzh.event.EventFormatter;

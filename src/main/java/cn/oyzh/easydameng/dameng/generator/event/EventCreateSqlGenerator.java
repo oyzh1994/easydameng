@@ -1,7 +1,7 @@
 //package cn.oyzh.easydameng.generator.event;
 //
 //import cn.oyzh.easydameng.dameng.event.DamengEvent;
-//import cn.oyzh.easydameng.db.DBDialect;
+//import cn.oyzh.fx.db.DBDialect;
 //
 ///**
 // * @author oyzh

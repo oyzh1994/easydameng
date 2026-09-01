@@ -4,8 +4,8 @@ import cn.oyzh.common.date.DateUtil;
 import cn.oyzh.common.object.ObjectComparator;
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.data.db.DBDialect;
-import cn.oyzh.easydameng.data.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.DBObjectStatus;
 import cn.oyzh.easydameng.util.DBUtil;
 
 import java.util.Date;

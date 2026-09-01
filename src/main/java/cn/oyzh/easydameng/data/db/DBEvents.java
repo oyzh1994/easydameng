@@ -1,4 +1,4 @@
-// package cn.oyzh.easydameng.db;
+// package cn.oyzh.fx.db;
 //
 // import lombok.experimental.UtilityClass;
 //

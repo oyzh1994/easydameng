@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.data.db.handler;
 
 import cn.oyzh.common.file.FastFileWriter;
-import cn.oyzh.easydameng.data.db.DBDialect;
+import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.data.ShellDataHandler;
 
