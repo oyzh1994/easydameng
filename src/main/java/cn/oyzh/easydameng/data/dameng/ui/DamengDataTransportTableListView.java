@@ -2,8 +2,8 @@ package cn.oyzh.easydameng.data.dameng.ui;
 
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
-import cn.oyzh.easydameng.data.db.dto.DBDataTransportObject;
-import cn.oyzh.easydameng.data.db.ui.DBDataTransportObjectListView;
+import cn.oyzh.fx.db.data.dto.DBDataTransportObject;
+import cn.oyzh.fx.db.data.ui.DBDataTransportObjectListView;
 
 import java.util.List;
 

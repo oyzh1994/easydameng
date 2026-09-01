@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.data.dameng.handler;
 import cn.oyzh.common.file.FileUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.handler.DBDataRunFileHandler;
+import cn.oyzh.fx.db.data.handler.DBDataRunFileHandler;
 
 import java.io.BufferedReader;
 import java.nio.charset.StandardCharsets;

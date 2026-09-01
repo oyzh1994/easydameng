@@ -16,10 +16,10 @@ import cn.oyzh.easydameng.dameng.table.DamengSelectTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.view.DamengView;
-import cn.oyzh.fx.db.DBDialect;
-import cn.oyzh.easydameng.data.db.handler.DBDataDumpHandler;
 import cn.oyzh.easydameng.util.DBDataUtil;
 import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.data.handler.DBDataDumpHandler;
 
 import java.io.IOException;
 import java.util.List;
@@ -71,13 +71,13 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
         String header = "/*\n";
         header += " EasyDB Data Transfer";
         header += "\n\n";
-        header += " Source Server : " + this.connect.getName();
+        header += " Source Server : " + this.dbClient.getDbConnect().getName();
         header += "\n";
         header += " Source Server Type : " + this.dbClient.dialect().name();
         header += "\n";
         header += " Source Server Version : " + version;
         header += "\n";
-        header += " Source Host : " + this.connect.getHost();
+        header += " Source Host : " + this.dbClient.getDbConnect().getHost();
         header += "\n";
         header += " Source Schema : " + this.dbName;
         header += "\n\n";

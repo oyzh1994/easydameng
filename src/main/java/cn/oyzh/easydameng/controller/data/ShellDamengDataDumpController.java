@@ -175,8 +175,7 @@ public class ShellDamengDataDumpController extends StageController {
         // 生成转储处理器
         if (this.dumpHandler == null) {
             this.dumpHandler = new DamengDataDumpHandler(this.dbClient, this.database.getText());
-            this.dumpHandler.connect(this.dbInfo)
-                    .setQueryLimit(10_000)
+            this.dumpHandler.setQueryLimit(10_000)
                     .setMessageHandler(str -> this.dumpMsg.appendLine(str))
                     .setProcessedHandler(count -> {
                         if (count > 0) {

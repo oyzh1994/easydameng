@@ -141,8 +141,7 @@ public class ShellDamengDataRunSqlFileController extends StageController {
         // 生成sql处理器
         if (this.sqlFileHandler == null) {
             this.sqlFileHandler = new DamengDataRunSqlFileHandler(this.dbClient, this.database.getText());
-            this.sqlFileHandler.connect(this.dbInfo)
-                    .setMessageHandler(str -> this.execMsg.appendLine(str))
+            this.sqlFileHandler.setMessageHandler(str -> this.execMsg.appendLine(str))
                     .setProcessedHandler(count -> {
                         if (count > 0) {
                             this.counter.incrSuccess(count);

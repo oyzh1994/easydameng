@@ -1,7 +1,6 @@
 package cn.oyzh.easydameng.data.dameng.handler;
 
 import cn.oyzh.common.log.JulLog;
-import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
@@ -16,8 +15,8 @@ import cn.oyzh.easydameng.dameng.data.DamengTxtTypeFileReader;
 import cn.oyzh.easydameng.dameng.data.DamengTypeFileReader;
 import cn.oyzh.easydameng.dameng.data.DamengXmlTypeFileReader;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
-import cn.oyzh.easydameng.data.db.handler.DBDataImportHandler;
 import cn.oyzh.easydameng.fx.data.DamengDataImportFile;
+import cn.oyzh.fx.db.data.handler.DBDataImportHandler;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -8,11 +8,11 @@ import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
-import cn.oyzh.fx.db.DBDialect;
-import cn.oyzh.easydameng.data.db.dto.DBDataTransportObject;
-import cn.oyzh.easydameng.data.db.handler.DBDataTransportHandler;
 import cn.oyzh.easydameng.util.DBDataUtil;
 import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.data.handler.DBDataTransportHandler;
+import cn.oyzh.fx.db.data.dto.DBDataTransportObject;
 
 import java.util.List;
 
