@@ -10,30 +10,30 @@ import cn.oyzh.fx.db.query.DBQueryToken;
 public class ShellDamengQueryToken extends DBQueryToken {
 
     public boolean isPossibilityKeyword() {
-        return ' ' == this.getToken() || '\n' == this.getToken() || '\0' == this.getToken();
+        return ' ' == this.getToken() || 'n' == this.getToken() || '\0' == this.getToken();
     }
 
     public boolean isPossibilityTable() {
-        return ' ' == this.getToken() || '`' == this.getToken() || ',' == this.getToken() || '.' == this.getToken();
+        return ' ' == this.getToken() || '"' == this.getToken() || ',' == this.getToken() || '.' == this.getToken();
     }
 
     public boolean isPossibilityView() {
-        return ' ' == this.getToken() || '`' == this.getToken() || ',' == this.getToken() || '.' == this.getToken();
+        return ' ' == this.getToken() || '"' == this.getToken() || ',' == this.getToken() || '.' == this.getToken();
     }
 
     public boolean isPossibilityFunction() {
-        return ' ' == this.getToken() || '`' == this.getToken() || ',' == this.getToken() || '.' == this.getToken();
+        return ' ' == this.getToken() || '"' == this.getToken() || ',' == this.getToken() || '.' == this.getToken();
     }
 
     public boolean isPossibilityProcedure() {
-        return ' ' == this.getToken() || '`' == this.getToken() || ',' == this.getToken() || '.' == this.getToken();
+        return ' ' == this.getToken() || '"' == this.getToken() || ',' == this.getToken() || '.' == this.getToken();
     }
 
     public boolean isPossibilityColumn() {
-        return ' ' == this.getToken() || '`' == this.getToken() || ',' == this.getToken() || '.' == this.getToken();
+        return ' ' == this.getToken() || '"' == this.getToken() || ',' == this.getToken() || '.' == this.getToken();
     }
 
     public boolean isPossibilityDatabase() {
-        return '`' == this.getToken() || ' ' == this.getToken();
+        return '"' == this.getToken() || ' ' == this.getToken();
     }
 }
