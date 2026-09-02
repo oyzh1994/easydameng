@@ -46,7 +46,7 @@ public class ShellDamengSchemaUpdateController extends StageController {
     /**
      * db库对象
      */
-    private DBSchema database;
+    private DBSchema schema;
 
     /**
      * db连接节点
@@ -59,8 +59,8 @@ public class ShellDamengSchemaUpdateController extends StageController {
     @FXML
     private void save() {
         try {
-            DBSchema database = new DBSchema();
-            database.setName(this.name.getText());
+            DBSchema schema = new DBSchema();
+            schema.setName(this.name.getText());
 //            // 字符集
 //            String charset = this.charset.getSelectedItem();
 //            if (!StringUtil.equalsIgnoreCase(charset, this.database.getCharset())) {
@@ -72,8 +72,8 @@ public class ShellDamengSchemaUpdateController extends StageController {
 //                database.setCollation(collation);
 //            }
             // 修改数据库
-            if (this.connectItem.alterDatabase(database)) {
-                DamengEventUtil.databaseUpdated(this.connectItem, database);
+            if (this.connectItem.alterSchema(schema)) {
+                DamengEventUtil.databaseUpdated(this.connectItem, schema);
 //                // 更新字符集和排序规则
 //                this.database.setCharset(charset);
 //                this.database.setCollation(collation);
@@ -98,18 +98,10 @@ public class ShellDamengSchemaUpdateController extends StageController {
 
     @Override
     public void onWindowShown(WindowEvent event) {
-        this.database = this.getProp("database");
+        this.schema = this.getProp("database");
         this.connectItem = this.getProp("connectItem");
-
         // 数据库名
-        this.name.setText(this.database.getName());
-//
-//        // 初始化字符集和排序
-//        this.charset.init(this.connectItem.getClient());
-//        this.charset.select(this.database.getCharset());
-//        this.collation.init(this.database.getCharset(), this.connectItem.getClient());
-//        this.collation.select(this.database.getCollation());
-
+        this.name.setText(this.schema.getName());
         super.onWindowShown(event);
         this.stage.switchOnTab();
         this.stage.hideOnEscape();

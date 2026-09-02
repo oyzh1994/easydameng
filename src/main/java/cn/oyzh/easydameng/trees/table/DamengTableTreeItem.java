@@ -362,7 +362,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
     public int insertRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
         DamengInsertRecordParam param = new DamengInsertRecordParam();
         param.setRecord(recordData);
-        param.setDbName(this.schema());
+        param.setSchema(this.schema());
         param.setPrimaryKey(primaryKey);
         param.setTableName(this.tableName());
         return this.client().insertRecord(param);

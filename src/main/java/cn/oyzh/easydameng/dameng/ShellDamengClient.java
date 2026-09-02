@@ -1171,25 +1171,25 @@ public class ShellDamengClient {
         try {
             StringBuilder builder = new StringBuilder();
             builder.append("INSERT INTO ")
-                    .append(DBUtil.wrap(param.getDbName(), param.getTableName(), DBDialect.DAMENG))
+                    .append(DBUtil.wrap(param.getSchema(), param.getTableName(), DBDialect.DAMENG))
                     .append("(");
             for (String column : param.getRecord().columns()) {
                 builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(",");
             }
             builder.append(")");
             builder.append(" VALUES(");
-            for (String column : param.getRecord().columns()) {
-                //                if (param.getRecord().isTypeGeometry(column)) {
-                //                    builder.append("ST_GeomFromText(?),");
-                //                } else {
-                builder.append("?,");
-                //                }
-            }
+//            for (String column : param.getRecord().columns()) {
+//                //                if (param.getRecord().isTypeGeometry(column)) {
+//                //                    builder.append("ST_GeomFromText(?),");
+//                //                } else {
+//                builder.append("?,");
+//                //                }
+//            }
             builder.append(")");
             String sql = builder.toString();
             sql = sql.replaceAll(",\\)", ")");
             this.printSql(sql);
-            Connection connection = this.connManager.connection(param.getDbName());
+            Connection connection = this.connManager.connection(param.getSchema());
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             int index = 1;
             for (String colName : param.getRecord().columns()) {
@@ -2334,54 +2334,54 @@ public class ShellDamengClient {
         }
     }
 
-    public List<String> charsets() {
-        if (this.hasProperty("charsets")) {
-            return this.getProperty("charsets");
-        }
-        try {
-            // 达梦常用字符集列表（系统视图查询可能因版本差异失败，直接返回静态列表）
-            List<String> charsets = new ArrayList<>();
-            charsets.add("UTF-8");
-            charsets.add("GBK");
-            charsets.add("GB18030");
-            charsets.add("GB2312");
-            charsets.add("ISO-8859-1");
-            this.putProperty("charsets", charsets);
-            return charsets;
-        } catch (Exception ex) {
-            throw new DBException(ex);
-        }
-    }
+//    public List<String> charsets() {
+//        if (this.hasProperty("charsets")) {
+//            return this.getProperty("charsets");
+//        }
+//        try {
+//            // 达梦常用字符集列表（系统视图查询可能因版本差异失败，直接返回静态列表）
+//            List<String> charsets = new ArrayList<>();
+//            charsets.add("UTF-8");
+//            charsets.add("GBK");
+//            charsets.add("GB18030");
+//            charsets.add("GB2312");
+//            charsets.add("ISO-8859-1");
+//            this.putProperty("charsets", charsets);
+//            return charsets;
+//        } catch (Exception ex) {
+//            throw new DBException(ex);
+//        }
+//    }
 
-    public List<String> collation(String charset) {
-        try {
-            Map<String, List<String>> collations = this.getProperty("collation");
-            if (collations == null) {
-                collations = new HashMap<>();
-                this.putProperty("collations", collations);
-            }
-            charset = charset.toUpperCase();
-            if (collations.containsKey(charset)) {
-                return collations.get(charset.toUpperCase());
-            }
-            // 达梦排序规则：返回默认列表
-            List<String> list = new ArrayList<>();
-            list.add("BINARY");
-            list.add("BINARY_CI");
-            collations.put(charset, list);
-            return list;
-        } catch (Exception ex) {
-            throw new DBException(ex);
-        }
-    }
+//    public List<String> collation(String charset) {
+//        try {
+//            Map<String, List<String>> collations = this.getProperty("collation");
+//            if (collations == null) {
+//                collations = new HashMap<>();
+//                this.putProperty("collations", collations);
+//            }
+//            charset = charset.toUpperCase();
+//            if (collations.containsKey(charset)) {
+//                return collations.get(charset.toUpperCase());
+//            }
+//            // 达梦排序规则：返回默认列表
+//            List<String> list = new ArrayList<>();
+//            list.add("BINARY");
+//            list.add("BINARY_CI");
+//            collations.put(charset, list);
+//            return list;
+//        } catch (Exception ex) {
+//            throw new DBException(ex);
+//        }
+//    }
 
-    public boolean existDatabase(String dbName) {
+    public boolean existSchema(String schema) {
         boolean result = false;
         try {
             String sql = "SELECT COUNT(*) FROM SYSOBJECTS WHERE TYPE$ = 'SCH' AND NAME = ?";
             this.printSql(sql);
             PreparedStatement statement = this.connManager.connection().prepareStatement(sql);
-            statement.setString(1, dbName);
+            statement.setString(1, schema);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 result = resultSet.getInt(1) > 0;
@@ -2394,11 +2394,11 @@ public class ShellDamengClient {
         return result;
     }
 
-    public void createDatabase(DBSchema database) {
+    public void createSchema(DBSchema schema) {
         try {
             // 达梦用"CREATE SCHEMA"代替MySQL的"CREATE DATABASE"
             StringBuilder builder = new StringBuilder("CREATE SCHEMA ");
-            builder.append(DBUtil.wrap(database.getName(), DBDialect.DAMENG));
+            builder.append(DBUtil.wrap(schema.getName(), DBDialect.DAMENG));
             String sql = builder.toString();
             this.printSql(sql);
             Statement statement = this.connManager.connection().createStatement();
@@ -2410,7 +2410,7 @@ public class ShellDamengClient {
         }
     }
 
-    public boolean alterDatabase(DBSchema database) {
+    public boolean alterSchema(DBSchema schema) {
         try {
             // 达梦不支持MySQL式的 ALTER DATABASE CHARACTER SET/COLLATE，跳过
             return true;
@@ -2437,14 +2437,14 @@ public class ShellDamengClient {
         }
     }
 
-    public DamengQueryResults<DamengExplainResult> explainSql(String dbName, String sql) {
+    public DamengQueryResults<DamengExplainResult> explainSql(String schema, String sql) {
         DamengQueryResults<DamengExplainResult> results = new DamengQueryResults<>();
         Connection connection = null;
         try {
             this.printSql(sql);
             DBSqlParser parser = DBSqlParser.getParser(sql, DBDialect.DAMENG);
             List<String> list = parser.parseSql();
-            connection = this.connManager.connection(dbName);
+            connection = this.connManager.connection(schema);
             connection.setAutoCommit(false);
             Statement statement = connection.createStatement();
             for (String execSql : list) {
@@ -2472,7 +2472,7 @@ public class ShellDamengClient {
         return results;
     }
 
-    public DamengExecuteResult executeSingleSql(String dbName, String sql) {
+    public DamengExecuteResult executeSingleSql(String schema, String sql) {
         Connection connection = null;
         DamengExecuteResult result = new DamengExecuteResult();
         result.setSql(sql);
@@ -2480,7 +2480,7 @@ public class ShellDamengClient {
             this.printSql(sql);
             DBSqlParser parser = DBSqlParser.getParser(sql, DBDialect.DAMENG);
             String execSql = parser.parseSingleSql();
-            connection = this.connManager.connection(dbName);
+            connection = this.connManager.connection(schema);
             Statement statement = connection.createStatement();
             try {
                 long startTime = System.nanoTime();
@@ -2515,11 +2515,11 @@ public class ShellDamengClient {
         return result;
     }
 
-    public void executeSqlSimple(String dbName, String sql) {
+    public void executeSqlSimple(String schema, String sql) {
         Connection connection = null;
         try {
             this.printSql(sql);
-            connection = this.connManager.connection(dbName);
+            connection = this.connManager.connection(schema);
             connection.setAutoCommit(false);
             Statement statement = connection.createStatement();
             statement.execute(sql);
@@ -2533,11 +2533,11 @@ public class ShellDamengClient {
         }
     }
 
-    public int insertBatch(String dbName, List<String> sqlList, boolean parallel) {
+    public int insertBatch(String schema, List<String> sqlList, boolean parallel) {
         Connection connection = null;
         int result = 0;
         try {
-            connection = parallel ? this.connManager.newConnection(dbName) : this.connManager.connection(dbName);
+            connection = parallel ? this.connManager.newConnection(schema) : this.connManager.connection(schema);
             connection.setAutoCommit(false);
             Statement statement = connection.createStatement();
             for (String sql : sqlList) {
@@ -2893,11 +2893,11 @@ public class ShellDamengClient {
         }
     }
 
-    public void dropFunction(String dbName, DamengFunction function) {
+    public void dropFunction(DamengFunction function) {
         try {
-            String sql = "DROP function IF EXISTS " + DBUtil.wrap(dbName, function.getName(), DBDialect.DAMENG);
+            String sql = "DROP function IF EXISTS " + DBUtil.wrap(function.getSchema(), function.getName(), DBDialect.DAMENG);
             this.printSql(sql);
-            Statement statement = this.connManager.functionConnection(dbName).createStatement();
+            Statement statement = this.connManager.functionConnection(function.getSchema()).createStatement();
             statement.executeUpdate(sql);
             IOUtil.close(statement);
         } catch (Exception ex) {
@@ -3062,9 +3062,9 @@ public class ShellDamengClient {
         return "UTF-8";
     }
 
-    public boolean existAutoIncrement(String dbName, String tableName) {
+    public boolean existAutoIncrement(String schema, String tableName) {
         try {
-            Connection connection = this.connManager.connection(dbName);
+            Connection connection = this.connManager.connection(schema);
             // String sql = "SELECT COUNT(*) FROM ALL_CONSTRAINTS WHERE OWNER = ? AND TABLE_NAME = ? AND CONSTRAINT_TYPE = 'P'";
             String sql = """
                     SELECT 
@@ -3082,7 +3082,7 @@ public class ShellDamengClient {
                     """;
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, tableName);
-            stmt.setString(2, dbName);
+            stmt.setString(2, schema);
             ResultSet resultSet = stmt.executeQuery();
             DBUtil.printMetaData(resultSet);
             boolean exist = resultSet.next() && resultSet.getInt(1) > 0;
@@ -3095,12 +3095,12 @@ public class ShellDamengClient {
         }
     }
 
-    public List<String> selectePrimaryKeys(String dbName, String tableName) {
+    public List<String> selectePrimaryKeys(String schema, String tableName) {
         try {
-            Connection connection = this.connManager.connection(dbName);
+            Connection connection = this.connManager.connection(schema);
             String sql = "SELECT *  FROM ALL_CONSTRAINTS WHERE OWNER = ? AND TABLE_NAME = ? AND CONSTRAINT_TYPE = 'P'";
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, dbName);
+            stmt.setString(1, schema);
             stmt.setString(2, tableName);
             ResultSet resultSet = stmt.executeQuery();
             DBUtil.printMetaData(resultSet);

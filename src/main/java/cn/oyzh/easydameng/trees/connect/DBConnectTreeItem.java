@@ -330,16 +330,16 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         }
     }
 
-    public boolean existDatabase(String dbName) {
-        return this.client.existDatabase(dbName);
+    public boolean existSchema(String schema) {
+        return this.client.existSchema(schema);
     }
 
-    public void createDatabase(DBSchema database) {
-        this.client.createDatabase(database);
+    public void createSchema(DBSchema schema) {
+        this.client.createSchema(schema);
     }
 
-    public boolean alterDatabase(DBSchema database) {
-        return this.client.alterDatabase(database);
+    public boolean alterSchema(DBSchema schema) {
+        return this.client.alterSchema(schema);
     }
 
     //    public String databaseCollation(String dbName) {

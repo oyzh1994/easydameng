@@ -6,8 +6,6 @@ package cn.oyzh.easydameng.dameng.record;
  */
 public class DamengInsertRecordParam {
 
-    private String dbName;
-
     private String schema;
 
     private String tableName;
@@ -15,14 +13,6 @@ public class DamengInsertRecordParam {
     private DamengRecordData record;
 
     private DamengRecordPrimaryKey primaryKey;
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
 
     public String getSchema() {
         return schema;

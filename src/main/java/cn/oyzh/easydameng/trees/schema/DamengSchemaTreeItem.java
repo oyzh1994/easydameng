@@ -540,7 +540,8 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
     }
 
     public void dropFunction(DamengFunction function) {
-        this.client().dropFunction(this.schema(), function);
+        function.setSchema(this.schema());
+        this.client().dropFunction(function);
     }
 
     public DamengProcedure selectProcedure(String procedureName) {

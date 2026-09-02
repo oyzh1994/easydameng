@@ -5,8 +5,6 @@ import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBObjectStatus;
 import cn.oyzh.fx.db.DBColumnFieldManager;
-import cn.oyzh.easydameng.fx.DBCharsetComboBox;
-import cn.oyzh.easydameng.fx.DBCollationComboBox;
 import cn.oyzh.easydameng.fx.routine.DamengParamModeComboBox;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
 import cn.oyzh.fx.db.ui.DBFiledTypeComboBox;
@@ -129,27 +127,27 @@ public class DamengRoutineParam extends DBObjectStatus {
         TableViewUtil.selectRowOnMouseClicked(comboBox);
         return comboBox;
     }
-
-    private DBCharsetComboBox charsetControl;
-
-    /**
-     * 获取字符集组件
-     *
-     * @return 字符集组件
-     */
-    public DBCharsetComboBox getCharsetControl() {
-        if (this.charsetControl != null) {
-            return this.charsetControl;
-        }
-        //ShellDamengClient dbClient = CacheHelper.get("dameng:dbClient");
-        DBCharsetComboBox comboBox = new DBCharsetComboBox();
-        this.charsetControl = comboBox;
-        comboBox.init(this.dbClient);
-        comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setCharset(newValue));
-        comboBox.select(this.getCharset());
-        TableViewUtil.selectRowOnMouseClicked(comboBox);
-        return comboBox;
-    }
+//
+//    private DBCharsetComboBox charsetControl;
+//
+//    /**
+//     * 获取字符集组件
+//     *
+//     * @return 字符集组件
+//     */
+//    public DBCharsetComboBox getCharsetControl() {
+//        if (this.charsetControl != null) {
+//            return this.charsetControl;
+//        }
+//        //ShellDamengClient dbClient = CacheHelper.get("dameng:dbClient");
+//        DBCharsetComboBox comboBox = new DBCharsetComboBox();
+//        this.charsetControl = comboBox;
+//        comboBox.init(this.dbClient);
+//        comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setCharset(newValue));
+//        comboBox.select(this.getCharset());
+//        TableViewUtil.selectRowOnMouseClicked(comboBox);
+//        return comboBox;
+//    }
 
     private NumberTextField digitsControl;
 
@@ -249,7 +247,7 @@ public class DamengRoutineParam extends DBObjectStatus {
         return textField;
     }
 
-    private DBCollationComboBox collationControl;
+//    private DBCollationComboBox collationControl;
 
     //    /**
     //     * 获取排序组件

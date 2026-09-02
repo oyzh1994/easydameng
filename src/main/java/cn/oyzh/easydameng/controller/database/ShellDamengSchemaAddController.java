@@ -62,17 +62,13 @@ public class ShellDamengSchemaAddController extends StageController {
             }
             // 检查字段是否存在
             String dbName = this.name.getText();
-            if (this.connectItem.existDatabase(dbName)) {
+            if (this.connectItem.existSchema(dbName)) {
                 MessageBox.warn(I18nHelper.database() + " " + dbName + " " + I18nHelper.alreadyExists());
                 return;
             }
             DBSchema database = new DBSchema();
             database.setName(dbName);
-//            if (!this.charset.isItemEmpty()) {
-//                database.setCharset(this.charset.getSelectedItem());
-//                database.setCollation(this.collation.getSelectedItem());
-//            }
-            this.connectItem.createDatabase(database);
+            this.connectItem.createSchema(database);
             this.setProp("databaseName", dbName);
             DamengEventUtil.databaseAdded(this.connectItem, database);
             this.closeWindow();

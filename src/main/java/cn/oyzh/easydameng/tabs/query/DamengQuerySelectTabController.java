@@ -237,7 +237,7 @@ public class DamengQuerySelectTabController extends RichTabController {
         DamengInsertRecordParam param = new DamengInsertRecordParam();
         param.setRecord(recordData);
         param.setPrimaryKey(primaryKey);
-        param.setDbName(this.result.schema());
+        param.setSchema(this.result.schema());
         param.setTableName(this.result.tableName());
         this.dbItem.client().insertRecord(param);
         if (primaryKey != null) {
