@@ -57,7 +57,7 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.exception.ReadonlyOperationException;
-import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.easydameng.util.ShellDamengUtil;
 import cn.oyzh.fx.db.DBConnConfig;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBFeature;
@@ -1325,7 +1325,7 @@ public class ShellDamengClient {
                 DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
                 builder.append(DBUtil.wrap(primaryKey.getColumnName(), DBDialect.DAMENG)).append(" = ?");
                 String sql = builder.toString();
-                DamengUtil.printInfo(sql, recordData);
+                ShellDamengUtil.printInfo(sql, recordData);
                 PreparedStatement statement = connection.prepareStatement(sql);
                 int index = 1;
                 // 设置值

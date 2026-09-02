@@ -17,7 +17,6 @@ import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.util.DBDataUtil;
-import cn.oyzh.easydameng.util.DamengUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.data.handler.DBDataDumpHandler;
 import cn.oyzh.fx.db.util.DBUtil;

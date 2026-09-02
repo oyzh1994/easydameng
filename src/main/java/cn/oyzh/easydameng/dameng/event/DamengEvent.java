@@ -6,7 +6,6 @@ import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBObjectStatus;
-import cn.oyzh.easydameng.util.DamengUtil;
 import cn.oyzh.fx.db.util.DBUtil;
 
 import java.util.Date;

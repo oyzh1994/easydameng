@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox?>
 <?import cn.oyzh.easydameng.fx.ShellDataEditor?>
-<?import cn.oyzh.easydameng.query.DamengQueryEditor?>
 <?import cn.oyzh.fx.gui.label.AccentLabel?>
 <?import cn.oyzh.fx.gui.svg.glyph.SaveSVGGlyph?>
 <?import cn.oyzh.fx.gui.tabs.RichTabPane?>
@@ -13,6 +12,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
 <?import cn.oyzh.fx.gui.svg.glyph.RefreshSVGGlyph?>
+<?import cn.oyzh.easydameng.dameng.query.ShellDamengQueryEditor?>
 <FXVBox xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="cn.oyzh.easydameng.tabs.view.DamengViewDesignTabController" flexWidth="100%" flexHeight="100%">
@@ -31,7 +31,7 @@
     </FXHBox>
     <RichTabPane flexWidth="100%" flexHeight="100% - 25" fx:id="tabPane">
         <FixedTab text="%base.definition">
-            <DamengQueryEditor fx:id="definition" flexHeight="100%" flexWidth="100%"/>
+            <ShellDamengQueryEditor fx:id="definition" flexHeight="100%" flexWidth="100%"/>
         </FixedTab>
         <FixedTab text="%base.advanced">
             <FXVBox flexHeight="100%" flexWidth="100%">

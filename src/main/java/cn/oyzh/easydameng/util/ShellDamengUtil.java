@@ -14,9 +14,7 @@ import cn.oyzh.fx.db.util.DBUtil;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * db工具类
@@ -24,7 +22,7 @@ import java.util.Objects;
  * @author oyzh
  * @since 2023/12/27
  */
-public class DamengUtil {
+public class ShellDamengUtil {
 
     public static boolean ENABLE_PRINT_METADATA = true;
 

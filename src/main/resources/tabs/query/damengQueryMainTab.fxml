@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import cn.oyzh.easydameng.query.DamengQueryEditor?>
 <?import cn.oyzh.easydameng.tabs.query.DamengQueryInfoTab?>
 <?import cn.oyzh.fx.gui.svg.glyph.database.ExplainSVGGlyph?>
 <?import cn.oyzh.fx.gui.svg.glyph.PrettySVGGlyph?>
@@ -11,6 +10,7 @@
 <?import cn.oyzh.fx.plus.controls.tab.FXTabPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
+<?import cn.oyzh.easydameng.dameng.query.ShellDamengQueryEditor?>
 <FXVBox xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="cn.oyzh.easydameng.tabs.query.DamengQueryMainTabController" flexWidth="100%" flexHeight="100%"
@@ -38,8 +38,8 @@
         </ExplainSVGGlyph>
     </FXHBox>
     <FXSplitPane orientation="VERTICAL" showDivider="false" fx:id="splitPane" flexHeight="100% - 35" flexWidth="100%" dividerPositions="1">
-        <DamengQueryEditor fx:id="queryArea" flexWidth="100%"
-                          onKeyPressed="#queryKeyPressed"/>
+        <ShellDamengQueryEditor fx:id="queryArea" flexWidth="100%"
+                                onKeyPressed="#queryKeyPressed"/>
         <FXTabPane fx:id="resultTabPane" flexWidth="100%" visible="false" managed="false">
             <DamengQueryInfoTab fx:id="infoTab" text="%base.info">
             </DamengQueryInfoTab>

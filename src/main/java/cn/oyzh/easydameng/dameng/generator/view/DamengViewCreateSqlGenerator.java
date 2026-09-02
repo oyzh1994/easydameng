@@ -5,7 +5,6 @@ import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBSqlGenerator;
-import cn.oyzh.easydameng.util.DamengUtil;
 import cn.oyzh.fx.db.util.DBUtil;
 
 import java.util.List;

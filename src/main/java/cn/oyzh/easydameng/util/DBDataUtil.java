@@ -481,7 +481,7 @@ public class DBDataUtil {
      * @return 修改sql
      */
     public static String toUpdateSql(DamengColumns columns, DamengRecord record) {
-        DamengRecordPrimaryKey primaryKey = DamengUtil.initPrimaryKey(columns, record);
+        DamengRecordPrimaryKey primaryKey = ShellDamengUtil.initPrimaryKey(columns, record);
         String tableName = columns.tableName();
         StringBuilder builder = new StringBuilder();
         builder.append("UPDATE ")

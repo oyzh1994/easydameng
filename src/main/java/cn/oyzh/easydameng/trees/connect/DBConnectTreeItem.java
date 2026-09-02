@@ -7,6 +7,7 @@ import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.controller.connect.DamengConnectUpdateController;
 import cn.oyzh.easydameng.controller.database.ShellDamengSchemaAddController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.dameng.query.ShellDamengQueryUtil;
 import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.data.db.DBConnectManager;
 import cn.oyzh.easydameng.dameng.schema.DamengSchema;
@@ -319,6 +320,8 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         }
         this.setChild(list);
         this.expend();
+        // 更新数据索引
+        ShellDamengQueryUtil.updateIndex(this.client);
     }
 
     @Override

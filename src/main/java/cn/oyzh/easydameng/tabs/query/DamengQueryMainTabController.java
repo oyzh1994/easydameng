@@ -3,8 +3,8 @@ package cn.oyzh.easydameng.tabs.query;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
+import cn.oyzh.easydameng.dameng.query.ShellDamengQueryEditor;
 import cn.oyzh.easydameng.domain.DamengQuery;
-import cn.oyzh.easydameng.query.DamengQueryEditor;
 import cn.oyzh.easydameng.store.DamengQueryStore;
 import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.db.query.DBQueryResults;
@@ -60,7 +60,7 @@ public class DamengQueryMainTabController extends RichTabController {
      * 查询文本域
      */
     @FXML
-    private DamengQueryEditor queryArea;
+    private ShellDamengQueryEditor queryArea;
 
     /**
      * 结果文本域

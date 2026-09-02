@@ -7,7 +7,6 @@ import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBSqlGenerator;
-import cn.oyzh.easydameng.util.DamengUtil;
 import cn.oyzh.fx.db.util.DBUtil;
 
 import java.util.List;
