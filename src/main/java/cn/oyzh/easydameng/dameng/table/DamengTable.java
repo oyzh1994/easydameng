@@ -4,6 +4,7 @@ import cn.oyzh.common.object.ObjectComparator;
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.fx.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBTable;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -12,8 +13,11 @@ import javafx.beans.property.SimpleStringProperty;
  * @author oyzh
  * @since 2024/01/16
  */
-public class DamengTable extends DBObjectStatus implements ObjectCopier<DamengTable>, ObjectComparator<DamengTable> {
+public class DamengTable extends DBObjectStatus implements DBTable, ObjectCopier<DamengTable>, ObjectComparator<DamengTable> {
 
+    /**
+     * 是否有主键
+     */
     private boolean hasPrimaryKey;
 
     /**
@@ -76,10 +80,12 @@ public class DamengTable extends DBObjectStatus implements ObjectCopier<DamengTa
         return this.nameProperty;
     }
 
+    @Override
     public void setName(String name) {
         this.nameProperty().setValue(name);
     }
 
+    @Override
     public String getName() {
         return this.nameProperty == null ? null : this.nameProperty.get();
     }
@@ -91,10 +97,12 @@ public class DamengTable extends DBObjectStatus implements ObjectCopier<DamengTa
         return this.commentProperty;
     }
 
+    @Override
     public void setComment(String comment) {
         this.commentProperty().setValue(comment);
     }
 
+    @Override
     public String getComment() {
         return this.commentProperty == null ? null : this.commentProperty.get();
     }
