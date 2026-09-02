@@ -70,7 +70,7 @@ public class ShellDamengSchemaAddController extends StageController {
             database.setName(dbName);
             this.connectItem.createSchema(database);
             this.setProp("databaseName", dbName);
-            DamengEventUtil.databaseAdded(this.connectItem, database);
+            DamengEventUtil.schemaAdded(this.connectItem, database);
             this.closeWindow();
         } catch (Exception ex) {
             MessageBox.exception(ex);

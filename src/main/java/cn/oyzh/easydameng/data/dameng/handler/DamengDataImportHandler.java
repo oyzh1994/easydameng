@@ -44,8 +44,8 @@ public class DamengDataImportHandler extends DBDataImportHandler<String> {
      */
     private final DamengDataImportConfig config;
 
-    public DamengDataImportHandler(ShellDamengClient dbClient, String dbName) {
-        super(dbName);
+    public DamengDataImportHandler(ShellDamengClient dbClient, String name) {
+        super(name);
         this.dbClient = dbClient;
         this.config = new DamengDataImportConfig();
     }

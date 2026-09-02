@@ -454,7 +454,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     //  * @param event 事件
     //  */
     // @EventSubscribe
-    // private void onDamengDatabaseClosed(DamengDatabaseClosedEvent event) {
+    // private void onDamengDatabaseClosed(DamengSchemaClosedEvent event) {
     //     this.removeTab(this.getDamengTabs(event.data()));
     // }
     //

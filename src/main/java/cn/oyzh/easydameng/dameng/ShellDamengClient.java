@@ -2249,12 +2249,12 @@ public class ShellDamengClient {
     }
 
     @Deprecated
-    public boolean existTable(String dbName, String tableName) {
+    public boolean existTable(String schema, String tableName) {
         boolean result;
         try {
             String sql = "SELECT COUNT(*) FROM ALL_TABLES WHERE OWNER = ? AND TABLE_NAME = ?";
-            PreparedStatement statement = this.connManager.connection(dbName).prepareStatement(sql);
-            statement.setString(1, dbName);
+            PreparedStatement statement = this.connManager.connection(schema).prepareStatement(sql);
+            statement.setString(1, schema);
             statement.setString(2, tableName);
             ResultSet resultSet = statement.executeQuery();
             DBUtil.printMetaData(resultSet);
@@ -2267,12 +2267,12 @@ public class ShellDamengClient {
         return result;
     }
 
-    public void renameTable(String dbName, String oldTableName, String newTableName) {
+    public void renameTable(String schema, String oldTableName, String newTableName) {
         try {
             // 达梦用 ALTER TABLE ... RENAME TO 代替MySQL的 RENAME TABLE
-            String sql = "ALTER TABLE " + DBUtil.wrap(dbName, oldTableName, DBDialect.DAMENG)
+            String sql = "ALTER TABLE " + DBUtil.wrap(schema, oldTableName, DBDialect.DAMENG)
                     + " RENAME TO " + DBUtil.wrap(newTableName, DBDialect.DAMENG);
-            Connection connection = this.connManager.connection(dbName);
+            Connection connection = this.connManager.connection(schema);
             Statement statement = connection.createStatement();
             this.printSql(sql);
             statement.execute(sql);
@@ -2308,10 +2308,10 @@ public class ShellDamengClient {
         }
     }
 
-    public void truncateTable(String dbName, String tableName) {
+    public void truncateTable(String schema, String tableName) {
         try {
-            Statement statement = this.connManager.connection(dbName).createStatement();
-            String sql = "TRUNCATE TABLE " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
+            Statement statement = this.connManager.connection(schema).createStatement();
+            String sql = "TRUNCATE TABLE " + DBUtil.wrap(schema, tableName, DBDialect.DAMENG);
             this.printSql(sql);
             statement.executeUpdate(sql);
             IOUtil.close(statement);
@@ -2321,10 +2321,10 @@ public class ShellDamengClient {
         }
     }
 
-    public void dropTable(String dbName, String tableName) {
+    public void dropTable(String schema, String tableName) {
         try {
-            Statement statement = this.connManager.connection(dbName).createStatement();
-            String sql = "DROP TABLE " + DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
+            Statement statement = this.connManager.connection(schema).createStatement();
+            String sql = "DROP TABLE " + DBUtil.wrap(schema, tableName, DBDialect.DAMENG);
             this.printSql(sql);
             statement.executeUpdate(sql);
             IOUtil.close(statement);
@@ -2424,11 +2424,11 @@ public class ShellDamengClient {
     //        return null;
     //    }
 
-    public boolean dropDatabase(String dbName) {
+    public boolean dropSchema(String schema) {
         try {
-            String sql = "DROP SCHEMA " + DBUtil.wrap(dbName, DBDialect.DAMENG) + " CASCADE";
+            String sql = "DROP SCHEMA " + DBUtil.wrap(schema, DBDialect.DAMENG) + " CASCADE";
             this.printSql(sql);
-            Statement statement = this.connManager.connection(dbName).createStatement();
+            Statement statement = this.connManager.connection().createStatement();
             statement.executeUpdate(sql);
             IOUtil.close(statement);
             return true;
@@ -2844,11 +2844,11 @@ public class ShellDamengClient {
         }
     }
 
-    public void dropProcedure(String dbName, DamengProcedure routine) {
+    public void dropProcedure(String schema, DamengProcedure routine) {
         try {
-            String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(dbName, routine.getName(), DBDialect.DAMENG);
+            String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(schema, routine.getName(), DBDialect.DAMENG);
             this.printSql(sql);
-            Statement statement = this.connManager.procedureConnection(dbName).createStatement();
+            Statement statement = this.connManager.procedureConnection(schema).createStatement();
             statement.executeUpdate(sql);
             IOUtil.close(statement);
         } catch (Exception ex) {

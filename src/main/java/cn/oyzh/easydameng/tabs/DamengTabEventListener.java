@@ -3,8 +3,8 @@ package cn.oyzh.easydameng.tabs;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.event.connect.DBConnectionClosedEvent;
-import cn.oyzh.easydameng.event.database.DamengDatabaseClosedEvent;
-import cn.oyzh.easydameng.event.database.DamengDatabaseDroppedEvent;
+import cn.oyzh.easydameng.event.schema.DamengSchemaClosedEvent;
+import cn.oyzh.easydameng.event.schema.DamengSchemaDroppedEvent;
 import cn.oyzh.easydameng.event.function.DamengFunctionDesignEvent;
 import cn.oyzh.easydameng.event.procedure.DamengProcedureDesignEvent;
 import cn.oyzh.easydameng.event.query.DamengQueryAddEvent;
@@ -370,7 +370,7 @@ public class DamengTabEventListener implements EventListener {
      * @param event 事件
      */
     @EventSubscribe
-    private void onDamengDatabaseClosed(DamengDatabaseClosedEvent event) {
+    private void onDamengDatabaseClosed(DamengSchemaClosedEvent event) {
         this.removeTab(this.getDamengTabs(event.data()));
     }
 
@@ -380,7 +380,7 @@ public class DamengTabEventListener implements EventListener {
      * @param event 事件
      */
     @EventSubscribe
-    private void onDamengDatabaseDropped(DamengDatabaseDroppedEvent event) {
+    private void onDamengDatabaseDropped(DamengSchemaDroppedEvent event) {
         this.removeTab(this.getDamengTabs(event.data()));
     }
 

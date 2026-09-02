@@ -346,8 +346,8 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     //        return this.client.databaseCollation(dbName);
     //    }
 
-    public boolean dropDatabase(String dbName) {
-        return this.client.dropDatabase(dbName);
+    public boolean dropSchema(String schema) {
+        return this.client.dropSchema(schema);
     }
 
     public String type() {

@@ -32,26 +32,26 @@ public class ShellDamengViewFactory {
      * 导出数据
      *
      * @param client    客户端
-     * @param dbName    数据库名称
+     * @param schema    模式
      * @param tableName 表名称
      */
-    public static void exportData(ShellDamengClient client, String dbName, String tableName) {
-        exportData(client, dbName, tableName, 0, null);
+    public static void exportData(ShellDamengClient client, String schema, String tableName) {
+        exportData(client, schema, tableName, 0, null);
     }
 
     /**
      * 导出数据
      *
      * @param client      客户端
-     * @param dbName      数据库名称
+     * @param schema      模式
      * @param tableName   表名称
      * @param exportMode  导出模式
      * @param exportTable 导出表
      */
-    public static void exportData(ShellDamengClient client, String dbName, String tableName, int exportMode, ShellDamengDataExportTable exportTable) {
+    public static void exportData(ShellDamengClient client, String schema, String tableName, int exportMode, ShellDamengDataExportTable exportTable) {
         try {
             StageAdapter adapter = StageManager.parseStage(ShellDamengDataExportController.class, StageManager.getFrontWindow());
-            adapter.setProp("dbName", dbName);
+            adapter.setProp("dbName", schema);
             adapter.setProp("dbClient", client);
             adapter.setProp("tableName", tableName);
             adapter.setProp("exportMode", exportMode);
@@ -72,7 +72,7 @@ public class ShellDamengViewFactory {
     public static void importData(ShellDamengClient client, String schema) {
         try {
             StageAdapter adapter = StageManager.parseStage(ShellDamengDataImportController.class, StageManager.getFrontWindow());
-            adapter.setProp("schema", schema);
+            adapter.setProp("dbName", schema);
             adapter.setProp("dbClient", client);
             adapter.display();
         } catch (Exception ex) {
@@ -85,15 +85,15 @@ public class ShellDamengViewFactory {
      * 转储数据
      *
      * @param client    客户端
-     * @param dbName    数据库名称
+     * @param schema    模式
      * @param tableName 表名称
      * @param dumpType  导出类型 1.库 2.表
      */
-    public static void dumpData(ShellDamengClient client, String dbName, String tableName, int dumpType) {
+    public static void dumpData(ShellDamengClient client, String schema, String tableName, int dumpType) {
         try {
             StageAdapter adapter = StageManager.parseStage(ShellDamengDataDumpController.class, StageManager.getFrontWindow());
             adapter.setProp("dumpType", dumpType);
-            adapter.setProp("dbName", dbName);
+            adapter.setProp("dbName", schema);
             adapter.setProp("dbClient", client);
             adapter.setProp("tableName", tableName);
             adapter.display();
@@ -107,12 +107,12 @@ public class ShellDamengViewFactory {
      * 运行sql文件
      *
      * @param client 客户端
-     * @param dbName 数据库名称
+     * @param schema 模式
      */
-    public static void runSqlFile(ShellDamengClient client, String dbName) {
+    public static void runSqlFile(ShellDamengClient client, String schema) {
         try {
             StageAdapter adapter = StageManager.parseStage(ShellDamengDataRunSqlFileController.class, StageManager.getFrontWindow());
-            adapter.setProp("dbName", dbName);
+            adapter.setProp("dbName", schema);
             adapter.setProp("dbClient", client);
             adapter.display();
         } catch (Exception ex) {
@@ -143,13 +143,13 @@ public class ShellDamengViewFactory {
      * 传输数据
      *
      * @param connect 连接
-     * @param dbName  数据库
+     * @param schema  模式
      */
-    public static void transportData(DamengConnect connect, String dbName) {
+    public static void transportData(DamengConnect connect, String schema) {
         try {
             StageAdapter adapter = StageManager.parseStage(ShellDamengDataTransportController.class, StageManager.getFrontWindow());
             adapter.setProp("connect", connect);
-            adapter.setProp("dbName", dbName);
+            adapter.setProp("dbName", schema);
             adapter.display();
         } catch (Exception ex) {
             ex.printStackTrace();

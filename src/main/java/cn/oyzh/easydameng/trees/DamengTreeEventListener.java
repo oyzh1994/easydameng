@@ -1,7 +1,7 @@
 // package cn.oyzh.easydameng.trees;
 //
 // import cn.oyzh.common.util.StringUtil;
-// import cn.oyzh.easydameng.event.database.DamengDatabaseAddedEvent;
+// import cn.oyzh.easydameng.event.database.DamengSchemaAddedEvent;
 // import cn.oyzh.easydameng.event.event.DamengEventAddedEvent;
 // import cn.oyzh.easydameng.event.event.DamengEventAlertedEvent;
 // import cn.oyzh.easydameng.event.function.DamengFunctionAddedEvent;
@@ -198,7 +198,7 @@
 //      * @param event 事件
 //      */
 //     @EventSubscribe
-//     private void onDatabaseAdded(DamengDatabaseAddedEvent event) {
+//     private void onDatabaseAdded(DamengSchemaAddedEvent event) {
 //         DBConnectTreeItem connectItem = event.getConnectItem();
 //         if (connectItem != null) {
 //             connectItem.reloadChild();

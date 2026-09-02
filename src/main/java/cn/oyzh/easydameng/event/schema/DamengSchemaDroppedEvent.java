@@ -1,4 +1,4 @@
-package cn.oyzh.easydameng.event.database;
+package cn.oyzh.easydameng.event.schema;
 
 import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.event.Event;
@@ -8,7 +8,7 @@ import cn.oyzh.event.EventFormatter;
  * @author oyzh
  * @since 2024/01/30
  */
-public class DamengDatabaseDroppedEvent extends Event<DamengSchemaTreeItem> implements EventFormatter {
+public class DamengSchemaDroppedEvent extends Event<DamengSchemaTreeItem> implements EventFormatter {
 
     @Override
     public String eventFormat() {

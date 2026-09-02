@@ -151,9 +151,9 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
     public void delete() {
         Task task = TaskBuilder.newBuilder()
                 .onStart(() -> {
-                    if (MessageBox.confirm(I18nHelper.deleteDatabase() + "[" + this.schema() + "]")) {
-                        if (this.parent().dropDatabase(this.schema())) {
-                            DamengEventUtil.databaseDropped(this);
+                    if (MessageBox.confirm(I18nHelper.deleteSchema() + "[" + this.schema() + "]")) {
+                        if (this.parent().dropSchema(this.schema())) {
+                            DamengEventUtil.schemaDropped(this);
                             super.remove();
                         } else {
                             MessageBox.warn(I18nHelper.operationFail());
@@ -182,7 +182,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.clearChild();
         this.collapse();
         this.setLoaded(false);
-        DamengEventUtil.databaseClosed(this);
+        DamengEventUtil.schemaClosed(this);
     }
 
     @Override

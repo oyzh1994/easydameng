@@ -16,10 +16,10 @@ import cn.oyzh.easydameng.event.connect.DBConnectionConnectedEvent;
 import cn.oyzh.easydameng.event.connect.DamengConnectAddedEvent;
 import cn.oyzh.easydameng.event.connect.DamengConnectDeletedEvent;
 import cn.oyzh.easydameng.event.connect.DamengConnectUpdatedEvent;
-import cn.oyzh.easydameng.event.database.DamengDatabaseAddedEvent;
-import cn.oyzh.easydameng.event.database.DamengDatabaseClosedEvent;
-import cn.oyzh.easydameng.event.database.DamengDatabaseDroppedEvent;
-import cn.oyzh.easydameng.event.database.DamengDatabaseUpdatedEvent;
+import cn.oyzh.easydameng.event.schema.DamengSchemaAddedEvent;
+import cn.oyzh.easydameng.event.schema.DamengSchemaClosedEvent;
+import cn.oyzh.easydameng.event.schema.DamengSchemaDroppedEvent;
+import cn.oyzh.easydameng.event.schema.DamengSchemaUpdatedEvent;
 import cn.oyzh.easydameng.event.event.DamengEventAddedEvent;
 import cn.oyzh.easydameng.event.event.DamengEventAlertedEvent;
 import cn.oyzh.easydameng.event.event.DamengEventDesignEvent;
@@ -195,28 +195,28 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-    public static void databaseClosed(DamengSchemaTreeItem dbItem) {
-        DamengDatabaseClosedEvent event = new DamengDatabaseClosedEvent();
+    public static void schemaClosed(DamengSchemaTreeItem dbItem) {
+        DamengSchemaClosedEvent event = new DamengSchemaClosedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }
 
-    public static void databaseAdded(DBConnectTreeItem connectItem, DBSchema database) {
-        DamengDatabaseAddedEvent event = new DamengDatabaseAddedEvent();
-        event.data(database);
+    public static void schemaAdded(DBConnectTreeItem connectItem, DBSchema schema) {
+        DamengSchemaAddedEvent event = new DamengSchemaAddedEvent();
+        event.data(schema);
         event.setConnectItem(connectItem);
         EventUtil.post(event);
     }
 
-    public static void databaseUpdated(DBConnectTreeItem connectItem, DBSchema database) {
-        DamengDatabaseUpdatedEvent event = new DamengDatabaseUpdatedEvent();
-        event.data(database);
+    public static void schemaUpdated(DBConnectTreeItem connectItem, DBSchema schema) {
+        DamengSchemaUpdatedEvent event = new DamengSchemaUpdatedEvent();
+        event.data(schema);
         event.setConnectItem(connectItem);
         EventUtil.post(event);
     }
 
-    public static void databaseDropped(DamengSchemaTreeItem dbItem) {
-        DamengDatabaseDroppedEvent event = new DamengDatabaseDroppedEvent();
+    public static void schemaDropped(DamengSchemaTreeItem dbItem) {
+        DamengSchemaDroppedEvent event = new DamengSchemaDroppedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }

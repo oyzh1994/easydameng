@@ -31,20 +31,8 @@ public class ShellDamengSchemaUpdateController extends StageController {
     @FXML
     private ReadOnlyTextField name;
 
-//    /**
-//     * 字符集
-//     */
-//    @FXML
-//    private DBCharsetComboBox charset;
-//
-//    /**
-//     * 排序方式
-//     */
-//    @FXML
-//    private DBCollationComboBox collation;
-
     /**
-     * db库对象
+     * db模式
      */
     private DBSchema schema;
 
@@ -61,22 +49,9 @@ public class ShellDamengSchemaUpdateController extends StageController {
         try {
             DBSchema schema = new DBSchema();
             schema.setName(this.name.getText());
-//            // 字符集
-//            String charset = this.charset.getSelectedItem();
-//            if (!StringUtil.equalsIgnoreCase(charset, this.database.getCharset())) {
-//                database.setCharset(charset);
-//            }
-//            // 排序规则
-//            String collation = this.collation.getSelectedItem();
-//            if (!StringUtil.equalsIgnoreCase(charset, this.database.getCollation())) {
-//                database.setCollation(collation);
-//            }
             // 修改数据库
             if (this.connectItem.alterSchema(schema)) {
-                DamengEventUtil.databaseUpdated(this.connectItem, schema);
-//                // 更新字符集和排序规则
-//                this.database.setCharset(charset);
-//                this.database.setCollation(collation);
+                DamengEventUtil.schemaUpdated(this.connectItem, schema);
                 this.closeWindow();
             } else {
                 MessageBox.warn(I18nHelper.operationFail());
@@ -85,16 +60,6 @@ public class ShellDamengSchemaUpdateController extends StageController {
             MessageBox.exception(ex);
         }
     }
-
-//    @Override
-//    protected void bindListeners() {
-//        super.bindListeners();
-//        // 字符集选中事件
-//        this.charset.selectedItemChanged((observable, oldValue, newValue) -> {
-//            this.collation.init(newValue, this.connectItem.getClient());
-//            this.collation.select(0);
-//        });
-//    }
 
     @Override
     public void onWindowShown(WindowEvent event) {
