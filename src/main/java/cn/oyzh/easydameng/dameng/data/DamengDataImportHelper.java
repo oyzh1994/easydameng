@@ -1,6 +1,7 @@
 package cn.oyzh.easydameng.dameng.data;
 
 import cn.oyzh.common.date.DateUtil;
+import cn.oyzh.common.util.TextUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
@@ -50,7 +51,7 @@ public class DamengDataImportHelper {
             }
         }
         if (column.supportString()) {
-            return DBDataUtil.escapeQuotes(value.toString());
+            return TextUtil.escape(value.toString());
         }
         return value;
     }

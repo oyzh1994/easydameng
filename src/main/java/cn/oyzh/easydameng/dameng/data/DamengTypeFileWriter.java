@@ -71,7 +71,7 @@ public abstract class DamengTypeFileWriter implements Closeable {
 //            return value.toString();
 //        }
         if (column.supportString()) {
-            return DBDataUtil.escapeQuotes((String) value);
+            return TextUtil.escape((String) value);
         }
         if (column.supportInteger() || column.supportDigits()) {
             return value;

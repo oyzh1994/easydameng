@@ -2,7 +2,6 @@ package cn.oyzh.easydameng.util;
 
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.window.StageAdapter;

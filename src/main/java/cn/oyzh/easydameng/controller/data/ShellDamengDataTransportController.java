@@ -4,7 +4,7 @@ import cn.oyzh.common.system.SystemUtil;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.DBClientUtil;
+import cn.oyzh.easydameng.util.DBClientUtil;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.fx.DBSchemaComboBox;
 import cn.oyzh.easydameng.fx.DBInfoComboBox;

@@ -122,7 +122,7 @@ public class DamengSqlTypeFileWriter extends DamengTypeFileWriter {
 //            return "'" + value + "'";
 //        }
         if (column.supportString()) {
-            String str = DBDataUtil.escapeQuotes((String) value);
+            String str = TextUtil.escape((String) value);
             return "'" + str + "'";
         }
         return value;

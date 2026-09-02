@@ -1,4 +1,4 @@
-package cn.oyzh.easydameng.data.db;
+package cn.oyzh.easydameng.util;
 
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
