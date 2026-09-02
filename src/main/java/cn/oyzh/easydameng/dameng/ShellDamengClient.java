@@ -53,7 +53,7 @@ import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengSelectViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.data.db.DBConnState;
-import cn.oyzh.easydameng.data.db.DBSchema;
+import cn.oyzh.easydameng.data.db.DamengSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.exception.DBException;
@@ -1490,7 +1490,7 @@ public class ShellDamengClient {
         }
     }
 
-    public List<DBSchema> schemas() {
+    public List<DamengSchema> schemas() {
         try {
             Statement statement = this.connManager.connection().createStatement();
             // 查询当前用户有权限访问的schema：优先显示有对象的schema，也包含当前用户自己的schema
@@ -1502,9 +1502,9 @@ public class ShellDamengClient {
             //                    """;
             String sql = "SELECT * FROM SYSOBJECTS WHERE TYPE$ = 'SCH'";
             ResultSet resultSet = statement.executeQuery(sql);
-            List<DBSchema> list = new ArrayList<>();
+            List<DamengSchema> list = new ArrayList<>();
             while (resultSet.next()) {
-                DBSchema databases = new DBSchema();
+                DamengSchema databases = new DamengSchema();
                 String dbName = resultSet.getString(1);
                 databases.setName(dbName);
                 list.add(databases);
@@ -1518,9 +1518,9 @@ public class ShellDamengClient {
         }
     }
 
-    public DBSchema schema(String schema) {
+    public DamengSchema schema(String schema) {
         try {
-            DBSchema dbSchema = new DBSchema();
+            DamengSchema dbSchema = new DamengSchema();
             dbSchema.setName(schema);
             return dbSchema;
         } catch (Exception ex) {
@@ -2394,7 +2394,7 @@ public class ShellDamengClient {
         return result;
     }
 
-    public void createSchema(DBSchema schema) {
+    public void createSchema(DamengSchema schema) {
         try {
             // 达梦用"CREATE SCHEMA"代替MySQL的"CREATE DATABASE"
             StringBuilder builder = new StringBuilder("CREATE SCHEMA ");
@@ -2410,7 +2410,7 @@ public class ShellDamengClient {
         }
     }
 
-    public boolean alterSchema(DBSchema schema) {
+    public boolean alterSchema(DamengSchema schema) {
         try {
             // 达梦不支持MySQL式的 ALTER DATABASE CHARACTER SET/COLLATE，跳过
             return true;

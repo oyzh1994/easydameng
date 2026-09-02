@@ -30,7 +30,7 @@ import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
-import cn.oyzh.easydameng.data.db.DBSchema;
+import cn.oyzh.easydameng.data.db.DamengSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
@@ -71,13 +71,13 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
     /**
      * 当前值
      */
-    private final DBSchema value;
+    private final DamengSchema value;
 
-    public DBSchema value() {
+    public DamengSchema value() {
         return value;
     }
 
-    public DamengSchemaTreeItem(DBSchema database, RichTreeView treeView) {
+    public DamengSchemaTreeItem(DamengSchema database, RichTreeView treeView) {
         super(treeView);
         super.setSortable(false);
         super.setFilterable(true);

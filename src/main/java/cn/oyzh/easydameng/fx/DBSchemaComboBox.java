@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.fx;
 
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.DBSchema;
+import cn.oyzh.easydameng.data.db.DamengSchema;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 
 import java.util.List;
@@ -21,9 +21,9 @@ public class DBSchemaComboBox extends FXComboBox<String> {
 
     public void init(ShellDamengClient client, String schema) {
         this.clearItems();
-        List<DBSchema> schemas = client.schemas();
+        List<DamengSchema> schemas = client.schemas();
         if (CollectionUtil.isNotEmpty(schemas)) {
-            this.setItem(schemas.stream().map(DBSchema::getName).toList());
+            this.setItem(schemas.stream().map(DamengSchema::getName).toList());
         }
         if (schema != null) {
             this.select(schema);

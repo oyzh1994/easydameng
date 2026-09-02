@@ -7,7 +7,7 @@ import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.view.DamengView;
-import cn.oyzh.easydameng.data.db.DBSchema;
+import cn.oyzh.easydameng.data.db.DamengSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.event.connect.DBAddConnectEvent;
@@ -201,14 +201,14 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-    public static void schemaAdded(DBConnectTreeItem connectItem, DBSchema schema) {
+    public static void schemaAdded(DBConnectTreeItem connectItem, DamengSchema schema) {
         DamengSchemaAddedEvent event = new DamengSchemaAddedEvent();
         event.data(schema);
         event.setConnectItem(connectItem);
         EventUtil.post(event);
     }
 
-    public static void schemaUpdated(DBConnectTreeItem connectItem, DBSchema schema) {
+    public static void schemaUpdated(DBConnectTreeItem connectItem, DamengSchema schema) {
         DamengSchemaUpdatedEvent event = new DamengSchemaUpdatedEvent();
         event.data(schema);
         event.setConnectItem(connectItem);

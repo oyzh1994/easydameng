@@ -9,7 +9,7 @@ import cn.oyzh.easydameng.controller.database.ShellDamengSchemaAddController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.data.db.DBConnectManager;
-import cn.oyzh.easydameng.data.db.DBSchema;
+import cn.oyzh.easydameng.data.db.DamengSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.store.DamengConnectStore;
@@ -123,7 +123,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     }
 
     public void addSchema(String schema) {
-        DBSchema dbSchema = this.client.schema(schema);
+        DamengSchema dbSchema = this.client.schema(schema);
         super.addChild(new DamengSchemaTreeItem(dbSchema, this.getTreeView()));
     }
 
@@ -312,9 +312,9 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
 
     @Override
     public void loadChild() {
-        List<DBSchema> schemas = this.client.schemas();
+        List<DamengSchema> schemas = this.client.schemas();
         List<TreeItem<?>> list = new ArrayList<>();
-        for (DBSchema schema : schemas) {
+        for (DamengSchema schema : schemas) {
             list.add(new DamengSchemaTreeItem(schema, this.getTreeView()));
         }
         this.setChild(list);
@@ -334,11 +334,11 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         return this.client.existSchema(schema);
     }
 
-    public void createSchema(DBSchema schema) {
+    public void createSchema(DamengSchema schema) {
         this.client.createSchema(schema);
     }
 
-    public boolean alterSchema(DBSchema schema) {
+    public boolean alterSchema(DamengSchema schema) {
         return this.client.alterSchema(schema);
     }
 

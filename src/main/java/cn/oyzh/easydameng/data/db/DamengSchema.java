@@ -1,21 +1,25 @@
 package cn.oyzh.easydameng.data.db;
 
 
+import cn.oyzh.fx.db.DBSchema;
+
 /**
  * @author oyzh
  * @since 2024/1/30
  */
-public class DBSchema {
+public class DamengSchema implements DBSchema {
 
     /**
      * 模式名称
      */
     private String name;
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
