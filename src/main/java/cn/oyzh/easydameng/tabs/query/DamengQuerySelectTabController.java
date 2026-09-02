@@ -159,7 +159,7 @@ public class DamengQuerySelectTabController extends RichTabController {
             // 初始化数据
             this.initRecords(this.result.getRecords());
             // 初始化sql信息
-            this.sql.text(TextUtil.toSingleLine(this.result.getSql()));
+            this.sql.text(TextUtil.toSingleLine(this.result.getContent()));
             this.used.text(I18nHelper.time() + ": " + this.result.getUsedMs() + "ms");
             // 初始化计数
             this.initCount(this.result.getCount());
@@ -368,7 +368,7 @@ public class DamengQuerySelectTabController extends RichTabController {
                 return;
             }
             // 执行查询
-            this.result = this.dbItem.executeSingleSql(this.result.getSql());
+            this.result = this.dbItem.executeSingleSql(this.result.getContent());
             // 初始化数据
             this.initDataList();
             // 禁用组件

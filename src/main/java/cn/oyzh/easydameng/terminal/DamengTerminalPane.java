@@ -3,11 +3,11 @@ package cn.oyzh.easydameng.terminal;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
-import cn.oyzh.easydameng.dameng.query.DamengQueryResults;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengSetting;
 import cn.oyzh.easydameng.store.DamengSettingStore;
+import cn.oyzh.fx.db.query.DBQueryResults;
 import cn.oyzh.fx.plus.font.FontManager;
 import cn.oyzh.fx.plus.util.FXUtil;
 import cn.oyzh.fx.terminal.TerminalPane;
@@ -260,7 +260,7 @@ public class DamengTerminalPane extends TerminalPane {
                 terminalResult.setResult("No database selected. Use 'use <database>' to select one.");
                 return terminalResult;
             }
-            DamengQueryResults<DamengExecuteResult> results = this.client.executeSql(this.dbName, input);
+            DBQueryResults<DamengExecuteResult> results = this.client.executeSql(this.dbName, input);
             if (!results.isSuccess()) {
                 terminalResult.setException(new RuntimeException(results.getErrMsg()));
             } else if (results.isEmpty()) {

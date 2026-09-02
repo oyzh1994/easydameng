@@ -19,7 +19,6 @@ import cn.oyzh.easydameng.dameng.procedure.DamengCreateProcedureParam;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
-import cn.oyzh.easydameng.dameng.query.DamengQueryResults;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
@@ -46,6 +45,7 @@ import cn.oyzh.easydameng.trees.terminal.DamengTerminalTreeItem;
 import cn.oyzh.easydameng.trees.view.DamengViewTreeItem;
 import cn.oyzh.easydameng.trees.view.DamengViewsTreeItem;
 import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.query.DBQueryResults;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.tree.view.RichTreeItem;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
@@ -513,7 +513,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().dropTable(this.schema(), tableName);
     }
 
-    public DamengQueryResults<DamengExecuteResult> executeSql(String sql) {
+    public DBQueryResults<DamengExecuteResult> executeSql(String sql) {
         return this.client().executeSql(this.schema(), sql);
     }
 
@@ -521,7 +521,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         return this.client().executeSingleSql(this.schema(), sql);
     }
 
-    public DamengQueryResults<DamengExplainResult> explainSql(String sql) {
+    public DBQueryResults<DamengExplainResult> explainSql(String sql) {
         return this.client().explainSql(this.schema(), sql);
     }
 

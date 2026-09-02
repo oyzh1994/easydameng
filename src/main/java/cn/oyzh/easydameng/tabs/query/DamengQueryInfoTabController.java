@@ -2,7 +2,8 @@ package cn.oyzh.easydameng.tabs.query;
 
 import cn.oyzh.common.util.TextUtil;
 import cn.oyzh.easydameng.dameng.query.DamengQueryResult;
-import cn.oyzh.easydameng.dameng.query.DamengQueryResults;
+import cn.oyzh.fx.db.query.DBQueryResult;
+import cn.oyzh.fx.db.query.DBQueryResults;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.plus.controls.text.area.FXTextArea;
@@ -21,11 +22,11 @@ public class DamengQueryInfoTabController extends RichTabController {
     @FXML
     private Editor infoArea;
 
-    public void init(DamengQueryResults<?> results) {
+    public void init(DBQueryResults<?> results) {
         this.infoArea.clear();
         if (results.isSuccess()) {
-            for (DamengQueryResult result : results.getResults()) {
-                this.infoArea.appendLine(result.getSql());
+            for (DBQueryResult result : results.getResults()) {
+                this.infoArea.appendLine(result.getContent());
                 if (result.isSuccess()) {
                     if (result.getUpdateCount() > 0) {
                         this.infoArea.appendLine("> Affected rows: " + result.getUpdateCount());

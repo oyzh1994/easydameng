@@ -32,7 +32,6 @@ import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.procedure.DamengSelectProcedureParam;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
-import cn.oyzh.easydameng.dameng.query.DamengQueryResults;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengInsertRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
@@ -62,6 +61,7 @@ import cn.oyzh.easydameng.util.DamengUtil;
 import cn.oyzh.fx.db.DBConnConfig;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBFeature;
+import cn.oyzh.fx.db.query.DBQueryResults;
 import cn.oyzh.fx.db.sql.DBSqlParser;
 import cn.oyzh.fx.db.util.DBUtil;
 import com.alibaba.druid.DbType;
@@ -477,8 +477,8 @@ public class ShellDamengClient {
         return size;
     }
 
-    public DamengQueryResults<DamengExecuteResult> executeSql(String dbName, String sql) {
-        DamengQueryResults<DamengExecuteResult> results = new DamengQueryResults<>();
+    public DBQueryResults<DamengExecuteResult> executeSql(String dbName, String sql) {
+        DBQueryResults<DamengExecuteResult> results = new DBQueryResults<>();
         Connection connection = null;
         try {
             this.printSql(sql);
@@ -489,7 +489,7 @@ public class ShellDamengClient {
             Statement statement = connection.createStatement();
             for (String execSql : list) {
                 DamengExecuteResult result = new DamengExecuteResult();
-                result.setSql(execSql);
+                result.setContent(execSql);
                 try {
                     long startTime = System.nanoTime();
                     boolean isQuery = statement.execute(execSql);
@@ -2437,8 +2437,8 @@ public class ShellDamengClient {
         }
     }
 
-    public DamengQueryResults<DamengExplainResult> explainSql(String schema, String sql) {
-        DamengQueryResults<DamengExplainResult> results = new DamengQueryResults<>();
+    public DBQueryResults<DamengExplainResult> explainSql(String schema, String sql) {
+        DBQueryResults<DamengExplainResult> results = new DBQueryResults<>();
         Connection connection = null;
         try {
             this.printSql(sql);
@@ -2451,7 +2451,7 @@ public class ShellDamengClient {
                 DamengExplainResult result = new DamengExplainResult();
                 try {
                     execSql = "EXPLAIN FOR " + execSql.stripLeading();
-                    result.setSql(execSql);
+                    result.setContent(execSql);
                     long startTime = System.nanoTime();
                     ResultSet resultSet = statement.executeQuery(execSql);
                     result.parseResult(resultSet, connection);
@@ -2475,7 +2475,7 @@ public class ShellDamengClient {
     public DamengExecuteResult executeSingleSql(String schema, String sql) {
         Connection connection = null;
         DamengExecuteResult result = new DamengExecuteResult();
-        result.setSql(sql);
+        result.setContent(sql);
         try {
             this.printSql(sql);
             DBSqlParser parser = DBSqlParser.getParser(sql, DBDialect.DAMENG);

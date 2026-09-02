@@ -3,12 +3,11 @@ package cn.oyzh.easydameng.tabs.query;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
-import cn.oyzh.easydameng.dameng.query.DamengQueryResults;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.query.DamengQueryEditor;
-import cn.oyzh.easydameng.query.DamengQueryUtil;
 import cn.oyzh.easydameng.store.DamengQueryStore;
 import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
+import cn.oyzh.fx.db.query.DBQueryResults;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.plus.controls.box.FXVBox;
 import cn.oyzh.fx.plus.controls.pane.FXSplitPane;
@@ -16,16 +15,15 @@ import cn.oyzh.fx.plus.controls.tab.FXTab;
 import cn.oyzh.fx.plus.controls.tab.FXTabPane;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.keyboard.KeyboardUtil;
+import cn.oyzh.fx.plus.util.FXUtil;
 import cn.oyzh.fx.plus.window.StageManager;
 import cn.oyzh.i18n.I18nHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.input.KeyEvent;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * db查询内容组件
@@ -100,14 +98,12 @@ public class DamengQueryMainTabController extends RichTabController {
         this.queryArea.addTextChangeListener((observable, oldValue, newValue) -> {
             this.unsaved = true;
             this.flushTab();
-            // this.tab.setContentChanged(true)
         });
-        DamengQueryUtil.updateIndex(dbItem.client());
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        super.initialize(url, resourceBundle);
+    protected void bindListeners() {
+        this.resultTabPane.setupRefreshListener();
         this.resultTabPane.selectedItemChanged((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 if (StringUtil.equals(newValue.getId(), "infoTab")) {
@@ -118,6 +114,7 @@ public class DamengQueryMainTabController extends RichTabController {
             }
         });
         this.queryArea.setRunCallback(this::run);
+        super.bindListeners();
     }
 
     //    @Override
@@ -187,7 +184,7 @@ public class DamengQueryMainTabController extends RichTabController {
     private void doRun(String sql) {
         try {
             this.resultTabPane.disable();
-            DamengQueryResults<DamengExecuteResult> results = this.dbItem.executeSql(sql);
+            DBQueryResults<DamengExecuteResult> results = this.dbItem.executeSql(sql);
             this.clearTabs();
             int showType = 1;
             this.initInfoTab(results);
@@ -195,17 +192,17 @@ public class DamengQueryMainTabController extends RichTabController {
                 int index = 1;
                 this.initInfoTab(results);
                 for (DamengExecuteResult result : results.getResults()) {
-                    if (result.isSuccess()) {
+                    if (result.isSuccess() && result.hasResult()) {
                         FXTab fxTab = this.initSelectTab(result, I18nHelper.result() + index++);
                         showType = 2;
                         this.resultTabPane.addTab(fxTab);
                     }
                 }
-                if (showType == 2) {
-                    this.resultTabPane.select(1);
-                } else {
-                    this.resultTabPane.selectFirst();
-                }
+            }
+            if (showType == 2) {
+                FXUtil.runLater(() -> this.resultTabPane.select(1));
+            } else {
+                FXUtil.runLater(() -> this.resultTabPane.selectFirst());
             }
             this.showNode(showType);
         } catch (Exception ex) {
@@ -223,7 +220,7 @@ public class DamengQueryMainTabController extends RichTabController {
         try {
             String sql = this.queryArea.getTextTrim();
             this.resultTabPane.disable();
-            DamengQueryResults<DamengExplainResult> results = this.dbItem.explainSql(sql);
+            DBQueryResults<DamengExplainResult> results = this.dbItem.explainSql(sql);
             this.clearTabs();
             int showType = 1;
             this.initInfoTab(results);
@@ -231,17 +228,17 @@ public class DamengQueryMainTabController extends RichTabController {
                 int index = 1;
                 this.initInfoTab(results);
                 for (DamengExplainResult result : results.getResults()) {
-                    if (result.isSuccess()) {
+                    if (result.isSuccess() && result.hasResult()) {
                         FXTab fxTab = this.initExplainTab(result, I18nHelper.explain() + index++);
                         showType = 2;
                         this.resultTabPane.addTab(fxTab);
                     }
                 }
-                if (showType == 2) {
-                    this.resultTabPane.select(1);
-                } else {
-                    this.resultTabPane.selectFirst();
-                }
+            }
+            if (showType == 2) {
+                FXUtil.runLater(() -> this.resultTabPane.select(1));
+            } else {
+                FXUtil.runLater(() -> this.resultTabPane.selectFirst());
             }
             this.showNode(showType);
         } catch (Exception ex) {
@@ -256,7 +253,7 @@ public class DamengQueryMainTabController extends RichTabController {
      *
      * @param results 结果
      */
-    private void initInfoTab(DamengQueryResults<?> results) {
+    private void initInfoTab(DBQueryResults<?> results) {
         this.infoTab.init(results);
     }
 

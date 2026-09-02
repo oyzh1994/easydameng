@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.tabs.query;
 
-import cn.oyzh.easydameng.dameng.query.DamengQueryResults;
 import cn.oyzh.easydameng.tabs.DamengTab;
+import cn.oyzh.fx.db.query.DBQueryResults;
 import cn.oyzh.fx.gui.tabs.RichTab;
 
 /**
@@ -17,7 +17,7 @@ public class DamengQueryInfoTab extends RichTab {
         return DamengTab.BASE_PATH + "query/damengQueryInfoTab.fxml";
     }
 
-    public void init(DamengQueryResults<?> results) {
+    public void init(DBQueryResults<?> results) {
         this.controller().init(results);
     }
 
@@ -25,7 +25,6 @@ public class DamengQueryInfoTab extends RichTab {
     public DamengQueryInfoTabController controller() {
         return (DamengQueryInfoTabController) super.controller();
     }
-
 
     @Override
     public void initNode() {
