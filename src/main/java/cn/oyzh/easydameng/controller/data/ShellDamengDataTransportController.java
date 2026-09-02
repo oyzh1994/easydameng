@@ -6,7 +6,7 @@ import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.domain.DamengConnect;
-import cn.oyzh.easydameng.fx.DBDatabaseComboBox;
+import cn.oyzh.easydameng.fx.DBSchemaComboBox;
 import cn.oyzh.easydameng.fx.DBInfoComboBox;
 import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportFunctionListView;
 import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportProcedureListView;
@@ -104,13 +104,13 @@ public class ShellDamengDataTransportController extends StageController {
      * 来源库组件
      */
     @FXML
-    private DBDatabaseComboBox sourceDatabase;
+    private DBSchemaComboBox sourceDatabase;
 
     /**
      * 目标库组件
      */
     @FXML
-    private DBDatabaseComboBox targetDatabase;
+    private DBSchemaComboBox targetDatabase;
 
     /**
      * 来源主机

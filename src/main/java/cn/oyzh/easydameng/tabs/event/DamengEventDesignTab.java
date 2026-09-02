@@ -3,7 +3,7 @@
 //import cn.oyzh.common.util.StringUtil;
 //import cn.oyzh.easydameng.dameng.event.DamengEvent;
 //import cn.oyzh.easydameng.tabs.DamengTab;
-//import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+//import cn.oyzh.easydameng.trees.database.DamengSchemaTreeItem;
 //import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
 //import cn.oyzh.fx.plus.information.MessageBox;
 //import cn.oyzh.i18n.I18nHelper;
@@ -54,7 +54,7 @@
 //    }
 //
 //    @Override
-//    public DamengDatabaseTreeItem dbItem() {
+//    public DamengSchemaTreeItem dbItem() {
 //        return this.controller().getDbItem();
 //    }
 //
@@ -64,7 +64,7 @@
 //     * @param event 事件对象
 //     * @param item  db库树节点
 //     */
-//    public void init(DamengEvent event, DamengDatabaseTreeItem item) {
+//    public void init(DamengEvent event, DamengSchemaTreeItem item) {
 //        this.controller().init(event, item);
 //        // 刷新tab
 //        this.flush();

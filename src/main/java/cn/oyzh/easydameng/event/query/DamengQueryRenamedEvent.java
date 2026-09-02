@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.event.query;
 
 import cn.oyzh.easydameng.domain.DamengQuery;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.event.Event;
 
 /**
@@ -10,7 +10,7 @@ import cn.oyzh.event.Event;
  */
 public class DamengQueryRenamedEvent extends Event<DamengQuery> {
 
-    private DamengDatabaseTreeItem dbItem;
+    private DamengSchemaTreeItem dbItem;
 
     public String queryName() {
         return this.data().getName();
@@ -24,11 +24,11 @@ public class DamengQueryRenamedEvent extends Event<DamengQuery> {
         return this.dbItem.schema();
     }
 
-    public DamengDatabaseTreeItem getDbItem() {
+    public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
 
-    public void setDbItem(DamengDatabaseTreeItem dbItem) {
+    public void setDbItem(DamengSchemaTreeItem dbItem) {
         this.dbItem = dbItem;
     }
 }

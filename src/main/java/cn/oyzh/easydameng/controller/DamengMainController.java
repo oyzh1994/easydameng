@@ -2,14 +2,10 @@ package cn.oyzh.easydameng.controller;
 
 import cn.oyzh.easydameng.controller.main.ConnectController;
 import cn.oyzh.easydameng.domain.DamengConnect;
-import cn.oyzh.easydameng.domain.DamengSetting;
-import cn.oyzh.easydameng.event.connect.DamengConnectUpdatedEvent;
 import cn.oyzh.easydameng.event.tree.DamengTreeItemChangedEvent;
-import cn.oyzh.easydameng.store.DamengSettingStore;
 import cn.oyzh.easydameng.tabs.DamengTabPane;
-import cn.oyzh.easydameng.trees.DBTreeView;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.trees.query.DamengQueryTreeItem;
 import cn.oyzh.easydameng.trees.query.DamengQueriesTreeItem;
 import cn.oyzh.easydameng.trees.table.DamengTableTreeItem;
@@ -20,10 +16,8 @@ import cn.oyzh.fx.plus.controller.ParentStageController;
 import cn.oyzh.fx.plus.controller.SubStageController;
 import cn.oyzh.fx.plus.controls.box.FXVBox;
 import cn.oyzh.fx.plus.controls.pane.FXSplitPane;
-import cn.oyzh.fx.plus.keyboard.KeyListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
-import javafx.scene.input.KeyCode;
 import javafx.stage.WindowEvent;
 
 import java.util.List;
@@ -84,7 +78,7 @@ public class DamengMainController extends ParentStageController {
             this.flushViewTitle(treeItem.info());
         } else if (item instanceof DamengQueryTreeItem treeItem) {
             this.flushViewTitle(treeItem.info());
-        } else if (item instanceof DamengDatabaseTreeItem treeItem) {
+        } else if (item instanceof DamengSchemaTreeItem treeItem) {
             this.flushViewTitle(treeItem.info());
         } else if (item instanceof DBConnectTreeItem treeItem) {
             this.flushViewTitle(treeItem.value());
@@ -183,7 +177,7 @@ public class DamengMainController extends ParentStageController {
     private void treeItemChanged(DamengTreeItemChangedEvent event) {
         if (event.data() instanceof DBConnectTreeItem treeItem) {
             this.flushViewTitle(treeItem.value());
-        } else if (event.data() instanceof DamengDatabaseTreeItem treeItem) {
+        } else if (event.data() instanceof DamengSchemaTreeItem treeItem) {
             this.flushViewTitle(treeItem.dbConnect());
         } else if (event.data() instanceof DamengQueryTreeItem treeItem) {
             this.flushViewTitle(treeItem.dbConnect());

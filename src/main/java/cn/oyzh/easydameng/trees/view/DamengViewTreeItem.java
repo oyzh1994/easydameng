@@ -2,7 +2,6 @@ package cn.oyzh.easydameng.trees.view;
 
 import cn.oyzh.common.dto.Paging;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.controller.view.DamengViewInfoController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
@@ -18,14 +17,12 @@ import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.util.ShellDamengViewFactory;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.menu.FXMenuItem;
-import cn.oyzh.fx.plus.window.StageAdapter;
-import cn.oyzh.fx.plus.window.StageManager;
 import cn.oyzh.i18n.I18nHelper;
 import javafx.scene.control.MenuItem;
 
@@ -126,7 +123,7 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
         }
     }
 
-    public DamengDatabaseTreeItem dbItem() {
+    public DamengSchemaTreeItem dbItem() {
         return this.parent().parent();
     }
 

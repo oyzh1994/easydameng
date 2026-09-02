@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.controller.function;
 
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.trees.function.DamengFunctionTreeItem;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.text.area.ReadOnlyTextArea;
@@ -62,7 +62,7 @@ public class ShellDamengFunctionInfoController extends StageController {
      * 初始化信息
      */
     private void initInfo() {
-        DamengDatabaseTreeItem dbItem = this.treeItem.dbItem();
+        DamengSchemaTreeItem dbItem = this.treeItem.dbItem();
         DamengFunction function = dbItem.selectFunction(this.treeItem.functionName());
         this.name.setText(function.getName());
         this.definition.setText(function.getDefinition());

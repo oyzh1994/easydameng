@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.dameng.foreignKey;
 
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.fx.DBDatabaseComboBox;
+import cn.oyzh.easydameng.fx.DBSchemaComboBox;
 import cn.oyzh.easydameng.fx.table.DamengFieldTextFiled;
 import cn.oyzh.easydameng.fx.table.DamengForeignKeyPolicyComboBox;
 import cn.oyzh.easydameng.fx.table.DamengTableComboBox;
@@ -80,9 +80,9 @@ public class DamengForeignKeyControl extends DamengForeignKey {
         return null;
     }
 
-    public DBDatabaseComboBox getPrimaryKeyDatabaseControl() {
+    public DBSchemaComboBox getPrimaryKeyDatabaseControl() {
         try {
-            DBDatabaseComboBox comboBox = new DBDatabaseComboBox();
+            DBSchemaComboBox comboBox = new DBSchemaComboBox();
             //comboBox.init(CacheHelper.get("dameng:dbClient"));
             comboBox.init(this.dbClient);
             comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setPrimaryKeyDatabase(newValue));

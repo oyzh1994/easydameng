@@ -1495,7 +1495,7 @@ public class ShellDamengClient {
         }
     }
 
-    public List<DBSchema> databases() {
+    public List<DBSchema> schemas() {
         try {
             Statement statement = this.connManager.connection().createStatement();
             // 查询当前用户有权限访问的schema：优先显示有对象的schema，也包含当前用户自己的schema
@@ -1523,12 +1523,11 @@ public class ShellDamengClient {
         }
     }
 
-    public DBSchema database(String dbName) {
+    public DBSchema schema(String schema) {
         try {
-            DBSchema database = new DBSchema();
-            database.setName(dbName);
-            //            database.setCharsetAndCollation(this.databaseCollation(dbName));
-            return database;
+            DBSchema dbSchema = new DBSchema();
+            dbSchema.setName(schema);
+            return dbSchema;
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new DBException(ex);

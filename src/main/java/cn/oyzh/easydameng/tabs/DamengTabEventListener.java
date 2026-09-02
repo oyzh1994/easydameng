@@ -5,7 +5,6 @@ import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.event.connect.DBConnectionClosedEvent;
 import cn.oyzh.easydameng.event.database.DamengDatabaseClosedEvent;
 import cn.oyzh.easydameng.event.database.DamengDatabaseDroppedEvent;
-import cn.oyzh.easydameng.event.event.DamengEventDesignEvent;
 import cn.oyzh.easydameng.event.function.DamengFunctionDesignEvent;
 import cn.oyzh.easydameng.event.procedure.DamengProcedureDesignEvent;
 import cn.oyzh.easydameng.event.query.DamengQueryAddEvent;
@@ -34,7 +33,7 @@ import cn.oyzh.easydameng.tabs.table.DamengTableDesignTab;
 import cn.oyzh.easydameng.tabs.table.DamengTableRecordTab;
 import cn.oyzh.easydameng.tabs.view.DamengViewDesignTab;
 import cn.oyzh.easydameng.tabs.view.DamengViewRecordTab;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.event.EventListener;
 import cn.oyzh.event.EventSubscribe;
 import cn.oyzh.fx.plus.information.MessageBox;
@@ -90,7 +89,7 @@ public class DamengTabEventListener implements EventListener {
         return list;
     }
 
-    private List<DamengTab> getDamengTabs(DamengDatabaseTreeItem dbItem) {
+    private List<DamengTab> getDamengTabs(DamengSchemaTreeItem dbItem) {
         List<DamengTab> list = new ArrayList<>();
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengTab tab1 && tab1.dbItem() == dbItem) {
@@ -100,7 +99,7 @@ public class DamengTabEventListener implements EventListener {
         return list;
     }
 
-    private DamengTableRecordTab getDamengTableRecordTab(DamengDatabaseTreeItem dbItem, String tableName) {
+    private DamengTableRecordTab getDamengTableRecordTab(DamengSchemaTreeItem dbItem, String tableName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengTableRecordTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(tableName, tab1.tableName())) {
                 return tab1;
@@ -237,7 +236,7 @@ public class DamengTabEventListener implements EventListener {
         }
     }
 
-    // private DamengViewRecordTab getDamengViewRecordTab(DamengDatabaseTreeItem dbItem, String viewName) {
+    // private DamengViewRecordTab getDamengViewRecordTab(DamengSchemaTreeItem dbItem, String viewName) {
     //     for (Tab tab : this.getTabs()) {
     //         if (tab instanceof DamengViewRecordTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(tab1.viewName(), viewName)) {
     //             return tab1;
@@ -385,7 +384,7 @@ public class DamengTabEventListener implements EventListener {
         this.removeTab(this.getDamengTabs(event.data()));
     }
 
-    private DamengFunctionDesignTab getDamengFunctionTab(DamengDatabaseTreeItem dbItem, String functionName) {
+    private DamengFunctionDesignTab getDamengFunctionTab(DamengSchemaTreeItem dbItem, String functionName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengFunctionDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(functionName, tab1.functionName())) {
                 return tab1;
@@ -414,7 +413,7 @@ public class DamengTabEventListener implements EventListener {
         }
     }
 
-    private DamengProcedureDesignTab getDamengProcedureTab(DamengDatabaseTreeItem dbItem, String procedureName) {
+    private DamengProcedureDesignTab getDamengProcedureTab(DamengSchemaTreeItem dbItem, String procedureName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengProcedureDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(procedureName, tab1.procedureName())) {
                 return tab1;
@@ -443,7 +442,7 @@ public class DamengTabEventListener implements EventListener {
         }
     }
 
-//    private DamengEventDesignTab getDamengEventTab(DamengDatabaseTreeItem dbItem, String eventName) {
+//    private DamengEventDesignTab getDamengEventTab(DamengSchemaTreeItem dbItem, String eventName) {
 //        for (Tab tab : this.getTabs()) {
 //            if (tab instanceof DamengEventDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(eventName, tab1.eventName())) {
 //                return tab1;
@@ -472,7 +471,7 @@ public class DamengTabEventListener implements EventListener {
 //        }
 //    }
 
-    private DamengViewDesignTab getDamengViewDesignTab(DamengDatabaseTreeItem dbItem, String viewName) {
+    private DamengViewDesignTab getDamengViewDesignTab(DamengSchemaTreeItem dbItem, String viewName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengViewDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(viewName, tab1.viewName())) {
                 return tab1;
@@ -501,7 +500,7 @@ public class DamengTabEventListener implements EventListener {
         }
     }
 
-    private DamengTableDesignTab getDamengTableDesignTab(DamengDatabaseTreeItem dbItem, String tableName) {
+    private DamengTableDesignTab getDamengTableDesignTab(DamengSchemaTreeItem dbItem, String tableName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengTableDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equalsIgnoreCase(tableName, tab1.tableName())) {
                 return tab1;
@@ -540,7 +539,7 @@ public class DamengTabEventListener implements EventListener {
         this.removeTab(this.getDamengTabs());
     }
 
-    private DamengViewRecordTab getViewRecordTab(DamengDatabaseTreeItem dbItem, String viewName) {
+    private DamengViewRecordTab getViewRecordTab(DamengSchemaTreeItem dbItem, String viewName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengViewRecordTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(viewName, tab1.viewName())) {
                 return tab1;

@@ -12,7 +12,7 @@
 // import cn.oyzh.easydameng.event.view.DamengViewAddedEvent;
 // import cn.oyzh.easydameng.event.view.DamengViewAlertedEvent;
 // import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
-// import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+// import cn.oyzh.easydameng.trees.database.DamengSchemaTreeItem;
 // import cn.oyzh.easydameng.trees.event.DamengEventTreeItem;
 // import cn.oyzh.easydameng.trees.function.DamengFunctionTreeItem;
 // import cn.oyzh.easydameng.trees.procedure.DamengProcedureTreeItem;
@@ -53,7 +53,7 @@
 //      */
 //     @EventSubscribe
 //     private void viewAdded(DamengViewAddedEvent event) {
-//         DamengDatabaseTreeItem dbItem = event.data();
+//         DamengSchemaTreeItem dbItem = event.data();
 //         if (dbItem != null) {
 //             dbItem.getViewTypeChild().reloadChild();
 //         }
@@ -83,7 +83,7 @@
 //     //  */
 //     // @EventSubscribe
 //     // private void onTableAdded(DamengTableAddedEvent event) {
-//     //     DamengDatabaseTreeItem dbItem = event.data();
+//     //     DamengSchemaTreeItem dbItem = event.data();
 //     //     if (dbItem != null) {
 //     //         dbItem.getTableTypeChild().reloadChild();
 //     //     }
@@ -112,7 +112,7 @@
 //      */
 //     @EventSubscribe
 //     private void onProcedureAdded(DamengProcedureAddedEvent event) {
-//         DamengDatabaseTreeItem dbItem = event.data();
+//         DamengSchemaTreeItem dbItem = event.data();
 //         if (dbItem != null) {
 //             dbItem.getProcedureTypeChild().reloadChild();
 //         }
@@ -141,7 +141,7 @@
 //      */
 //     @EventSubscribe
 //     private void onFunctionAdded(DamengFunctionAddedEvent event) {
-//         DamengDatabaseTreeItem dbItem = event.data();
+//         DamengSchemaTreeItem dbItem = event.data();
 //         if (dbItem != null) {
 //             dbItem.getFunctionTypeChild().reloadChild();
 //         }
@@ -170,7 +170,7 @@
 //      */
 //     @EventSubscribe
 //     private void onEventAdded(DamengEventAddedEvent event) {
-//         DamengDatabaseTreeItem dbItem = event.data();
+//         DamengSchemaTreeItem dbItem = event.data();
 //         if (dbItem != null) {
 //             dbItem.getEventTypeChild().reloadChild();
 //         }

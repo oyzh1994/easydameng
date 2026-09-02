@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.tabs.query;
 
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.tabs.DamengTab;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.tabs.RichTab;
 
 /**
@@ -18,7 +18,7 @@ public class DamengQuerySelectTab extends RichTab {
         return DamengTab.BASE_PATH + "query/damengQuerySelectTab.fxml";
     }
 
-    public void init(String title, DamengExecuteResult result, DamengDatabaseTreeItem dbItem) {
+    public void init(String title, DamengExecuteResult result, DamengSchemaTreeItem dbItem) {
         this.setTitle(title);
         this.controller().init(result, dbItem);
     }

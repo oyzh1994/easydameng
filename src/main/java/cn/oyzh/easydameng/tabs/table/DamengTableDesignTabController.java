@@ -27,7 +27,7 @@ import cn.oyzh.easydameng.dameng.generator.table.DamengTableAlertSqlGenerator;
 import cn.oyzh.easydameng.dameng.generator.table.DamengTableCreateSqlGenerator;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.tabs.ParentTabController;
 import cn.oyzh.fx.gui.tabs.SubTabController;
@@ -140,7 +140,7 @@ public class DamengTableDesignTabController extends ParentTabController {
     /**
      * db库节点
      */
-    private DamengDatabaseTreeItem dbItem;
+    private DamengSchemaTreeItem dbItem;
 
     /**
      * 数据监听器
@@ -747,7 +747,7 @@ public class DamengTableDesignTabController extends ParentTabController {
      * @param table  表信息
      * @param dbItem db库树节点
      */
-    public void init(DamengTable table, DamengDatabaseTreeItem dbItem) throws Exception {
+    public void init(DamengTable table, DamengSchemaTreeItem dbItem) throws Exception {
         // 获取对象
         this.dbItem = dbItem;
         this.table = table;
@@ -918,7 +918,7 @@ public class DamengTableDesignTabController extends ParentTabController {
         return List.of(this.tableColumnExtraController);
     }
 
-    public DamengDatabaseTreeItem getDbItem() {
+    public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
 

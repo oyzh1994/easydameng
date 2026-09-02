@@ -9,7 +9,7 @@ import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
 import cn.oyzh.fx.plus.information.MessageBox;
@@ -38,8 +38,8 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
     }
 
     @Override
-    public DamengDatabaseTreeItem parent() {
-        return (DamengDatabaseTreeItem) super.parent();
+    public DamengSchemaTreeItem parent() {
+        return (DamengSchemaTreeItem) super.parent();
     }
 
     @Override

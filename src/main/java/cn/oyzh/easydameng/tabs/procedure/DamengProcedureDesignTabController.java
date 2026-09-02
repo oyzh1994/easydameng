@@ -12,7 +12,7 @@ import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.plus.controls.button.FXCheckBox;
@@ -49,7 +49,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
     /**
      * db数据库树节点
      */
-    private DamengDatabaseTreeItem dbItem;
+    private DamengSchemaTreeItem dbItem;
 
     /**
      * 定义
@@ -113,7 +113,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
      * @param procedure 查询对象
      * @param dbItem    db库树节点
      */
-    public void init(DamengProcedure procedure, DamengDatabaseTreeItem dbItem) {
+    public void init(DamengProcedure procedure, DamengSchemaTreeItem dbItem) {
         this.dbItem = dbItem;
         this.procedure = procedure;
         // 更新新数据标志位
@@ -409,11 +409,11 @@ public class DamengProcedureDesignTabController extends RichTabController {
         this.unsaved = unsaved;
     }
 
-    public DamengDatabaseTreeItem getDbItem() {
+    public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
 
-    public void setDbItem(DamengDatabaseTreeItem dbItem) {
+    public void setDbItem(DamengSchemaTreeItem dbItem) {
         this.dbItem = dbItem;
     }
 

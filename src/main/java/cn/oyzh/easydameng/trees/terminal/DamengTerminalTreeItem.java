@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.trees.terminal;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.tree.view.RichTreeItem;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
 
@@ -18,8 +18,8 @@ public class DamengTerminalTreeItem extends RichTreeItem<DamengTerminalTreeItemV
         this.setValue(new DamengTerminalTreeItemValue());
     }
 
-    public DamengDatabaseTreeItem parent() {
-        return (DamengDatabaseTreeItem) super.parent();
+    public DamengSchemaTreeItem parent() {
+        return (DamengSchemaTreeItem) super.parent();
     }
 
     public DamengConnect shellConnect() {

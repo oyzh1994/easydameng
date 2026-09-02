@@ -1,6 +1,6 @@
 //package cn.oyzh.easydameng.event.event;
 //
-//import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+//import cn.oyzh.easydameng.trees.database.DamengSchemaTreeItem;
 //import cn.oyzh.easydameng.trees.event.DamengEventTreeItem;
 //import cn.oyzh.event.Event;
 //
@@ -10,7 +10,7 @@
 // */
 //public class DamengEventRenamedEvent extends Event<DamengEventTreeItem> {
 //
-//    private DamengDatabaseTreeItem dbItem;
+//    private DamengSchemaTreeItem dbItem;
 //
 //    public String eventName() {
 //        return this.data().eventName();
@@ -20,11 +20,11 @@
 //        return this.dbItem.dbName();
 //    }
 //
-//    public DamengDatabaseTreeItem getDbItem() {
+//    public DamengSchemaTreeItem getDbItem() {
 //        return dbItem;
 //    }
 //
-//    public void setDbItem(DamengDatabaseTreeItem dbItem) {
+//    public void setDbItem(DamengSchemaTreeItem dbItem) {
 //        this.dbItem = dbItem;
 //    }
 //}

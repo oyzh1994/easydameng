@@ -25,7 +25,7 @@ import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.util.DBI18nHelper;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.svg.glyph.CopySVGGlyph;
@@ -252,7 +252,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         }
     }
 
-    public DamengDatabaseTreeItem dbItem() {
+    public DamengSchemaTreeItem dbItem() {
         if (this.parent() == null) {
             return null;
         }

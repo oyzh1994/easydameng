@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.tabs.function;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.tabs.DamengTab;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.svg.glyph.database.FunctionSVGGlyph;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.i18n.I18nHelper;
@@ -52,7 +52,7 @@ public class DamengFunctionDesignTab extends DamengTab {
     }
 
     @Override
-    public DamengDatabaseTreeItem dbItem() {
+    public DamengSchemaTreeItem dbItem() {
         return this.controller().getDbItem();
     }
 
@@ -70,7 +70,7 @@ public class DamengFunctionDesignTab extends DamengTab {
      * @param function 查询对象
      * @param item     db库树节点
      */
-    public void init(DamengFunction function, DamengDatabaseTreeItem item) {
+    public void init(DamengFunction function, DamengSchemaTreeItem item) {
         this.controller().init(function, item);
         // 刷新tab
         this.flush();

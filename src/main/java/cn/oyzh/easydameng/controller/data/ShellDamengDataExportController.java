@@ -8,7 +8,7 @@ import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.dto.ShellDamengDataExportTable;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
-import cn.oyzh.easydameng.fx.DBDatabaseComboBox;
+import cn.oyzh.easydameng.fx.DBSchemaComboBox;
 import cn.oyzh.easydameng.fx.data.DataDateTextFiled;
 import cn.oyzh.easydameng.fx.data.DataExportColumnListView;
 import cn.oyzh.easydameng.fx.data.DataExportTableComboBox;
@@ -89,7 +89,7 @@ public class ShellDamengDataExportController extends StageController {
      * 数据库
      */
     @FXML
-    private DBDatabaseComboBox database;
+    private DBSchemaComboBox database;
 
     /**
      * 导出表下拉框

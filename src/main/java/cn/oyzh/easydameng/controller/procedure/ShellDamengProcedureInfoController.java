@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.controller.procedure;
 
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.trees.procedure.DamengProcedureTreeItem;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.text.area.ReadOnlyTextArea;
@@ -62,7 +62,7 @@ public class ShellDamengProcedureInfoController extends StageController {
      * 初始化信息
      */
     private void initInfo() {
-        DamengDatabaseTreeItem dbItem = this.treeItem.dbItem();
+        DamengSchemaTreeItem dbItem = this.treeItem.dbItem();
         DamengProcedure procedure = dbItem.selectProcedure(this.treeItem.procedureName());
         this.name.setText(procedure.getName());
         this.definition.setText(procedure.getDefinition());

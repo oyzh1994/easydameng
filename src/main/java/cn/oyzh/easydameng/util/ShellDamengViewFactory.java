@@ -5,8 +5,6 @@ import cn.oyzh.easydameng.controller.data.ShellDamengDataExportController;
 import cn.oyzh.easydameng.controller.data.ShellDamengDataImportController;
 import cn.oyzh.easydameng.controller.data.ShellDamengDataRunSqlFileController;
 import cn.oyzh.easydameng.controller.data.ShellDamengDataTransportController;
-import cn.oyzh.easydameng.controller.database.ShellDamengDatabaseAddController;
-import cn.oyzh.easydameng.controller.database.ShellDamengDatabaseUpdateController;
 import cn.oyzh.easydameng.controller.function.ShellDamengFunctionInfoController;
 import cn.oyzh.easydameng.controller.procedure.ShellDamengProcedureInfoController;
 import cn.oyzh.easydameng.controller.table.ShellDamengTableInfoController;
@@ -131,7 +129,7 @@ public class ShellDamengViewFactory {
 //     */
 //    public static void databaseUpdate(DamengDatabase database, ShellDamengRootTreeItem treeItem) {
 //        try {
-//            StageAdapter adapter = StageManager.parseStage(ShellDamengDatabaseUpdateController.class, StageManager.getFrontWindow());
+//            StageAdapter adapter = StageManager.parseStage(ShellDamengSchemaUpdateController.class, StageManager.getFrontWindow());
 //            adapter.setProp("database", database);
 //            adapter.setProp("connectItem", treeItem);
 //            adapter.display();
@@ -167,7 +165,7 @@ public class ShellDamengViewFactory {
 //     */
 //    public static StageAdapter addDatabase(ShellDamengRootTreeItem connectItem) {
 //        try {
-//            StageAdapter adapter = StageManager.parseStage(ShellDamengDatabaseAddController.class, StageManager.getFrontWindow());
+//            StageAdapter adapter = StageManager.parseStage(ShellDamengSchemaAddController.class, StageManager.getFrontWindow());
 //            adapter.setProp("connectItem", connectItem);
 //            adapter.showAndWait();
 //            return adapter;

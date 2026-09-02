@@ -1,6 +1,7 @@
-package cn.oyzh.easydameng.trees.database;
+package cn.oyzh.easydameng.trees.schema;
 
 import cn.oyzh.fx.gui.svg.glyph.database.DatabaseSVGGlyph;
+import cn.oyzh.fx.gui.svg.glyph.database.SchemaSVGGlyph;
 import cn.oyzh.fx.gui.tree.view.RichTreeItemValue;
 import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
 import javafx.scene.paint.Color;
@@ -11,15 +12,15 @@ import javafx.scene.paint.Color;
  * @author oyzh
  * @since 2023/12/20
  */
-public class DamengDatabaseTreeItemValue extends RichTreeItemValue {
+public class DamengSchemaTreeItemValue extends RichTreeItemValue {
 
-    public DamengDatabaseTreeItemValue(DamengDatabaseTreeItem item) {
+    public DamengSchemaTreeItemValue(DamengSchemaTreeItem item) {
         super(item);
     }
 
     @Override
-    public DamengDatabaseTreeItem item() {
-        return (DamengDatabaseTreeItem) super.item();
+    public DamengSchemaTreeItem item() {
+        return (DamengSchemaTreeItem) super.item();
     }
 
     @Override
@@ -30,7 +31,7 @@ public class DamengDatabaseTreeItemValue extends RichTreeItemValue {
     @Override
     public SVGGlyph graphic() {
         if (super.graphic() == null) {
-            super.graphic(new DatabaseSVGGlyph());
+            super.graphic(new SchemaSVGGlyph());
             super.graphic().disableTheme();
         }
         return super.graphic();

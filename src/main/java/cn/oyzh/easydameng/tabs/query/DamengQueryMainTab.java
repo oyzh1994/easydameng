@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.tabs.query;
 
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.tabs.DamengTab;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.svg.glyph.QuerySVGGlyph;
 import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
 import cn.oyzh.i18n.I18nHelper;
@@ -64,7 +64,7 @@ public class DamengQueryMainTab extends DamengTab {
     }
 
     @Override
-    public DamengDatabaseTreeItem dbItem() {
+    public DamengSchemaTreeItem dbItem() {
         return this.controller().getDbItem();
     }
 
@@ -83,7 +83,7 @@ public class DamengQueryMainTab extends DamengTab {
      * @param query 查询对象
      * @param item  db库树节点
      */
-    public boolean init(DamengQuery query, DamengDatabaseTreeItem item) {
+    public boolean init(DamengQuery query, DamengSchemaTreeItem item) {
         this.controller().init(query, item);
         this.flush();
         return true;

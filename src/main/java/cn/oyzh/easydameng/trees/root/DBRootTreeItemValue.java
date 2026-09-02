@@ -1,5 +1,7 @@
 package cn.oyzh.easydameng.trees.root;
 
+import cn.oyzh.fx.gui.svg.glyph.database.DatabaseSVGGlyph;
+import cn.oyzh.fx.gui.svg.glyph.database.SchemaSVGGlyph;
 import cn.oyzh.fx.gui.tree.view.RichTreeItemValue;
 import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
 import cn.oyzh.i18n.I18nHelper;
@@ -13,21 +15,15 @@ import cn.oyzh.i18n.I18nHelper;
  */
 public class DBRootTreeItemValue extends RichTreeItemValue {
 
-//    public DBRootTreeItemValue() {
-//        this.flushGraphic();
-//        this.flushText();
-//    }
-
     @Override
     public String name() {
-        return I18nHelper.database();
+        return I18nHelper.schema();
     }
 
     @Override
     public SVGGlyph graphic() {
         if (super.graphic() == null) {
-            super.graphic(new SVGGlyph("/font/database.svg"));
-//            super.graphic().glyph);
+            super.graphic(new SchemaSVGGlyph());
         }
         return super.graphic();
     }

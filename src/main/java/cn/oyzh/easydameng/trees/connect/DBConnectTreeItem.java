@@ -5,7 +5,7 @@ import cn.oyzh.common.thread.TaskBuilder;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.controller.connect.DamengConnectUpdateController;
-import cn.oyzh.easydameng.controller.database.ShellDamengDatabaseAddController;
+import cn.oyzh.easydameng.controller.database.ShellDamengSchemaAddController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.data.db.DBConnectManager;
@@ -15,7 +15,7 @@ import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.store.DamengConnectStore;
 import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.DBTreeView;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.menu.FXMenuItem;
@@ -62,11 +62,11 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     public DBConnectTreeItem(DamengConnect value, DBTreeView treeView) {
         super(treeView);
         this.value(value);
-//        // 监听键变化
-//        super.addEventHandler(childrenModificationEvent(), (EventHandler<TreeModificationEvent<TreeItem<?>>>) event -> {
-//            DBEventUtil.treeChildChanged();
-//            this.flushLocal();
-//        });
+        //        // 监听键变化
+        //        super.addEventHandler(childrenModificationEvent(), (EventHandler<TreeModificationEvent<TreeItem<?>>>) event -> {
+        //            DBEventUtil.treeChildChanged();
+        //            this.flushLocal();
+        //        });
     }
 
     @Override
@@ -79,26 +79,26 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     public List<MenuItem> getMenuItems() {
         List<MenuItem> items = new ArrayList<>();
         if (this.isConnecting()) {
-            FXMenuItem cancelConnect = MenuItemHelper.cancelConnect( this::cancelConnect);
+            FXMenuItem cancelConnect = MenuItemHelper.cancelConnect(this::cancelConnect);
             items.add(cancelConnect);
         } else if (this.isConnected()) {
-            FXMenuItem closeConnect = MenuItemHelper.closeConnect( this::closeConnect);
-            FXMenuItem editConnect = MenuItemHelper.editConnect( this::editConnect);
-            FXMenuItem repeatConnect = MenuItemHelper.repeatConnect( this::repeatConnect);
-            FXMenuItem addDatabase = MenuItemHelper.addDatabase( this::addDatabase);
-            FXMenuItem reload = MenuItemHelper.reloadDatabase( this::reloadChild);
+            FXMenuItem closeConnect = MenuItemHelper.closeConnect(this::closeConnect);
+            FXMenuItem editConnect = MenuItemHelper.editConnect(this::editConnect);
+            FXMenuItem repeatConnect = MenuItemHelper.repeatConnect(this::repeatConnect);
+            FXMenuItem addSchema = MenuItemHelper.addSchema(this::addSchema);
+            FXMenuItem reload = MenuItemHelper.reloadSchema(this::reloadChild);
 
             items.add(closeConnect);
             items.add(editConnect);
             items.add(repeatConnect);
-            items.add(addDatabase);
+            items.add(addSchema);
             items.add(reload);
         } else {
-            FXMenuItem connect = MenuItemHelper.startConnect( this::connect);
-            FXMenuItem editConnect = MenuItemHelper.editConnect( this::editConnect);
-            FXMenuItem renameConnect = MenuItemHelper.renameConnect( this::rename);
-            FXMenuItem deleteConnect = MenuItemHelper.deleteConnect( this::delete);
-            FXMenuItem repeatConnect = MenuItemHelper.repeatConnect( this::repeatConnect);
+            FXMenuItem connect = MenuItemHelper.startConnect(this::connect);
+            FXMenuItem editConnect = MenuItemHelper.editConnect(this::editConnect);
+            FXMenuItem renameConnect = MenuItemHelper.renameConnect(this::rename);
+            FXMenuItem deleteConnect = MenuItemHelper.deleteConnect(this::delete);
+            FXMenuItem repeatConnect = MenuItemHelper.repeatConnect(this::repeatConnect);
             items.add(connect);
             items.add(editConnect);
             items.add(renameConnect);
@@ -109,22 +109,22 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     }
 
     /**
-     * 新增数据库
+     * 新增模式
      */
     @FXML
-    private void addDatabase() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengDatabaseAddController.class, this.window());
+    private void addSchema() {
+        StageAdapter fxView = StageManager.parseStage(ShellDamengSchemaAddController.class, this.window());
         fxView.setProp("connectItem", this);
         fxView.showAndWait();
         String databaseName = fxView.getProp("databaseName");
         if (StringUtil.isNotBlank(databaseName)) {
-            this.addDatabase(databaseName);
+            this.addSchema(databaseName);
         }
     }
 
-    public void addDatabase(String databaseName) {
-        DBSchema database = this.client.database(databaseName);
-        super.addChild(new DamengDatabaseTreeItem(database, this.getTreeView()));
+    public void addSchema(String schema) {
+        DBSchema dbSchema = this.client.schema(schema);
+        super.addChild(new DamengSchemaTreeItem(dbSchema, this.getTreeView()));
     }
 
     /**
@@ -312,10 +312,10 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
 
     @Override
     public void loadChild() {
-        List<DBSchema> databases = this.client.databases();
+        List<DBSchema> schemas = this.client.schemas();
         List<TreeItem<?>> list = new ArrayList<>();
-        for (DBSchema database : databases) {
-            list.add(new DamengDatabaseTreeItem(database, this.getTreeView()));
+        for (DBSchema schema : schemas) {
+            list.add(new DamengSchemaTreeItem(schema, this.getTreeView()));
         }
         this.setChild(list);
         this.expend();
@@ -342,9 +342,9 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         return this.client.alterDatabase(database);
     }
 
-//    public String databaseCollation(String dbName) {
-//        return this.client.databaseCollation(dbName);
-//    }
+    //    public String databaseCollation(String dbName) {
+    //        return this.client.databaseCollation(dbName);
+    //    }
 
     public boolean dropDatabase(String dbName) {
         return this.client.dropDatabase(dbName);

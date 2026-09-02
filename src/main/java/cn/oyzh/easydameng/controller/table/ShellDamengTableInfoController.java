@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.controller.table;
 
 import cn.oyzh.easydameng.dameng.table.DamengTable;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.trees.table.DamengTableTreeItem;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.text.area.ReadOnlyTextArea;
@@ -62,7 +62,7 @@ public class ShellDamengTableInfoController extends StageController {
      * 初始化信息
      */
     private void initInfo() {
-        DamengDatabaseTreeItem dbItem = this.treeItem.dbItem();
+        DamengSchemaTreeItem dbItem = this.treeItem.dbItem();
         DamengTable table = dbItem.selectTable(treeItem.tableName());
         this.name.setText(table.getName());
         this.comment.setText(table.getComment());

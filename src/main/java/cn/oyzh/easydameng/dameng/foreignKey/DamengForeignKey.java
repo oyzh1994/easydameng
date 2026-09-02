@@ -141,9 +141,9 @@ public class DamengForeignKey extends DBObjectStatus implements ObjectCopier<Dam
         return dbName;
     }
 
-    // public DBDatabaseComboBox getPrimaryKeyDatabaseControl() {
+    // public DBSchemaComboBox getPrimaryKeyDatabaseControl() {
     //     try {
-    //         DBDatabaseComboBox comboBox = new DBDatabaseComboBox();
+    //         DBSchemaComboBox comboBox = new DBSchemaComboBox();
     //         comboBox.init(CacheHelper.get("dbClient"));
     //         comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setPrimaryKeyDatabase(newValue));
     //         comboBox.selectFirstIfNull(this.getPrimaryKeyDatabase());

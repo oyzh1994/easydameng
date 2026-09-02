@@ -25,7 +25,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import cn.oyzh.easydameng.fx.DBDatabaseComboBox?>
+<?import cn.oyzh.easydameng.fx.DBSchemaComboBox?>
 <FXVBox xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="cn.oyzh.easydameng.controller.data.ShellDamengDataExportController" realWidth="700"
         realHeight="650">
@@ -107,11 +107,11 @@
                     <Insets left="30" top="10"/>
                 </VBox.margin>
             </InfoLabel>
-            <DBDatabaseComboBox prefHeight="30" fx:id="database">
+            <DBSchemaComboBox prefHeight="30" fx:id="database">
                 <VBox.margin>
                     <Insets left="30" top="5"/>
                 </VBox.margin>
-            </DBDatabaseComboBox>
+            </DBSchemaComboBox>
             <InfoLabel text="%base.table">
                 <VBox.margin>
                     <Insets left="30" top="10"/>

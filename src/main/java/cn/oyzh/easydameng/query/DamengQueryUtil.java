@@ -187,7 +187,7 @@ public class DamengQueryUtil {
                     DB_PROCEDURES.clear();
                     DB_DATABASES.clear();
                     // 更新库索引
-                    List<DBSchema> databases = client.databases();
+                    List<DBSchema> databases = client.schemas();
                     DB_DATABASES.addAll(databases);
                     // 更新表索引
                     for (DBSchema database : DB_DATABASES) {

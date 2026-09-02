@@ -11,7 +11,7 @@
 //import cn.oyzh.easydameng.generator.event.EventAlertSqlGenerator;
 //import cn.oyzh.easydameng.listener.DBStatusListener;
 //import cn.oyzh.easydameng.listener.DBStatusListenerManager;
-//import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+//import cn.oyzh.easydameng.trees.database.DamengSchemaTreeItem;
 //import cn.oyzh.fx.gui.tabs.RichTabController;
 //import cn.oyzh.fx.gui.text.field.DateTimeTextField;
 //import cn.oyzh.fx.gui.text.field.NumberTextField;
@@ -51,9 +51,9 @@
 //    /**
 //     * db数据库树节点
 //     */
-//    private DamengDatabaseTreeItem dbItem;
+//    private DamengSchemaTreeItem dbItem;
 //
-//    public DamengDatabaseTreeItem getDbItem() {
+//    public DamengSchemaTreeItem getDbItem() {
 //        return dbItem;
 //    }
 //
@@ -161,7 +161,7 @@
 //     * @param event  事件对象
 //     * @param dbItem db库树节点
 //     */
-//    public void init(DamengEvent event, DamengDatabaseTreeItem dbItem) {
+//    public void init(DamengEvent event, DamengSchemaTreeItem dbItem) {
 //        this.event = event;
 //        this.dbItem = dbItem;
 //

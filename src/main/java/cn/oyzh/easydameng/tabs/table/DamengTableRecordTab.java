@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.tabs.table;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.tabs.DamengTab;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.trees.table.DamengTableTreeItem;
 import cn.oyzh.fx.gui.svg.glyph.database.TableSVGGlyph;
 import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
@@ -88,7 +88,7 @@ public class DamengTableRecordTab extends DamengTab {
     }
 
     @Override
-    public DamengDatabaseTreeItem dbItem() {
+    public DamengSchemaTreeItem dbItem() {
         return this.item().dbItem();
     }
 

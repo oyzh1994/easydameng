@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.tabs.table;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.tabs.DamengTab;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.window.StageManager;
@@ -62,7 +62,7 @@ public class DamengTableDesignTab extends DamengTab {
      * @param table 表
      * @param dbItem    db数据库树节点
      */
-    public void init(DamengTable table, DamengDatabaseTreeItem dbItem) throws Exception {
+    public void init(DamengTable table, DamengSchemaTreeItem dbItem) throws Exception {
         StageManager.showMask(() -> {
             try {
                 this.controller().init(table, dbItem);
@@ -92,7 +92,7 @@ public class DamengTableDesignTab extends DamengTab {
     }
 
     @Override
-    public DamengDatabaseTreeItem dbItem() {
+    public DamengSchemaTreeItem dbItem() {
         return this.controller().getDbItem();
     }
 

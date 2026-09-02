@@ -5,7 +5,7 @@ import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.util.ShellDamengViewFactory;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
@@ -91,7 +91,7 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
         }
     }
 
-    public DamengDatabaseTreeItem dbItem() {
+    public DamengSchemaTreeItem dbItem() {
         return this.parent().parent();
     }
 

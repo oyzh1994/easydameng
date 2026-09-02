@@ -25,7 +25,7 @@ import javafx.stage.WindowEvent;
         modality = Modality.APPLICATION_MODAL,
         value = FXConst.FXML_PATH + "database/damengDatabaseAdd.fxml"
 )
-public class ShellDamengDatabaseAddController extends StageController {
+public class ShellDamengSchemaAddController extends StageController {
 
     /**
      * 名称

@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.event.function;
 
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.event.Event;
 
 /**
@@ -10,17 +10,17 @@ import cn.oyzh.event.Event;
  */
 public class DamengFunctionDesignEvent extends Event<DamengFunction> {
 
-    private DamengDatabaseTreeItem dbItem;
+    private DamengSchemaTreeItem dbItem;
 
     public String functionName() {
         return this.data().getName();
     }
 
-    public DamengDatabaseTreeItem getDbItem() {
+    public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
 
-    public void setDbItem(DamengDatabaseTreeItem dbItem) {
+    public void setDbItem(DamengSchemaTreeItem dbItem) {
         this.dbItem = dbItem;
     }
 

@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.tabs;
 
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.tabs.RichTab;
 
 /**
@@ -15,5 +15,5 @@ public abstract class DamengTab extends RichTab {
         return BASE_PATH;
     }
 
-    public abstract DamengDatabaseTreeItem dbItem() ;
+    public abstract DamengSchemaTreeItem dbItem() ;
 }

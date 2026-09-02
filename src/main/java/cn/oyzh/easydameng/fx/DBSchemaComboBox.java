@@ -13,20 +13,20 @@ import java.util.List;
  * @author oyzh
  * @since 2024/01/25
  */
-public class DBDatabaseComboBox extends FXComboBox<String> {
+public class DBSchemaComboBox extends FXComboBox<String> {
 
     public void init(ShellDamengClient client) {
         this.init(client, null);
     }
 
-    public void init(ShellDamengClient client, String dbName) {
+    public void init(ShellDamengClient client, String schema) {
         this.clearItems();
-        List<DBSchema> databases = client.databases();
-        if (CollectionUtil.isNotEmpty(databases)) {
-            this.setItem(databases.stream().map(DBSchema::getName).toList());
+        List<DBSchema> schemas = client.schemas();
+        if (CollectionUtil.isNotEmpty(schemas)) {
+            this.setItem(schemas.stream().map(DBSchema::getName).toList());
         }
-        if (dbName != null) {
-            this.select(dbName);
+        if (schema != null) {
+            this.select(schema);
         }
     }
 }

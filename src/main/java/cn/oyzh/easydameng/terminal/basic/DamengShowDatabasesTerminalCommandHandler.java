@@ -42,8 +42,8 @@ public class DamengShowDatabasesTerminalCommandHandler extends DamengTerminalCom
     public TerminalExecuteResult execute(TerminalCommand command, DamengTerminalPane terminal) {
         TerminalExecuteResult result = TerminalExecuteResult.ok();
         try {
-            List<DBSchema> databases = terminal.getClient().databases();
-            String output = databases.stream()
+            List<DBSchema> schemas = terminal.getClient().schemas();
+            String output = schemas.stream()
                     .map(DBSchema::getName)
                     .collect(Collectors.joining(terminal.lineEndingText()));
             result.setResult(output);

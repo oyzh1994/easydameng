@@ -13,7 +13,7 @@ import cn.oyzh.easydameng.fx.DBStatusTableView;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.db.ui.DBFiledTypeComboBox;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
@@ -51,7 +51,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
     /**
      * db数据库树节点
      */
-    private DamengDatabaseTreeItem dbItem;
+    private DamengSchemaTreeItem dbItem;
 
     /**
      * 定义
@@ -163,7 +163,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
      * @param function 查询对象
      * @param dbItem   db库树节点
      */
-    public void init(DamengFunction function, DamengDatabaseTreeItem dbItem) {
+    public void init(DamengFunction function, DamengSchemaTreeItem dbItem) {
         this.dbItem = dbItem;
         this.function = function;
         // 更新新数据标志位
@@ -528,11 +528,11 @@ public class DamengFunctionDesignTabController extends RichTabController {
         this.unsaved = unsaved;
     }
 
-    public DamengDatabaseTreeItem getDbItem() {
+    public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
 
-    public void setDbItem(DamengDatabaseTreeItem dbItem) {
+    public void setDbItem(DamengSchemaTreeItem dbItem) {
         this.dbItem = dbItem;
     }
 

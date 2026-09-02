@@ -227,7 +227,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     //     return list;
     // }
     //
-    // private List<DamengTab> getDamengTabs(DamengDatabaseTreeItem dbItem) {
+    // private List<DamengTab> getDamengTabs(DamengSchemaTreeItem dbItem) {
     //     List<DamengTab> list = new ArrayList<>();
     //     for (Tab tab : this.getTabs()) {
     //         if (tab instanceof DamengTab tab1 && tab1.dbItem() == dbItem) {
@@ -237,7 +237,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     //     return list;
     // }
     //
-    // private DamengTableRecordTab getDamengTableRecordTab(DamengDatabaseTreeItem dbItem, String tableName) {
+    // private DamengTableRecordTab getDamengTableRecordTab(DamengSchemaTreeItem dbItem, String tableName) {
     //     for (Tab tab : this.getTabs()) {
     //         if (tab instanceof DamengTableRecordTab tab1 && tab1.dbItem() == dbItem && StrUtil.equals(tableName, tab1.tableName())) {
     //             return tab1;
@@ -344,7 +344,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     //     }
     // }
     //
-    // private DamengViewRecordTab getDamengViewRecordTab(DamengDatabaseTreeItem dbItem, String viewName) {
+    // private DamengViewRecordTab getDamengViewRecordTab(DamengSchemaTreeItem dbItem, String viewName) {
     //     for (Tab tab : this.getTabs()) {
     //         if (tab instanceof DamengViewRecordTab tab1 && tab1.dbItem() == dbItem && StrUtil.equals(tab1.viewName(), viewName)) {
     //             return tab1;
@@ -457,7 +457,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     //     this.removeTab(this.getDamengTabs(event.data()));
     // }
     //
-    // private DamengFunctionDesignTab getDamengFunctionTab(DamengDatabaseTreeItem dbItem, String functionName) {
+    // private DamengFunctionDesignTab getDamengFunctionTab(DamengSchemaTreeItem dbItem, String functionName) {
     //     for (Tab tab : this.getTabs()) {
     //         if (tab instanceof DamengFunctionDesignTab tab1 && tab1.dbItem() == dbItem && StrUtil.equals(functionName, tab1.functionName())) {
     //             return tab1;
@@ -486,7 +486,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     //     }
     // }
     //
-    // private DamengProcedureDesignTab getDamengProcedureTab(DamengDatabaseTreeItem dbItem, String procedureName) {
+    // private DamengProcedureDesignTab getDamengProcedureTab(DamengSchemaTreeItem dbItem, String procedureName) {
     //     for (Tab tab : this.getTabs()) {
     //         if (tab instanceof DamengProcedureDesignTab tab1 && tab1.dbItem() == dbItem && StrUtil.equals(procedureName, tab1.procedureName())) {
     //             return tab1;
@@ -515,7 +515,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     //     }
     // }
     //
-    // private DamengEventDesignTab getDamengEventTab(DamengDatabaseTreeItem dbItem, String eventName) {
+    // private DamengEventDesignTab getDamengEventTab(DamengSchemaTreeItem dbItem, String eventName) {
     //     for (Tab tab : this.getTabs()) {
     //         if (tab instanceof DamengEventDesignTab tab1 && tab1.dbItem() == dbItem && StrUtil.equals(eventName, tab1.eventName())) {
     //             return tab1;
@@ -544,7 +544,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     //     }
     // }
     //
-    // private DamengViewDesignTab getDamengViewDesignTab(DamengDatabaseTreeItem dbItem, String viewName) {
+    // private DamengViewDesignTab getDamengViewDesignTab(DamengSchemaTreeItem dbItem, String viewName) {
     //     for (Tab tab : this.getTabs()) {
     //         if (tab instanceof DamengViewDesignTab tab1 && tab1.dbItem() == dbItem && StrUtil.equals(viewName, tab1.viewName())) {
     //             return tab1;
@@ -573,7 +573,7 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     //     }
     // }
     //
-    // private DamengTableDesignTab getDamengTableDesignTab(DamengDatabaseTreeItem dbItem, String tableName) {
+    // private DamengTableDesignTab getDamengTableDesignTab(DamengSchemaTreeItem dbItem, String tableName) {
     //     for (Tab tab : this.getTabs()) {
     //         if (tab instanceof DamengTableDesignTab tab1 && tab1.dbItem() == dbItem && StrUtil.equalsIgnoreCase(tableName, tab1.tableName())) {
     //             return tab1;

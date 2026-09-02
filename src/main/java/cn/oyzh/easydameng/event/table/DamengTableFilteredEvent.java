@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.event.table;
 
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.trees.table.DamengTableTreeItem;
 import cn.oyzh.event.Event;
 
@@ -15,17 +15,17 @@ public class DamengTableFilteredEvent extends Event<DamengTableTreeItem> {
 
     private List<DamengRecordFilter> filters;
 
-    private DamengDatabaseTreeItem dbItem;
+    private DamengSchemaTreeItem dbItem;
 
     public String tableName() {
         return this.data().tableName();
     }
 
-    public DamengDatabaseTreeItem getDbItem() {
+    public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
 
-    public void setDbItem(DamengDatabaseTreeItem dbItem) {
+    public void setDbItem(DamengSchemaTreeItem dbItem) {
         this.dbItem = dbItem;
     }
 

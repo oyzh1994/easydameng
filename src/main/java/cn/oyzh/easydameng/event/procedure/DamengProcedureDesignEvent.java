@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.event.procedure;
 
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.event.Event;
 
 /**
@@ -10,17 +10,17 @@ import cn.oyzh.event.Event;
  */
 public class DamengProcedureDesignEvent extends Event<DamengProcedure> {
 
-    private DamengDatabaseTreeItem dbItem;
+    private DamengSchemaTreeItem dbItem;
 
     public String procedureName() {
         return this.data().getName();
     }
 
-    public DamengDatabaseTreeItem getDbItem() {
+    public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
 
-    public void setDbItem(DamengDatabaseTreeItem dbItem) {
+    public void setDbItem(DamengSchemaTreeItem dbItem) {
         this.dbItem = dbItem;
     }
 }

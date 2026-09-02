@@ -11,6 +11,7 @@ import cn.oyzh.easydameng.dameng.record.DamengRecordData;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengUpdateRecordParam;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.db.DBObjectList;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.fx.DBStatusColumn;
@@ -18,8 +19,6 @@ import cn.oyzh.easydameng.fx.record.DamengRecordColumn;
 import cn.oyzh.easydameng.fx.record.DamengRecordTableView;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
-import cn.oyzh.easydameng.util.DBRecordUtil;
 import cn.oyzh.easydameng.util.ShellDamengViewFactory;
 import cn.oyzh.fx.db.util.DBUtil;
 import cn.oyzh.fx.gui.tabs.RichTabController;
@@ -80,7 +79,7 @@ public class DamengQuerySelectTabController extends RichTabController {
     /**
      * 数据库树节点
      */
-    private DamengDatabaseTreeItem dbItem;
+    private DamengSchemaTreeItem dbItem;
 
     /**
      * 执行结果
@@ -127,7 +126,7 @@ public class DamengQuerySelectTabController extends RichTabController {
      * @param result 执行结果
      * @param dbItem db树表节点
      */
-    public void init(DamengExecuteResult result, DamengDatabaseTreeItem dbItem) {
+    public void init(DamengExecuteResult result, DamengSchemaTreeItem dbItem) {
         this.result = result;
         this.dbItem = dbItem;
         if (result.isUpdatable()) {

@@ -6,7 +6,7 @@
 //import cn.oyzh.easydameng.domain.DamengConnect;
 //import cn.oyzh.easydameng.event.DamengEventUtil;
 //import cn.oyzh.easydameng.trees.DBTreeItem;
-//import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+//import cn.oyzh.easydameng.trees.database.DamengSchemaTreeItem;
 //import cn.oyzh.fx.gui.menu.MenuItemHelper;
 //import cn.oyzh.fx.gui.tree.view.RichTreeView;
 //import cn.oyzh.fx.plus.information.MessageBox;
@@ -101,7 +101,7 @@
 //        }
 //    }
 //
-//    public DamengDatabaseTreeItem dbItem() {
+//    public DamengSchemaTreeItem dbItem() {
 //        return this.parent().parent();
 //    }
 //

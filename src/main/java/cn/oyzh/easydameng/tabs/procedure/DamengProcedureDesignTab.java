@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.tabs.procedure;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.tabs.DamengTab;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.svg.glyph.database.ProcedureSVGGlyph;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.i18n.I18nHelper;
@@ -56,7 +56,7 @@ public class DamengProcedureDesignTab extends DamengTab {
     }
 
     @Override
-    public DamengDatabaseTreeItem dbItem() {
+    public DamengSchemaTreeItem dbItem() {
         return this.controller().getDbItem();
     }
 
@@ -74,7 +74,7 @@ public class DamengProcedureDesignTab extends DamengTab {
      * @param procedure 查询对象
      * @param item      db库树节点
      */
-    public void init(DamengProcedure procedure, DamengDatabaseTreeItem item) {
+    public void init(DamengProcedure procedure, DamengSchemaTreeItem item) {
         this.controller().init(procedure, item);
         // 刷新tab
         this.flush();

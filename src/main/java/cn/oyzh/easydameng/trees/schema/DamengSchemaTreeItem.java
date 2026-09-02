@@ -1,10 +1,10 @@
-package cn.oyzh.easydameng.trees.database;
+package cn.oyzh.easydameng.trees.schema;
 
 import cn.oyzh.common.thread.Task;
 import cn.oyzh.common.thread.TaskBuilder;
 import cn.oyzh.easydameng.controller.data.ShellDamengDataDumpController;
 import cn.oyzh.easydameng.controller.data.ShellDamengDataRunSqlFileController;
-import cn.oyzh.easydameng.controller.database.ShellDamengDatabaseUpdateController;
+import cn.oyzh.easydameng.controller.database.ShellDamengSchemaUpdateController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
@@ -66,7 +66,7 @@ import java.util.List;
  * @author oyzh
  * @since 2023/12/12
  */
-public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemValue> {
+public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> {
 
     /**
      * 当前值
@@ -77,12 +77,12 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         return value;
     }
 
-    public DamengDatabaseTreeItem(DBSchema database, RichTreeView treeView) {
+    public DamengSchemaTreeItem(DBSchema database, RichTreeView treeView) {
         super(treeView);
         super.setSortable(false);
         super.setFilterable(true);
         this.value = database;
-        this.setValue(new DamengDatabaseTreeItemValue(this));
+        this.setValue(new DamengSchemaTreeItemValue(this));
     }
 
     @Override
@@ -169,7 +169,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
      * 编辑数据库
      */
     public void editDB() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengDatabaseUpdateController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengSchemaUpdateController.class, this.window());
         fxView.setProp("database", this.value);
         fxView.setProp("connectItem", this.parent());
         fxView.display();

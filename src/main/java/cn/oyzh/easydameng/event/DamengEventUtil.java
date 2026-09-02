@@ -56,7 +56,7 @@ import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.event.window.ShellShowMessageEvent;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.trees.query.DamengQueryTreeItem;
 import cn.oyzh.easydameng.trees.table.DamengTableTreeItem;
 import cn.oyzh.easydameng.trees.view.DamengViewTreeItem;
@@ -76,7 +76,7 @@ import java.util.List;
  */
 public class DamengEventUtil {
 
-    public static void tableOpen(DamengTableTreeItem item, DamengDatabaseTreeItem dbItem) {
+    public static void tableOpen(DamengTableTreeItem item, DamengSchemaTreeItem dbItem) {
         DamengTableOpenEvent event = new DamengTableOpenEvent();
         event.data(item);
         event.setDbItem(dbItem);
@@ -87,80 +87,80 @@ public class DamengEventUtil {
     //     EventUtil.post(new DamengRecordDeleteEvent());
     // }
 
-    public static void tableAdded(DamengDatabaseTreeItem item) {
+    public static void tableAdded(DamengSchemaTreeItem item) {
         DamengTableAddedEvent event = new DamengTableAddedEvent();
         event.data(item);
         EventUtil.post(event);
     }
 
-    public static void tableAlerted(String tableName, DamengDatabaseTreeItem dbItem) {
+    public static void tableAlerted(String tableName, DamengSchemaTreeItem dbItem) {
         DamengTableAlertedEvent event = new DamengTableAlertedEvent();
         event.data(tableName);
         event.setDbItem(dbItem);
         EventUtil.post(event);
     }
 
-    public static void procedureAdded(DamengDatabaseTreeItem dbItem) {
+    public static void procedureAdded(DamengSchemaTreeItem dbItem) {
         DamengProcedureAddedEvent event = new DamengProcedureAddedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }
 
-    public static void procedureAlerted(String procedureName, DamengDatabaseTreeItem dbItem) {
+    public static void procedureAlerted(String procedureName, DamengSchemaTreeItem dbItem) {
         DamengProcedureAlertedEvent event = new DamengProcedureAlertedEvent();
         event.data(procedureName);
         event.setDbItem(dbItem);
         EventUtil.post(event);
     }
 
-    public static void eventAdded(DamengDatabaseTreeItem dbItem) {
+    public static void eventAdded(DamengSchemaTreeItem dbItem) {
         DamengEventAddedEvent event = new DamengEventAddedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }
 
-    public static void eventAlerted(String eventName, DamengDatabaseTreeItem dbItem) {
+    public static void eventAlerted(String eventName, DamengSchemaTreeItem dbItem) {
         DamengEventAlertedEvent event = new DamengEventAlertedEvent();
         event.data(eventName);
         event.setDbItem(dbItem);
         EventUtil.post(event);
     }
 
-    public static void functionAdded(DamengDatabaseTreeItem dbItem) {
+    public static void functionAdded(DamengSchemaTreeItem dbItem) {
         DamengFunctionAddedEvent event = new DamengFunctionAddedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }
 
-    public static void functionAlerted(String functionName, DamengDatabaseTreeItem dbItem) {
+    public static void functionAlerted(String functionName, DamengSchemaTreeItem dbItem) {
         DamengFunctionAlertedEvent event = new DamengFunctionAlertedEvent();
         event.data(functionName);
         event.setDbItem(dbItem);
         EventUtil.post(event);
     }
 
-    public static void tableRenamed(DamengTableTreeItem tableItem, DamengDatabaseTreeItem dbItem) {
+    public static void tableRenamed(DamengTableTreeItem tableItem, DamengSchemaTreeItem dbItem) {
         DamengTableRenamedEvent event = new DamengTableRenamedEvent();
         event.setDbItem(dbItem);
         event.data(tableItem);
         EventUtil.post(event);
     }
 
-    public static void viewRenamed(DamengViewTreeItem viewItem, DamengDatabaseTreeItem dbItem) {
+    public static void viewRenamed(DamengViewTreeItem viewItem, DamengSchemaTreeItem dbItem) {
         DamengViewRenamedEvent event = new DamengViewRenamedEvent();
         event.setDbItem(dbItem);
         event.data(viewItem);
         EventUtil.post(event);
     }
 
-//    public static void eventRenamed(DamengEventTreeItem viewItem, DamengDatabaseTreeItem dbItem) {
+//    public static void eventRenamed(DamengEventTreeItem viewItem, DamengSchemaTreeItem dbItem) {
 //        DamengEventRenamedEvent event = new DamengEventRenamedEvent();
 //        event.setDbItem(dbItem);
 //        event.data(viewItem);
 //        EventUtil.post(event);
 //    }
 
-    public static void tableCleared(DamengTableTreeItem tableItem, DamengDatabaseTreeItem dbItem) {
+    public static void tableCleared(DamengTableTreeItem tableItem, DamengSchemaTreeItem dbItem) {
         DamengTableClearedEvent event = new DamengTableClearedEvent();
         event.setDbItem(dbItem);
         event.data(tableItem);
@@ -181,21 +181,21 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-    public static void tableTruncated(DamengTableTreeItem tableItem, DamengDatabaseTreeItem dbItem) {
+    public static void tableTruncated(DamengTableTreeItem tableItem, DamengSchemaTreeItem dbItem) {
         DamengTableTruncatedEvent event = new DamengTableTruncatedEvent();
         event.setDbItem(dbItem);
         event.data(tableItem);
         EventUtil.post(event);
     }
 
-    public static void tableDropped(DamengTableTreeItem tableItem, DamengDatabaseTreeItem dbItem) {
+    public static void tableDropped(DamengTableTreeItem tableItem, DamengSchemaTreeItem dbItem) {
         DamengTableDroppedEvent event = new DamengTableDroppedEvent();
         event.setDbItem(dbItem);
         event.data(tableItem);
         EventUtil.post(event);
     }
 
-    public static void databaseClosed(DamengDatabaseTreeItem dbItem) {
+    public static void databaseClosed(DamengSchemaTreeItem dbItem) {
         DamengDatabaseClosedEvent event = new DamengDatabaseClosedEvent();
         event.data(dbItem);
         EventUtil.post(event);
@@ -215,19 +215,19 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-    public static void databaseDropped(DamengDatabaseTreeItem dbItem) {
+    public static void databaseDropped(DamengSchemaTreeItem dbItem) {
         DamengDatabaseDroppedEvent event = new DamengDatabaseDroppedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }
 
-    public static void queryAdd(DamengDatabaseTreeItem item) {
+    public static void queryAdd(DamengSchemaTreeItem item) {
         DamengQueryAddEvent event = new DamengQueryAddEvent();
         event.data(item);
         EventUtil.post(event);
     }
 
-    public static void queryAdded(DamengQuery query, DamengDatabaseTreeItem item) {
+    public static void queryAdded(DamengQuery query, DamengSchemaTreeItem item) {
         DamengQueryAddedEvent event = new DamengQueryAddedEvent();
         event.data(query);
         event.setDbItem(item);
@@ -240,63 +240,63 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-    public static void queryOpen(DamengQuery query, DamengDatabaseTreeItem item) {
+    public static void queryOpen(DamengQuery query, DamengSchemaTreeItem item) {
         DamengQueryOpenEvent event = new DamengQueryOpenEvent();
         event.data(query);
         event.setDbItem(item);
         EventUtil.post(event);
     }
 
-    public static void queryRenamed(DamengQuery query, DamengDatabaseTreeItem item) {
+    public static void queryRenamed(DamengQuery query, DamengSchemaTreeItem item) {
         DamengQueryRenamedEvent event = new DamengQueryRenamedEvent();
         event.data(query);
         event.setDbItem(item);
         EventUtil.post(event);
     }
 
-    public static void viewOpen(DamengViewTreeItem item, DamengDatabaseTreeItem dbItem) {
+    public static void viewOpen(DamengViewTreeItem item, DamengSchemaTreeItem dbItem) {
         DamengViewOpenEvent event = new DamengViewOpenEvent();
         event.data(item);
         event.setDbItem(dbItem);
         EventUtil.post(event);
     }
 
-    public static void designFunction(DamengFunction function, DamengDatabaseTreeItem dbItem) {
+    public static void designFunction(DamengFunction function, DamengSchemaTreeItem dbItem) {
         DamengFunctionDesignEvent event = new DamengFunctionDesignEvent();
         event.data(function);
         event.setDbItem(dbItem);
         EventUtil.post(event);
     }
 
-    public static void designProcedure(DamengProcedure procedure, DamengDatabaseTreeItem dbItem) {
+    public static void designProcedure(DamengProcedure procedure, DamengSchemaTreeItem dbItem) {
         DamengProcedureDesignEvent event = new DamengProcedureDesignEvent();
         event.data(procedure);
         event.setDbItem(dbItem);
         EventUtil.post(event);
     }
 
-    public static void designEvent(DamengEvent event, DamengDatabaseTreeItem dbItem) {
+    public static void designEvent(DamengEvent event, DamengSchemaTreeItem dbItem) {
         DamengEventDesignEvent event1 = new DamengEventDesignEvent();
         event1.data(event);
         event1.setDbItem(dbItem);
         EventUtil.post(event1);
     }
 
-    public static void viewAlerted(String viewName, DamengDatabaseTreeItem dbItem) {
+    public static void viewAlerted(String viewName, DamengSchemaTreeItem dbItem) {
         DamengViewAlertedEvent event = new DamengViewAlertedEvent();
         event.data(viewName);
         event.setDbItem(dbItem);
         EventUtil.post(event);
     }
 
-    public static void designView(DamengView dbView, DamengDatabaseTreeItem dbItem) {
+    public static void designView(DamengView dbView, DamengSchemaTreeItem dbItem) {
         DamengViewDesignEvent event = new DamengViewDesignEvent();
         event.data(dbView);
         event.setDbItem(dbItem);
         EventUtil.post(event);
     }
 
-    public static void viewAdded(DamengDatabaseTreeItem dbItem) {
+    public static void viewAdded(DamengSchemaTreeItem dbItem) {
         DamengViewAddedEvent event = new DamengViewAddedEvent();
         event.data(dbItem);
         EventUtil.post(event);
@@ -308,7 +308,7 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-    public static void designTable(DamengTable table, DamengDatabaseTreeItem dbItem) {
+    public static void designTable(DamengTable table, DamengSchemaTreeItem dbItem) {
         DamengTableDesignEvent event = new DamengTableDesignEvent();
         event.data(table);
         event.setDbItem(dbItem);

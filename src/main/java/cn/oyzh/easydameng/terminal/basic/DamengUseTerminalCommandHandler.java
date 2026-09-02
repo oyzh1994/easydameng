@@ -37,8 +37,8 @@ public class DamengUseTerminalCommandHandler extends DamengTerminalCommandHandle
         terminal.setDbName(command.getArgs()[1]);
         TerminalExecuteResult result = TerminalExecuteResult.ok();
         try {
-            List<DBSchema> databases = terminal.getClient().databases();
-            List<String> dbs = databases.stream()
+            List<DBSchema> schemas = terminal.getClient().schemas();
+            List<String> dbs = schemas.stream()
                     .map(DBSchema::getName)
                     .toList();
             if (dbs.contains(terminal.getDbName())) {

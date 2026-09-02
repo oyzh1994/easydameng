@@ -8,7 +8,7 @@ import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.query.DamengQueryEditor;
 import cn.oyzh.easydameng.query.DamengQueryUtil;
 import cn.oyzh.easydameng.store.DamengQueryStore;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.plus.controls.box.FXVBox;
 import cn.oyzh.fx.plus.controls.pane.FXSplitPane;
@@ -52,9 +52,9 @@ public class DamengQueryMainTabController extends RichTabController {
     /**
      * db数据库树节点
      */
-    private DamengDatabaseTreeItem dbItem;
+    private DamengSchemaTreeItem dbItem;
 
-    public DamengDatabaseTreeItem getDbItem() {
+    public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
 
@@ -88,7 +88,7 @@ public class DamengQueryMainTabController extends RichTabController {
      * @param query  查询对象
      * @param dbItem db库树节点
      */
-    public void init(DamengQuery query, DamengDatabaseTreeItem dbItem) {
+    public void init(DamengQuery query, DamengSchemaTreeItem dbItem) {
         // 设置参数
         this.resultTabPane.setProp("query", query);
         this.query = query;

@@ -11,7 +11,7 @@
 <?import cn.oyzh.fx.gui.button.CancelButton?>
 <?import cn.oyzh.fx.gui.label.InfoLabel?>
 <FXVBox xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="cn.oyzh.easydameng.controller.database.ShellDamengDatabaseUpdateController" realWidth="750"
+        fx:controller="cn.oyzh.easydameng.controller.database.ShellDamengSchemaUpdateController" realWidth="750"
         realHeight="300">
     <InfoLabel text="%base.name">
         <VBox.margin>

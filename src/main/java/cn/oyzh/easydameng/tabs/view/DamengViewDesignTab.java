@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.tabs.view;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.tabs.DamengTab;
-import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.svg.glyph.database.ViewSVGGlyph;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.i18n.I18nHelper;
@@ -56,7 +56,7 @@ public class DamengViewDesignTab extends DamengTab {
     }
 
     @Override
-    public DamengDatabaseTreeItem dbItem() {
+    public DamengSchemaTreeItem dbItem() {
         return this.controller().getDbItem();
     }
 
@@ -65,7 +65,7 @@ public class DamengViewDesignTab extends DamengTab {
      *
      * @param item 树键
      */
-    public void init(DamengView view, DamengDatabaseTreeItem item) {
+    public void init(DamengView view, DamengSchemaTreeItem item) {
         this.controller().init(view, item);
         // 刷新tab
         this.flush();
