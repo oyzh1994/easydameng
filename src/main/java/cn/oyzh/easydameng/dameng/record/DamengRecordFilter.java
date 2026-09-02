@@ -3,10 +3,10 @@ package cn.oyzh.easydameng.dameng.record;
 import cn.oyzh.easydameng.dameng.condition.DamengCondition;
 import cn.oyzh.easydameng.dameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
-import cn.oyzh.easydameng.fx.table.DamengColumnComboBox;
 import cn.oyzh.easydameng.fx.table.DBJoinSymbolComboBox;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.condition.ui.DBConditionComboBox;
+import cn.oyzh.fx.db.ui.DBColumnComboBox;
 import cn.oyzh.fx.plus.controls.box.FXHBox;
 import cn.oyzh.fx.plus.controls.button.FXCheckBox;
 import cn.oyzh.fx.plus.flex.FlexUtil;
@@ -115,10 +115,10 @@ public class DamengRecordFilter {
      *
      * @return 字段组件
      */
-    public DamengColumnComboBox getColumnControl() {
-        DamengColumnComboBox comboBox = new DamengColumnComboBox(this.columns);
+    public DBColumnComboBox getColumnControl() {
+        DBColumnComboBox comboBox = new DBColumnComboBox(this.columns);
         comboBox.selectedItemChanged((observable, oldValue, newValue) -> {
-            this.column = newValue;
+            this.column = (DamengColumn) newValue;
             this.updateValueControl();
         });
         comboBox.selectFirstIfNull(this.column);
