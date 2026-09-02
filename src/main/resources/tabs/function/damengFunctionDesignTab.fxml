@@ -2,7 +2,6 @@
 <?import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox?>
 <?import cn.oyzh.easydameng.fx.DBStatusColumn?>
 <?import cn.oyzh.easydameng.fx.DBStatusTableView?>
-<?import cn.oyzh.easydameng.fx.table.DamengFiledTypeComboBox?>
 <?import cn.oyzh.easydameng.fx.table.DBEnumTextFiled?>
 <?import cn.oyzh.fx.gui.label.AccentLabel?>
 <?import cn.oyzh.fx.gui.svg.glyph.AddSVGGlyph?>
@@ -21,6 +20,7 @@
 <?import cn.oyzh.fx.gui.tabs.RichTabPane?>
 <?import cn.oyzh.easydameng.fx.ShellDataEditor?>
 <?import cn.oyzh.fx.gui.svg.glyph.RefreshSVGGlyph?>
+<?import cn.oyzh.fx.db.ui.DBFiledTypeComboBox?>
 <FXVBox xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="cn.oyzh.easydameng.tabs.function.DamengFunctionDesignTabController" flexWidth="100%"
@@ -84,11 +84,11 @@
                             <Insets left="20" top="10"/>
                         </HBox.margin>
                     </AccentLabel>
-                    <DamengFiledTypeComboBox require="true" fx:id="returnType" realHeight="30" flexWidth="100% - 140">
+                    <DBFiledTypeComboBox dialect="DAMENG" require="true" fx:id="returnType" realHeight="30" flexWidth="100% - 140">
                         <HBox.margin>
                             <Insets left="10" top="10"/>
                         </HBox.margin>
-                    </DamengFiledTypeComboBox>
+                    </DBFiledTypeComboBox>
                 </FXHBox>
                 <FXHBox flexWidth="100%" realHeight="50">
                     <AccentLabel realHeight="30" realWidth="85" text="%base.length">

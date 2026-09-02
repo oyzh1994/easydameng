@@ -9,8 +9,7 @@ import cn.oyzh.easydameng.fx.DBCharsetComboBox;
 import cn.oyzh.easydameng.fx.DBCollationComboBox;
 import cn.oyzh.easydameng.fx.routine.DamengParamModeComboBox;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
-import cn.oyzh.easydameng.fx.table.DamengFiledTypeComboBox;
-import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.ui.DBFiledTypeComboBox;
 import cn.oyzh.fx.db.util.DBUtil;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.gui.text.field.NumberTextField;
@@ -122,8 +121,9 @@ public class DamengRoutineParam extends DBObjectStatus {
      *
      * @return 类型组件
      */
-    public DamengFiledTypeComboBox getTypeControl() {
-        DamengFiledTypeComboBox comboBox = new DamengFiledTypeComboBox();
+    public DBFiledTypeComboBox getTypeControl() {
+        DBFiledTypeComboBox comboBox = new DBFiledTypeComboBox();
+        comboBox.setDialect(DBDialect.DAMENG);
         comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setType(newValue));
         comboBox.selectFirstIfNull(this.getType());
         TableViewUtil.selectRowOnMouseClicked(comboBox);

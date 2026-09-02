@@ -11,10 +11,10 @@ import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBSecurityTypeComboBox;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
-import cn.oyzh.easydameng.fx.table.DamengFiledTypeComboBox;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.trees.database.DamengDatabaseTreeItem;
+import cn.oyzh.fx.db.ui.DBFiledTypeComboBox;
 import cn.oyzh.fx.editor.incubator.Editor;
 import cn.oyzh.fx.gui.tabs.RichTabController;
 import cn.oyzh.fx.gui.text.field.NumberTextField;
@@ -117,7 +117,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
      * 返回值类型
      */
     @FXML
-    private DamengFiledTypeComboBox returnType;
+    private DBFiledTypeComboBox returnType;
 
     /**
      * 返回值列表

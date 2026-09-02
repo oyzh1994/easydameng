@@ -1,6 +1,7 @@
 package cn.oyzh.easydameng.dameng.column;
 
-import cn.oyzh.easydameng.fx.table.DamengFiledTypeComboBox;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.ui.DBFiledTypeComboBox;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.gui.text.field.NumberTextField;
 import cn.oyzh.fx.plus.controls.button.FXCheckBox;
@@ -61,8 +62,9 @@ public class DamengColumnControl extends DamengColumn {
         return textField;
     }
 
-    public DamengFiledTypeComboBox getTypeControl() {
-        DamengFiledTypeComboBox comboBox = new DamengFiledTypeComboBox();
+    public DBFiledTypeComboBox getTypeControl() {
+        DBFiledTypeComboBox comboBox = new DBFiledTypeComboBox();
+        comboBox.setDialect(DBDialect.DAMENG);
         comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setType(newValue));
         comboBox.selectFirstIfNull(this.getType());
         TableViewUtil.rowOnCtrlS(comboBox);

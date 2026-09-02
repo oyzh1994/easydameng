@@ -140,7 +140,6 @@ public class DamengColumnUtil {
         timestampWithTzField.supportTimestamp = true;
         timestampWithTzField.supportDefaultValue = true;
 
-
         DBColumnField timestampWithLocalTzField = new DBColumnField("TIMESTAMP WITH LOCAL TIME ZONE");
         timestampWithLocalTzField.supportTimestamp = true;
         timestampWithLocalTzField.supportDefaultValue = true;
