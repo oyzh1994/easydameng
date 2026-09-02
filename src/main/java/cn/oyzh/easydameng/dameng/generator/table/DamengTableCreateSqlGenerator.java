@@ -34,12 +34,12 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
     private boolean changeFlag;
 
     private void _generate(DamengCreateTableParam param) {
-        String dbName = param.dbName();
+        String schema = param.schema();
         DamengTable table = param.getTable();
         String tableName = param.tableName();
-        String fullName = DBUtil.wrap(dbName, tableName, DBDialect.DAMENG);
+        String fullName = DBUtil.wrap(schema, tableName, DBDialect.DAMENG);
         this.sqlBuilder.append("CREATE TABLE ")
-                .append(DBUtil.wrap(dbName, tableName, DBDialect.DAMENG))
+                .append(DBUtil.wrap(schema, tableName, DBDialect.DAMENG))
                 .append(" ( \n");
         // 字段
         if (param.hasColumns()) {
@@ -156,7 +156,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
                 String commentSql = """
                         COMMENT ON COLUMN "$1"."$2"."$3" IS '$4';
                         """;
-                commentSql = commentSql.replace("$1", column.getDbName());
+                commentSql = commentSql.replace("$1", column.getSchema());
                 commentSql = commentSql.replace("$2", column.getTableName());
                 commentSql = commentSql.replace("$3", column.getName());
                 commentSql = commentSql.replace("$4", column.getComment());

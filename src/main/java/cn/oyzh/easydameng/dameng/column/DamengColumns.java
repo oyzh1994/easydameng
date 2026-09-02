@@ -81,9 +81,9 @@ public class DamengColumns extends DBObjectList<DamengColumn> {
         return null;
     }
 
-    public String dbName() {
+    public String schema() {
         for (DamengColumn dbColumn : this) {
-            return dbColumn.getDbName();
+            return dbColumn.getSchema();
         }
         return null;
     }

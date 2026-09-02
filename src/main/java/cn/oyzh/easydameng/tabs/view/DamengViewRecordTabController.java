@@ -156,7 +156,7 @@ public class DamengViewRecordTabController extends RichTabController {
         this.reload();
         if (item.isUpdatable()) {
             if (this.changeListener == null) {
-                this.changeListener = new DBStatusListener(this.getItem().dbName() + ":" + this.getItem().viewName()) {
+                this.changeListener = new DBStatusListener(this.getItem().schema() + ":" + this.getItem().viewName()) {
                     @Override
                     public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
                         apply.enable();

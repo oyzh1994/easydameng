@@ -28,11 +28,6 @@ import java.util.Map;
 public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopier<DamengColumn>, Destroyable {
 
     /**
-     * 库名称
-     */
-    private String dbName;
-
-    /**
      * 模式名称
      */
     private String schema;
@@ -457,9 +452,6 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
     public void setPrimaryKeySize(Integer primaryKeySize) {
         this.primaryKeySize = primaryKeySize;
         super.putOriginalData("primaryKeySize", primaryKeySize);
-        // if (this.primaryKey != null) {
-        //     this.primaryKey.setPrimaryKeySize(primaryKeySize);
-        // }
     }
 
     public boolean isNullable() {
@@ -517,8 +509,6 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
             return;
         }
         if ("pri".equalsIgnoreCase(key)) {
-            // this.primaryKey = new DamengPrimaryKey();
-            // this.primaryKey.setPrimaryKey(true);
             this.setPrimaryKey(true);
         } else {
             this.setPrimaryKey(false);
@@ -536,7 +526,6 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
             this.setName(column.name);
             this.setType(column.getType());
             this.setValue(column.getValue());
-            this.setDbName(column.dbName);
             this.setDigits(column.digits);
             this.setComment(column.comment);
             this.setNullable(column.nullable);
@@ -555,19 +544,6 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
         return StringUtil.isBlank(this.getName()) || StringUtil.isBlank(this.getType());
     }
 
-    // public Integer getPrimaryKeySize() {
-    //     return this.primaryKey == null ? null : this.primaryKey.getPrimaryKeySize();
-    // }
-
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
-
     public String getSchema() {
         return schema;
     }
@@ -584,10 +560,12 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
         this.tableName = tableName;
     }
 
+    @Override
     public Integer getSize() {
         return size;
     }
 
+    @Override
     public String getType() {
         return this.typeProperty == null ? null : this.typeProperty.get();
     }
@@ -637,18 +615,6 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
     public void setPosition(Integer position) {
         this.position = position;
     }
-
-    //    public boolean isPrimaryKeyProperty() {
-    //        return primaryKeyProperty.get();
-    //    }
-    //
-    //    public SimpleBooleanProperty primaryKeyPropertyProperty() {
-    //        return primaryKeyProperty;
-    //    }
-    //
-    //    public void setPrimaryKeyProperty(boolean primaryKeyProperty) {
-    //        this.primaryKeyProperty.set(primaryKeyProperty);
-    //    }
 
     public Integer getPrimaryKeySize() {
         return primaryKeySize;

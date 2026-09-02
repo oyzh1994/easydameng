@@ -16,8 +16,8 @@ public class DamengViewDesignEvent extends Event<DamengView> {
         return this.data().getName();
     }
 
-    public String dbName() {
-        return this.dbItem.dbName();
+    public String schema() {
+        return this.dbItem.schema();
     }
     public DamengDatabaseTreeItem getDbItem() {
         return dbItem;

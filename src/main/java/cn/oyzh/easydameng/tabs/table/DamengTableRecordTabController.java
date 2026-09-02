@@ -145,7 +145,7 @@ public class DamengTableRecordTabController extends RichTabController {
         });
         this.reload();
         if (this.changeListener == null) {
-            this.changeListener = new DBStatusListener(this.getItem().dbName() + ":" + this.getItem().tableName()) {
+            this.changeListener = new DBStatusListener(this.getItem().schema() + ":" + this.getItem().tableName()) {
                 @Override
                 public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
                     apply.enable();
@@ -630,7 +630,7 @@ public class DamengTableRecordTabController extends RichTabController {
      */
     @FXML
     private void importData() {
-        ShellDamengViewFactory.importData(this.getItem().client(), this.getItem().dbName());
+        ShellDamengViewFactory.importData(this.getItem().client(), this.getItem().schema());
     }
 
     /**
@@ -638,6 +638,6 @@ public class DamengTableRecordTabController extends RichTabController {
      */
     @FXML
     private void exportData() {
-        ShellDamengViewFactory.exportData(this.getItem().client(), this.getItem().dbName(), this.getItem().tableName());
+        ShellDamengViewFactory.exportData(this.getItem().client(), this.getItem().schema(), this.getItem().tableName());
     }
 }

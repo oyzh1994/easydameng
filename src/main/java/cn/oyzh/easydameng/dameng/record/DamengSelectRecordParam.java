@@ -14,8 +14,6 @@ public class DamengSelectRecordParam {
 
     private Long limit;
 
-    private String dbName;
-
     private String schema;
 
     private String tableName;
@@ -46,14 +44,6 @@ public class DamengSelectRecordParam {
 
     public void setLimit(Long limit) {
         this.limit = limit;
-    }
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
     }
 
     public String getSchema() {

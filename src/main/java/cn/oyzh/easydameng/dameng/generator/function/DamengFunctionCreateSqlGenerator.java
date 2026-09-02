@@ -23,7 +23,7 @@ public class DamengFunctionCreateSqlGenerator extends DBSqlGenerator {
     private void _generate(DamengCreateFunctionParam param) {
         DamengFunction function = param.getFunction();
         this.sqlBuilder.append("CREATE FUNCTION ");
-        this.sqlBuilder.append(DBUtil.wrap(function.getDbName(), function.getName(), DBDialect.DAMENG));
+        this.sqlBuilder.append(DBUtil.wrap(function.getSchema(), function.getName(), DBDialect.DAMENG));
         // 参数
         this.sqlBuilder.append(" (");
         List<DamengRoutineParam> params = function.getParams();

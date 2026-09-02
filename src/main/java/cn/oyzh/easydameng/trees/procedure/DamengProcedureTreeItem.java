@@ -99,8 +99,8 @@ public class DamengProcedureTreeItem extends DBTreeItem<DamengProcedureTreeItemV
         return this.parent().parent();
     }
 
-    public String dbName() {
-        return this.parent().dbName();
+    public String schema() {
+        return this.parent().schema();
     }
 
     public String infoName() {

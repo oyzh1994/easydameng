@@ -137,7 +137,7 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
             param.setStart(start);
             param.setReadonly(true);
             param.setTableName(tableName);
-            param.setDbName(this.sourceDatabase);
+            param.setSchema(this.sourceDatabase);
             param.setLimit((long) this.selectLimit);
             List<DamengRecord> records = this.sourceClient.selectRecords(param);
             if (CollectionUtil.isEmpty(records)) {

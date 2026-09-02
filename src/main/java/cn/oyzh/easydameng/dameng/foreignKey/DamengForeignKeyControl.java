@@ -25,10 +25,10 @@ import java.util.List;
  */
 public class DamengForeignKeyControl extends DamengForeignKey {
 
-    private String dbName;
+    private String schema;
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 
     private ShellDamengClient dbClient;
@@ -184,6 +184,6 @@ public class DamengForeignKeyControl extends DamengForeignKey {
 
     @Override
     public String getPrimaryKeyDatabase() {
-        return super.getPrimaryKeyDatabase() == null ? this.dbName : super.getPrimaryKeyDatabase();
+        return super.getPrimaryKeyDatabase() == null ? this.schema : super.getPrimaryKeyDatabase();
     }
 }

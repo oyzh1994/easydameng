@@ -8,7 +8,7 @@ public class DamengSelectProcedureParam {
 
     private boolean full;
 
-    private String dbName;
+    private String schema;
 
     private String procedureName;
 
@@ -20,12 +20,12 @@ public class DamengSelectProcedureParam {
         this.full = full;
     }
 
-    public String getDbName() {
-        return dbName;
+    public String getSchema() {
+        return schema;
     }
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 
     public String getProcedureName() {

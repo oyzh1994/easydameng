@@ -50,7 +50,7 @@ public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeIte
 
     private void add() {
         DamengProcedure procedure = new DamengProcedure();
-        procedure.setDbName(this.dbName());
+        procedure.setSchema(this.schema());
         DamengEventUtil.designProcedure(procedure, this.parent());
     }
 
@@ -68,7 +68,7 @@ public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeIte
             this.setLoading(true);
             Task task = TaskBuilder.newBuilder()
                     .onStart(() -> {
-                        List<DamengProcedure> procedures = this.client().selectProceduresSimple(this.dbName());
+                        List<DamengProcedure> procedures = this.client().selectProceduresSimple(this.schema());
                         // 无数据直接更新列表
                         if (this.isChildEmpty()) {
                             List<TreeItem<?>> list = new ArrayList<>();
@@ -123,8 +123,8 @@ public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeIte
         this.loadChild();
     }
 
-    public String dbName() {
-        return this.parent().dbName();
+    public String schema() {
+        return this.parent().schema();
     }
 
     public ShellDamengClient client() {
@@ -155,7 +155,7 @@ public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeIte
     //}
 
     public Integer procedureSize() {
-        return this.client().procedureSize(this.dbName());
+        return this.client().procedureSize(this.schema());
     }
 
     public void addProcedure(DamengProcedure procedure) {

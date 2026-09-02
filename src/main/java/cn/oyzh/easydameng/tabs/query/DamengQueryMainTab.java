@@ -49,9 +49,9 @@ public class DamengQueryMainTab extends DamengTab {
         }
         // 设置提示文本
         if (this.controller().isUnsaved()) {
-            this.setText("* " + queryName + "@" + this.dbName() + "(" + this.connectName() + ")");
+            this.setText("* " + queryName + "@" + this.schema() + "(" + this.connectName() + ")");
         } else {
-            this.setText(queryName + "@" + this.dbName() + "(" + this.connectName() + ")");
+            this.setText(queryName + "@" + this.schema() + "(" + this.connectName() + ")");
         }
     }
 
@@ -68,8 +68,8 @@ public class DamengQueryMainTab extends DamengTab {
         return this.controller().getDbItem();
     }
 
-    public String dbName() {
-        return this.dbItem().dbName();
+    public String schema() {
+        return this.dbItem().schema();
     }
 
     public String connectName() {

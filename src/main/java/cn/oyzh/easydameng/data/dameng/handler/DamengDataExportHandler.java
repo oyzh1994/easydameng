@@ -116,7 +116,7 @@ public class DamengDataExportHandler extends DBDataExportHandler {
                         param.setStart(start);
                         param.setReadonly(true);
                         param.setColumns(columns);
-                        param.setDbName(this.dbName);
+                        param.setSchema(this.dbName);
                         param.setTableName(tableName);
                         param.setLimit((long) this.queryLimit);
                         records = this.dbClient.selectRecords(param);

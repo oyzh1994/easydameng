@@ -32,7 +32,7 @@ public class DamengTerminalTreeItem extends RichTreeItem<DamengTerminalTreeItemV
 
     @Override
     public void onPrimaryDoubleClick() {
-        DamengEventUtil.terminalOpen(this.client(), this.parent().dbName());
+        DamengEventUtil.terminalOpen(this.client(), this.parent().schema());
     }
 
 }

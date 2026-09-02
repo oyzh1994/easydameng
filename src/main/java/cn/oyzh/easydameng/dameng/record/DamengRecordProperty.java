@@ -1,22 +1,16 @@
 package cn.oyzh.easydameng.dameng.record;
 
-import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
-import cn.oyzh.fx.db.DBRecordProperty;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.listener.DBStatusListener;
 import cn.oyzh.easydameng.listener.DBStatusListenerManager;
 import cn.oyzh.easydameng.util.DBDataUtil;
 import cn.oyzh.easydameng.util.DBNodeUtil;
 import cn.oyzh.easydameng.util.DBRecordUtil;
-import cn.oyzh.fx.plus.node.NodeDestroyUtil;
-import cn.oyzh.fx.plus.node.NodeUtil;
+import cn.oyzh.fx.db.DBRecordProperty;
 import cn.oyzh.fx.plus.tableview.TableViewUtil;
 import cn.oyzh.fx.plus.util.ClipboardUtil;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.Node;
-import javafx.scene.control.TextField;
 
 /**
  * db表记录属性
@@ -94,12 +88,7 @@ public class DamengRecordProperty extends DBRecordProperty {
     @Override
     public void setChanged(boolean changed) {
         this.changedProperty().set(changed);
-        DBStatusListener listener;
-        if (this.column.getSchema() != null) {
-            listener = DBStatusListenerManager.getListener(this.column.getDbName() + ":" + this.column.getSchema() + ":" + this.column.getTableName());
-        } else {
-            listener = DBStatusListenerManager.getListener(this.column.getDbName() + ":" + this.column.getTableName());
-        }
+        DBStatusListener listener = DBStatusListenerManager.getListener(this.column.getSchema() + ":" + this.column.getTableName());
         if (listener != null) {
             listener.changed(null, null, null);
         }

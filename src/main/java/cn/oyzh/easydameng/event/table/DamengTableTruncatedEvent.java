@@ -16,8 +16,8 @@ public class DamengTableTruncatedEvent extends Event<DamengTableTreeItem> {
         return this.data().tableName();
     }
 
-    public String dbName() {
-        return this.dbItem.dbName();
+    public String schema() {
+        return this.dbItem.schema();
     }
 
     public DamengDatabaseTreeItem getDbItem() {

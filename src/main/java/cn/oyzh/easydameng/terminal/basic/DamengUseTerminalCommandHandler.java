@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.terminal.basic;
 
-import cn.oyzh.easydameng.data.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBSchema;
 import cn.oyzh.easydameng.terminal.DamengTerminalCommandHandler;
 import cn.oyzh.easydameng.terminal.DamengTerminalPane;
 import cn.oyzh.fx.terminal.command.TerminalCommand;
@@ -37,9 +37,9 @@ public class DamengUseTerminalCommandHandler extends DamengTerminalCommandHandle
         terminal.setDbName(command.getArgs()[1]);
         TerminalExecuteResult result = TerminalExecuteResult.ok();
         try {
-            List<DBDatabase> databases = terminal.getClient().databases();
+            List<DBSchema> databases = terminal.getClient().databases();
             List<String> dbs = databases.stream()
-                    .map(DBDatabase::getName)
+                    .map(DBSchema::getName)
                     .toList();
             if (dbs.contains(terminal.getDbName())) {
                 result.setResult("Database invalid");

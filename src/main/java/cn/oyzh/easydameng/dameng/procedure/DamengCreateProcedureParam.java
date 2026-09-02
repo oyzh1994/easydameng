@@ -6,16 +6,16 @@ package cn.oyzh.easydameng.dameng.procedure;
  */
 public class DamengCreateProcedureParam {
 
-    private String dbName;
+    private String schema;
 
     private DamengProcedure procedure;
 
-    public String getDbName() {
-        return dbName;
+    public String getSchema() {
+        return schema;
     }
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 
     public DamengProcedure getProcedure() {

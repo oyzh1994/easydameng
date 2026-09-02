@@ -50,7 +50,7 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
 
     private void add() {
         DamengFunction function = new DamengFunction();
-        function.setDbName(this.dbName());
+        function.setSchema(this.schema());
         DamengEventUtil.designFunction(function, this.parent());
     }
 
@@ -68,7 +68,7 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
             this.setLoading(true);
             Task task = TaskBuilder.newBuilder()
                     .onStart(() -> {
-                        List<DamengFunction> functions = this.client().selectFunctionsSimple(this.dbName());
+                        List<DamengFunction> functions = this.client().selectFunctionsSimple(this.schema());
                         // 无数据直接更新列表
                         if (this.isChildEmpty()) {
                             List<TreeItem<?>> list = new ArrayList<>();
@@ -125,8 +125,8 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
         this.loadChild();
     }
 
-    public String dbName() {
-        return this.parent().dbName();
+    public String schema() {
+        return this.parent().schema();
     }
 
     public ShellDamengClient client() {
@@ -157,7 +157,7 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
     //}
 
     public Integer functionSize() {
-        return this.client().functionSize(this.dbName());
+        return this.client().functionSize(this.schema());
     }
 
     public void addFunction(DamengFunction function) {

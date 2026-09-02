@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.event;
 
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.event.connect.DBAddConnectEvent;
@@ -201,14 +201,14 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-    public static void databaseAdded(DBConnectTreeItem connectItem, DBDatabase database) {
+    public static void databaseAdded(DBConnectTreeItem connectItem, DBSchema database) {
         DamengDatabaseAddedEvent event = new DamengDatabaseAddedEvent();
         event.data(database);
         event.setConnectItem(connectItem);
         EventUtil.post(event);
     }
 
-    public static void databaseUpdated(DBConnectTreeItem connectItem, DBDatabase database) {
+    public static void databaseUpdated(DBConnectTreeItem connectItem, DBSchema database) {
         DamengDatabaseUpdatedEvent event = new DamengDatabaseUpdatedEvent();
         event.data(database);
         event.setConnectItem(connectItem);

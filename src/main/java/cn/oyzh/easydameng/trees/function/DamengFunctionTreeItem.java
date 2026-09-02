@@ -95,8 +95,8 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
         return this.parent().parent();
     }
 
-    public String dbName() {
-        return this.parent().dbName();
+    public String schema() {
+        return this.parent().schema();
     }
 
     public String infoName() {
@@ -124,7 +124,7 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
         try {
             this.setLoaded(true);
             this.setLoading(true);
-            DamengFunction function = this.client().selectFunction(this.dbName(), this.functionName());
+            DamengFunction function = this.client().selectFunction(this.schema(), this.functionName());
             if (function != null) {
                 this.value.copy(function);
             }

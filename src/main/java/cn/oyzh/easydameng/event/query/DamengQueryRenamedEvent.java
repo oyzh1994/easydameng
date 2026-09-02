@@ -20,8 +20,8 @@ public class DamengQueryRenamedEvent extends Event<DamengQuery> {
         return this.data().getUid();
     }
 
-    public String dbName() {
-        return this.dbItem.dbName();
+    public String schema() {
+        return this.dbItem.schema();
     }
 
     public DamengDatabaseTreeItem getDbItem() {

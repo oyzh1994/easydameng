@@ -6,16 +6,16 @@ package cn.oyzh.easydameng.dameng.function;
  */
 public class DamengCreateFunctionParam {
 
-    private String dbName;
+    private String schema;
 
     private DamengFunction function;
 
-    public String getDbName() {
-        return dbName;
+    public String getSchema() {
+        return schema;
     }
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 
     public DamengFunction getFunction() {

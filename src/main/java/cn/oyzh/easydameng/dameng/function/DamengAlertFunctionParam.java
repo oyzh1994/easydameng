@@ -6,23 +6,23 @@ package cn.oyzh.easydameng.dameng.function;
  */
 public class DamengAlertFunctionParam {
 
-    private String dbName;
+    private String schema;
 
-    private  DamengFunction function;
+    private DamengFunction function;
 
-    public String getDbName() {
-        return dbName;
+    public String getSchema() {
+        return schema;
     }
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 
-    public  DamengFunction getFunction() {
+    public DamengFunction getFunction() {
         return function;
     }
 
-    public void setFunction( DamengFunction function) {
+    public void setFunction(DamengFunction function) {
         this.function = function;
     }
 

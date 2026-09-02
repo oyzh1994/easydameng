@@ -202,7 +202,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
             DBStatusListenerManager.unbindListener(this.resultCache, this.listener);
         }
         // 初始化监听器
-        this.listener = new DBStatusListener(this.function.getDbName() + ":" + this.function.getName()) {
+        this.listener = new DBStatusListener(this.function.getSchema() + ":" + this.function.getName()) {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
                 initChangedFlag();
@@ -387,7 +387,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
         tempFunction.setName(this.function.getName());
 
         // 基本信息处理
-        tempFunction.setDbName(this.function.getDbName());
+        tempFunction.setSchema(this.function.getSchema());
         tempFunction.setParams(this.paramTable.getItems());
         tempFunction.setDefinition(this.definition.getTextTrim());
         tempFunction.setSecurityType(this.securityType.getSelectedItem());
@@ -437,7 +437,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
         String sql;
         if (this.newData) {
             DamengCreateFunctionParam param = new DamengCreateFunctionParam();
-            param.setDbName(this.dbName());
+            param.setSchema(this.schema());
             param.setFunction(temp);
             if (StringUtil.isBlank(param.getFunctionName())) {
                 param.setFunctionName("Unnamed_Function");
@@ -445,7 +445,7 @@ public class DamengFunctionDesignTabController extends RichTabController {
             sql = DamengFunctionCreateSqlGenerator.generateSqlSingle(param);
         } else {
             DamengAlertFunctionParam param = new DamengAlertFunctionParam();
-            param.setDbName(this.dbName());
+            param.setSchema(this.schema());
             param.setFunction(temp);
             sql = DamengFunctionAlertSqlGenerator.generateSqlSingle(param);
         }
@@ -516,8 +516,8 @@ public class DamengFunctionDesignTabController extends RichTabController {
         }
     }
 
-    public String dbName() {
-        return this.dbItem.dbName();
+    public String schema() {
+        return this.dbItem.schema();
     }
 
     public boolean isUnsaved() {

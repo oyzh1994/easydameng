@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.controller.database;
 
-import cn.oyzh.easydameng.data.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBSchema;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
 import cn.oyzh.fx.gui.text.field.ReadOnlyTextField;
@@ -46,7 +46,7 @@ public class ShellDamengDatabaseUpdateController extends StageController {
     /**
      * db库对象
      */
-    private DBDatabase database;
+    private DBSchema database;
 
     /**
      * db连接节点
@@ -59,7 +59,7 @@ public class ShellDamengDatabaseUpdateController extends StageController {
     @FXML
     private void save() {
         try {
-            DBDatabase database = new DBDatabase();
+            DBSchema database = new DBSchema();
             database.setName(this.name.getText());
 //            // 字符集
 //            String charset = this.charset.getSelectedItem();

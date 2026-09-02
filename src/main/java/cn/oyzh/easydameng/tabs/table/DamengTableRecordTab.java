@@ -44,7 +44,7 @@ public class DamengTableRecordTab extends DamengTab {
     @Override
     public void flushTitle() {
         // 设置提示文本
-        this.setText(this.item().tableName() + "@" + this.item().dbName() + "(" + this.item().infoName() + ")");
+        this.setText(this.item().tableName() + "@" + this.item().schema() + "(" + this.item().infoName() + ")");
     }
 
     /**
@@ -92,13 +92,7 @@ public class DamengTableRecordTab extends DamengTab {
         return this.item().dbItem();
     }
 
-    public String dbName() {
-        return this.item().dbName();
+    public String schema() {
+        return this.item().schema();
     }
-
-    // @Override
-    // protected void onTabClosed(Event event) {
-    //     super.onTabClosed(event);
-    //     System.out.println("------1");
-    // }
 }

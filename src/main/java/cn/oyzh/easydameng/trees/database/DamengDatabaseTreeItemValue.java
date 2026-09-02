@@ -24,7 +24,7 @@ public class DamengDatabaseTreeItemValue extends RichTreeItemValue {
 
     @Override
     public String name() {
-        return this.item().dbName();
+        return this.item().schema();
     }
 
     @Override

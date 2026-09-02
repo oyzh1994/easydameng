@@ -6,8 +6,6 @@ package cn.oyzh.easydameng.dameng.column;
  */
 public class DamengSelectColumnParam {
 
-    private String dbName;
-
     private String schema;
 
     private String tableName;
@@ -15,24 +13,9 @@ public class DamengSelectColumnParam {
     public DamengSelectColumnParam() {
     }
 
-    public DamengSelectColumnParam(String dbName, String tableName) {
-        this.dbName = dbName;
-        this.tableName = tableName;
-    }
-
-    public DamengSelectColumnParam(String dbName, String schema, String tableName) {
-        this.dbName = dbName;
+    public DamengSelectColumnParam(String schema, String tableName) {
         this.schema = schema;
         this.tableName = tableName;
-    }
-
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
     }
 
     public String getSchema() {

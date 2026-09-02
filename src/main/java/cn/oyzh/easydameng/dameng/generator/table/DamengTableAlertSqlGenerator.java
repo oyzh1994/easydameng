@@ -29,7 +29,7 @@ public class DamengTableAlertSqlGenerator extends DBSqlGenerator {
 
     private void _generate(DamengAlertTableParam param) {
         DamengTable table = param.getTable();
-        String fullName = DBUtil.wrap(param.getDbName(), param.tableName(), DBDialect.DAMENG);
+        String fullName = DBUtil.wrap(param.getSchema(), param.tableName(), DBDialect.DAMENG);
         // 修改索引，应在修改字段前
         if (param.primaryKeyChanged()) {
             this.primaryKeyHandle(param);
@@ -118,7 +118,7 @@ public class DamengTableAlertSqlGenerator extends DBSqlGenerator {
     protected void columnHandle(DamengAlertTableParam param) {
         int len;
         StringBuilder builder = new StringBuilder();
-        String fullName = DBUtil.wrap(param.getDbName(), param.tableName(), DBDialect.DAMENG);
+        String fullName = DBUtil.wrap(param.getSchema(), param.tableName(), DBDialect.DAMENG);
 
         // 字段重命名
         builder.append("ALTER TABLE ")
@@ -231,7 +231,7 @@ public class DamengTableAlertSqlGenerator extends DBSqlGenerator {
                     String commentSql = """
                             COMMENT ON COLUMN "$1"."$2"."$3" IS '$4';
                             """;
-                    commentSql = commentSql.replace("$1", column.getDbName());
+                    commentSql = commentSql.replace("$1", column.getSchema());
                     commentSql = commentSql.replace("$2", column.getTableName());
                     commentSql = commentSql.replace("$3", column.getName());
                     commentSql = commentSql.replace("$4", column.getComment());
@@ -249,7 +249,7 @@ public class DamengTableAlertSqlGenerator extends DBSqlGenerator {
     protected void primaryKeyHandle(DamengAlertTableParam param) {
         int len;
         StringBuilder builder = new StringBuilder();
-        String tableFullName = DBUtil.wrap(param.getDbName(), param.tableName(), DBDialect.DAMENG);
+        String tableFullName = DBUtil.wrap(param.getSchema(), param.tableName(), DBDialect.DAMENG);
 
         // 删除主键
         if (param.isExistPrimaryKey()) {
@@ -294,7 +294,7 @@ public class DamengTableAlertSqlGenerator extends DBSqlGenerator {
      */
     protected void indexHandle(DamengAlertTableParam param) {
         DamengIndexes indexes = param.getIndexes();
-        String tableFullName = DBUtil.wrap(param.getDbName(), param.tableName(), DBDialect.DAMENG);
+        String tableFullName = DBUtil.wrap(param.getSchema(), param.tableName(), DBDialect.DAMENG);
 
         // 删除索引
         for (DamengIndex index : indexes) {
@@ -339,7 +339,7 @@ public class DamengTableAlertSqlGenerator extends DBSqlGenerator {
     protected void foreignKeyHandle(DamengAlertTableParam param) {
         DamengForeignKeys foreignKeys = param.getForeignKeys();
         StringBuilder builder = new StringBuilder();
-        String tableFullName = DBUtil.wrap(param.getDbName(), param.tableName(), DBDialect.DAMENG);
+        String tableFullName = DBUtil.wrap(param.getSchema(), param.tableName(), DBDialect.DAMENG);
 
         // 删除外键
         for (DamengForeignKey foreignKey : foreignKeys) {
@@ -394,7 +394,7 @@ public class DamengTableAlertSqlGenerator extends DBSqlGenerator {
      */
     protected void checkHandle(DamengAlertTableParam param) {
         StringBuilder builder = new StringBuilder();
-        String tableFullName = DBUtil.wrap(param.getDbName(), param.tableName(), DBDialect.DAMENG);
+        String tableFullName = DBUtil.wrap(param.getSchema(), param.tableName(), DBDialect.DAMENG);
         DamengChecks checks = param.getChecks();
 
         // 删除检查

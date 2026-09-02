@@ -12,8 +12,8 @@ public class DamengTableDesignEvent extends Event<DamengTable> {
 
     private DamengDatabaseTreeItem dbItem;
 
-    public String dbName() {
-        return this.dbItem.dbName();
+    public String schema() {
+        return this.dbItem.schema();
     }
 
     public DamengDatabaseTreeItem getDbItem() {

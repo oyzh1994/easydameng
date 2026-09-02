@@ -64,7 +64,7 @@ public class DamengQueriesTreeItem extends DBTreeItem<DamengQueriesTreeItemValue
                     .onStart(() -> {
                         this.setLoaded(true);
                         this.setLoading(true);
-                        List<DamengQuery> dbQueries = DamengQueryStore.INSTANCE.list(this.info().getId(), this.dbName());
+                        List<DamengQuery> dbQueries = DamengQueryStore.INSTANCE.list(this.info().getId(), this.schema());
                         List<TreeItem<?>> list = new ArrayList<>();
                         for (DamengQuery query : dbQueries) {
                             list.add(new DamengQueryTreeItem(query, this.getTreeView()));
@@ -93,8 +93,8 @@ public class DamengQueriesTreeItem extends DBTreeItem<DamengQueriesTreeItemValue
         this.addChild(new DamengQueryTreeItem(query, this.getTreeView()));
     }
 
-    public String dbName() {
-        return this.parent().dbName();
+    public String schema() {
+        return this.parent().schema();
     }
 
     public ShellDamengClient client() {
@@ -121,7 +121,7 @@ public class DamengQueriesTreeItem extends DBTreeItem<DamengQueriesTreeItemValue
     //}
 
     public Integer querySize() {
-        List<DamengQuery> dbQueries = DamengQueryStore.INSTANCE.list(this.info().getId(), this.dbName());
+        List<DamengQuery> dbQueries = DamengQueryStore.INSTANCE.list(this.info().getId(), this.schema());
         return dbQueries == null ? 0 : dbQueries.size();
     }
 

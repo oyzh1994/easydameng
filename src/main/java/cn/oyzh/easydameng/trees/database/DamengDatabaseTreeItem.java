@@ -30,8 +30,7 @@ import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
-import cn.oyzh.easydameng.data.db.DBDatabase;
-import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.easydameng.data.db.DBSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
@@ -46,6 +45,7 @@ import cn.oyzh.easydameng.trees.table.DamengTablesTreeItem;
 import cn.oyzh.easydameng.trees.terminal.DamengTerminalTreeItem;
 import cn.oyzh.easydameng.trees.view.DamengViewTreeItem;
 import cn.oyzh.easydameng.trees.view.DamengViewsTreeItem;
+import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.tree.view.RichTreeItem;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
@@ -71,13 +71,13 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     /**
      * 当前值
      */
-    private final DBDatabase value;
+    private final DBSchema value;
 
-    public DBDatabase value() {
+    public DBSchema value() {
         return value;
     }
 
-    public DamengDatabaseTreeItem(DBDatabase database, RichTreeView treeView) {
+    public DamengDatabaseTreeItem(DBSchema database, RichTreeView treeView) {
         super(treeView);
         super.setSortable(false);
         super.setFilterable(true);
@@ -90,7 +90,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         return (DBConnectTreeItem) super.parent();
     }
 
-    public String dbName() {
+    public String schema() {
         return this.value.getName();
     }
 
@@ -124,7 +124,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     private void runSqlFile() {
         StageAdapter fxView = StageManager.parseStage(ShellDamengDataRunSqlFileController.class, this.window());
         fxView.setProp("dbInfo", this.info());
-        fxView.setProp("dbName", this.dbName());
+        fxView.setProp("dbName", this.schema());
         fxView.setProp("dbClient", this.client());
         fxView.display();
     }
@@ -136,7 +136,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
         StageAdapter fxView = StageManager.parseStage(ShellDamengDataDumpController.class, this.window());
         fxView.setProp("dumpType", 1);
         fxView.setProp("dbInfo", this.info());
-        fxView.setProp("dbName", this.dbName());
+        fxView.setProp("dbName", this.schema());
         fxView.setProp("dbClient", this.client());
         fxView.display();
     }
@@ -151,8 +151,8 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     public void delete() {
         Task task = TaskBuilder.newBuilder()
                 .onStart(() -> {
-                    if (MessageBox.confirm(I18nHelper.deleteDatabase() + "[" + this.dbName() + "]")) {
-                        if (this.parent().dropDatabase(this.dbName())) {
+                    if (MessageBox.confirm(I18nHelper.deleteDatabase() + "[" + this.schema() + "]")) {
+                        if (this.parent().dropDatabase(this.schema())) {
                             DamengEventUtil.databaseDropped(this);
                             super.remove();
                         } else {
@@ -383,7 +383,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
 
     public Integer tableSize() {
         try {
-            return this.client().tableSize(this.dbName());
+            return this.client().tableSize(this.schema());
         } catch (Exception ex) {
             MessageBox.exception(ex);
         }
@@ -391,7 +391,7 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     }
 
     public Integer viewSize() {
-        return this.client().viewSize(this.dbName());
+        return this.client().viewSize(this.schema());
     }
 
     public String infoName() {
@@ -468,27 +468,27 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     }
 
     public List<String> selectePrimaryKeys(String tableName) {
-        return this.client().selectePrimaryKeys(this.dbName(), tableName);
+        return this.client().selectePrimaryKeys(this.schema(), tableName);
     }
 
     public boolean existAutoIncrement(String tableName) {
-        return this.client().existAutoIncrement(this.dbName(), tableName);
+        return this.client().existAutoIncrement(this.schema(), tableName);
     }
 
     //public DamengTable selectFullTable(String tableName) {
     //    DamengSelectTableParam param = new DamengSelectTableParam();
-    //    param.setDbName(this.dbName());
+    //    param.setDbName(this.schema());
     //    param.setTableName(tableName);
     //    return this.client().selectFullTable(param);
     //}
 
     @Deprecated
     public boolean existTable(String tableName) {
-        return this.client().existTable(this.dbName(), tableName);
+        return this.client().existTable(this.schema(), tableName);
     }
 
     public void renameTable(String oldTableName, String newTableName) {
-        this.client().renameTable(this.dbName(), oldTableName, newTableName);
+        this.client().renameTable(this.schema(), oldTableName, newTableName);
     }
 
     /**
@@ -498,105 +498,106 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
      * @param newEventName 新事件名称
      */
     public void renameEvent(String oldEventName, String newEventName) {
-        this.client().renameEvent(this.dbName(), oldEventName, newEventName);
+        this.client().renameEvent(this.schema(), oldEventName, newEventName);
     }
 
     public void clearTable(String tableName) {
-        this.client().clearTable(this.dbName(), tableName);
+        this.client().clearTable(this.schema(), tableName);
     }
 
     public void truncateTable(String tableName) {
-        this.client().truncateTable(this.dbName(), tableName);
+        this.client().truncateTable(this.schema(), tableName);
     }
 
     public void dropTable(String tableName) {
-        this.client().dropTable(this.dbName(), tableName);
+        this.client().dropTable(this.schema(), tableName);
     }
 
     public DamengQueryResults<DamengExecuteResult> executeSql(String sql) {
-        return this.client().executeSql(this.dbName(), sql);
+        return this.client().executeSql(this.schema(), sql);
     }
 
     public DamengExecuteResult executeSingleSql(String sql) {
-        return this.client().executeSingleSql(this.dbName(), sql);
+        return this.client().executeSingleSql(this.schema(), sql);
     }
 
     public DamengQueryResults<DamengExplainResult> explainSql(String sql) {
-        return this.client().explainSql(this.dbName(), sql);
+        return this.client().explainSql(this.schema(), sql);
     }
 
     public void createFunction(DamengFunction function) {
         DamengCreateFunctionParam param = new DamengCreateFunctionParam();
         param.setFunction(function);
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         this.client().createFunction(param);
     }
 
     public void alertFunction(DamengFunction function) {
         DamengAlertFunctionParam param = new DamengAlertFunctionParam();
         param.setFunction(function);
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         this.client().alertFunction(param);
     }
 
     public void dropFunction(DamengFunction function) {
-        this.client().dropFunction(this.dbName(), function);
+        this.client().dropFunction(this.schema(), function);
     }
 
     public DamengProcedure selectProcedure(String procedureName) {
-        return this.client().selectProcedure(this.dbName(), procedureName);
+        return this.client().selectProcedure(this.schema(), procedureName);
     }
 
     public void createProcedure(DamengProcedure procedure) {
         DamengCreateProcedureParam param = new DamengCreateProcedureParam();
         param.setProcedure(procedure);
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         this.client().createProcedure(param);
     }
 
     public void alertProcedure(DamengProcedure procedure) {
         DamengAlertProcedureParam param = new DamengAlertProcedureParam();
         param.setProcedure(procedure);
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         this.client().alertProcedure(param);
     }
 
     public void dropProcedure(DamengProcedure procedure) {
-        this.client().dropProcedure(this.dbName(), procedure);
+        this.client().dropProcedure(this.schema(), procedure);
     }
 
     public DamengFunction selectFunction(String functionName) {
-        return this.client().selectFunction(this.dbName(), functionName);
+        return this.client().selectFunction(this.schema(), functionName);
     }
 
     public DamengView selectView(String viewName) {
-        return this.client().selectView(this.dbName(), viewName);
+        return this.client().selectView(this.schema(), viewName);
     }
 
     public DamengTable selectTable(String tableName) {
-        return this.client().selectTable(this.dbName(), tableName);
+        return this.client().selectTable(this.schema(), tableName);
     }
 
     public void createView(DamengView view) {
         DamengCreateViewParam param = new DamengCreateViewParam();
         param.setView(view);
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         this.client().createView(param);
     }
 
     public void alertView(DamengView view) {
         DamengAlertViewParam param = new DamengAlertViewParam();
         param.setView(view);
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         this.client().alertView(param);
     }
 
     public void dropView(DamengView view) {
-        this.client().dropView(this.dbName(), view);
+        view.setSchema(this.schema());
+        this.client().dropView(view);
     }
 
     public boolean existView(String viewName) {
-        return this.client().existView(this.dbName(), viewName);
+        return this.client().existView(this.schema(), viewName);
     }
 
     @Override
@@ -610,20 +611,20 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     //    this.refresh();
     //}
 
-//    public DamengEvent selectEvent(String eventName) {
-//        return this.client().selectEvent(this.dbName(), eventName);
-//    }
+    //    public DamengEvent selectEvent(String eventName) {
+    //        return this.client().selectEvent(this.schema(), eventName);
+    //    }
 
     //    public void alertEvent(DamengEvent event) {
-    //        this.client().alertEvent(this.dbName(), event);
+    //        this.client().alertEvent(this.schema(), event);
     //    }
     //
     //    public void createEvent(DamengEvent event) {
-    //        this.client().createEvent(this.dbName(), event);
+    //        this.client().createEvent(this.schema(), event);
     //    }
 
     //public void dropEvent(DamengEvent event) {
-    //    this.client().dropEvent(this.dbName(), event);
+    //    this.client().dropEvent(this.schema(), event);
     //}
 
     public boolean isSupportCheckFeature() {
@@ -639,26 +640,26 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     }
 
     public DamengChecks checks(String tableName) {
-        return this.client().checks(this.dbName(), tableName);
+        return this.client().checks(this.schema(), tableName);
     }
 
     public DamengTriggers triggers(String tableName) {
-        return this.client().selectTriggers(this.dbName(), tableName);
+        return this.client().selectTriggers(this.schema(), tableName);
     }
 
     public DamengColumns columns(String tableName) {
         DamengSelectColumnParam param = new DamengSelectColumnParam();
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         param.setTableName(tableName);
         return this.client().selectColumns(param);
     }
 
     public DamengIndexes indexes(String tableName) {
-        return this.client().indexes(this.dbName(), tableName);
+        return this.client().indexes(this.schema(), tableName);
     }
 
     public DamengForeignKeys foreignKeys(String tableName) {
-        return this.client().foreignKeys(this.dbName(), tableName);
+        return this.client().foreignKeys(this.schema(), tableName);
     }
 
     public DamengRecord selectRecord(DamengSelectRecordParam param) {
@@ -670,6 +671,6 @@ public class DamengDatabaseTreeItem extends DBTreeItem<DamengDatabaseTreeItemVal
     }
 
     public String cloneTable(String tableName, boolean includeRecord) {
-        return this.client().cloneTable(this.dbName(), tableName, includeRecord);
+        return this.client().cloneTable(this.schema(), tableName, includeRecord);
     }
 }

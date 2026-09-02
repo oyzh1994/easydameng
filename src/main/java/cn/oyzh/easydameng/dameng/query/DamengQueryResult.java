@@ -64,10 +64,10 @@ public abstract class DamengQueryResult {
 
     public abstract void parseResult(ResultSet resultSet, Connection connection, boolean readonly) throws Exception;
 
-    public String dbName() {
+    public String schema() {
         if (this.columns != null) {
             for (DamengColumn column : this.columns) {
-                return column.getDbName();
+                return column.getSchema();
             }
         }
         return null;

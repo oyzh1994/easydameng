@@ -9,7 +9,7 @@ import cn.oyzh.easydameng.controller.database.ShellDamengDatabaseAddController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.data.db.DBConnectManager;
-import cn.oyzh.easydameng.data.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.store.DamengConnectStore;
@@ -123,7 +123,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     }
 
     public void addDatabase(String databaseName) {
-        DBDatabase database = this.client.database(databaseName);
+        DBSchema database = this.client.database(databaseName);
         super.addChild(new DamengDatabaseTreeItem(database, this.getTreeView()));
     }
 
@@ -312,9 +312,9 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
 
     @Override
     public void loadChild() {
-        List<DBDatabase> databases = this.client.databases();
+        List<DBSchema> databases = this.client.databases();
         List<TreeItem<?>> list = new ArrayList<>();
-        for (DBDatabase database : databases) {
+        for (DBSchema database : databases) {
             list.add(new DamengDatabaseTreeItem(database, this.getTreeView()));
         }
         this.setChild(list);
@@ -334,11 +334,11 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         return this.client.existDatabase(dbName);
     }
 
-    public void createDatabase(DBDatabase database) {
+    public void createDatabase(DBSchema database) {
         this.client.createDatabase(database);
     }
 
-    public boolean alterDatabase(DBDatabase database) {
+    public boolean alterDatabase(DBSchema database) {
         return this.client.alterDatabase(database);
     }
 

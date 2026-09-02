@@ -144,7 +144,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
             DBStatusListenerManager.unbindListener(this.parallelEnable, this.listener);
         }
         // 初始化监听器
-        this.listener = new DBStatusListener(this.procedure.getDbName() + ":" + this.procedure.getName()) {
+        this.listener = new DBStatusListener(this.procedure.getSchema() + ":" + this.procedure.getName()) {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
                 initChangedFlag();
@@ -293,7 +293,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
         tempProcedure.setName(this.procedure.getName());
 
         // 基本信息处理
-        tempProcedure.setDbName(this.procedure.getDbName());
+        tempProcedure.setSchema(this.procedure.getSchema());
         tempProcedure.setParams(this.paramTable.getItems());
         tempProcedure.setDefinition(this.definition.getTextTrim());
         tempProcedure.setSecurityType(this.securityType.getSelectedItem());
@@ -318,7 +318,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
         String sql;
         if (this.newData) {
             DamengCreateProcedureParam param = new DamengCreateProcedureParam();
-            param.setDbName(this.dbName());
+            param.setSchema(this.schema());
             param.setProcedure(temp);
             if (StringUtil.isBlank(param.getProcedureName())) {
                 param.setProcedureName("Unnamed_Procedure");
@@ -326,7 +326,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
             sql = DamengProcedureCreateSqlGenerator.generateSqlSingle(param);
         } else {
             DamengAlertProcedureParam param = new DamengAlertProcedureParam();
-            param.setDbName(this.dbName());
+            param.setSchema(this.schema());
             param.setProcedure(temp);
             sql = DamengProcedureAlertSqlGenerator.generateSqlSingle(param);
         }
@@ -397,8 +397,8 @@ public class DamengProcedureDesignTabController extends RichTabController {
         }
     }
 
-    public String dbName() {
-        return this.dbItem.dbName();
+    public String schema() {
+        return this.dbItem.schema();
     }
 
     public boolean isUnsaved() {

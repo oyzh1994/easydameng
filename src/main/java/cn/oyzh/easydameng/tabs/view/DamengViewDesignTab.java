@@ -41,14 +41,14 @@ public class DamengViewDesignTab extends DamengTab {
         }
         // 设置提示文本
         if (this.isUnsaved()) {
-            this.setText("* " + this.dbName() + "-" + name);
+            this.setText("* " + this.schema() + "-" + name);
         } else {
-            this.setText(this.dbName() + "-" + name);
+            this.setText(this.schema() + "-" + name);
         }
     }
 
-    public String dbName() {
-        return this.controller().dbName();
+    public String schema() {
+        return this.controller().schema();
     }
 
     public String viewName() {

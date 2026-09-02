@@ -67,8 +67,8 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
         return this.parent().client();
     }
 
-    public String dbName() {
-        return this.parent().dbName();
+    public String schema() {
+        return this.parent().schema();
     }
 
     /**
@@ -136,9 +136,9 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
         param.setFilters(filters);
         param.setColumns(columns);
         param.setStart(pageNo * limit);
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         param.setTableName(this.viewName());
-        List<DamengRecord> records = this.client().viewRecords(this.dbName(), this.viewName(), pageNo * limit, limit, filters);
+        List<DamengRecord> records = this.client().viewRecords(this.schema(), this.viewName(), pageNo * limit, limit, filters);
         long count = this.client().selectRecordCount(param);
         Paging<DamengRecord> paging = new Paging<>(records, limit, count);
         paging.currentPage(pageNo);
@@ -150,7 +150,7 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
     }
 
     public DamengColumns columns() {
-        return new DamengColumns(this.client().viewColumns(this.dbName(), this.viewName()));
+        return new DamengColumns(this.client().viewColumns(this.schema(), this.viewName()));
     }
 
     @Override
@@ -194,7 +194,7 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
     public int insertRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
         DamengInsertRecordParam param = new DamengInsertRecordParam();
         param.setRecord(recordData);
-        param.setDbName(this.dbName());
+        param.setDbName(this.schema());
         param.setPrimaryKey(primaryKey);
         param.setTableName(this.viewName());
         return this.client().insertRecord(param);
@@ -203,14 +203,14 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
     public int deleteRecord(DamengRecordData recordData) {
         DamengDeleteRecordParam param = new DamengDeleteRecordParam();
         param.setRecord(recordData);
-        param.setDbName(this.dbName());
+        param.setDbName(this.schema());
         param.setTableName(this.viewName());
         return this.client().deleteRecord(param);
     }
 
     public int deleteRecord(DamengRecordPrimaryKey primaryKey) {
         DamengDeleteRecordParam param = new DamengDeleteRecordParam();
-        param.setDbName(this.dbName());
+        param.setDbName(this.schema());
         param.setTableName(this.viewName());
         param.setPrimaryKey(primaryKey);
         return this.client().deleteRecord(param);
@@ -218,7 +218,7 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
 
     public DamengRecord selectRecord(DamengRecordPrimaryKey primaryKey) {
         DamengSelectRecordParam param = new DamengSelectRecordParam();
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         param.setTableName(this.viewName());
         param.setPrimaryKey(primaryKey);
         return this.client().selectRecord(param);
@@ -226,7 +226,7 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
 
     public int updateRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
-        param.setDbName(this.dbName());
+        param.setDbName(this.schema());
         param.setTableName(this.viewName());
         param.setPrimaryKey(primaryKey);
         param.setUpdateRecord(recordData);
@@ -235,7 +235,7 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
 
     public int updateRecord(DamengRecordData recordData, DamengRecordData originalRecordData) {
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
-        param.setDbName(this.dbName());
+        param.setDbName(this.schema());
         param.setTableName(this.viewName());
         param.setUpdateRecord(recordData);
         param.setRecord(originalRecordData);

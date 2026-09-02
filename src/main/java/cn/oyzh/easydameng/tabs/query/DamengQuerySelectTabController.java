@@ -132,7 +132,7 @@ public class DamengQuerySelectTabController extends RichTabController {
         this.dbItem = dbItem;
         if (result.isUpdatable()) {
             if (this.changeListener == null) {
-                this.changeListener = new DBStatusListener(this.result.dbName() + ":" + this.result.tableName()) {
+                this.changeListener = new DBStatusListener(this.result.schema() + ":" + this.result.tableName()) {
                     @Override
                     public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
                         apply.enable();
@@ -238,13 +238,13 @@ public class DamengQuerySelectTabController extends RichTabController {
         DamengInsertRecordParam param = new DamengInsertRecordParam();
         param.setRecord(recordData);
         param.setPrimaryKey(primaryKey);
-        param.setDbName(this.result.dbName());
+        param.setDbName(this.result.schema());
         param.setTableName(this.result.tableName());
         this.dbItem.client().insertRecord(param);
         if (primaryKey != null) {
             DamengSelectRecordParam selectRecordParam = new DamengSelectRecordParam();
             selectRecordParam.setPrimaryKey(primaryKey);
-            selectRecordParam.setDbName(this.result.dbName());
+            selectRecordParam.setSchema(this.result.schema());
             selectRecordParam.setTableName(this.result.tableName());
             // 处理回显
             record.copy(this.dbItem.client().selectRecord(selectRecordParam));
@@ -260,7 +260,7 @@ public class DamengQuerySelectTabController extends RichTabController {
         // 获取主键
         DamengRecordPrimaryKey primaryKey = this.initPrimaryKey(record);
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
-        param.setDbName(this.result.dbName());
+        param.setDbName(this.result.schema());
         param.setTableName(this.result.tableName());
         // 主键存在，则根据主键更新
         if (primaryKey != null) {
@@ -279,7 +279,7 @@ public class DamengQuerySelectTabController extends RichTabController {
             this.dbItem.client().updateRecord(param);
             DamengSelectRecordParam selectRecordParam = new DamengSelectRecordParam();
             selectRecordParam.setPrimaryKey(primaryKey);
-            selectRecordParam.setDbName(this.result.dbName());
+            selectRecordParam.setSchema(this.result.schema());
             selectRecordParam.setTableName(this.result.tableName());
             // 处理回显
             record.copy(this.dbItem.selectRecord(selectRecordParam));
@@ -395,7 +395,7 @@ public class DamengQuerySelectTabController extends RichTabController {
             exportTable.setName(query.getName());
             exportTable.columns(this.result.getColumns());
             exportTable.setRecords(this.result.getRecords());
-            ShellDamengViewFactory.exportData(this.dbItem.client(), this.result.dbName(), null, 1, exportTable);
+            ShellDamengViewFactory.exportData(this.dbItem.client(), this.result.schema(), null, 1, exportTable);
         } catch (Exception ex) {
             MessageBox.exception(ex);
         }
@@ -422,7 +422,7 @@ public class DamengQuerySelectTabController extends RichTabController {
         //         // 获取主键
         //         DamengRecordPrimaryKey primaryKey = this.initPrimaryKey(record);
         //         DamengDeleteRecordParam param = new DamengDeleteRecordParam();
-        //         param.setDbName(this.result.dbName());
+        //         param.setDbName(this.result.schema());
         //         param.setTableName(this.result.tableName());
         //         param.setPrimaryKey(primaryKey);
         //         param.setRecord(record.getOriginalRecordData());
@@ -486,7 +486,7 @@ public class DamengQuerySelectTabController extends RichTabController {
             // 获取主键
             DamengRecordPrimaryKey primaryKey = this.initPrimaryKey(record);
             DamengDeleteRecordParam param = new DamengDeleteRecordParam();
-            param.setDbName(this.result.dbName());
+            param.setDbName(this.result.schema());
             param.setTableName(this.result.tableName());
             param.setPrimaryKey(primaryKey);
             param.setRecord(record.getOriginalRecordData());

@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.query;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.TextUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBSchema;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
@@ -41,7 +41,7 @@ public class DamengQueryUtil {
     /**
      * 数据库
      */
-    private static final List<DBDatabase> DB_DATABASES = new ArrayList<>();
+    private static final List<DBSchema> DB_DATABASES = new ArrayList<>();
 
     /**
      * 表
@@ -147,7 +147,7 @@ public class DamengQueryUtil {
         return DB_KEYWORDS;
     }
 
-    public static List<DBDatabase> getDatabases() {
+    public static List<DBSchema> getDatabases() {
         return DB_DATABASES;
     }
 
@@ -187,31 +187,31 @@ public class DamengQueryUtil {
                     DB_PROCEDURES.clear();
                     DB_DATABASES.clear();
                     // 更新库索引
-                    List<DBDatabase> databases = client.databases();
+                    List<DBSchema> databases = client.databases();
                     DB_DATABASES.addAll(databases);
                     // 更新表索引
-                    for (DBDatabase database : DB_DATABASES) {
+                    for (DBSchema database : DB_DATABASES) {
                         if (!DamengUtil.isInternalDatabase(database.getName())) {
                             List<DamengTable> tables = client.selectTablesSimple(database.getName());
                             DB_TABLES.addAll(tables);
                         }
                     }
                     // 更新视图索引
-                    for (DBDatabase database : DB_DATABASES) {
+                    for (DBSchema database : DB_DATABASES) {
                         if (!DamengUtil.isInternalDatabase(database.getName())) {
                             List<DamengView> views = client.selectViewsSimple(database.getName());
                             DB_VIEWS.addAll(views);
                         }
                     }
                     // 更新函数索引
-                    for (DBDatabase database : DB_DATABASES) {
+                    for (DBSchema database : DB_DATABASES) {
                         if (!DamengUtil.isInternalDatabase(database.getName())) {
                             List<DamengFunction> functions = client.selectFunctionsSimple(database.getName());
                             DB_FUNCTIONS.addAll(functions);
                         }
                     }
                     // 更新过程索引
-                    for (DBDatabase database : DB_DATABASES) {
+                    for (DBSchema database : DB_DATABASES) {
                         if (!DamengUtil.isInternalDatabase(database.getName())) {
                             List<DamengProcedure> procedures = client.selectProceduresSimple(database.getName());
                             DB_PROCEDURES.addAll(procedures);
@@ -310,7 +310,7 @@ public class DamengQueryUtil {
                     item.setType((byte) 2);
                     item.setCorrelation(corr);
                     item.setContent(dbTable.getName());
-                    item.setExtContent(dbTable.getDbName());
+                    item.setExtContent(dbTable.getSchema());
                     items.add(item);
                 }
             }));
@@ -325,7 +325,7 @@ public class DamengQueryUtil {
                     item.setType((byte) 5);
                     item.setCorrelation(corr);
                     item.setContent(dbTable.getName());
-                    item.setExtContent(dbTable.getDbName());
+                    item.setExtContent(dbTable.getSchema());
                     items.add(item);
                 }
             }));
@@ -340,7 +340,7 @@ public class DamengQueryUtil {
                     item.setType((byte) 6);
                     item.setCorrelation(corr);
                     item.setContent(function.getName());
-                    item.setExtContent(function.getDbName());
+                    item.setExtContent(function.getSchema());
                     items.add(item);
                 }
             }));
@@ -355,7 +355,7 @@ public class DamengQueryUtil {
                     item.setType((byte) 7);
                     item.setCorrelation(corr);
                     item.setContent(procedure.getName());
-                    item.setExtContent(procedure.getDbName());
+                    item.setExtContent(procedure.getSchema());
                     items.add(item);
                 }
             }));
@@ -370,7 +370,7 @@ public class DamengQueryUtil {
                     item.setType((byte) 3);
                     item.setCorrelation(corr);
                     item.setContent(column.getName());
-                    item.setExtContent(DBUtil.wrap(column.getDbName(), column.getTableName(), DBDialect.DAMENG));
+                    item.setExtContent(DBUtil.wrap(column.getSchema(), column.getTableName(), DBDialect.DAMENG));
                     items.add(item);
                 }
             }));

@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.event.database;
 
-import cn.oyzh.easydameng.data.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBSchema;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
 import cn.oyzh.event.Event;
 import cn.oyzh.event.EventFormatter;
@@ -9,7 +9,7 @@ import cn.oyzh.event.EventFormatter;
  * @author oyzh
  * @since 2024/01/30
  */
-public class DamengDatabaseUpdatedEvent extends Event<DBDatabase> implements EventFormatter {
+public class DamengDatabaseUpdatedEvent extends Event<DBSchema> implements EventFormatter {
 
     private DBConnectTreeItem connectItem;
 

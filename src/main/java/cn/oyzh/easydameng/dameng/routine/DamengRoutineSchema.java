@@ -22,7 +22,7 @@ public class DamengRoutineSchema implements ObjectComparator<DamengRoutineSchema
     /**
      * 库名称
      */
-    private String dbName;
+    private String schema;
 
     /**
      * 安全性
@@ -102,7 +102,7 @@ public class DamengRoutineSchema implements ObjectComparator<DamengRoutineSchema
         if (routine == this) {
             return true;
         }
-        if (!StringUtil.equals(this.getDbName(), routine.getDbName())) {
+        if (!StringUtil.equals(this.getSchema(), routine.getSchema())) {
             return false;
         }
         return StringUtil.equals(this.getName(), routine.getName());
@@ -120,12 +120,12 @@ public class DamengRoutineSchema implements ObjectComparator<DamengRoutineSchema
         this.params = params;
     }
 
-    public String getDbName() {
-        return dbName;
+    public String getSchema() {
+        return schema;
     }
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 
     public String getSecurityType() {

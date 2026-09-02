@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.controller.database;
 
-import cn.oyzh.easydameng.data.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBSchema;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
@@ -66,7 +66,7 @@ public class ShellDamengDatabaseAddController extends StageController {
                 MessageBox.warn(I18nHelper.database() + " " + dbName + " " + I18nHelper.alreadyExists());
                 return;
             }
-            DBDatabase database = new DBDatabase();
+            DBSchema database = new DBSchema();
             database.setName(dbName);
 //            if (!this.charset.isItemEmpty()) {
 //                database.setCharset(this.charset.getSelectedItem());

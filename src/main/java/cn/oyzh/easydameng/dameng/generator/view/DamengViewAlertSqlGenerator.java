@@ -18,9 +18,9 @@ public class DamengViewAlertSqlGenerator extends DBSqlGenerator {
 
     private void _generate(DamengAlertViewParam param) {
         DamengView view = param.getView();
-        String dbName = param.getDbName();
+        String schema = param.getSchema();
         String viewName = param.getViewName();
-        String viewFullName = DBUtil.wrap(dbName, viewName, DBDialect.DAMENG);
+        String viewFullName = DBUtil.wrap(schema, viewName, DBDialect.DAMENG);
 
         this.sqlBuilder.append("CREATE OR REPLACE ");
         this.sqlBuilder.append(" VIEW ")

@@ -40,7 +40,7 @@ public class DamengViewRecordTab extends DamengTab {
 
     @Override
     public void flushTitle() {
-        this.setText(this.item().viewName() + "@" + this.item().dbName() + "(" + this.item().infoName() + ")");
+        this.setText(this.item().viewName() + "@" + this.item().schema() + "(" + this.item().infoName() + ")");
     }
 
     /**

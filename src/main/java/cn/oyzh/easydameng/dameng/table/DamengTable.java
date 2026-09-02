@@ -54,11 +54,6 @@ public class DamengTable extends DBObjectStatus implements DBTable, ObjectCopier
     }
 
     /**
-     * 库名称
-     */
-    private String dbName;
-
-    /**
      * 模式名称
      */
     private String schema;
@@ -122,7 +117,7 @@ public class DamengTable extends DBObjectStatus implements DBTable, ObjectCopier
         if (!StringUtil.equals(this.getName(), table.getName())) {
             return false;
         }
-        return StringUtil.equals(this.getDbName(), table.getDbName());
+        return StringUtil.equals(this.getSchema(), table.getSchema());
     }
 
     /**
@@ -153,14 +148,6 @@ public class DamengTable extends DBObjectStatus implements DBTable, ObjectCopier
 
     public String getTableSpace() {
         return tableSpace;
-    }
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
     }
 
     public String getSchema() {

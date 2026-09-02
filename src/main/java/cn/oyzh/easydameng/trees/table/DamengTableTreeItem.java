@@ -70,8 +70,8 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         return this.parent().client();
     }
 
-    public String dbName() {
-        return this.parent().dbName();
+    public String schema() {
+        return this.parent().schema();
     }
 
     public String tableName() {
@@ -151,7 +151,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         StageAdapter fxView = StageManager.parseStage(ShellDamengDataDumpController.class, this.window());
         fxView.setProp("dumpType", 2);
         fxView.setProp("dbInfo", this.info());
-        fxView.setProp("dbName", this.dbName());
+        fxView.setProp("dbName", this.schema());
         fxView.setProp("dbClient", this.client());
         fxView.setProp("tableName", this.tableName());
         fxView.display();
@@ -164,7 +164,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         StageAdapter fxView = StageManager.parseStage(ShellDamengDataExportController.class, this.window());
         fxView.setProp("dumpType", 2);
         fxView.setProp("dbInfo", this.info());
-        fxView.setProp("dbName", this.dbName());
+        fxView.setProp("dbName", this.schema());
         fxView.setProp("dbClient", this.client());
         fxView.setProp("tableName", this.tableName());
         fxView.display();
@@ -264,7 +264,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         param.setLimit(limit);
         param.setFilters(filters);
         param.setColumns(columns);
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         param.setStart(pageNo * limit);
         param.setTableName(this.tableName());
         List<DamengRecord> rows = this.client().selectRecords(param);
@@ -279,23 +279,23 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
     }
 
     public DamengColumns columns() {
-        return this.client().selectColumns(new DamengSelectColumnParam(this.dbName(), this.tableName()));
+        return this.client().selectColumns(new DamengSelectColumnParam(this.schema(), this.tableName()));
     }
 
     public List<DamengIndex> indexes() {
-        return this.client().indexes(this.dbName(), this.tableName());
+        return this.client().indexes(this.schema(), this.tableName());
     }
 
     public DamengChecks checks() {
-        return this.client().checks(this.dbName(), this.tableName());
+        return this.client().checks(this.schema(), this.tableName());
     }
 
     public List<DamengForeignKey> foreignKeys() {
-        return this.client().foreignKeys(this.dbName(), this.tableName());
+        return this.client().foreignKeys(this.schema(), this.tableName());
     }
 
     public List<DamengTrigger> triggers() {
-        return this.client().selectTriggers(this.dbName(), this.tableName());
+        return this.client().selectTriggers(this.schema(), this.tableName());
     }
 
     @Override
@@ -332,7 +332,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
     @Override
     public void loadChild() {
         try {
-            DamengTable table = this.client().selectTable(this.dbName(), this.tableName());
+            DamengTable table = this.client().selectTable(this.schema(), this.tableName());
             if (table != null) {
                 this.value.copy(table);
             }
@@ -362,7 +362,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
     public int insertRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
         DamengInsertRecordParam param = new DamengInsertRecordParam();
         param.setRecord(recordData);
-        param.setDbName(this.dbName());
+        param.setDbName(this.schema());
         param.setPrimaryKey(primaryKey);
         param.setTableName(this.tableName());
         return this.client().insertRecord(param);
@@ -370,7 +370,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
     public int deleteRecord(DamengRecordData recordData) {
         DamengDeleteRecordParam param = new DamengDeleteRecordParam();
-        param.setDbName(this.dbName());
+        param.setDbName(this.schema());
         param.setTableName(this.tableName());
         param.setRecord(recordData);
         return this.client().deleteRecord(param);
@@ -378,7 +378,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
     public int deleteRecord(DamengRecordPrimaryKey primaryKey) {
         DamengDeleteRecordParam param = new DamengDeleteRecordParam();
-        param.setDbName(this.dbName());
+        param.setDbName(this.schema());
         param.setTableName(this.tableName());
         param.setPrimaryKey(primaryKey);
         return this.client().deleteRecord(param);
@@ -386,7 +386,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
     public DamengRecord selectRecord(DamengRecordPrimaryKey primaryKey) {
         DamengSelectRecordParam param = new DamengSelectRecordParam();
-        param.setDbName(this.dbName());
+        param.setSchema(this.schema());
         param.setTableName(this.tableName());
         param.setPrimaryKey(primaryKey);
         return this.client().selectRecord(param);
@@ -394,7 +394,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
     public int updateRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
-        param.setDbName(this.dbName());
+        param.setDbName(this.schema());
         param.setTableName(this.tableName());
         param.setPrimaryKey(primaryKey);
         param.setUpdateRecord(recordData);
@@ -403,7 +403,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
     public int updateRecord(DamengRecordData recordData, DamengRecordData originalRecordData) {
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
-        param.setDbName(this.dbName());
+        param.setDbName(this.schema());
         param.setTableName(this.tableName());
         param.setUpdateRecord(recordData);
         param.setRecord(originalRecordData);

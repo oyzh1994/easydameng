@@ -18,9 +18,9 @@ public class DamengViewCreateSqlGenerator extends DBSqlGenerator {
 
     private void _generate(DamengCreateViewParam param) {
         DamengView view = param.getView();
-        String dbName = param.getDbName();
+        String schema = param.getSchema();
         String viewName = param.getViewName();
-        String viewFullName = DBUtil.wrap(dbName, viewName, DBDialect.DAMENG);
+        String viewFullName = DBUtil.wrap(schema, viewName, DBDialect.DAMENG);
 
         this.sqlBuilder.append("CREATE VIEW ");
         this.sqlBuilder.append(viewFullName)

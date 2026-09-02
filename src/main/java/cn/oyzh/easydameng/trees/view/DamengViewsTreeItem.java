@@ -50,7 +50,7 @@ public class DamengViewsTreeItem extends DBTreeItem<DamengViewsTreeItemValue> {
 
     private void add() {
         DamengView dbView = new DamengView();
-        dbView.setDbName(this.dbName());
+        dbView.setSchema(this.schema());
         DamengEventUtil.designView(dbView, this.parent());
     }
 
@@ -66,7 +66,7 @@ public class DamengViewsTreeItem extends DBTreeItem<DamengViewsTreeItemValue> {
             this.setLoading(true);
             Task task = TaskBuilder.newBuilder()
                     .onStart(() -> {
-                        List<DamengView> views = this.client().selectViewsSimple(this.dbName());
+                        List<DamengView> views = this.client().selectViewsSimple(this.schema());
                         // 无数据直接更新列表
                         if (this.isChildEmpty()) {
                             List<TreeItem<?>> list = new ArrayList<>();
@@ -121,8 +121,8 @@ public class DamengViewsTreeItem extends DBTreeItem<DamengViewsTreeItemValue> {
         this.loadChild();
     }
 
-    public String dbName() {
-        return this.parent().dbName();
+    public String schema() {
+        return this.parent().schema();
     }
 
     public ShellDamengClient client() {

@@ -20,25 +20,10 @@ import java.util.List;
  */
 public class DamengView extends DBObjectStatus implements ObjectCopier<DamengView>, ObjectComparator<DamengView> {
 
-    //    /**
-    //     * 定义者
-    //     */
-    //    private String definer;
-    //
-    //    /**
-    //     * 算法
-    //     */
-    //    private String algorithm;
-
     /**
      * 是否可变更
      */
     private boolean updatable;
-
-    //    /**
-    //     * 检查选项
-    //     */
-    //    private String checkOption;
 
     /**
      * 安全性
@@ -84,22 +69,10 @@ public class DamengView extends DBObjectStatus implements ObjectCopier<DamengVie
             this.setComment(f.getComment());
             this.setColumns(f.getColumns());
             this.setUpdatable(f.isUpdatable());
-            //            this.setAlgorithm(f.getAlgorithm());
             this.setDefinition(f.getDefinition());
-            //            this.setCheckOption(f.getCheckOption());
             this.setSecurityType(f.getSecurityType());
         }
     }
-
-
-    //    public boolean hasCheckOption() {
-    //        return StringUtil.isNotBlank(this.checkOption) && !StringUtil.equalsIgnoreCase(this.checkOption, "NONE");
-    //    }
-
-    /**
-     * 库名称
-     */
-    private String dbName;
 
     /**
      * 模式名称
@@ -203,7 +176,7 @@ public class DamengView extends DBObjectStatus implements ObjectCopier<DamengVie
         if (!StringUtil.equals(this.getName(), view.getName())) {
             return false;
         }
-        return StringUtil.equals(this.getDbName(), view.getDbName());
+        return StringUtil.equals(this.getSchema(), view.getSchema());
     }
 
     public void removeColumn(DamengColumn column) {
@@ -272,14 +245,6 @@ public class DamengView extends DBObjectStatus implements ObjectCopier<DamengVie
 
     public void setDefinitionProperty(String definitionProperty) {
         this.definitionProperty.set(definitionProperty);
-    }
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
     }
 
     public String getSchema() {

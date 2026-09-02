@@ -306,7 +306,7 @@ public class DamengQueryMainTabController extends RichTabController {
             }
             String sql = this.queryArea.getTextTrim();
             this.query.setContent(sql);
-            this.query.setDbName(this.dbItem.dbName());
+            this.query.setDbName(this.dbItem.schema());
             this.query.setIid(this.dbItem.info().getId());
             boolean result;
             // 新增查询

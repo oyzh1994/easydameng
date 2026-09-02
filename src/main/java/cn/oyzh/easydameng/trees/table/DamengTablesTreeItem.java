@@ -63,7 +63,7 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
         StageAdapter fxView = StageManager.parseStage(ShellDamengDataExportController.class, this.window());
         fxView.setProp("dumpType", 2);
         fxView.setProp("dbInfo", this.info());
-        fxView.setProp("dbName", this.dbName());
+        fxView.setProp("dbName", this.schema());
         fxView.setProp("dbClient", this.client());
         fxView.display();
     }
@@ -74,14 +74,14 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
     private void importData() {
         StageAdapter fxView = StageManager.parseStage(ShellDamengDataImportController.class, this.window());
         fxView.setProp("dbInfo", this.info());
-        fxView.setProp("dbName", this.dbName());
+        fxView.setProp("dbName", this.schema());
         fxView.setProp("dbClient", this.client());
         fxView.display();
     }
 
     private void addTable() {
         DamengTable table = new DamengTable();
-        table.setDbName(this.dbName());
+        table.setSchema(this.schema());
         DamengEventUtil.designTable(table, this.parent());
     }
 
@@ -97,7 +97,7 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
             this.setLoading(true);
             Task task = TaskBuilder.newBuilder()
                     .onStart(() -> {
-                        List<DamengTable> tables = this.client().selectTablesSimple(this.dbName());
+                        List<DamengTable> tables = this.client().selectTablesSimple(this.schema());
                         // 无数据直接更新列表
                         if (this.isChildEmpty()) {
                             List<TreeItem<?>> list = new ArrayList<>();
@@ -152,8 +152,8 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
         this.loadChild();
     }
 
-    public String dbName() {
-        return this.parent().dbName();
+    public String schema() {
+        return this.parent().schema();
     }
 
     public ShellDamengClient client() {

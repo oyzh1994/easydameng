@@ -28,8 +28,8 @@ public class DamengCreateTableParam {
 
     private DamengForeignKeys foreignKeys;
 
-    public String dbName() {
-        return this.table.getDbName();
+    public String schema() {
+        return this.table.getSchema();
     }
 
     public boolean hasColumns() {

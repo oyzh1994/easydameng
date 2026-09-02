@@ -12,6 +12,6 @@ public class DamengDatabaseDroppedEvent extends Event<DamengDatabaseTreeItem> im
 
     @Override
     public String eventFormat() {
-        return String.format("[%s] 数据库已删除", this.data().dbName());
+        return String.format("[%s] 数据库已删除", this.data().schema());
     }
 }

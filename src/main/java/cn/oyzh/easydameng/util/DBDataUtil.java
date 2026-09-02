@@ -485,7 +485,7 @@ public class DBDataUtil {
         String tableName = columns.tableName();
         StringBuilder builder = new StringBuilder();
         builder.append("UPDATE ")
-                .append(DBUtil.wrap(columns.dbName(), tableName, DBDialect.DAMENG))
+                .append(DBUtil.wrap(columns.schema(), tableName, DBDialect.DAMENG))
                 .append(" SET ");
         for (DamengColumn column : columns) {
             if (primaryKey != null && column == primaryKey.getColumn()) {

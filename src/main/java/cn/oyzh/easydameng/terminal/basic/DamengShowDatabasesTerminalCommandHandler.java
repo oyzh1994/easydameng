@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.terminal.basic;
 
-import cn.oyzh.easydameng.data.db.DBDatabase;
+import cn.oyzh.easydameng.data.db.DBSchema;
 import cn.oyzh.easydameng.terminal.DamengTerminalCommandHandler;
 import cn.oyzh.easydameng.terminal.DamengTerminalPane;
 import cn.oyzh.fx.terminal.command.TerminalCommand;
@@ -42,9 +42,9 @@ public class DamengShowDatabasesTerminalCommandHandler extends DamengTerminalCom
     public TerminalExecuteResult execute(TerminalCommand command, DamengTerminalPane terminal) {
         TerminalExecuteResult result = TerminalExecuteResult.ok();
         try {
-            List<DBDatabase> databases = terminal.getClient().databases();
+            List<DBSchema> databases = terminal.getClient().databases();
             String output = databases.stream()
-                    .map(DBDatabase::getName)
+                    .map(DBSchema::getName)
                     .collect(Collectors.joining(terminal.lineEndingText()));
             result.setResult(output);
         } catch (Exception ex) {

@@ -104,7 +104,7 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
     protected void dumpTable() throws InterruptedException, IOException {
         DamengSelectTableParam selectTableParam = new DamengSelectTableParam();
         selectTableParam.setFull(true);
-        selectTableParam.setDbName(this.dbName);
+        selectTableParam.setSchema(this.dbName);
         List<DamengTable> tables = this.dbClient.selectTables(selectTableParam);
         if (CollectionUtil.isNotEmpty(tables)) {
             for (DamengTable table : tables) {
@@ -179,7 +179,7 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
             param.setStart(start);
             param.setReadonly(true);
             param.setColumns(columns);
-            param.setDbName(this.dbName);
+            param.setSchema(this.dbName);
             param.setTableName(tableName);
             param.setLimit((long) this.queryLimit);
             List<DamengRecord> records = this.dbClient.selectRecords(param);

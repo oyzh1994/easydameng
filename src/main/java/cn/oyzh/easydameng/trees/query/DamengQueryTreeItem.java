@@ -118,8 +118,8 @@ public class DamengQueryTreeItem extends DBTreeItem<DamengQueryTreeItemValue> {
         return this.parent().parent();
     }
 
-    public String dbName() {
-        return this.parent().dbName();
+    public String schema() {
+        return this.parent().schema();
     }
 
     public String queryName() {

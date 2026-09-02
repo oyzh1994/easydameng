@@ -185,7 +185,7 @@ public class DamengTableDesignTabController extends ParentTabController {
     private Object initParam(boolean isCreate) {
         DamengTable tempTable = new DamengTable();
         // 数据库
-        tempTable.setDbName(this.table.getDbName());
+        tempTable.setSchema(this.table.getSchema());
 
         // 表名称
         tempTable.setName(this.table.getName());
@@ -364,7 +364,7 @@ public class DamengTableDesignTabController extends ParentTabController {
                 param.setTableName(tableName);
                 if (param.getColumns() != null) {
                     for (DamengColumn column : param.getColumns()) {
-                        column.setDbName(param.dbName());
+                        column.setSchema(param.schema());
                         column.setTableName(param.tableName());
                     }
                 }
@@ -712,7 +712,7 @@ public class DamengTableDesignTabController extends ParentTabController {
         List list = this.columnTable.getItems();
         for (DamengForeignKeyControl foreignKey : this.foreignKeyTable.itemList()) {
             foreignKey.setColumnList(list);
-            foreignKey.setDbName(this.dbItem.dbName());
+            foreignKey.setSchema(this.dbItem.schema());
             foreignKey.setDbClient(this.dbItem.client());
         }
     }
@@ -729,7 +729,7 @@ public class DamengTableDesignTabController extends ParentTabController {
             }
             if (param.getColumns() != null) {
                 for (DamengColumn column : param.getColumns()) {
-                    column.setDbName(param.dbName());
+                    column.setSchema(param.schema());
                     column.setTableName(param.tableName());
                 }
             }
@@ -753,7 +753,7 @@ public class DamengTableDesignTabController extends ParentTabController {
         this.table = table;
         // 更新新数据标志位
         this.newData = table.isNew();
-        this.table.setDbName(this.dbItem.dbName());
+        this.table.setSchema(this.dbItem.schema());
         StageManager.showMask(this::doInit);
     }
 
@@ -909,8 +909,8 @@ public class DamengTableDesignTabController extends ParentTabController {
         return this.table.getName();
     }
 
-    public String dbName() {
-        return this.table.getDbName();
+    public String schema() {
+        return this.table.getSchema();
     }
 
     @Override

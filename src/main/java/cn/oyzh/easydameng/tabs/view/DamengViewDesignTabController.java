@@ -189,7 +189,7 @@ public class DamengViewDesignTabController extends RichTabController {
             DBStatusListenerManager.unbindListener(this.securityType, this.listener);
         }
         // 初始化监听器
-        this.listener = new DBStatusListener(this.view.getDbName() + ":" + this.view.getName()) {
+        this.listener = new DBStatusListener(this.view.getSchema() + ":" + this.view.getName()) {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
                 initChangedFlag();
@@ -302,7 +302,7 @@ public class DamengViewDesignTabController extends RichTabController {
         tempView.setName(this.view.getName());
 
         // 数据库
-        tempView.setDbName(this.view.getDbName());
+        tempView.setSchema(this.view.getSchema());
         tempView.setComment(this.comment.getTextTrim());
         tempView.setUpdatable(!this.readonly.isSelected());
         tempView.setDefinition(this.definition.getTextTrim());
@@ -330,8 +330,8 @@ public class DamengViewDesignTabController extends RichTabController {
         });
     }
 
-    public String dbName() {
-        return this.dbItem.dbName();
+    public String schema() {
+        return this.dbItem.schema();
     }
 
     public String viewName() {
@@ -355,7 +355,7 @@ public class DamengViewDesignTabController extends RichTabController {
         if (this.newData) {
             DamengCreateViewParam param = new DamengCreateViewParam();
             param.setView(temp);
-            param.setDbName(this.dbName());
+            param.setSchema(this.schema());
             if (StringUtil.isBlank(param.getViewName())) {
                 param.setViewName("Unnamed_View");
             }
@@ -363,7 +363,7 @@ public class DamengViewDesignTabController extends RichTabController {
         } else {
             DamengAlertViewParam param = new DamengAlertViewParam();
             param.setView(temp);
-            param.setDbName(this.dbName());
+            param.setSchema(this.schema());
             sql = DamengViewAlertSqlGenerator.generateSqlSingle(param);
         }
         this.preview.text(sql);
