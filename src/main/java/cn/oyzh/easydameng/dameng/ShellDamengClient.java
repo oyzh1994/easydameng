@@ -2450,7 +2450,7 @@ public class ShellDamengClient {
             for (String execSql : list) {
                 DamengExplainResult result = new DamengExplainResult();
                 try {
-                    execSql = "EXPLAIN PLAN FOR " + execSql.stripLeading();
+                    execSql = "EXPLAIN FOR " + execSql.stripLeading();
                     result.setSql(execSql);
                     long startTime = System.nanoTime();
                     ResultSet resultSet = statement.executeQuery(execSql);
