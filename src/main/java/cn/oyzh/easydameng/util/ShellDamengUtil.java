@@ -215,19 +215,19 @@ public class ShellDamengUtil {
     // }
 
 
-    public static String wrap(String name, DBDialect dialect) {
-        StringBuilder builder = new StringBuilder();
-        if (dialect == DBDialect.DAMENG) {
-            if (!name.startsWith("\"")) {
-                builder.append("\"");
-            }
-            builder.append(name);
-            if (!name.endsWith("\"")) {
-                builder.append("\"");
-            }
-        }
-        return builder.toString();
-    }
+//    public static String wrap(String name, DBDialect dialect) {
+//        StringBuilder builder = new StringBuilder();
+//        if (dialect == DBDialect.DAMENG) {
+//            if (!name.startsWith("\"")) {
+//                builder.append("\"");
+//            }
+//            builder.append(name);
+//            if (!name.endsWith("\"")) {
+//                builder.append("\"");
+//            }
+//        }
+//        return builder.toString();
+//    }
 
 //    public static String wrap(String dbName, String tableName, DBDialect dialect) {
 //        return wrap(dbName, dialect) + "." + wrap(tableName, dialect);

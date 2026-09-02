@@ -1120,14 +1120,14 @@ public class ShellDamengClient {
             }
             while (resultSet.next()) {
                 DamengRecord record = new DamengRecord(columns, param.isReadonly());
-//                for (DamengColumn column : columns) {
-//                    Object data = resultSet.getObject(column.getName());
-//                    //                    // 获取几何值
-//                    //                    if (column.supportGeometry()) {
-//                    //                        data = DamengHelper.getGeometryString(connection, data);
-//                    //                    }
-//                    record.putValue(column, data);
-//                }
+                for (DamengColumn column : columns) {
+                    Object data = resultSet.getObject(column.getName());
+                    //                    // 获取几何值
+                    //                    if (column.supportGeometry()) {
+                    //                        data = DamengHelper.getGeometryString(connection, data);
+                    //                    }
+                    record.putValue(column, data);
+                }
                 records.add(record);
             }
             IOUtil.close(resultSet);
