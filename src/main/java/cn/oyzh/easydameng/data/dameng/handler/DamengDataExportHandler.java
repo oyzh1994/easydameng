@@ -17,7 +17,7 @@ import cn.oyzh.easydameng.dameng.data.DamengXmlTypeFileWriter;
 import cn.oyzh.easydameng.dameng.dto.ShellDamengDataExportTable;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
-import cn.oyzh.easydameng.util.DBDataUtil;
+import cn.oyzh.easydameng.util.DamengDataUtil;
 import cn.oyzh.fx.db.data.handler.DBDataExportHandler;
 
 import java.io.IOException;
@@ -171,7 +171,7 @@ public class DamengDataExportHandler extends DBDataExportHandler {
         // 规整化值
         for (Map<String, Object> object : objects) {
             for (Map.Entry<String, Object> entry : object.entrySet()) {
-                entry.setValue(DBDataUtil.valueStandardization(entry.getValue()));
+                entry.setValue(DamengDataUtil.valueStandardization(entry.getValue()));
             }
         }
         writer.writeObjects(objects);

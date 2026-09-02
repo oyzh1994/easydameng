@@ -491,15 +491,15 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().renameTable(this.schema(), oldTableName, newTableName);
     }
 
-    /**
-     * 重命名事件
-     *
-     * @param oldEventName 事件名称
-     * @param newEventName 新事件名称
-     */
-    public void renameEvent(String oldEventName, String newEventName) {
-        this.client().renameEvent(this.schema(), oldEventName, newEventName);
-    }
+//    /**
+//     * 重命名事件
+//     *
+//     * @param oldEventName 事件名称
+//     * @param newEventName 新事件名称
+//     */
+//    public void renameEvent(String oldEventName, String newEventName) {
+//        this.client().renameEvent(this.schema(), oldEventName, newEventName);
+//    }
 
     public void clearTable(String tableName) {
         this.client().clearTable(this.schema(), tableName);

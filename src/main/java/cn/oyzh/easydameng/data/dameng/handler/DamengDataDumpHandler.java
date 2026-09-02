@@ -16,7 +16,7 @@ import cn.oyzh.easydameng.dameng.table.DamengSelectTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.view.DamengView;
-import cn.oyzh.easydameng.util.DBDataUtil;
+import cn.oyzh.easydameng.util.DamengDataUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.data.handler.DBDataDumpHandler;
 import cn.oyzh.fx.db.util.DBUtil;
@@ -188,7 +188,7 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
             long end1 = System.currentTimeMillis();
             JulLog.info("查询耗时: {}ms", (end1 - start1));
             long start2 = System.currentTimeMillis();
-            List<String> inserts = DBDataUtil.toInsertSql(columns, records, true);
+            List<String> inserts = DamengDataUtil.toInsertSql(columns, records, true);
             this.fileWriter.appendLines(inserts);
             long end2 = System.currentTimeMillis();
             JulLog.info("写入耗时: {}ms", (end2 - start2));

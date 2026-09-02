@@ -26,7 +26,7 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
-import cn.oyzh.easydameng.util.DBI18nHelper;
+import cn.oyzh.easydameng.util.DamengI18nHelper;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.svg.glyph.CopySVGGlyph;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
@@ -112,8 +112,8 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
         // 克隆表
         Menu cloneTable = MenuItemHelper.menu(I18nHelper.cloneTable(), new CopySVGGlyph());
-        MenuItem clone1 = MenuItemHelper.menuItem(DBI18nHelper.tableTip3(), () -> this.cloneTable(true));
-        MenuItem clone2 = MenuItemHelper.menuItem(DBI18nHelper.tableTip4(), () -> this.cloneTable(false));
+        MenuItem clone1 = MenuItemHelper.menuItem(DamengI18nHelper.tableTip3(), () -> this.cloneTable(true));
+        MenuItem clone2 = MenuItemHelper.menuItem(DamengI18nHelper.tableTip4(), () -> this.cloneTable(false));
         cloneTable.getItems().addAll(clone1, clone2);
 
         items.add(cloneTable);

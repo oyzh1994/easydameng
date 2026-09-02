@@ -3,12 +3,12 @@ package cn.oyzh.easydameng.dameng.record;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.exception.DBException;
-import cn.oyzh.easydameng.listener.DBStatusListener;
-import cn.oyzh.easydameng.listener.DBStatusListenerManager;
-import cn.oyzh.easydameng.util.DBDataUtil;
-import cn.oyzh.easydameng.util.DBNodeUtil;
-import cn.oyzh.easydameng.util.DBRecordUtil;
+import cn.oyzh.easydameng.util.DamengDataUtil;
+import cn.oyzh.easydameng.util.DamengNodeUtil;
+import cn.oyzh.easydameng.util.DamengRecordUtil;
 import cn.oyzh.fx.db.DBRecordProperty;
+import cn.oyzh.fx.db.listener.DBStatusListener;
+import cn.oyzh.fx.db.listener.DBStatusListenerManager;
 import cn.oyzh.fx.plus.tableview.TableViewUtil;
 import cn.oyzh.fx.plus.util.ClipboardUtil;
 
@@ -50,7 +50,7 @@ public class DamengRecordProperty extends DBRecordProperty {
             return null;
         }
         try {
-            return DBNodeUtil.getNodeVal(this.node);
+            return DamengNodeUtil.getNodeVal(this.node);
         } catch (Exception ex) {
             throw new DBException(ex);
         }
@@ -60,17 +60,17 @@ public class DamengRecordProperty extends DBRecordProperty {
     public void set(Object newValue) {
         super.set(newValue);
         if (this.node != null) {
-            DBNodeUtil.setNodeVal(node, newValue);
+            DamengNodeUtil.setNodeVal(node, newValue);
         }
     }
 
     @Override
     public Object getValue() {
         if (this.readonly) {
-            return DBRecordUtil.formatValue(super.getValue(), this.column);
+            return DamengRecordUtil.formatValue(super.getValue(), this.column);
         }
         if (this.node == null) {
-            this.node = DBRecordUtil.getNode(this, super.getValue(), this.column);
+            this.node = DamengRecordUtil.getNode(this, super.getValue(), this.column);
             TableViewUtil.rowOnCtrlS(this.node);
             TableViewUtil.selectRowOnMouseClicked(this.node);
         }
@@ -80,7 +80,7 @@ public class DamengRecordProperty extends DBRecordProperty {
     @Override
     public void discard() {
         if (this.isChanged() && this.node != null) {
-            DBNodeUtil.setNodeVal(this.node, super.get());
+            DamengNodeUtil.setNodeVal(this.node, super.get());
         }
         super.setChanged(false);
     }
@@ -98,7 +98,7 @@ public class DamengRecordProperty extends DBRecordProperty {
     public void updateOriginal() {
         try {
             if (this.node != null) {
-                super.set(DBNodeUtil.getNodeVal(this.node));
+                super.set(DamengNodeUtil.getNodeVal(this.node));
                 this.original = super.get();
             }
         } catch (Exception ex) {
@@ -111,7 +111,7 @@ public class DamengRecordProperty extends DBRecordProperty {
      */
     public void vCopyAsInsertSql() {
         DamengColumns columns = this.record.getColumns();
-        String sql = DBDataUtil.toInsertSql(columns, this.record, true);
+        String sql = DamengDataUtil.toInsertSql(columns, this.record, true);
         ClipboardUtil.copy(sql);
     }
 
@@ -120,7 +120,7 @@ public class DamengRecordProperty extends DBRecordProperty {
      */
     public void vCopyAsUpdateSql() {
         DamengColumns columns = this.record.getColumns();
-        String sql = DBDataUtil.toUpdateSql(columns, this.record);
+        String sql = DamengDataUtil.toUpdateSql(columns, this.record);
         ClipboardUtil.copy(sql);
     }
 

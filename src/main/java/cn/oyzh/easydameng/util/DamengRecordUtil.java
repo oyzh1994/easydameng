@@ -31,10 +31,10 @@ import java.util.List;
  * @author oyzh
  * @since 2024/7/17
  */
-public class DBRecordUtil {
+public class DamengRecordUtil {
 
     public static Node getNode(DamengRecordProperty property, Object object, DamengColumn column) {
-        object = DBDataUtil.valueStandardization(object);
+        object = DamengDataUtil.valueStandardization(object);
         Node node;
         if (column.supportJson()) {
             JsonTextFiled textField = new JsonTextFiled();
@@ -117,7 +117,7 @@ public class DBRecordUtil {
     }
 
     public static String formatValue(Object object, DamengColumn column) {
-        object = DBDataUtil.valueStandardization(object);
+        object = DamengDataUtil.valueStandardization(object);
         String val = null;
         String columnType = column.getType();
         if (StringUtil.isBlank(columnType)) {

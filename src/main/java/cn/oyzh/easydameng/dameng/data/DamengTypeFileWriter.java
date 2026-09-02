@@ -4,7 +4,6 @@ import cn.oyzh.common.date.DateUtil;
 import cn.oyzh.common.util.HexUtil;
 import cn.oyzh.common.util.TextUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
-import cn.oyzh.easydameng.util.DBDataUtil;
 
 import java.io.Closeable;
 import java.time.LocalDateTime;

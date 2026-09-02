@@ -33,7 +33,7 @@ import java.util.List;
  * @author oyzh
  * @since 2023/12/27
  */
-public class DBNodeUtil {
+public class DamengNodeUtil {
 
     public static Object getNodeVal(Node node) throws Exception {
         Object val = null;
@@ -77,7 +77,7 @@ public class DBNodeUtil {
         if (node == null || val == null) {
             return;
         }
-        val = DBDataUtil.valueStandardization(val);
+        val = DamengDataUtil.valueStandardization(val);
         if (node instanceof NumberTextField textField) {
             textField.setValue(val);
         } else if (node instanceof DecimalTextField textField) {

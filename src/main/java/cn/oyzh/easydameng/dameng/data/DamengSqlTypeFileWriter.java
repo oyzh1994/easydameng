@@ -7,7 +7,6 @@ import cn.oyzh.common.util.TextUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.fx.db.DBDialect;
-import cn.oyzh.easydameng.util.DBDataUtil;
 import cn.oyzh.fx.db.util.DBUtil;
 
 import java.io.FileNotFoundException;

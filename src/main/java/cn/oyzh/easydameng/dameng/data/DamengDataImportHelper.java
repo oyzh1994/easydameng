@@ -6,7 +6,6 @@ import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
-import cn.oyzh.easydameng.util.DBDataUtil;
 import cn.oyzh.fx.db.util.DBUtil;
 
 import java.text.ParseException;

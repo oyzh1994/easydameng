@@ -25,7 +25,7 @@ import java.util.Map;
  * @author oyzh
  * @since 2024/08/26
  */
-public class DBDataUtil {
+public class DamengDataUtil {
 
 //    /**
 //     * 转义符号
