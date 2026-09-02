@@ -167,7 +167,7 @@ public class DamengRoutineParam extends DBObjectStatus {
         textField.addTextChangeListener((observable, oldValue, newValue) -> this.setDigits(textField.getIntValue()));
         textField.setValue(this.getDigits());
         // Runnable func = () -> {
-        //     if (DBColumnUtil.supportDigits(this.getType())) {
+        //     if (DamengColumnUtil.supportDigits(this.getType())) {
         //         textField.enable();
         //     } else {
         //         textField.disable();
@@ -198,7 +198,7 @@ public class DamengRoutineParam extends DBObjectStatus {
         textField.addTextChangeListener((observable, oldValue, newValue) -> this.setSize(textField.getIntValue()));
         textField.setValue(this.getSize());
         // Runnable func = () -> {
-        //     if (DBColumnUtil.supportSize(this.getType())) {
+        //     if (DamengColumnUtil.supportSize(this.getType())) {
         //         textField.enable();
         //     } else {
         //         textField.disable();
@@ -334,9 +334,9 @@ public class DamengRoutineParam extends DBObjectStatus {
         } else {
             type = dtdIdentifier.substring(0, dtdIdentifier.indexOf("("));
             String sub1 = dtdIdentifier.substring(dtdIdentifier.indexOf("(") + 1, dtdIdentifier.lastIndexOf(")"));
-            //            if (DBColumnUtil.supportEnum(type)) {
+            //            if (DamengColumnUtil.supportEnum(type)) {
             //                this.setValue(sub1);
-            //            } else if (DBColumnUtil.supportDigits(type) && sub1.contains(",")) {
+            //            } else if (DamengColumnUtil.supportDigits(type) && sub1.contains(",")) {
             if (DBColumnFieldManager.supportDigits(DBDialect.DAMENG, type) && sub1.contains(",")) {
                 String[] arr = sub1.split(",");
                 this.setSize(Integer.parseInt(arr[0]));
@@ -349,11 +349,11 @@ public class DamengRoutineParam extends DBObjectStatus {
     }
 
     // public boolean supportDigits() {
-    //     return DBColumnUtil.supportDigits(this.getType());
+    //     return DamengColumnUtil.supportDigits(this.getType());
     // }
     //
     // public boolean supportEnum() {
-    //     return DBColumnUtil.supportEnum(this.getType());
+    //     return DamengColumnUtil.supportEnum(this.getType());
     // }
 
     public String getName() {
@@ -418,7 +418,7 @@ public class DamengRoutineParam extends DBObjectStatus {
         if (dbClient != null) {
             // 类型变更
             this.typeProperty.addListener((observable, oldValue, newValue) -> {
-                //                if (DBColumnUtil.supportCharset(this.getType())) {
+                //                if (DamengColumnUtil.supportCharset(this.getType())) {
                 //                    this.getCharsetControl().enable();
                 //                    this.getCollationControl().enable();
                 //                } else {

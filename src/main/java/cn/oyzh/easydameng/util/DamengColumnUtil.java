@@ -12,10 +12,11 @@ import java.util.stream.Collectors;
  * @author oyzh
  * @since 2024/1/29
  */
-public class DBColumnUtil {
+public class DamengColumnUtil {
 
-    //    private static final List<DBColumnField> COLUMN_FIELD = new ArrayList<>();
-
+    /**
+     * 初始化
+     */
     public static void init() {
         // ===== 字符类型 =====
         DBColumnField charFiled = new DBColumnField("CHAR");

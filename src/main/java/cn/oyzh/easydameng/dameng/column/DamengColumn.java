@@ -6,11 +6,11 @@ import cn.oyzh.common.util.BooleanUtil;
 import cn.oyzh.common.util.NumberUtil;
 import cn.oyzh.common.util.RegexUtil;
 import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.easydameng.util.DamengColumnUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBObjectStatus;
 import cn.oyzh.fx.db.DBColumn;
 import cn.oyzh.fx.db.DBColumnFieldManager;
-import cn.oyzh.easydameng.util.DBColumnUtil;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -467,19 +467,19 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
     }
 
     public boolean isYearType() {
-        return DBColumnUtil.isYearType(this.getType());
+        return DamengColumnUtil.isYearType(this.getType());
     }
 
     public boolean isDateType() {
-        return DBColumnUtil.isDateType(this.getType());
+        return DamengColumnUtil.isDateType(this.getType());
     }
 
     public boolean isDateTimeType() {
-        return DBColumnUtil.isDateTimeType(this.getType());
+        return DamengColumnUtil.isDateTimeType(this.getType());
     }
 
     public boolean isTimeType() {
-        return DBColumnUtil.isTimeType(this.getType());
+        return DamengColumnUtil.isTimeType(this.getType());
     }
 
     @Override

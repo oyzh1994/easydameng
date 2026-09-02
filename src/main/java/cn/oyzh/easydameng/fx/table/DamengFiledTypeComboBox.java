@@ -1,8 +1,8 @@
 package cn.oyzh.easydameng.fx.table;
 
+import cn.oyzh.easydameng.util.DamengColumnUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBColumnFieldManager;
-import cn.oyzh.easydameng.util.DBColumnUtil;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 
 /**
@@ -14,7 +14,7 @@ import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 public class DamengFiledTypeComboBox extends FXComboBox<String> {
 
     {
-        this.setItem(DBColumnUtil.fields());
+        this.setItem(DamengColumnUtil.fields());
     }
 
     /**
@@ -95,7 +95,7 @@ public class DamengFiledTypeComboBox extends FXComboBox<String> {
      * @return 默认值
      */
     public Object defaultValue() {
-        return DBColumnUtil.defaultValue(this.getSelectedItem());
+        return DamengColumnUtil.defaultValue(this.getSelectedItem());
     }
 
     @Override

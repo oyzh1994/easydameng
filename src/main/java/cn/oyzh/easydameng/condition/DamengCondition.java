@@ -1,7 +1,8 @@
 package cn.oyzh.easydameng.condition;
 
 import cn.oyzh.fx.db.DBDialect;
-import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.condition.DBCondition;
+import cn.oyzh.fx.db.util.DBUtil;
 
 /**
  * 条件
@@ -9,70 +10,40 @@ import cn.oyzh.easydameng.util.DamengUtil;
  * @author oyzh
  * @since 2024/06/26
  */
-public abstract class DamengCondition {
-
-    /**
-     * 名称
-     */
-    private String name;
-
-    /**
-     * 值
-     */
-    private String value;
-
-    /**
-     * 需要条件标志位
-     */
-    private boolean requireCondition = true;
+public abstract class DamengCondition extends DBCondition {
 
     public DamengCondition() {
-
+        super();
     }
 
     public DamengCondition(String name, String value) {
-        this.name = name;
-        this.value = value;
+        super(name, value);
     }
 
     public DamengCondition(String name, String value, boolean requireCondition) {
-        this.name = name;
-        this.value = value;
-        this.requireCondition = requireCondition;
+        super(name, value, requireCondition);
     }
 
+    @Override
     public String wrapCondition() {
-        return this.wrapCondition(null);
+        return (String) super.wrapCondition();
     }
 
+    @Override
+    public String wrapCondition(String columnName) {
+        return (String) super.wrapCondition(columnName);
+    }
+
+    @Override
     public String wrapCondition(Object condition) {
-        if (this.requireCondition) {
-            return condition == null ? this.getValue() : this.getValue() + " " +  DamengUtil.wrapData(condition, DBDialect.DAMENG);
+        return (String) super.wrapCondition(condition);
+    }
+
+    @Override
+    public String wrapCondition(String columnName, Object condition) {
+        if (this.isRequireCondition()) {
+            return condition == null ? this.getValue() : this.getValue() + " " + DBUtil.wrapData(condition, DBDialect.MYSQL);
         }
         return this.getValue();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public boolean isRequireCondition() {
-        return requireCondition;
-    }
-
-    public void setRequireCondition(boolean requireCondition) {
-        this.requireCondition = requireCondition;
     }
 }

@@ -2,7 +2,7 @@
 //
 //import cn.oyzh.common.util.StringUtil;
 //import cn.oyzh.fx.db.DBDialect;
-//import cn.oyzh.easydameng.util.DBColumnUtil;
+//import cn.oyzh.easydameng.util.DamengColumnUtil;
 //
 //import java.util.ArrayList;
 //import java.util.Collections;
@@ -41,7 +41,7 @@
 //        synchronized (COLUMN_FIELD) {
 //            if (!COLUMN_FIELD.containsKey(dialect)) {
 //                if (dialect == DBDialect.DAMENG) {
-//                    DBColumnUtil.init();
+//                    DamengColumnUtil.init();
 //                }
 //            }
 //        }

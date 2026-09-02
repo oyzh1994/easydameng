@@ -4,8 +4,9 @@ import cn.oyzh.easydameng.condition.DamengCondition;
 import cn.oyzh.easydameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.fx.table.DamengColumnComboBox;
-import cn.oyzh.easydameng.fx.table.DamengConditionComboBox;
 import cn.oyzh.easydameng.fx.table.DBJoinSymbolComboBox;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.condition.ui.DBConditionComboBox;
 import cn.oyzh.fx.plus.controls.box.FXHBox;
 import cn.oyzh.fx.plus.controls.button.FXCheckBox;
 import cn.oyzh.fx.plus.flex.FlexUtil;
@@ -130,10 +131,10 @@ public class DamengRecordFilter {
      *
      * @return 条件组件
      */
-    public DamengConditionComboBox getConditionControl() {
-        DamengConditionComboBox comboBox = new DamengConditionComboBox();
+    public DBConditionComboBox getConditionControl() {
+        DBConditionComboBox comboBox = new DBConditionComboBox(DBDialect.DAMENG);
         comboBox.selectedItemChanged((observable, oldValue, newValue) -> {
-            this.condition = newValue;
+            this.condition = (DamengCondition) newValue;
             this.updateValueControl();
         });
         comboBox.selectFirstIfNull(this.condition);

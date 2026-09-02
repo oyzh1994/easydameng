@@ -5,6 +5,7 @@ import cn.oyzh.common.dto.Project;
 import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.object.ObjectWatcherManager;
 import cn.oyzh.common.system.SystemUtil;
+import cn.oyzh.easydameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.controller.MainController;
 import cn.oyzh.easydameng.controller.SettingController2;
 import cn.oyzh.easydameng.domain.DamengSetting;
@@ -13,11 +14,12 @@ import cn.oyzh.easydameng.store.DamengSettingStore;
 import cn.oyzh.easydameng.store.DamengStoreUtil;
 import cn.oyzh.easydameng.terminal.DamengTerminalManager;
 import cn.oyzh.easydameng.terminal.DamengTerminalPane;
+import cn.oyzh.easydameng.util.DamengColumnUtil;
 import cn.oyzh.event.EventFactory;
+import cn.oyzh.fx.db.DBColumnFieldManager;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.condition.DBConditionManager;
 import cn.oyzh.fx.terminal.util.TerminalManager;
-import cn.oyzh.fx.gui.tray.DesktopTrayItem;
-import cn.oyzh.fx.gui.tray.QuitTrayItem;
-import cn.oyzh.fx.gui.tray.SettingTrayItem;
 import cn.oyzh.fx.plus.FXConst;
 import cn.oyzh.fx.plus.event.FXEventBus;
 import cn.oyzh.fx.plus.event.FXEventConfig;
@@ -26,14 +28,11 @@ import cn.oyzh.fx.plus.font.FontManager;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.opacity.OpacityManager;
 import cn.oyzh.fx.plus.theme.ThemeManager;
-import cn.oyzh.fx.plus.tray.TrayManager;
 import cn.oyzh.fx.plus.util.FXUtil;
 import cn.oyzh.fx.plus.window.StageAdapter;
 import cn.oyzh.fx.plus.window.StageManager;
 import cn.oyzh.i18n.I18nManager;
 import javafx.stage.Stage;
-
-import java.awt.event.MouseEvent;
 
 
 /**
@@ -105,8 +104,10 @@ public class EasyDamengApp extends FXApplication {
         try {
             super.start(primaryStage);
             ObjectWatcherManager.disable();
-            // 注册终端处理器
+            // 注册处理器
             TerminalManager.setLoadHandler(DamengTerminalPane.TERMINAL_NAME, DamengTerminalManager::registerHandlers);
+            DBConditionManager.registerInitializer(DBDialect.DAMENG, DamengConditionUtil::init);
+            DBColumnFieldManager.registerInitializer(DBDialect.DAMENG, DamengColumnUtil::init);
             // 开启定期gc
             SystemUtil.gcInterval(30_000);
         } catch (Exception ex) {

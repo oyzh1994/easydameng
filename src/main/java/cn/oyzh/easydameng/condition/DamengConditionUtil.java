@@ -1,11 +1,12 @@
 package cn.oyzh.easydameng.condition;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.util.DBNodeUtil;
 import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.condition.DBConditionManager;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import javafx.scene.Node;
 
@@ -21,33 +22,29 @@ import java.util.List;
 public class DamengConditionUtil {
 
     /**
-     * 获取条件
-     *
-     * @return 条件列表
+     * 初始化
      */
-    public static List<DamengCondition> conditions() {
-        List<DamengCondition> conditions = new ArrayList<>();
-        conditions.add(DamengContainsCondition.INSTANCE);
-        conditions.add(DamengNotContainsCondition.INSTANCE);
-        conditions.add(DamengEqCondition.INSTANCE);
-        conditions.add(DamengGtCondition.INSTANCE);
-        conditions.add(DamengLtCondition.INSTANCE);
-        conditions.add(DamengNotEqCondition.INSTANCE);
-        conditions.add(DamengNullCondition.INSTANCE);
-        conditions.add(DamengNotNullCondition.INSTANCE);
-        conditions.add(DamengEmptyCondition.INSTANCE);
-        conditions.add(DamengNotEmptyCondition.INSTANCE);
-        conditions.add(DamengLtEqCondition.INSTANCE);
-        conditions.add(DamengGtEqCondition.INSTANCE);
-        conditions.add(DamengInListCondition.INSTANCE);
-        conditions.add(DamengNotInListCondition.INSTANCE);
-        conditions.add(DamengBetweenCondition.INSTANCE);
-        conditions.add(DamengNotBetweenCondition.INSTANCE);
-        conditions.add(DamengStartWithCondition.INSTANCE);
-        conditions.add(DamengEndWithCondition.INSTANCE);
-        conditions.add(DamengNotStartWithCondition.INSTANCE);
-        conditions.add(DamengNotEndWithCondition.INSTANCE);
-        return conditions;
+    public static void init() {
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengContainsCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengNotContainsCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengEqCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengGtCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengLtCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengNotEqCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengNullCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengNotNullCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengEmptyCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengNotEmptyCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengLtEqCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengGtEqCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengInListCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengNotInListCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengBetweenCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengNotBetweenCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengStartWithCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengEndWithCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengNotStartWithCondition.INSTANCE);
+        DBConditionManager.putCondition(DBDialect.DAMENG, DamengNotEndWithCondition.INSTANCE);
     }
 
     /**
@@ -105,7 +102,7 @@ public class DamengConditionUtil {
      * @return 节点
      */
     public static List<Node> generateNode(DamengColumn column, DamengCondition condition) {
-        condition = condition == null ? conditions().getFirst() : condition;
+        condition = condition == null ? (DamengCondition) DBConditionManager.conditions(DBDialect.DAMENG).getFirst() : condition;
         List<Node> list = new ArrayList<>();
         if (isInCondition(condition)) {
             ClearableTextField node = new ClearableTextField();
