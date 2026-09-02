@@ -370,7 +370,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
     public int deleteRecord(DamengRecordData recordData) {
         DamengDeleteRecordParam param = new DamengDeleteRecordParam();
-        param.setDbName(this.schema());
+        param.setSchema(this.schema());
         param.setTableName(this.tableName());
         param.setRecord(recordData);
         return this.client().deleteRecord(param);
@@ -378,7 +378,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
     public int deleteRecord(DamengRecordPrimaryKey primaryKey) {
         DamengDeleteRecordParam param = new DamengDeleteRecordParam();
-        param.setDbName(this.schema());
+        param.setSchema(this.schema());
         param.setTableName(this.tableName());
         param.setPrimaryKey(primaryKey);
         return this.client().deleteRecord(param);
@@ -394,7 +394,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
     public int updateRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
-        param.setDbName(this.schema());
+        param.setSchema(this.schema());
         param.setTableName(this.tableName());
         param.setPrimaryKey(primaryKey);
         param.setUpdateRecord(recordData);
@@ -403,7 +403,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
 
     public int updateRecord(DamengRecordData recordData, DamengRecordData originalRecordData) {
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
-        param.setDbName(this.schema());
+        param.setSchema(this.schema());
         param.setTableName(this.tableName());
         param.setUpdateRecord(recordData);
         param.setRecord(originalRecordData);

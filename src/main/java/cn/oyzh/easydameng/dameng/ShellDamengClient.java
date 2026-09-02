@@ -1220,13 +1220,12 @@ public class ShellDamengClient {
     public int deleteRecord(DamengDeleteRecordParam param) {
         try {
             int updateCount;
-            String dbName = param.getDbName();
             String schema = param.getSchema();
             String tableName = param.getTableName();
-            Connection connection = this.connManager.connection(dbName);
+            Connection connection = this.connManager.connection(schema);
             StringBuilder builder = new StringBuilder();
             builder.append("DELETE FROM ")
-                    .append(DBUtil.wrap(dbName, tableName, DBDialect.DAMENG))
+                    .append(DBUtil.wrap(schema, tableName, DBDialect.DAMENG))
                     .append(" WHERE ");
             if (param.getPrimaryKey() == null) {
                 DamengRecordData recordData = param.getRecord();
@@ -1275,23 +1274,19 @@ public class ShellDamengClient {
     public int updateRecord(DamengUpdateRecordParam param) {
         try {
             int updateCount;
-            String dbName = param.getDbName();
+            String schema = param.getSchema();
             String tableName = param.getTableName();
             DamengRecordData recordData = param.getUpdateRecord();
             StringBuilder builder = new StringBuilder();
             builder.append("UPDATE ")
-                    .append(DBUtil.wrap(dbName, tableName, DBDialect.DAMENG))
+                    .append(DBUtil.wrap(schema, tableName, DBDialect.DAMENG))
                     .append(" SET ");
             for (String column : recordData.columns()) {
-                //                if (recordData.isTypeGeometry(column)) {
-                //                    builder.append(DBUtil.wrap(column)).append(" = ST_GeomFromText(?),");
-                //                } else {
                 builder.append(DBUtil.wrap(column, DBDialect.DAMENG)).append(" = ?,");
-                //                }
             }
             builder.deleteCharAt(builder.length() - 1);
             builder.append(" WHERE ");
-            Connection connection = this.connManager.connection(dbName);
+            Connection connection = this.connManager.connection(schema);
             if (param.getPrimaryKey() == null) {
                 DamengRecordData originalRecordData = param.getRecord();
                 // 参数
@@ -3278,9 +3273,9 @@ public class ShellDamengClient {
     //    }
     //    return null;
     //}
-    public List<DamengRoutineParam> listRoutineParam(String dbName, String routineName, String routineType) throws Exception {
+    public List<DamengRoutineParam> listRoutineParam(String schema, String routineName, String routineType) throws Exception {
         try {
-            Connection connection = this.connManager.connection(dbName);
+            Connection connection = this.connManager.connection(schema);
             String sql = """
                     
                         SELECT
@@ -3305,7 +3300,7 @@ public class ShellDamengClient {
                     ArrayList<>();
             PreparedStatement statement = connection.
                     prepareStatement(sql);
-            statement.setString(1, dbName);
+            statement.setString(1, schema);
             statement.
                     setString(2,
                             routineName);
@@ -3334,12 +3329,12 @@ public class ShellDamengClient {
         return Collections.emptyList();
     }
 
-    public List<DamengRoutineParam> listFunctionParam(String dbName, String functionName) throws Exception {
-        return listRoutineParam(dbName, functionName, "FUNCTION");
+    public List<DamengRoutineParam> listFunctionParam(String schema, String functionName) throws Exception {
+        return listRoutineParam(schema, functionName, "FUNCTION");
     }
 
-    public List<DamengRoutineParam> listProcedureParam(String dbName, String procedureName) throws Exception {
-        return listRoutineParam(dbName, procedureName, "PROCEDURE");
+    public List<DamengRoutineParam> listProcedureParam(String schema, String procedureName) throws Exception {
+        return listRoutineParam(schema, procedureName, "PROCEDURE");
     }
 
     /**

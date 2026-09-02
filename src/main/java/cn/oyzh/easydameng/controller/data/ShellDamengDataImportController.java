@@ -224,7 +224,7 @@ public class ShellDamengDataImportController extends StageController {
     /**
      * 数据库
      */
-    private String dbName;
+    private String schema;
 
     /**
      * 执行导入
@@ -237,7 +237,7 @@ public class ShellDamengDataImportController extends StageController {
         this.importMsg.clear();
         // 生成导入处理器
         if (this.importHandler == null) {
-            this.importHandler = new DamengDataImportHandler(this.dbClient, this.dbName);
+            this.importHandler = new DamengDataImportHandler(this.dbClient, this.schema);
             this.importHandler.setMessageHandler(str -> this.importMsg.appendLine(str))
                     .setProcessedHandler(count -> {
                         if (count > 0) {
@@ -339,7 +339,7 @@ public class ShellDamengDataImportController extends StageController {
 
     private void initFileTable() {
         for (DamengDataImportFile index : this.importFileTableView.itemList()) {
-            index.setDbName(this.dbName);
+            index.setSchema(this.schema);
             index.setDbClient(this.dbClient);
         }
     }
@@ -356,7 +356,7 @@ public class ShellDamengDataImportController extends StageController {
     @Override
     public void onWindowShown(WindowEvent event) {
         super.onWindowShown(event);
-        this.dbName = this.getProp("dbName");
+        this.schema = this.getProp("schema");
         this.dbClient = this.getProp("dbClient");
         this.stage.hideOnEscape();
     }
@@ -474,7 +474,7 @@ public class ShellDamengDataImportController extends StageController {
         this.sourceTableCombobox.setItem(this.importFileTableView.getItems());
         this.sourceTableCombobox.selectFirst();
         if (this.targetTableCombobox.isItemEmpty()) {
-            this.targetTableCombobox.init(this.dbName, this.sourceTableCombobox.getSelectedTableName(), this.dbClient);
+            this.targetTableCombobox.init(this.schema, this.sourceTableCombobox.getSelectedTableName(), this.dbClient);
         }
         this.step3.disappear();
         this.step5.disappear();

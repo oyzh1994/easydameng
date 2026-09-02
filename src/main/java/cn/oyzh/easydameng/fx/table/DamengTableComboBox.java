@@ -14,12 +14,12 @@ import java.util.List;
  */
 public class DamengTableComboBox extends FXComboBox<String> {
 
-    public void init(String dbName, ShellDamengClient client) {
-        this.init(dbName, null, client);
+    public void init(String schema, ShellDamengClient client) {
+        this.init(schema, null, client);
     }
 
-    public void init(String dbName, String tableName, ShellDamengClient client) {
-        List<DamengTable> list = client.selectTables(dbName);
+    public void init(String schema, String tableName, ShellDamengClient client) {
+        List<DamengTable> list = client.selectTables(schema);
         this.setItem(list.parallelStream().map(DamengTable::getName).toList());
         if (tableName != null) {
             this.select(tableName);

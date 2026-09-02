@@ -7,8 +7,6 @@ package cn.oyzh.easydameng.dameng.record;
  */
 public class DamengUpdateRecordParam {
 
-    private String dbName;
-
     private String schema;
 
     private String tableName;
@@ -18,14 +16,6 @@ public class DamengUpdateRecordParam {
     private DamengRecordData updateRecord;
 
     private DamengRecordPrimaryKey primaryKey;
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
 
     public String getSchema() {
         return schema;

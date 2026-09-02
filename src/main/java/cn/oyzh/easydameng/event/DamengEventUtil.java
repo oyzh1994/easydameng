@@ -1,6 +1,12 @@
 package cn.oyzh.easydameng.event;
 
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.dameng.event.DamengEvent;
+import cn.oyzh.easydameng.dameng.function.DamengFunction;
+import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
+import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
+import cn.oyzh.easydameng.dameng.table.DamengTable;
+import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.data.db.DBSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengQuery;
@@ -36,11 +42,11 @@ import cn.oyzh.easydameng.event.table.DamengTableClearedEvent;
 import cn.oyzh.easydameng.event.table.DamengTableDesignEvent;
 import cn.oyzh.easydameng.event.table.DamengTableDroppedEvent;
 import cn.oyzh.easydameng.event.table.DamengTableFilteredEvent;
-import cn.oyzh.easydameng.event.terminal.DBTerminalCloseEvent;
-import cn.oyzh.easydameng.event.terminal.DBTerminalOpenEvent;
 import cn.oyzh.easydameng.event.table.DamengTableOpenEvent;
 import cn.oyzh.easydameng.event.table.DamengTableRenamedEvent;
 import cn.oyzh.easydameng.event.table.DamengTableTruncatedEvent;
+import cn.oyzh.easydameng.event.terminal.DBTerminalCloseEvent;
+import cn.oyzh.easydameng.event.terminal.DBTerminalOpenEvent;
 import cn.oyzh.easydameng.event.tree.DamengTreeItemChangedEvent;
 import cn.oyzh.easydameng.event.view.DamengViewAddedEvent;
 import cn.oyzh.easydameng.event.view.DamengViewAlertedEvent;
@@ -48,16 +54,10 @@ import cn.oyzh.easydameng.event.view.DamengViewDesignEvent;
 import cn.oyzh.easydameng.event.view.DamengViewFilteredEvent;
 import cn.oyzh.easydameng.event.view.DamengViewOpenEvent;
 import cn.oyzh.easydameng.event.view.DamengViewRenamedEvent;
-import cn.oyzh.easydameng.dameng.event.DamengEvent;
-import cn.oyzh.easydameng.dameng.function.DamengFunction;
-import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
-import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
-import cn.oyzh.easydameng.dameng.table.DamengTable;
-import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.event.window.ShellShowMessageEvent;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
-import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.trees.query.DamengQueryTreeItem;
+import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.trees.table.DamengTableTreeItem;
 import cn.oyzh.easydameng.trees.view.DamengViewTreeItem;
 import cn.oyzh.event.EventUtil;
@@ -153,12 +153,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-//    public static void eventRenamed(DamengEventTreeItem viewItem, DamengSchemaTreeItem dbItem) {
-//        DamengEventRenamedEvent event = new DamengEventRenamedEvent();
-//        event.setDbItem(dbItem);
-//        event.data(viewItem);
-//        EventUtil.post(event);
-//    }
+    //    public static void eventRenamed(DamengEventTreeItem viewItem, DamengSchemaTreeItem dbItem) {
+    //        DamengEventRenamedEvent event = new DamengEventRenamedEvent();
+    //        event.setDbItem(dbItem);
+    //        event.data(viewItem);
+    //        EventUtil.post(event);
+    //    }
 
     public static void tableCleared(DamengTableTreeItem tableItem, DamengSchemaTreeItem dbItem) {
         DamengTableClearedEvent event = new DamengTableClearedEvent();
@@ -340,10 +340,10 @@ public class DamengEventUtil {
     /**
      * 终端打开事件
      */
-    public static void terminalOpen(ShellDamengClient client, String dbName) {
+    public static void terminalOpen(ShellDamengClient client, String schema) {
         DBTerminalOpenEvent event = new DBTerminalOpenEvent();
         event.data(client);
-        event.setDbName(dbName);
+        event.setSchema(schema);
         EventUtil.post(event);
     }
 
@@ -358,12 +358,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-//    /**
-//     * 树节点变化事件
-//     */
-//    public static void treeChildChanged() {
-//        EventUtil.postDelay(new TreeChildChangedEvent(), 100);
-//    }
+    //    /**
+    //     * 树节点变化事件
+    //     */
+    //    public static void treeChildChanged() {
+    //        EventUtil.postDelay(new TreeChildChangedEvent(), 100);
+    //    }
 
     // public static void recordDelete(DamengRecord record) {
     //     RecordDeleteEvent event = new RecordDeleteEvent();

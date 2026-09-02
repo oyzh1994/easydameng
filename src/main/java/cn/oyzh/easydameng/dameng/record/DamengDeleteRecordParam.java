@@ -7,8 +7,6 @@ package cn.oyzh.easydameng.dameng.record;
  */
 public class DamengDeleteRecordParam {
 
-    private String dbName;
-
     private String schema;
 
     private String tableName;
@@ -16,14 +14,6 @@ public class DamengDeleteRecordParam {
     private DamengRecordData record;
 
     private DamengRecordPrimaryKey primaryKey;
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
 
     public String getSchema() {
         return schema;

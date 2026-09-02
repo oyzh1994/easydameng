@@ -17,10 +17,10 @@ import java.io.File;
  */
 public class DamengDataImportFile {
 
-    private String dbName;
+    private String schema;
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 
     private ShellDamengClient dbClient;
@@ -75,9 +75,7 @@ public class DamengDataImportFile {
 
     public DamengTableComboBox getTargetTableControl() {
         DamengTableComboBox comboBox = new DamengTableComboBox();
-        //String dbName = CacheHelper.get("dameng:dbName");
-        //ShellDamengClient dbClient = CacheHelper.get("dameng:dbClient");
-        StageManager.showMask(() -> comboBox.init(this.dbName, this.getTableName(), this.dbClient));
+        StageManager.showMask(() -> comboBox.init(this.schema, this.getTableName(), this.dbClient));
         comboBox.selectedItemChanged((observable, oldValue, newValue) -> {
             this.setTargetTableName(newValue);
         });

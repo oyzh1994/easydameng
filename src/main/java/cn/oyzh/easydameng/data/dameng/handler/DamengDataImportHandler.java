@@ -74,11 +74,11 @@ public class DamengDataImportHandler extends DBDataImportHandler<String> {
         this.message("Importing Records of Table " + tableName);
         // 复制模式
         if (this.config.isCopyMode()) {
-            this.dbClient.clearTable(this.dbName, tableName);
+            this.dbClient.clearTable(this.name, tableName);
         }
         try (DamengTypeFileReader reader = this.initReader(file.getFile())) {
             // 获取数据库表字段
-            DamengColumns dbColumns = new DamengColumns(this.dbClient.selectColumns(new DamengSelectColumnParam(this.dbName, tableName)));
+            DamengColumns dbColumns = new DamengColumns(this.dbClient.selectColumns(new DamengSelectColumnParam(this.name, tableName)));
             if (!dbColumns.isEmpty()) {
                 while (true) {
                     this.checkInterrupt();
@@ -172,7 +172,7 @@ public class DamengDataImportHandler extends DBDataImportHandler<String> {
     @Override
     public void doBatchInsert(List<String> list, boolean parallel) {
         try {
-            int result = this.dbClient.insertBatch(this.dbName, list, parallel);
+            int result = this.dbClient.insertBatch(this.name, list, parallel);
             this.processedIncr(result);
         } catch (Exception ex) {
             this.processedDecr(list.size());

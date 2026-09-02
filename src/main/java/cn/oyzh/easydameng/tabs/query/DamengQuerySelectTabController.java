@@ -259,7 +259,7 @@ public class DamengQuerySelectTabController extends RichTabController {
         // 获取主键
         DamengRecordPrimaryKey primaryKey = this.initPrimaryKey(record);
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
-        param.setDbName(this.result.schema());
+        param.setSchema(this.result.schema());
         param.setTableName(this.result.tableName());
         // 主键存在，则根据主键更新
         if (primaryKey != null) {
@@ -485,7 +485,7 @@ public class DamengQuerySelectTabController extends RichTabController {
             // 获取主键
             DamengRecordPrimaryKey primaryKey = this.initPrimaryKey(record);
             DamengDeleteRecordParam param = new DamengDeleteRecordParam();
-            param.setDbName(this.result.schema());
+            param.setSchema(this.result.schema());
             param.setTableName(this.result.tableName());
             param.setPrimaryKey(primaryKey);
             param.setRecord(record.getOriginalRecordData());

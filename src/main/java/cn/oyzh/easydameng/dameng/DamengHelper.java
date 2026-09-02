@@ -145,7 +145,7 @@ public class DamengHelper {
     //        return null;
     //    }
 
-    public static boolean isViewUpdatable(Connection connection, String dbName, String viewName) throws Exception {
+    public static boolean isViewUpdatable(Connection connection, String schema, String viewName) throws Exception {
         try {
             String sql = """
                         SELECT

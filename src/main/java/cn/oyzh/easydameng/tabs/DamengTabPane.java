@@ -1,8 +1,8 @@
 package cn.oyzh.easydameng.tabs;
 
+import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.event.terminal.DBTerminalCloseEvent;
 import cn.oyzh.easydameng.event.terminal.DBTerminalOpenEvent;
-import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.tabs.home.DBHomeTab;
 import cn.oyzh.easydameng.tabs.terminal.DamengTerminalTab;
 import cn.oyzh.event.EventSubscribe;
@@ -35,23 +35,23 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
         FXEventListener.super.unregister();
     }
 
-//     @Override
-//     protected void initTabPane() {
-//         super.initTabPane();
-//         this.initHomeTab();
-//         // 监听tab
-//         this.getTabs().addListener((ListChangeListener<? super Tab>) (c) -> {
-//             while (c.next()) {
-//                 if (c.wasAdded() || c.wasRemoved()) {
-//                     TaskManager.startDelay("db:homeTab:flush", this::flushHomeTab, 100);
-//                     // if (c.wasAdded()) {
-//                     //     TaskManager.startDelay("db:tableTab:flush", this::flushNodeTab, 100);
-//                     // }
-//                 }
-//             }
-//         });
-// //        new DamengTabEventListener(this);
-//     }
+    //     @Override
+    //     protected void initTabPane() {
+    //         super.initTabPane();
+    //         this.initHomeTab();
+    //         // 监听tab
+    //         this.getTabs().addListener((ListChangeListener<? super Tab>) (c) -> {
+    //             while (c.next()) {
+    //                 if (c.wasAdded() || c.wasRemoved()) {
+    //                     TaskManager.startDelay("db:homeTab:flush", this::flushHomeTab, 100);
+    //                     // if (c.wasAdded()) {
+    //                     //     TaskManager.startDelay("db:tableTab:flush", this::flushNodeTab, 100);
+    //                     // }
+    //                 }
+    //             }
+    //         });
+    // //        new DamengTabEventListener(this);
+    //     }
 
     /**
      * 刷新主页标签
@@ -149,11 +149,12 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
      * 获取终端tab
      *
      * @param client dameng客户端
+     * @param schema 模式
      * @return 终端tab
      */
-    private DamengTerminalTab getTerminalTab(ShellDamengClient client, String dbName) {
+    private DamengTerminalTab getTerminalTab(ShellDamengClient client, String schema) {
         for (Tab tab : this.getTabs()) {
-            if (tab instanceof DamengTerminalTab terminalTab && terminalTab.client() == client && terminalTab.dbName().equals(dbName)) {
+            if (tab instanceof DamengTerminalTab terminalTab && terminalTab.client() == client && terminalTab.schema().equals(schema)) {
                 return terminalTab;
             }
         }
@@ -168,10 +169,10 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
     @EventSubscribe
     private void terminalOpen(DBTerminalOpenEvent event) {
         ShellDamengClient client = event.data();
-        String dbName = event.getDbName();
-        DamengTerminalTab tab = this.getTerminalTab(client, dbName);
+        String schema = event.getSchema();
+        DamengTerminalTab tab = this.getTerminalTab(client, schema);
         if (tab == null) {
-            tab = new DamengTerminalTab(client, dbName);
+            tab = new DamengTerminalTab(client, schema);
             super.addTab(tab);
         }
         this.select(tab);

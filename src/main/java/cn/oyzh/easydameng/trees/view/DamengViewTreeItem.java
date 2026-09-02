@@ -200,14 +200,14 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
     public int deleteRecord(DamengRecordData recordData) {
         DamengDeleteRecordParam param = new DamengDeleteRecordParam();
         param.setRecord(recordData);
-        param.setDbName(this.schema());
+        param.setSchema(this.schema());
         param.setTableName(this.viewName());
         return this.client().deleteRecord(param);
     }
 
     public int deleteRecord(DamengRecordPrimaryKey primaryKey) {
         DamengDeleteRecordParam param = new DamengDeleteRecordParam();
-        param.setDbName(this.schema());
+        param.setSchema(this.schema());
         param.setTableName(this.viewName());
         param.setPrimaryKey(primaryKey);
         return this.client().deleteRecord(param);
@@ -223,7 +223,7 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
 
     public int updateRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
-        param.setDbName(this.schema());
+        param.setSchema(this.schema());
         param.setTableName(this.viewName());
         param.setPrimaryKey(primaryKey);
         param.setUpdateRecord(recordData);
@@ -232,7 +232,7 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
 
     public int updateRecord(DamengRecordData recordData, DamengRecordData originalRecordData) {
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
-        param.setDbName(this.schema());
+        param.setSchema(this.schema());
         param.setTableName(this.viewName());
         param.setUpdateRecord(recordData);
         param.setRecord(originalRecordData);

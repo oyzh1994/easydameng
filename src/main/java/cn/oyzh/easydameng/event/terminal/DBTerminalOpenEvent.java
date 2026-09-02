@@ -9,13 +9,13 @@ import cn.oyzh.event.Event;
  */
 public class DBTerminalOpenEvent extends Event<ShellDamengClient> {
 
-    private String dbName;
+    private String schema;
 
-    public String getDbName() {
-        return dbName;
+    public String getSchema() {
+        return schema;
     }
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 }

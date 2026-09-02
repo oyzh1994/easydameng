@@ -15,8 +15,8 @@ import javafx.scene.Cursor;
  */
 public class DamengTerminalTab extends RichTab {
 
-    public DamengTerminalTab(ShellDamengClient client, String dbName) {
-        this.init(client, dbName);
+    public DamengTerminalTab(ShellDamengClient client, String schema) {
+        this.init(client, schema);
     }
 
     @Override
@@ -52,17 +52,18 @@ public class DamengTerminalTab extends RichTab {
      * 初始化
      *
      * @param client dameng客户端
+     * @param schema 模式
      */
-    private void init(ShellDamengClient client, String dbName) {
+    private void init(ShellDamengClient client, String schema) {
         try {
             if (client == null) {
                 DamengConnect connect = new DamengConnect();
                 connect.setName(I18nHelper.unnamedConnection());
                 this.flushGraphic();
-                this.controller().init(new ShellDamengClient(connect), dbName);
+                this.controller().init(new ShellDamengClient(connect), schema);
             } else {
                 this.flushGraphic();
-                this.controller().init(client, dbName);
+                this.controller().init(client, schema);
             }
             this.flushTitle();
         } catch (Exception ex) {
@@ -83,7 +84,7 @@ public class DamengTerminalTab extends RichTab {
         return this.controller().client();
     }
 
-    public String dbName() {
-        return this.controller().getDbName();
+    public String schema() {
+        return this.controller().getSchema();
     }
 }

@@ -67,12 +67,12 @@ public class ShellDamengViewFactory {
      * 导入数据
      *
      * @param client 客户端
-     * @param dbName 数据库名称
+     * @param schema 模式
      */
-    public static void importData(ShellDamengClient client, String dbName) {
+    public static void importData(ShellDamengClient client, String schema) {
         try {
             StageAdapter adapter = StageManager.parseStage(ShellDamengDataImportController.class, StageManager.getFrontWindow());
-            adapter.setProp("dbName", dbName);
+            adapter.setProp("schema", schema);
             adapter.setProp("dbClient", client);
             adapter.display();
         } catch (Exception ex) {
@@ -87,7 +87,7 @@ public class ShellDamengViewFactory {
      * @param client    客户端
      * @param dbName    数据库名称
      * @param tableName 表名称
-     * @param dumpType 导出类型 1.库 2.表
+     * @param dumpType  导出类型 1.库 2.表
      */
     public static void dumpData(ShellDamengClient client, String dbName, String tableName, int dumpType) {
         try {
@@ -121,23 +121,23 @@ public class ShellDamengViewFactory {
         }
     }
 
-//    /**
-//     * 编辑数据库
-//     *
-//     * @param database 数据库
-//     * @param treeItem 树节点
-//     */
-//    public static void databaseUpdate(DamengDatabase database, ShellDamengRootTreeItem treeItem) {
-//        try {
-//            StageAdapter adapter = StageManager.parseStage(ShellDamengSchemaUpdateController.class, StageManager.getFrontWindow());
-//            adapter.setProp("database", database);
-//            adapter.setProp("connectItem", treeItem);
-//            adapter.display();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            MessageBox.exception(ex);
-//        }
-//    }
+    //    /**
+    //     * 编辑数据库
+    //     *
+    //     * @param database 数据库
+    //     * @param treeItem 树节点
+    //     */
+    //    public static void databaseUpdate(DamengDatabase database, ShellDamengRootTreeItem treeItem) {
+    //        try {
+    //            StageAdapter adapter = StageManager.parseStage(ShellDamengSchemaUpdateController.class, StageManager.getFrontWindow());
+    //            adapter.setProp("database", database);
+    //            adapter.setProp("connectItem", treeItem);
+    //            adapter.display();
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //            MessageBox.exception(ex);
+    //        }
+    //    }
 
     /**
      * 传输数据
@@ -157,24 +157,24 @@ public class ShellDamengViewFactory {
         }
     }
 
-//    /**
-//     * 添加数据库
-//     *
-//     * @param connectItem 根节点
-//     * @return 窗口适配器
-//     */
-//    public static StageAdapter addDatabase(ShellDamengRootTreeItem connectItem) {
-//        try {
-//            StageAdapter adapter = StageManager.parseStage(ShellDamengSchemaAddController.class, StageManager.getFrontWindow());
-//            adapter.setProp("connectItem", connectItem);
-//            adapter.showAndWait();
-//            return adapter;
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            MessageBox.exception(ex);
-//        }
-//        return null;
-//    }
+    //    /**
+    //     * 添加数据库
+    //     *
+    //     * @param connectItem 根节点
+    //     * @return 窗口适配器
+    //     */
+    //    public static StageAdapter addDatabase(ShellDamengRootTreeItem connectItem) {
+    //        try {
+    //            StageAdapter adapter = StageManager.parseStage(ShellDamengSchemaAddController.class, StageManager.getFrontWindow());
+    //            adapter.setProp("connectItem", connectItem);
+    //            adapter.showAndWait();
+    //            return adapter;
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //            MessageBox.exception(ex);
+    //        }
+    //        return null;
+    //    }
 
     /**
      * 表信息
