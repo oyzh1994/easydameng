@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.controller.database;
 
-import cn.oyzh.easydameng.data.db.DamengSchema;
+import cn.oyzh.easydameng.dameng.schema.DamengSchema;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;

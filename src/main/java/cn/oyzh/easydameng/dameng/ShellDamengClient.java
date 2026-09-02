@@ -53,7 +53,7 @@ import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengSelectViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.data.db.DBConnState;
-import cn.oyzh.easydameng.data.db.DamengSchema;
+import cn.oyzh.easydameng.dameng.schema.DamengSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.exception.DBException;

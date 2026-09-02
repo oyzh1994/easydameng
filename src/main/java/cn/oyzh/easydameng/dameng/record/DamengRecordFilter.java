@@ -5,6 +5,7 @@ import cn.oyzh.easydameng.dameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.fx.table.DBJoinSymbolComboBox;
 import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.DBRecordFilter;
 import cn.oyzh.fx.db.condition.ui.DBConditionComboBox;
 import cn.oyzh.fx.db.ui.DBColumnComboBox;
 import cn.oyzh.fx.plus.controls.box.FXHBox;
@@ -23,22 +24,7 @@ import java.util.List;
  * @author oyzh
  * @since 2024/06/26
  */
-public class DamengRecordFilter {
-
-    /**
-     * 值
-     */
-    private Object value;
-
-    /**
-     * 是否已启用
-     */
-    private boolean enabled = true;
-
-    /**
-     * 连接符号
-     */
-    private String joinSymbol;
+public class DamengRecordFilter extends DBRecordFilter {
 
     /**
      * 条件
@@ -143,33 +129,6 @@ public class DamengRecordFilter {
     }
 
     /**
-     * 获取启用组件
-     *
-     * @return 启用组件
-     */
-    public FXCheckBox getEnabledControl() {
-        FXCheckBox checkBox = new FXCheckBox();
-        checkBox.setSelected(this.enabled);
-        checkBox.selectedChanged((observable, oldValue, newValue) -> this.enabled = newValue);
-        TableViewUtil.selectRowOnMouseClicked(checkBox);
-        return checkBox;
-    }
-
-    /**
-     * 获取连接符组件
-     *
-     * @return 连接符组件
-     */
-    public DBJoinSymbolComboBox getJoinSymbolControl() {
-        DBJoinSymbolComboBox comboBox = new DBJoinSymbolComboBox();
-        comboBox.selectFirstIfNull(this.joinSymbol);
-        comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.joinSymbol = newValue);
-        TableViewUtil.selectRowOnMouseClicked(comboBox);
-        this.setJoinSymbol(comboBox.getSelectedItem());
-        return comboBox;
-    }
-
-    /**
      * 获取字段名
      *
      * @return 字段名
@@ -194,30 +153,6 @@ public class DamengRecordFilter {
      */
     public boolean isRequireCondition() {
         return this.condition.isRequireCondition();
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public String getJoinSymbol() {
-        return joinSymbol;
-    }
-
-    public void setJoinSymbol(String joinSymbol) {
-        this.joinSymbol = joinSymbol;
     }
 
     public DamengCondition getCondition() {

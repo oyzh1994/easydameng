@@ -7,6 +7,7 @@ import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.fx.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBView;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Collections;
@@ -18,7 +19,7 @@ import java.util.List;
  * @author oyzh
  * @since 2024/06/28
  */
-public class DamengView extends DBObjectStatus implements ObjectCopier<DamengView>, ObjectComparator<DamengView> {
+public class DamengView extends DBObjectStatus implements DBView, ObjectCopier<DamengView>, ObjectComparator<DamengView> {
 
     /**
      * 是否可变更
@@ -101,10 +102,12 @@ public class DamengView extends DBObjectStatus implements ObjectCopier<DamengVie
         return this.nameProperty;
     }
 
+    @Override
     public void setName(String name) {
         this.nameProperty().setValue(name);
     }
 
+    @Override
     public String getName() {
         return this.nameProperty == null ? null : this.nameProperty.get();
     }
@@ -116,10 +119,12 @@ public class DamengView extends DBObjectStatus implements ObjectCopier<DamengVie
         return this.commentProperty;
     }
 
+    @Override
     public void setComment(String comment) {
         this.commentProperty().setValue(comment);
     }
 
+    @Override
     public String getComment() {
         return this.commentProperty == null ? null : this.commentProperty.get();
     }
@@ -195,37 +200,15 @@ public class DamengView extends DBObjectStatus implements ObjectCopier<DamengVie
         return StringUtil.isBlank(this.getName());
     }
 
-    //    public String getDefiner() {
-    //        return definer;
-    //    }
-    //
-    //    public void setDefiner(String definer) {
-    //        this.definer = definer;
-    //    }
-
-    //    public String getAlgorithm() {
-    //        return algorithm;
-    //    }
-    //
-    //    public void setAlgorithm(String algorithm) {
-    //        this.algorithm = algorithm;
-    //    }
-
+    @Override
     public boolean isUpdatable() {
         return updatable;
     }
 
+    @Override
     public void setUpdatable(boolean updatable) {
         this.updatable = updatable;
     }
-    //
-    //    public String getCheckOption() {
-    //        return checkOption;
-    //    }
-    //
-    //    public void setCheckOption(String checkOption) {
-    //        this.checkOption = checkOption;
-    //    }
 
     public String getSecurityType() {
         return securityType;

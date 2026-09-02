@@ -7,7 +7,7 @@ import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.view.DamengView;
-import cn.oyzh.easydameng.data.db.DamengSchema;
+import cn.oyzh.easydameng.dameng.schema.DamengSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.event.connect.DBAddConnectEvent;

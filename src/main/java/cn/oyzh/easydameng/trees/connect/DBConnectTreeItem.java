@@ -9,7 +9,7 @@ import cn.oyzh.easydameng.controller.database.ShellDamengSchemaAddController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.easydameng.data.db.DBClientUtil;
 import cn.oyzh.easydameng.data.db.DBConnectManager;
-import cn.oyzh.easydameng.data.db.DamengSchema;
+import cn.oyzh.easydameng.dameng.schema.DamengSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.store.DamengConnectStore;

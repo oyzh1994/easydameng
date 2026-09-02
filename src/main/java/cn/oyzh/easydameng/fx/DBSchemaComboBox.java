@@ -2,7 +2,7 @@ package cn.oyzh.easydameng.fx;
 
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.DamengSchema;
+import cn.oyzh.easydameng.dameng.schema.DamengSchema;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 
 import java.util.List;

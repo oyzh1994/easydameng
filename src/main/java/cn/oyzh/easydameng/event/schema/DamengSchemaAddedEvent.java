@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.event.schema;
 
-import cn.oyzh.easydameng.data.db.DamengSchema;
+import cn.oyzh.easydameng.dameng.schema.DamengSchema;
 import cn.oyzh.easydameng.trees.connect.DBConnectTreeItem;
 import cn.oyzh.event.Event;
 import cn.oyzh.event.EventFormatter;

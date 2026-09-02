@@ -2,6 +2,7 @@ package cn.oyzh.easydameng.dameng.trigger;
 
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.fx.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBTrigger;
 
 /**
  * db表触发器
@@ -9,7 +10,7 @@ import cn.oyzh.fx.db.DBObjectStatus;
  * @author oyzh
  * @since 2024/07/10
  */
-public class DamengTrigger extends DBObjectStatus implements ObjectCopier<DamengTrigger> {
+public class DamengTrigger extends DBObjectStatus implements DBTrigger, ObjectCopier<DamengTrigger> {
 
     /**
      * 名称
@@ -40,6 +41,7 @@ public class DamengTrigger extends DBObjectStatus implements ObjectCopier<Dameng
         return (String) this.getOriginalData("name");
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
         super.putOriginalData("name", name);
@@ -120,6 +122,7 @@ public class DamengTrigger extends DBObjectStatus implements ObjectCopier<Dameng
         return false;
     }
 
+    @Override
     public String getName() {
         return name;
     }

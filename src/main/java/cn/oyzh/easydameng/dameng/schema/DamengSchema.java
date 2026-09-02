@@ -1,4 +1,4 @@
-package cn.oyzh.easydameng.data.db;
+package cn.oyzh.easydameng.dameng.schema;
 
 
 import cn.oyzh.fx.db.DBSchema;

@@ -30,7 +30,7 @@ import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
-import cn.oyzh.easydameng.data.db.DamengSchema;
+import cn.oyzh.easydameng.dameng.schema.DamengSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;

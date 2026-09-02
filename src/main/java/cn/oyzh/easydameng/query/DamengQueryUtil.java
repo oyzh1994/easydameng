@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.query;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.TextUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.data.db.DamengSchema;
+import cn.oyzh.easydameng.dameng.schema.DamengSchema;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
