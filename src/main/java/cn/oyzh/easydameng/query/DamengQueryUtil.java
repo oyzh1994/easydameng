@@ -11,6 +11,7 @@ import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -369,7 +370,7 @@ public class DamengQueryUtil {
                     item.setType((byte) 3);
                     item.setCorrelation(corr);
                     item.setContent(column.getName());
-                    item.setExtContent(DamengUtil.wrap(column.getDbName(), column.getTableName(), DBDialect.DAMENG));
+                    item.setExtContent(DBUtil.wrap(column.getDbName(), column.getTableName(), DBDialect.DAMENG));
                     items.add(item);
                 }
             }));

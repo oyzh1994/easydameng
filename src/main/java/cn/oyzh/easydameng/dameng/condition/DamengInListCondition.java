@@ -1,7 +1,7 @@
-package cn.oyzh.easydameng.condition;
+package cn.oyzh.easydameng.dameng.condition;
 
 import cn.oyzh.fx.db.DBDialect;
-import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 
 /**
  * 在列表条件
@@ -20,7 +20,7 @@ public class DamengInListCondition extends DamengCondition {
     @Override
     public String wrapCondition(Object condition) {
         if (condition != null) {
-            return this.getValue() + " (" + DamengUtil.wrapData(condition, DBDialect.DAMENG) + ")";
+            return this.getValue() + " (" + DBUtil.wrapData(condition, DBDialect.DAMENG) + ")";
         }
         return super.wrapCondition(condition);
     }

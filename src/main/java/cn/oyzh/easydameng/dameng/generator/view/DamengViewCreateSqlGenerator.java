@@ -6,6 +6,7 @@ import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBSqlGenerator;
 import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class DamengViewCreateSqlGenerator extends DBSqlGenerator {
         DamengView view = param.getView();
         String dbName = param.getDbName();
         String viewName = param.getViewName();
-        String viewFullName = DamengUtil.wrap(dbName, viewName, DBDialect.DAMENG);
+        String viewFullName = DBUtil.wrap(dbName, viewName, DBDialect.DAMENG);
 
         this.sqlBuilder.append("CREATE VIEW ");
         this.sqlBuilder.append(viewFullName)
@@ -42,7 +43,7 @@ public class DamengViewCreateSqlGenerator extends DBSqlGenerator {
             builder.append("COMMENT ON VIEW ")
                     .append(viewFullName)
                     .append(" IS ")
-                    .append(DamengUtil.wrapData(view.getComment(), DBDialect.DAMENG))
+                    .append(DBUtil.wrapData(view.getComment(), DBDialect.DAMENG))
                     .append(";");
             this.sqlList.add(builder.toString());
         }

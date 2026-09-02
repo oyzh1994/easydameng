@@ -11,6 +11,7 @@ import cn.oyzh.easydameng.fx.routine.DamengParamModeComboBox;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
 import cn.oyzh.easydameng.fx.table.DamengFiledTypeComboBox;
 import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import cn.oyzh.fx.gui.text.field.NumberTextField;
 import cn.oyzh.fx.plus.tableview.TableViewUtil;
@@ -298,7 +299,7 @@ public class DamengRoutineParam extends DBObjectStatus {
     public String getDefinition() {
         String definition = "";
         if (StringUtil.isNotBlank(this.getName())) {
-            definition += DamengUtil.wrap(this.getName(), DBDialect.DAMENG);
+            definition += DBUtil.wrap(this.getName(), DBDialect.DAMENG);
         }
         if (StringUtil.isNotBlank(this.getMode())) {
             if (StringUtil.containsIgnoreCase(this.getMode(), "IN") && StringUtil.containsIgnoreCase(this.getMode(), "OUT")) {

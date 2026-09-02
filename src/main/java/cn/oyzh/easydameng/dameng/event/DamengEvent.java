@@ -7,6 +7,7 @@ import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBObjectStatus;
 import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 
 import java.util.Date;
 
@@ -160,7 +161,7 @@ public class DamengEvent extends DBObjectStatus implements ObjectCopier<DamengEv
     public Object executeAt() {
         if (this.executeAt instanceof Date date) {
             Object val = DateUtil.format(date, "yyyy-MM-dd HH:mm:ss");
-            return DamengUtil.wrapData(val, DBDialect.DAMENG);
+            return DBUtil.wrapData(val, DBDialect.DAMENG);
         }
         return this.executeAt;
     }
@@ -168,7 +169,7 @@ public class DamengEvent extends DBObjectStatus implements ObjectCopier<DamengEv
     public Object starts() {
         if (this.starts instanceof Date date) {
             Object val = DateUtil.format(date, "yyyy-MM-dd HH:mm:ss");
-            return DamengUtil.wrapData(val, DBDialect.DAMENG);
+            return DBUtil.wrapData(val, DBDialect.DAMENG);
         }
         return this.starts;
     }
@@ -176,7 +177,7 @@ public class DamengEvent extends DBObjectStatus implements ObjectCopier<DamengEv
     public Object ends() {
         if (this.ends instanceof Date date) {
             Object val = DateUtil.format(date, "yyyy-MM-dd HH:mm:ss");
-            return DamengUtil.wrapData(val, DBDialect.DAMENG);
+            return DBUtil.wrapData(val, DBDialect.DAMENG);
         }
         return this.ends;
     }

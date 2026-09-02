@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.dameng.record;
 
-import cn.oyzh.easydameng.condition.DamengCondition;
-import cn.oyzh.easydameng.condition.DamengConditionUtil;
+import cn.oyzh.easydameng.dameng.condition.DamengCondition;
+import cn.oyzh.easydameng.dameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.fx.table.DamengColumnComboBox;
 import cn.oyzh.easydameng.fx.table.DBJoinSymbolComboBox;

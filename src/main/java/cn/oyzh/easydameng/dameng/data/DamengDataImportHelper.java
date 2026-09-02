@@ -7,6 +7,7 @@ import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.util.DBDataUtil;
 import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -67,18 +68,18 @@ public class DamengDataImportHelper {
         List<String> insertSql = new ArrayList<>();
         for (DamengRecord record : records) {
             StringBuilder sql = new StringBuilder("INSERT INTO ");
-            sql.append(DamengUtil.wrap(columns.tableName(), DBDialect.DAMENG));
+            sql.append(DBUtil.wrap(columns.tableName(), DBDialect.DAMENG));
             sql.append("(");
             for (DamengColumn column : columns) {
-                sql.append(DamengUtil.wrap(column.getName(), DBDialect.DAMENG)).append(", ");
+                sql.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG)).append(", ");
             }
             sql.deleteCharAt(sql.length() - 2);
             sql.append(") VALUES (");
             for (DamengColumn column : columns) {
                 Object val = record.getValue(column.getName());
-                val = DamengUtil.unwrapData(val, DBDialect.DAMENG);
+                val = DBUtil.unwrapData(val, DBDialect.DAMENG);
                 val = parameterized(column, val, config);
-                sql.append(DamengUtil.wrapData(val, DBDialect.DAMENG)).append(", ");
+                sql.append(DBUtil.wrapData(val, DBDialect.DAMENG)).append(", ");
             }
             sql.deleteCharAt(sql.length() - 2);
             sql.append(")");

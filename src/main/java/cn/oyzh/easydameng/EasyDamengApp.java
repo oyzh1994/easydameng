@@ -5,7 +5,7 @@ import cn.oyzh.common.dto.Project;
 import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.object.ObjectWatcherManager;
 import cn.oyzh.common.system.SystemUtil;
-import cn.oyzh.easydameng.condition.DamengConditionUtil;
+import cn.oyzh.easydameng.dameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.controller.MainController;
 import cn.oyzh.easydameng.controller.SettingController2;
 import cn.oyzh.easydameng.domain.DamengSetting;

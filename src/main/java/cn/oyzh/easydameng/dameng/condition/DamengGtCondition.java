@@ -1,4 +1,4 @@
-package cn.oyzh.easydameng.condition;
+package cn.oyzh.easydameng.dameng.condition;
 
 /**
  * 大于条件

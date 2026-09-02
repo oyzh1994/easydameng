@@ -1,12 +1,12 @@
-package cn.oyzh.easydameng.condition;
+package cn.oyzh.easydameng.dameng.condition;
 
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.util.DBNodeUtil;
-import cn.oyzh.easydameng.util.DamengUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.condition.DBConditionManager;
+import cn.oyzh.fx.db.util.DBUtil;
 import cn.oyzh.fx.gui.text.field.ClearableTextField;
 import javafx.scene.Node;
 
@@ -62,7 +62,7 @@ public class DamengConditionUtil {
             DamengRecordFilter filter = filters.get(i);
             String condition = filter.condition();
             if (StringUtil.isNotBlank(condition)) {
-                conditions.append(DamengUtil.wrap(filter.column(), DBDialect.DAMENG))
+                conditions.append(DBUtil.wrap(filter.column(), DBDialect.DAMENG))
                         .append(" ")
                         .append(condition)
                         .append(" ");

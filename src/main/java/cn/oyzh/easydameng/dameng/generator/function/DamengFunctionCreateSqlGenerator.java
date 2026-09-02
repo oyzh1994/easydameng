@@ -8,6 +8,7 @@ import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBSqlGenerator;
 import cn.oyzh.easydameng.util.DamengUtil;
+import cn.oyzh.fx.db.util.DBUtil;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class DamengFunctionCreateSqlGenerator extends DBSqlGenerator {
     private void _generate(DamengCreateFunctionParam param) {
         DamengFunction function = param.getFunction();
         this.sqlBuilder.append("CREATE FUNCTION ");
-        this.sqlBuilder.append(DamengUtil.wrap(function.getDbName(), function.getName(), DBDialect.DAMENG));
+        this.sqlBuilder.append(DBUtil.wrap(function.getDbName(), function.getName(), DBDialect.DAMENG));
         // 参数
         this.sqlBuilder.append(" (");
         List<DamengRoutineParam> params = function.getParams();

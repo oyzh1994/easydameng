@@ -13,6 +13,7 @@ import cn.oyzh.easydameng.util.DamengUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.data.handler.DBDataTransportHandler;
 import cn.oyzh.fx.db.data.dto.DBDataTransportObject;
+import cn.oyzh.fx.db.util.DBUtil;
 
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
     private void transportTable(String tableName) throws Exception {
         this.checkInterrupt();
         // 删除表
-        String dropTable = "DROP TABLE IF EXISTS " + DamengUtil.wrap(tableName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP TABLE IF EXISTS " + DBUtil.wrap(tableName, DBDialect.DAMENG) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop Table " + tableName);
         this.processedIncr();
@@ -121,7 +122,7 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
         DamengColumns dbColumns = new DamengColumns(columns);
         if (dbColumns.hasAutoIncrement()) {
             try {
-                String line0 = "SET IDENTITY_INSERT " + DamengUtil.wrap(tableName, DBDialect.DAMENG) + " ON;";
+                String line0 = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName, DBDialect.DAMENG) + " ON;";
                 this.targetClient.executeSqlSimple(this.targetDatabase, line0);
             } catch (Exception ex) {
                 if (!DamengHelper.isIdentityError(ex)) {
@@ -150,7 +151,7 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
         this.doBatchInsert();
         if (dbColumns.hasAutoIncrement()) {
             try {
-                String line1 = "SET IDENTITY_INSERT " + DamengUtil.wrap(tableName, DBDialect.DAMENG) + " OFF;";
+                String line1 = "SET IDENTITY_INSERT " + DBUtil.wrap(tableName, DBDialect.DAMENG) + " OFF;";
                 this.targetClient.executeSqlSimple(this.targetDatabase, line1);
             } catch (Exception ex) {
                 if (!DamengHelper.isIdentityError(ex)) {
@@ -170,7 +171,7 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
     private void transportView(String viewName) throws InterruptedException {
         this.checkInterrupt();
         // 删除视图
-        String dropTable = "DROP VIEW IF EXISTS " + DamengUtil.wrap(viewName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP VIEW IF EXISTS " + DBUtil.wrap(viewName, DBDialect.DAMENG) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop View " + viewName);
         this.processedIncr();
@@ -191,7 +192,7 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
     private void transportFunction(String functionName) throws InterruptedException {
         this.checkInterrupt();
         // 删除函数
-        String dropTable = "DROP FUNCTION IF EXISTS " + DamengUtil.wrap(functionName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP FUNCTION IF EXISTS " + DBUtil.wrap(functionName, DBDialect.DAMENG) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop Function " + functionName);
         this.processedIncr();
@@ -212,7 +213,7 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
     private void transportProcedure(String procedureName) throws InterruptedException {
         this.checkInterrupt();
         // 删除过程
-        String dropTable = "DROP PROCEDURE IF EXISTS " + DamengUtil.wrap(procedureName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(procedureName, DBDialect.DAMENG) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop Procedure " + procedureName);
         this.processedIncr();
@@ -233,7 +234,7 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
     private void transportTrigger(String triggerName) throws InterruptedException {
         this.checkInterrupt();
         // 删除触发器
-        String dropTable = "DROP TRIGGER IF EXISTS " + DamengUtil.wrap(triggerName, DBDialect.DAMENG) + ";";
+        String dropTable = "DROP TRIGGER IF EXISTS " + DBUtil.wrap(triggerName, DBDialect.DAMENG) + ";";
         this.targetClient.executeSqlSimple(this.targetDatabase, dropTable);
         this.message("Drop Trigger " + triggerName);
         this.processedIncr();

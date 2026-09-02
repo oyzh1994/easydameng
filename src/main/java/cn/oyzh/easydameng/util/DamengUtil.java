@@ -38,100 +38,100 @@ public class DamengUtil {
         return StringUtil.equalsAnyIgnoreCase(dbName, "SYS", "SYSDBA", "SYSSSO", "SYSAUDITOR", "CTISYS");
     }
 
-    /**
-     * 检查表类型
-     *
-     * @param resultSet 结果集
-     * @param dbName    数据库名称
-     * @return 结果
-     * @throws SQLException 异常
-     */
-    public static boolean checkTableType(ResultSet resultSet, String dbName) throws SQLException {
-        String tableCat = resultSet.getString("TABLE_CAT");
-        String tableType = resultSet.getString("TABLE_TYPE");
-        return StringUtil.equalsIgnoreCase(tableCat, dbName) && !StringUtil.equalsIgnoreCase("VIEW", tableType);
-    }
+//    /**
+//     * 检查表类型
+//     *
+//     * @param resultSet 结果集
+//     * @param dbName    数据库名称
+//     * @return 结果
+//     * @throws SQLException 异常
+//     */
+//    public static boolean checkTableType(ResultSet resultSet, String dbName) throws SQLException {
+//        String tableCat = resultSet.getString("TABLE_CAT");
+//        String tableType = resultSet.getString("TABLE_TYPE");
+//        return StringUtil.equalsIgnoreCase(tableCat, dbName) && !StringUtil.equalsIgnoreCase("VIEW", tableType);
+//    }
+//
+//    /**
+//     * 检查视图类型
+//     *
+//     * @param resultSet 结果集
+//     * @param dbName    数据库名称
+//     * @return 结果
+//     * @throws SQLException 异常
+//     */
+//    public static boolean checkViewType(ResultSet resultSet, String dbName) throws SQLException {
+//        String tableCat = resultSet.getString("TABLE_CAT");
+//        String tableType = resultSet.getString("TABLE_TYPE");
+//        return StringUtil.equalsIgnoreCase(tableCat, dbName) && StringUtil.equalsIgnoreCase("VIEW", tableType);
+//    }
+//
+//    /**
+//     * 检查数据库是否相同
+//     *
+//     * @param resultSet 结果集
+//     * @param dbName    数据库名称
+//     * @return 结果
+//     * @throws SQLException 异常
+//     */
+//    public static boolean checkTableCat(ResultSet resultSet, String dbName, String tableName) throws SQLException {
+//        String tableCat = resultSet.getString("TABLE_CAT");
+//        String tableName1 = resultSet.getString("TABLE_NAME");
+//        return Objects.equals(tableCat, dbName) && Objects.equals(tableName1, tableName);
+//    }
 
-    /**
-     * 检查视图类型
-     *
-     * @param resultSet 结果集
-     * @param dbName    数据库名称
-     * @return 结果
-     * @throws SQLException 异常
-     */
-    public static boolean checkViewType(ResultSet resultSet, String dbName) throws SQLException {
-        String tableCat = resultSet.getString("TABLE_CAT");
-        String tableType = resultSet.getString("TABLE_TYPE");
-        return StringUtil.equalsIgnoreCase(tableCat, dbName) && StringUtil.equalsIgnoreCase("VIEW", tableType);
-    }
-
-    /**
-     * 检查数据库是否相同
-     *
-     * @param resultSet 结果集
-     * @param dbName    数据库名称
-     * @return 结果
-     * @throws SQLException 异常
-     */
-    public static boolean checkTableCat(ResultSet resultSet, String dbName, String tableName) throws SQLException {
-        String tableCat = resultSet.getString("TABLE_CAT");
-        String tableName1 = resultSet.getString("TABLE_NAME");
-        return Objects.equals(tableCat, dbName) && Objects.equals(tableName1, tableName);
-    }
-
-    /**
-     * 检查数据库是否相同
-     *
-     * @param resultSet 结果集
-     * @param dbName    数据库名称
-     * @return 结果
-     * @throws SQLException 异常
-     */
-    @Deprecated
-    public static boolean checkProcedureType(ResultSet resultSet, String dbName) throws SQLException {
-        String tableCat = resultSet.getString("PROCEDURE_CAT");
-        String type = resultSet.getString("PROCEDURE_TYPE");
-        return StringUtil.equals(tableCat, dbName) && "1".equals(type);
-    }
-
-    /**
-     * 检查数据库是否相同
-     *
-     * @param resultSet 结果集
-     * @param dbName    数据库名称
-     * @return 结果
-     * @throws SQLException 异常
-     */
-    @Deprecated
-    public static boolean checkFunctionType(ResultSet resultSet, String dbName) throws SQLException {
-        String functionCat = resultSet.getString("FUNCTION_CAT");
-        String type = resultSet.getString("FUNCTION_TYPE");
-        return StringUtil.equalsIgnoreCase(functionCat, dbName) && "1".equals(type);
-    }
-
-    /**
-     * 检查数据库是否相同
-     *
-     * @param resultSet 结果集
-     * @param dbName    数据库名称
-     * @return 结果
-     * @throws SQLException 异常
-     */
-    public static boolean checkFunctionType(ResultSet resultSet, String dbName, String schema) throws SQLException {
-        String functionCat = resultSet.getString("FUNCTION_CAT");
-        if (!StringUtil.equalsIgnoreCase(functionCat, dbName)) {
-            return false;
-        }
-        if (schema == null) {
-            return true;
-        }
-        String functionSchem = resultSet.getString("FUNCTION_SCHEM");
-        if (functionSchem != null) {
-            return StringUtil.equalsIgnoreCase(functionSchem, schema);
-        }
-        return true;
-    }
+//    /**
+//     * 检查数据库是否相同
+//     *
+//     * @param resultSet 结果集
+//     * @param dbName    数据库名称
+//     * @return 结果
+//     * @throws SQLException 异常
+//     */
+//    @Deprecated
+//    public static boolean checkProcedureType(ResultSet resultSet, String dbName) throws SQLException {
+//        String tableCat = resultSet.getString("PROCEDURE_CAT");
+//        String type = resultSet.getString("PROCEDURE_TYPE");
+//        return StringUtil.equals(tableCat, dbName) && "1".equals(type);
+//    }
+//
+//    /**
+//     * 检查数据库是否相同
+//     *
+//     * @param resultSet 结果集
+//     * @param dbName    数据库名称
+//     * @return 结果
+//     * @throws SQLException 异常
+//     */
+//    @Deprecated
+//    public static boolean checkFunctionType(ResultSet resultSet, String dbName) throws SQLException {
+//        String functionCat = resultSet.getString("FUNCTION_CAT");
+//        String type = resultSet.getString("FUNCTION_TYPE");
+//        return StringUtil.equalsIgnoreCase(functionCat, dbName) && "1".equals(type);
+//    }
+//
+//    /**
+//     * 检查数据库是否相同
+//     *
+//     * @param resultSet 结果集
+//     * @param dbName    数据库名称
+//     * @return 结果
+//     * @throws SQLException 异常
+//     */
+//    public static boolean checkFunctionType(ResultSet resultSet, String dbName, String schema) throws SQLException {
+//        String functionCat = resultSet.getString("FUNCTION_CAT");
+//        if (!StringUtil.equalsIgnoreCase(functionCat, dbName)) {
+//            return false;
+//        }
+//        if (schema == null) {
+//            return true;
+//        }
+//        String functionSchem = resultSet.getString("FUNCTION_SCHEM");
+//        if (functionSchem != null) {
+//            return StringUtil.equalsIgnoreCase(functionSchem, schema);
+//        }
+//        return true;
+//    }
 
     /**
      * 打印元数据
@@ -231,60 +231,60 @@ public class DamengUtil {
         return builder.toString();
     }
 
-    public static String wrap(String dbName, String tableName, DBDialect dialect) {
-        return wrap(dbName, dialect) + "." + wrap(tableName, dialect);
-    }
-
-    public static Object wrapData(Object val,DBDialect dialect) {
-        if (val == null) {
-            return null;
-        }
-        if (val instanceof Number) {
-            return val;
-        }
-        if(dialect==DBDialect.DAMENG) {
-
-            if (val instanceof CharSequence v) {
-                String v1 = v.toString();
-                if (v1.isEmpty()) {
-                    return "''";
-                }
-                if (!v1.startsWith("'") && !v1.startsWith("\"")) {
-                    v1 = "'" + v1;
-                }
-                if (!v1.endsWith("'") && !v1.endsWith("\"")) {
-                    v1 = v1 + "'";
-                }
-                return v1;
-            }
-            if (val instanceof LocalDateTime) {
-                return "'" + val + "'";
-            }
-        }
-        return val;
-    }
-
-    public static Object unwrapData(Object val,DBDialect dialect) {
-        if (val == null) {
-            return null;
-        }
-        if(dialect==DBDialect.DAMENG) {
-            if (val instanceof CharSequence v) {
-                String v1 = v.toString();
-                if (v1.isEmpty()) {
-                    return null;
-                }
-                if (v1.startsWith("'") || v1.startsWith("\"")) {
-                    v1 = v1.substring(1);
-                }
-                if (v1.endsWith("'") || v1.endsWith("\"")) {
-                    v1 = v1.substring(0, v1.length() - 1);
-                }
-                return v1;
-            }
-        }
-        return val;
-    }
+//    public static String wrap(String dbName, String tableName, DBDialect dialect) {
+//        return wrap(dbName, dialect) + "." + wrap(tableName, dialect);
+//    }
+//
+//    public static Object wrapData(Object val,DBDialect dialect) {
+//        if (val == null) {
+//            return null;
+//        }
+//        if (val instanceof Number) {
+//            return val;
+//        }
+//        if(dialect==DBDialect.DAMENG) {
+//
+//            if (val instanceof CharSequence v) {
+//                String v1 = v.toString();
+//                if (v1.isEmpty()) {
+//                    return "''";
+//                }
+//                if (!v1.startsWith("'") && !v1.startsWith("\"")) {
+//                    v1 = "'" + v1;
+//                }
+//                if (!v1.endsWith("'") && !v1.endsWith("\"")) {
+//                    v1 = v1 + "'";
+//                }
+//                return v1;
+//            }
+//            if (val instanceof LocalDateTime) {
+//                return "'" + val + "'";
+//            }
+//        }
+//        return val;
+//    }
+//
+//    public static Object unwrapData(Object val,DBDialect dialect) {
+//        if (val == null) {
+//            return null;
+//        }
+//        if(dialect==DBDialect.DAMENG) {
+//            if (val instanceof CharSequence v) {
+//                String v1 = v.toString();
+//                if (v1.isEmpty()) {
+//                    return null;
+//                }
+//                if (v1.startsWith("'") || v1.startsWith("\"")) {
+//                    v1 = v1.substring(1);
+//                }
+//                if (v1.endsWith("'") || v1.endsWith("\"")) {
+//                    v1 = v1.substring(0, v1.length() - 1);
+//                }
+//                return v1;
+//            }
+//        }
+//        return val;
+//    }
 
 //    public static void setVal(PreparedStatement statement, Object val, int index) throws SQLException {
 //        if (val == null) {

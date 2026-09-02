@@ -1,4 +1,4 @@
-package cn.oyzh.easydameng.condition;
+package cn.oyzh.easydameng.dameng.condition;
 
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.condition.DBCondition;

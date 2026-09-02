@@ -4,7 +4,7 @@ import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.IOUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.condition.DamengConditionUtil;
+import cn.oyzh.easydameng.dameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
