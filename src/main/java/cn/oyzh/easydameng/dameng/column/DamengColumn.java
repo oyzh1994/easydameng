@@ -540,10 +540,6 @@ public class DamengColumn extends DBObjectStatus implements DBColumn, ObjectCopi
         }
     }
 
-    public boolean isInvalid() {
-        return StringUtil.isBlank(this.getName()) || StringUtil.isBlank(this.getType());
-    }
-
     public String getSchema() {
         return schema;
     }

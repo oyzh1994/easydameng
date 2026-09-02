@@ -118,10 +118,6 @@ public class DamengTrigger extends DBObjectStatus implements DBTrigger, ObjectCo
         }
     }
 
-    public boolean isInvalid() {
-        return false;
-    }
-
     @Override
     public String getName() {
         return name;

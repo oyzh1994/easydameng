@@ -3,6 +3,7 @@ package cn.oyzh.easydameng.dameng.foreignKey;
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
+import cn.oyzh.fx.db.DBForeignKey;
 import cn.oyzh.fx.db.DBObjectStatus;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @author oyzh
  * @since 2024/01/25
  */
-public class DamengForeignKey extends DBObjectStatus implements ObjectCopier<DamengForeignKey> {
+public class DamengForeignKey extends DBObjectStatus implements DBForeignKey,ObjectCopier<DamengForeignKey> {
 
     /**
      * 外键名称
@@ -80,50 +81,16 @@ public class DamengForeignKey extends DBObjectStatus implements ObjectCopier<Dam
         super.putOriginalData("updatePolicy", updatePolicy);
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
         super.putOriginalData("name", name);
     }
 
-    // public FXTextField getNameControl() {
-    //     try {
-    //         ClearableTextField textField = new ClearableTextField();
-    //         textField.setPromptText(I18nHelper.pleaseInputName());
-    //         textField.addTextChangeListener((observable, oldValue, newValue) -> this.setName(newValue));
-    //         if (this.name != null) {
-    //             textField.setText(this.name);
-    //         }
-    //         TableViewUtil.rowOnCtrlS(textField);
-    //         TableViewUtil.selectRowOnMouseClicked(textField);
-    //         return textField;
-    //     } catch (Exception ex) {
-    //         ex.printStackTrace();
-    //     }
-    //     return null;
-    // }
-
     public void setColumns(List<String> columns) {
         this.columns = columns;
         super.putOriginalData("columns", columns);
     }
-
-    // public DamengFieldTextFiled getColumnControl() {
-    //     try {
-    //         List<DamengColumn> columnList = CacheHelper.get("columnList");
-    //         if (columnList == null) {
-    //             columnList = new ArrayList<>();
-    //         }
-    //         DamengFieldTextFiled textField = new DamengFieldTextFiled(columnList, this.columns);
-    //         textField.addTextChangeListener((observable, oldValue, newValue) -> this.setColumns(textField.getSelectedColumns()));
-    //         textField.setFlexWidth("100% - 12");
-    //         TableViewUtil.rowOnCtrlS(textField);
-    //         TableViewUtil.selectRowOnMouseClicked(textField);
-    //         return textField;
-    //     } catch (Exception ex) {
-    //         ex.printStackTrace();
-    //     }
-    //     return null;
-    // }
 
     public void setPrimaryKeyDatabase(String primaryKeyDatabase) {
         this.primaryKeyDatabaseProperty().set(primaryKeyDatabase);
@@ -135,26 +102,8 @@ public class DamengForeignKey extends DBObjectStatus implements ObjectCopier<Dam
         if (this.primaryKeyDatabaseProperty != null) {
             dbName = this.primaryKeyDatabaseProperty.get();
         }
-        //if (dbName == null) {
-        //    dbName = CacheHelper.get("dameng:dbName");
-        //}
         return dbName;
     }
-
-    // public DBSchemaComboBox getPrimaryKeyDatabaseControl() {
-    //     try {
-    //         DBSchemaComboBox comboBox = new DBSchemaComboBox();
-    //         comboBox.init(CacheHelper.get("dbClient"));
-    //         comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setPrimaryKeyDatabase(newValue));
-    //         comboBox.selectFirstIfNull(this.getPrimaryKeyDatabase());
-    //         TableViewUtil.rowOnCtrlS(comboBox);
-    //         TableViewUtil.selectRowOnMouseClicked(comboBox);
-    //         return comboBox;
-    //     } catch (Exception ex) {
-    //         ex.printStackTrace();
-    //     }
-    //     return null;
-    // }
 
     public void setPrimaryKeyTable(String primaryKeyTable) {
         this.primaryKeyTableProperty().set(primaryKeyTable);
@@ -168,82 +117,10 @@ public class DamengForeignKey extends DBObjectStatus implements ObjectCopier<Dam
         return this.primaryKeyTableProperty.get();
     }
 
-    // public DamengTableComboBox getPrimaryKeyTableControl() {
-    //     try {
-    //         DamengTableComboBox comboBox = new DamengTableComboBox();
-    //         ShellDamengClient dbClient = CacheHelper.get("dbClient");
-    //         comboBox.init(this.getPrimaryKeyDatabase(), dbClient);
-    //         comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setPrimaryKeyTable(newValue));
-    //         comboBox.selectFirstIfNull(this.getPrimaryKeyTable());
-    //         this.primaryKeyDatabaseProperty().addListener((observable, oldValue, newValue) -> {
-    //             comboBox.init(this.getPrimaryKeyDatabase(), dbClient);
-    //             comboBox.selectFirst();
-    //         });
-    //         TableViewUtil.rowOnCtrlS(comboBox);
-    //         TableViewUtil.selectRowOnMouseClicked(comboBox);
-    //         return comboBox;
-    //     } catch (Exception ex) {
-    //         ex.printStackTrace();
-    //     }
-    //     return null;
-    // }
-
-    // public DamengForeignKeyPolicyComboBox getDeletePolicyControl() {
-    //     try {
-    //         DamengForeignKeyPolicyComboBox comboBox = new DamengForeignKeyPolicyComboBox();
-    //         comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setDeletePolicy(newValue));
-    //         comboBox.selectFirstIfNull(this.deletePolicy);
-    //         TableViewUtil.rowOnCtrlS(comboBox);
-    //         TableViewUtil.selectRowOnMouseClicked(comboBox);
-    //         return comboBox;
-    //     } catch (Exception ex) {
-    //         ex.printStackTrace();
-    //     }
-    //     return null;
-    // }
-
     public void setPrimaryKeyColumns(List<String> primaryKeyColumns) {
         this.primaryKeyColumns = primaryKeyColumns;
         super.putOriginalData("primaryKeyColumns", primaryKeyColumns);
     }
-
-    // public DamengFieldTextFiled getPrimaryKeyColumnControl() {
-    //     try {
-    //         DamengFieldTextFiled textField = new DamengFieldTextFiled();
-    //         textField.addTextChangeListener((observable, oldValue, newValue) -> this.setPrimaryKeyColumns(textField.getSelectedColumns()));
-    //         textField.setFlexWidth("100% - 12");
-    //         Runnable func = () -> {
-    //             textField.clear();
-    //             String dbName = this.getPrimaryKeyDatabase();
-    //             String tableName = this.getPrimaryKeyTable();
-    //             ShellDamengClient client = CacheHelper.get("dbClient");
-    //             textField.setColumns(client.selectColumns(new DamengSelectColumnParam(dbName, tableName)));
-    //             textField.setSelectedColumns(this.primaryKeyColumns);
-    //         };
-    //         this.primaryKeyTableProperty().addListener((observable, oldValue, newValue) -> func.run());
-    //         func.run();
-    //         TableViewUtil.rowOnCtrlS(textField);
-    //         TableViewUtil.selectRowOnMouseClicked(textField);
-    //         return textField;
-    //     } catch (Exception ex) {
-    //         ex.printStackTrace();
-    //     }
-    //     return null;
-    // }
-    //
-    // public DamengForeignKeyPolicyComboBox getUpdatePolicyControl() {
-    //     try {
-    //         DamengForeignKeyPolicyComboBox comboBox = new DamengForeignKeyPolicyComboBox();
-    //         comboBox.selectedItemChanged((observable, oldValue, newValue) -> this.setUpdatePolicy(newValue));
-    //         comboBox.selectFirstIfNull(this.updatePolicy);
-    //         TableViewUtil.rowOnCtrlS(comboBox);
-    //         TableViewUtil.selectRowOnMouseClicked(comboBox);
-    //         return comboBox;
-    //     } catch (Exception ex) {
-    //         ex.printStackTrace();
-    //     }
-    //     return null;
-    // }
 
     public void addColumn(String columnName) {
         if (this.columns == null) {
@@ -272,11 +149,13 @@ public class DamengForeignKey extends DBObjectStatus implements ObjectCopier<Dam
         }
     }
 
+    @Override
     public boolean isInvalid() {
-        return StringUtil.isBlank(this.name) || CollectionUtil.isEmpty(this.primaryKeyColumns) || CollectionUtil.isEmpty(this.columns)
+        return DBForeignKey.super.isInvalid() || CollectionUtil.isEmpty(this.primaryKeyColumns) || CollectionUtil.isEmpty(this.columns)
                 || StringUtil.isBlank(this.getPrimaryKeyTable()) || StringUtil.isBlank(this.getPrimaryKeyDatabase());
     }
 
+    @Override
     public String getName() {
         return name;
     }
