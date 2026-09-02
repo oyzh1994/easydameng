@@ -46,8 +46,8 @@ public class DamengDataExportHandler extends DBDataExportHandler {
      */
     private List<ShellDamengDataExportTable> tables;
 
-    public DamengDataExportHandler(ShellDamengClient dbClient, String dbName) {
-        super(dbName);
+    public DamengDataExportHandler(ShellDamengClient dbClient, String schema) {
+        super(schema);
         this.dbClient = dbClient;
         this.config = new DamengDataExportConfig();
     }
@@ -116,7 +116,7 @@ public class DamengDataExportHandler extends DBDataExportHandler {
                         param.setStart(start);
                         param.setReadonly(true);
                         param.setColumns(columns);
-                        param.setSchema(this.dbName);
+                        param.setSchema(this.name);
                         param.setTableName(tableName);
                         param.setLimit((long) this.queryLimit);
                         records = this.dbClient.selectRecords(param);

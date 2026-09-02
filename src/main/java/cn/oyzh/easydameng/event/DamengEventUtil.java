@@ -1,7 +1,6 @@
 package cn.oyzh.easydameng.event;
 
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.dameng.event.DamengEvent;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
 import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
@@ -20,9 +19,6 @@ import cn.oyzh.easydameng.event.schema.DamengSchemaAddedEvent;
 import cn.oyzh.easydameng.event.schema.DamengSchemaClosedEvent;
 import cn.oyzh.easydameng.event.schema.DamengSchemaDroppedEvent;
 import cn.oyzh.easydameng.event.schema.DamengSchemaUpdatedEvent;
-import cn.oyzh.easydameng.event.event.DamengEventAddedEvent;
-import cn.oyzh.easydameng.event.event.DamengEventAlertedEvent;
-import cn.oyzh.easydameng.event.event.DamengEventDesignEvent;
 import cn.oyzh.easydameng.event.function.DamengFunctionAddedEvent;
 import cn.oyzh.easydameng.event.function.DamengFunctionAlertedEvent;
 import cn.oyzh.easydameng.event.function.DamengFunctionDesignEvent;
@@ -113,18 +109,18 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-    public static void eventAdded(DamengSchemaTreeItem dbItem) {
-        DamengEventAddedEvent event = new DamengEventAddedEvent();
-        event.data(dbItem);
-        EventUtil.post(event);
-    }
-
-    public static void eventAlerted(String eventName, DamengSchemaTreeItem dbItem) {
-        DamengEventAlertedEvent event = new DamengEventAlertedEvent();
-        event.data(eventName);
-        event.setDbItem(dbItem);
-        EventUtil.post(event);
-    }
+//    public static void eventAdded(DamengSchemaTreeItem dbItem) {
+//        DamengEventAddedEvent event = new DamengEventAddedEvent();
+//        event.data(dbItem);
+//        EventUtil.post(event);
+//    }
+//
+//    public static void eventAlerted(String eventName, DamengSchemaTreeItem dbItem) {
+//        DamengEventAlertedEvent event = new DamengEventAlertedEvent();
+//        event.data(eventName);
+//        event.setDbItem(dbItem);
+//        EventUtil.post(event);
+//    }
 
     public static void functionAdded(DamengSchemaTreeItem dbItem) {
         DamengFunctionAddedEvent event = new DamengFunctionAddedEvent();
@@ -275,12 +271,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
-    public static void designEvent(DamengEvent event, DamengSchemaTreeItem dbItem) {
-        DamengEventDesignEvent event1 = new DamengEventDesignEvent();
-        event1.data(event);
-        event1.setDbItem(dbItem);
-        EventUtil.post(event1);
-    }
+//    public static void designEvent(DamengEvent event, DamengSchemaTreeItem dbItem) {
+//        DamengEventDesignEvent event1 = new DamengEventDesignEvent();
+//        event1.data(event);
+//        event1.setDbItem(dbItem);
+//        EventUtil.post(event1);
+//    }
 
     public static void viewAlerted(String viewName, DamengSchemaTreeItem dbItem) {
         DamengViewAlertedEvent event = new DamengViewAlertedEvent();
