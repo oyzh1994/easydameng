@@ -12,6 +12,8 @@ public class DamengEventIntervalTypeCombobox extends FXComboBox<String> {
     public void select(String val) {
         if (val != null) {
             super.select(val.toUpperCase());
+        } else {
+            super.clearSelection();
         }
     }
 

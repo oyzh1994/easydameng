@@ -23,6 +23,8 @@ public class DamengRowFormatComboBox extends FXComboBox<String> {
     public void select(String rowFormat) {
         if (rowFormat != null) {
             super.select(rowFormat.toUpperCase());
+        } else {
+            super.clearSelection();
         }
     }
 }

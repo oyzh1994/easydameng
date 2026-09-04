@@ -27,6 +27,8 @@ public class DamengEventStatusCombobox extends FXComboBox<String> {
             } else {
                 super.select(val.toUpperCase());
             }
+        } else {
+            super.clearSelection();
         }
     }
 
