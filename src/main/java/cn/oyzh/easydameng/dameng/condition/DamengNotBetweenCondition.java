@@ -1,5 +1,7 @@
 package cn.oyzh.easydameng.dameng.condition;
 
+import cn.oyzh.i18n.I18nHelper;
+
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.util.DBUtil;
@@ -17,7 +19,7 @@ public class DamengNotBetweenCondition extends DamengCondition {
     public final static DamengNotBetweenCondition INSTANCE = new DamengNotBetweenCondition();
 
     public DamengNotBetweenCondition() {
-        super("不介于", "NOT BETWEEN");
+        super(I18nHelper.notBetween(), "NOT BETWEEN");
     }
 
     @Override

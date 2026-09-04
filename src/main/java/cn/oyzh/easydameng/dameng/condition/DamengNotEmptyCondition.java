@@ -1,5 +1,7 @@
 package cn.oyzh.easydameng.dameng.condition;
 
+import cn.oyzh.i18n.I18nHelper;
+
 /**
  * 包含条件
  *
@@ -11,7 +13,7 @@ public class DamengNotEmptyCondition extends DamengCondition {
     public final static DamengNotEmptyCondition INSTANCE = new DamengNotEmptyCondition();
 
     public DamengNotEmptyCondition() {
-        super("不是空的", "!=''", false);
+        super(I18nHelper.notIsEmpty(), "!=''", false);
     }
 
 }

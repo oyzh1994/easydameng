@@ -1,5 +1,7 @@
 package cn.oyzh.easydameng.dameng.condition;
 
+import cn.oyzh.i18n.I18nHelper;
+
 /**
  * 不包含条件
  *
@@ -11,7 +13,7 @@ public class DamengNotContainsCondition extends DamengCondition {
     public final static DamengNotContainsCondition INSTANCE = new DamengNotContainsCondition();
 
     public DamengNotContainsCondition() {
-        super("不包含", "NOT LIKE");
+        super(I18nHelper.notContains(), "NOT LIKE");
     }
 
     @Override

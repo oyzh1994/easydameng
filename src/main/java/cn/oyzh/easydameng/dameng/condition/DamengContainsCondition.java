@@ -1,5 +1,7 @@
 package cn.oyzh.easydameng.dameng.condition;
 
+import cn.oyzh.i18n.I18nHelper;
+
 /**
  * 包含条件
  *
@@ -11,7 +13,7 @@ public class DamengContainsCondition extends DamengCondition {
     public final static DamengContainsCondition INSTANCE = new DamengContainsCondition();
 
     public DamengContainsCondition() {
-        super("包含", "LIKE");
+        super(I18nHelper.contains(), "LIKE");
     }
 
     @Override

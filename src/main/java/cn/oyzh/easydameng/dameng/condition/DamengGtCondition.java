@@ -1,5 +1,7 @@
 package cn.oyzh.easydameng.dameng.condition;
 
+import cn.oyzh.i18n.I18nHelper;
+
 /**
  * 大于条件
  *
@@ -11,6 +13,6 @@ public class DamengGtCondition extends DamengCondition {
     public final static DamengGtCondition INSTANCE = new DamengGtCondition();
 
     public DamengGtCondition() {
-        super("大于", ">");
+        super(I18nHelper.gt(), ">");
     }
 }
