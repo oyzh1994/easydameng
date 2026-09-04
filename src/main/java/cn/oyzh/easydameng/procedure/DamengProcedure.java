@@ -1,4 +1,4 @@
-package cn.oyzh.easydameng.dameng.procedure;
+package cn.oyzh.easydameng.procedure;
 
 import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineSchema;

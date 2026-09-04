@@ -5,13 +5,11 @@ import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.IOUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
-import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKey;
-import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
 import cn.oyzh.easydameng.dameng.function.DamengAlertFunctionParam;
 import cn.oyzh.easydameng.dameng.function.DamengCreateFunctionParam;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
@@ -25,11 +23,10 @@ import cn.oyzh.easydameng.dameng.generator.table.DamengTableCreateSqlGenerator;
 import cn.oyzh.easydameng.dameng.generator.view.DamengViewAlertSqlGenerator;
 import cn.oyzh.easydameng.dameng.generator.view.DamengViewCreateSqlGenerator;
 import cn.oyzh.easydameng.dameng.index.DamengIndex;
-import cn.oyzh.easydameng.dameng.index.DamengIndexes;
-import cn.oyzh.easydameng.dameng.procedure.DamengAlertProcedureParam;
-import cn.oyzh.easydameng.dameng.procedure.DamengCreateProcedureParam;
-import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
-import cn.oyzh.easydameng.dameng.procedure.DamengSelectProcedureParam;
+import cn.oyzh.easydameng.procedure.DamengAlertProcedureParam;
+import cn.oyzh.easydameng.procedure.DamengCreateProcedureParam;
+import cn.oyzh.easydameng.procedure.DamengProcedure;
+import cn.oyzh.easydameng.procedure.DamengSelectProcedureParam;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
@@ -47,7 +44,6 @@ import cn.oyzh.easydameng.dameng.table.DamengCreateTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengSelectTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
-import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengSelectViewParam;
@@ -63,6 +59,7 @@ import cn.oyzh.fx.db.DBConnConfig;
 import cn.oyzh.fx.db.DBConnManager;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBFeature;
+import cn.oyzh.fx.db.DBObjects;
 import cn.oyzh.fx.db.query.DBQueryResults;
 import cn.oyzh.fx.db.sql.DBSqlParser;
 import cn.oyzh.fx.db.util.DBUtil;
@@ -547,7 +544,7 @@ public class ShellDamengClient implements DBClient {
         }
     }
 
-    public DamengTriggers selectTriggers(String schema, String tableName) {
+    public DBObjects<DamengTrigger> selectTriggers(String schema, String tableName) {
         try {
             String sql = """
                         SELECT
@@ -572,7 +569,7 @@ public class ShellDamengClient implements DBClient {
             statement.setString(1, schema);
             statement.setString(2, tableName);
             ResultSet resultSet = statement.executeQuery();
-            DamengTriggers list = new DamengTriggers();
+            DBObjects<DamengTrigger> list = new DBObjects<DamengTrigger>();
             while (resultSet.next()) {
                 DamengTrigger trigger = new DamengTrigger();
                 String name = resultSet.getString("TRIGGER_NAME");
@@ -1801,7 +1798,7 @@ public class ShellDamengClient implements DBClient {
         }
     }
 
-    public DamengIndexes indexes(String schema, String tableName) {
+    public DBObjects<DamengIndex> indexes(String schema, String tableName) {
         try {
             Connection connection = this.connManager.connection(schema);
             String sql = """
@@ -1846,13 +1843,13 @@ public class ShellDamengClient implements DBClient {
             }
             IOUtil.close(resultSet);
             IOUtil.close(statement);
-            return new DamengIndexes(indexMap.values());
+            return new DBObjects<DamengIndex>(indexMap.values());
         } catch (Exception ex) {
             throw new DBException(ex);
         }
     }
 
-    public DamengChecks checks(String schema, String tableName) {
+    public DBObjects<DamengCheck> checks(String schema, String tableName) {
         if (!this.isSupportCheckFeature()) {
             return null;
         }
@@ -1874,7 +1871,7 @@ public class ShellDamengClient implements DBClient {
             statement.setString(2, tableName);
             ResultSet resultSet = statement.executeQuery();
             DBUtil.printMetaData(resultSet);
-            DamengChecks checks = new DamengChecks();
+            DBObjects<DamengCheck> checks = new DBObjects<DamengCheck>();
             while (resultSet.next()) {
                 DamengCheck check = new DamengCheck();
                 String name = resultSet.getString("NAME");
@@ -1893,7 +1890,7 @@ public class ShellDamengClient implements DBClient {
         }
     }
 
-    public DamengForeignKeys foreignKeys(String schema, String tableName) {
+    public DBObjects<DamengForeignKey> foreignKeys(String schema, String tableName) {
         try {
             // 查询外键 - Dameng uses ALL_CONSTRAINTS + ALL_CONS_COLUMNS
             String sql = """
@@ -1945,7 +1942,7 @@ public class ShellDamengClient implements DBClient {
                 foreignKey.addPrimaryKeyColumn(pkColumnName);
             }
             IOUtil.close(resultSet);
-            return new DamengForeignKeys(foreignKeyMap.values());
+            return new DBObjects<DamengForeignKey>(foreignKeyMap.values());
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new DBException(ex);
@@ -3049,13 +3046,13 @@ public class ShellDamengClient implements DBClient {
      */
     public String cloneTable(String schema, String tableName, boolean includeRecord) {
         // 查询检查
-        DamengChecks checks = this.checks(schema, tableName);
+        DBObjects<DamengCheck> checks = this.checks(schema, tableName);
         //        // 查询索引
         //        DamengIndexes indexes = this.indexes(dbName, tableName);
         // 查询触发器
-        DamengTriggers triggers = this.selectTriggers(schema, tableName);
+        DBObjects<DamengTrigger> triggers = this.selectTriggers(schema, tableName);
         // 查询外键
-        DamengForeignKeys foreignKeys = this.foreignKeys(schema, tableName);
+        DBObjects<DamengForeignKey> foreignKeys = this.foreignKeys(schema, tableName);
         if (checks != null) {
             for (DamengCheck check : checks) {
                 check.setName(check.getName() + DBUtil.genCloneName());

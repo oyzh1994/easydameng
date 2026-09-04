@@ -6,17 +6,18 @@ import cn.oyzh.easydameng.controller.data.ShellDamengDataDumpController;
 import cn.oyzh.easydameng.controller.data.ShellDamengDataRunSqlFileController;
 import cn.oyzh.easydameng.controller.database.ShellDamengSchemaUpdateController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.dameng.check.DamengChecks;
+import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
-import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
+import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKey;
 import cn.oyzh.easydameng.dameng.function.DamengAlertFunctionParam;
 import cn.oyzh.easydameng.dameng.function.DamengCreateFunctionParam;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
-import cn.oyzh.easydameng.dameng.index.DamengIndexes;
-import cn.oyzh.easydameng.dameng.procedure.DamengAlertProcedureParam;
-import cn.oyzh.easydameng.dameng.procedure.DamengCreateProcedureParam;
-import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
+import cn.oyzh.easydameng.dameng.index.DamengIndex;
+import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
+import cn.oyzh.easydameng.procedure.DamengAlertProcedureParam;
+import cn.oyzh.easydameng.procedure.DamengCreateProcedureParam;
+import cn.oyzh.easydameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
@@ -25,7 +26,6 @@ import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.dameng.table.DamengAlertTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengCreateTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
-import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.dameng.view.DamengAlertViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
@@ -45,6 +45,7 @@ import cn.oyzh.easydameng.trees.terminal.DamengTerminalTreeItem;
 import cn.oyzh.easydameng.trees.view.DamengViewTreeItem;
 import cn.oyzh.easydameng.trees.view.DamengViewsTreeItem;
 import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.DBObjects;
 import cn.oyzh.fx.db.query.DBQueryResults;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.tree.view.RichTreeItem;
@@ -411,7 +412,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         }
     }
 
-    public void createTable(DamengTable table, DamengColumns columns, DamengIndexes indexes, DamengForeignKeys foreignKeys, DamengTriggers triggers, DamengChecks checks) {
+    public void createTable(DamengTable table, DamengColumns columns, DBObjects<DamengIndex> indexes, DBObjects<DamengForeignKey> foreignKeys, DBObjects<DamengTrigger> triggers, DBObjects<DamengCheck> checks) {
         DamengCreateTableParam param = new DamengCreateTableParam();
         param.setTable(table);
         param.setChecks(checks);
@@ -426,7 +427,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().createTable(param);
     }
 
-    public DamengCreateTableParam createTableParam(DamengTable table, DamengColumns columns, DamengIndexes indexes, DamengForeignKeys foreignKeys, DamengTriggers triggers, DamengChecks checks) {
+    public DamengCreateTableParam createTableParam(DamengTable table, DamengColumns columns, DBObjects<DamengIndex> indexes, DBObjects<DamengForeignKey> foreignKeys, DBObjects<DamengTrigger> triggers, DBObjects<DamengCheck> checks) {
         DamengCreateTableParam param = new DamengCreateTableParam();
         param.setTable(table);
         param.setChecks(checks);
@@ -437,7 +438,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         return param;
     }
 
-    public void alterTable(DamengTable table, DamengColumns columns, DamengIndexes indexes, DamengForeignKeys foreignKeys, DamengTriggers triggers, DamengChecks checks) {
+    public void alterTable(DamengTable table, DamengColumns columns, DBObjects<DamengIndex> indexes, DBObjects<DamengForeignKey> foreignKeys, DBObjects<DamengTrigger> triggers, DBObjects<DamengCheck> checks) {
         DamengAlertTableParam param = new DamengAlertTableParam();
         param.setTable(table);
         param.setChecks(checks);
@@ -454,7 +455,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().alertTable(param);
     }
 
-    public DamengAlertTableParam alterTableParam(DamengTable table, DamengColumns columns, DamengIndexes indexes, DamengForeignKeys foreignKeys, DamengTriggers triggers, DamengChecks checks) {
+    public DamengAlertTableParam alterTableParam(DamengTable table, DamengColumns columns, DBObjects<DamengIndex> indexes, DBObjects<DamengForeignKey> foreignKeys, DBObjects<DamengTrigger> triggers, DBObjects<DamengCheck> checks) {
         DamengAlertTableParam param = new DamengAlertTableParam();
         param.setTable(table);
         param.setChecks(checks);
@@ -640,11 +641,11 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         return this.client().deleteRecord(param);
     }
 
-    public DamengChecks checks(String tableName) {
+    public DBObjects<DamengCheck> checks(String tableName) {
         return this.client().checks(this.schema(), tableName);
     }
 
-    public DamengTriggers triggers(String tableName) {
+    public DBObjects<DamengTrigger> triggers(String tableName) {
         return this.client().selectTriggers(this.schema(), tableName);
     }
 
@@ -655,11 +656,11 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         return this.client().selectColumns(param);
     }
 
-    public DamengIndexes indexes(String tableName) {
+    public DBObjects<DamengIndex> indexes(String tableName) {
         return this.client().indexes(this.schema(), tableName);
     }
 
-    public DamengForeignKeys foreignKeys(String tableName) {
+    public DBObjects<DamengForeignKey> foreignKeys(String tableName) {
         return this.client().foreignKeys(this.schema(), tableName);
     }
 

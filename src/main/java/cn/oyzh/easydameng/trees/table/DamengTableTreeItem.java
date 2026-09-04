@@ -6,7 +6,7 @@ import cn.oyzh.easydameng.controller.data.ShellDamengDataDumpController;
 import cn.oyzh.easydameng.controller.data.ShellDamengDataExportController;
 import cn.oyzh.easydameng.controller.table.ShellDamengTableInfoController;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.dameng.check.DamengChecks;
+import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
@@ -27,6 +27,7 @@ import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.util.DamengI18nHelper;
+import cn.oyzh.fx.db.DBObjects;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.svg.glyph.CopySVGGlyph;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
@@ -286,7 +287,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         return this.client().indexes(this.schema(), this.tableName());
     }
 
-    public DamengChecks checks() {
+    public DBObjects<DamengCheck> checks() {
         return this.client().checks(this.schema(), this.tableName());
     }
 

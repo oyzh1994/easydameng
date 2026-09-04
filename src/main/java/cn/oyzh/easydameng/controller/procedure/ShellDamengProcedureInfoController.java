@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.controller.procedure;
 
-import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
+import cn.oyzh.easydameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.trees.procedure.DamengProcedureTreeItem;
 import cn.oyzh.fx.editor.incubator.Editor;

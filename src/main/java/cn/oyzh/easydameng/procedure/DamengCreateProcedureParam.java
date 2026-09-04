@@ -1,4 +1,4 @@
-package cn.oyzh.easydameng.dameng.procedure;
+package cn.oyzh.easydameng.procedure;
 
 /**
  * @author oyzh

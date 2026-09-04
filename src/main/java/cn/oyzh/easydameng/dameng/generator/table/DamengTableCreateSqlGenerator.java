@@ -3,17 +3,14 @@ package cn.oyzh.easydameng.dameng.generator.table;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
-import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKey;
-import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
 import cn.oyzh.easydameng.dameng.index.DamengIndex;
-import cn.oyzh.easydameng.dameng.index.DamengIndexes;
 import cn.oyzh.easydameng.dameng.table.DamengCreateTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
-import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.fx.db.DBDialect;
+import cn.oyzh.fx.db.DBObjects;
 import cn.oyzh.fx.db.DBSqlGenerator;
 import cn.oyzh.fx.db.util.DBUtil;
 
@@ -93,7 +90,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
     }
 
     protected void triggerHandle(DamengCreateTableParam param) {
-        DamengTriggers triggers = param.getTriggers();
+        DBObjects<DamengTrigger> triggers = param.getTriggers();
         for (DamengTrigger trigger : triggers) {
             StringBuilder builder = new StringBuilder();
             String body = trigger.getDefinition().trim();
@@ -178,7 +175,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
     }
 
     protected void indexHandle(StringBuilder builder, DamengCreateTableParam param) {
-        DamengIndexes indexes = param.getIndexes();
+        DBObjects<DamengIndex> indexes = param.getIndexes();
         for (DamengIndex index : indexes) {
             // 新增索引
             if (index.isUnique()) {
@@ -204,7 +201,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
     }
 
     protected void foreignKeyHandle(StringBuilder builder, DamengCreateTableParam param) {
-        DamengForeignKeys foreignKeys = param.getForeignKeys();
+        DBObjects<DamengForeignKey> foreignKeys = param.getForeignKeys();
         for (DamengForeignKey foreignKey : foreignKeys) {
             builder.append(" CONSTRAINT ")
                     .append(DBUtil.wrap(foreignKey.getName(), DBDialect.DAMENG))
@@ -231,7 +228,7 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
     }
 
     protected void checkHandle(StringBuilder builder, DamengCreateTableParam table) {
-        DamengChecks checks = table.getChecks();
+        DBObjects<DamengCheck> checks = table.getChecks();
         for (DamengCheck check : checks) {
             builder.append(" CONSTRAINT ")
                     .append(DBUtil.wrap(check.getName(), DBDialect.DAMENG))

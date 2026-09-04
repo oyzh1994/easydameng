@@ -4,28 +4,25 @@ import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.check.DamengCheckControl;
-import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumnControl;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKey;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeyControl;
-import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
 import cn.oyzh.easydameng.dameng.index.DamengIndex;
 import cn.oyzh.easydameng.dameng.index.DamengIndexControl;
-import cn.oyzh.easydameng.dameng.index.DamengIndexes;
 import cn.oyzh.easydameng.dameng.table.DamengAlertTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengCreateTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.trigger.DamengTriggerControl;
-import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.fx.DBStatusTableView;
 import cn.oyzh.easydameng.fx.table.DamengTableSpaceComboBox;
 import cn.oyzh.easydameng.dameng.generator.table.DamengTableAlertSqlGenerator;
 import cn.oyzh.easydameng.dameng.generator.table.DamengTableCreateSqlGenerator;
 import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
+import cn.oyzh.fx.db.DBObjects;
 import cn.oyzh.fx.db.listener.DBStatusListener;
 import cn.oyzh.fx.db.listener.DBStatusListenerManager;
 import cn.oyzh.fx.editor.incubator.Editor;
@@ -214,7 +211,7 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
 
         // 索引处理
-        DamengIndexes indexes = new DamengIndexes();
+        DBObjects<DamengIndex> indexes = new DBObjects<DamengIndex>();
         for (DamengIndex index : this.indexTable.getItems()) {
             if (!index.isInvalid()) {
                 indexes.add(index);
@@ -225,7 +222,7 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
 
         // 外键处理
-        DamengForeignKeys foreignKeys = new DamengForeignKeys();
+        DBObjects<DamengForeignKey> foreignKeys = new DBObjects<DamengForeignKey>();
         for (DamengForeignKey foreignKey : this.foreignKeyTable.getItems()) {
             if (!foreignKey.isInvalid()) {
                 foreignKeys.add(foreignKey);
@@ -236,7 +233,7 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
 
         // 触发器处理
-        DamengTriggers triggers = new DamengTriggers();
+        DBObjects<DamengTrigger> triggers = new DBObjects<DamengTrigger>();
         for (DamengTrigger trigger : this.triggerTable.getItems()) {
             if (!trigger.isInvalid()) {
                 triggers.add(trigger);
@@ -247,9 +244,9 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
 
         // 检查处理
-        DamengChecks checks = null;
+        DBObjects<DamengCheck> checks = null;
         if (this.dbItem.isSupportCheckFeature()) {
-            checks = new DamengChecks();
+            checks = new DBObjects<DamengCheck>();
             for (DamengCheck check : this.checkTable.getItems()) {
                 if (!check.isInvalid()) {
                     checks.add(check);

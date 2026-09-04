@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.tabs.procedure;
 
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
+import cn.oyzh.easydameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.tabs.DamengTab;
 import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.fx.gui.svg.glyph.database.ProcedureSVGGlyph;

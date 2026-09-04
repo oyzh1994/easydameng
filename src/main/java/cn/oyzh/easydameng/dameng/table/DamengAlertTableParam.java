@@ -1,12 +1,14 @@
 package cn.oyzh.easydameng.dameng.table;
 
 import cn.oyzh.common.util.CollectionUtil;
-import cn.oyzh.easydameng.dameng.check.DamengChecks;
+import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
-import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
-import cn.oyzh.easydameng.dameng.index.DamengIndexes;
-import cn.oyzh.easydameng.dameng.trigger.DamengTriggers;
+import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKey;
+import cn.oyzh.easydameng.dameng.index.DamengIndex;
+import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
+import cn.oyzh.fx.db.DBObject;
+import cn.oyzh.fx.db.DBObjects;
 
 import java.util.List;
 
@@ -18,15 +20,15 @@ public class DamengAlertTableParam {
 
     private DamengTable table;
 
-    private DamengChecks checks;
+    private DBObjects<DamengCheck> checks;
 
     private DamengColumns columns;
 
-    private DamengIndexes indexes;
+    private DBObjects<DamengIndex> indexes;
 
-    private DamengTriggers triggers;
+    private DBObjects<DamengTrigger> triggers;
 
-    private DamengForeignKeys foreignKeys;
+    private DBObjects<DamengForeignKey> foreignKeys;
 
     // private DamengPrimaryKeys primaryKeys;
 
@@ -111,11 +113,11 @@ public class DamengAlertTableParam {
         this.table = table;
     }
 
-    public DamengChecks getChecks() {
+    public DBObjects<DamengCheck> getChecks() {
         return checks;
     }
 
-    public void setChecks(DamengChecks checks) {
+    public void setChecks(DBObjects<DamengCheck> checks) {
         this.checks = checks;
     }
 
@@ -127,27 +129,27 @@ public class DamengAlertTableParam {
         this.columns = columns;
     }
 
-    public DamengIndexes getIndexes() {
+    public DBObjects<DamengIndex> getIndexes() {
         return indexes;
     }
 
-    public void setIndexes(DamengIndexes indexes) {
+    public void setIndexes(DBObjects<DamengIndex> indexes) {
         this.indexes = indexes;
     }
 
-    public DamengTriggers getTriggers() {
+    public DBObjects<DamengTrigger> getTriggers() {
         return triggers;
     }
 
-    public void setTriggers(DamengTriggers triggers) {
+    public void setTriggers(DBObjects<DamengTrigger> triggers) {
         this.triggers = triggers;
     }
 
-    public DamengForeignKeys getForeignKeys() {
+    public DBObjects<DamengForeignKey> getForeignKeys() {
         return foreignKeys;
     }
 
-    public void setForeignKeys(DamengForeignKeys foreignKeys) {
+    public void setForeignKeys(DBObjects<DamengForeignKey> foreignKeys) {
         this.foreignKeys = foreignKeys;
     }
 

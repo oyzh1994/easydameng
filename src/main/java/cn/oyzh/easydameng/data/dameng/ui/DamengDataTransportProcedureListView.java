@@ -1,7 +1,7 @@
 package cn.oyzh.easydameng.data.dameng.ui;
 
 import cn.oyzh.common.util.CollectionUtil;
-import cn.oyzh.easydameng.dameng.procedure.DamengProcedure;
+import cn.oyzh.easydameng.procedure.DamengProcedure;
 import cn.oyzh.fx.db.data.dto.DBDataTransportObject;
 import cn.oyzh.fx.db.data.ui.DBDataTransportObjectListView;
 
