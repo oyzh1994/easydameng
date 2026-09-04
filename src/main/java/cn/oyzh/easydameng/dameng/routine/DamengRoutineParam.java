@@ -3,7 +3,7 @@ package cn.oyzh.easydameng.dameng.routine;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.fx.db.DBDialect;
-import cn.oyzh.fx.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBObject;
 import cn.oyzh.fx.db.DBColumnFieldManager;
 import cn.oyzh.easydameng.fx.routine.DamengParamModeComboBox;
 import cn.oyzh.easydameng.fx.table.DBEnumTextFiled;
@@ -24,7 +24,7 @@ import java.util.Objects;
  * @author oyzh
  * @since 2024/7/1
  */
-public class DamengRoutineParam extends DBObjectStatus {
+public class DamengRoutineParam extends DBObject {
 
     private ShellDamengClient dbClient;
 

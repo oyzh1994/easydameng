@@ -5,7 +5,7 @@ import cn.oyzh.common.object.Destroyable;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
-import cn.oyzh.fx.db.DBObjectStatus;
+import cn.oyzh.fx.db.DBObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Set;
  * @author oyzh
  * @since 2023/12/20
  */
-public class DamengRecord extends DBObjectStatus implements Destroyable {
+public class DamengRecord extends DBObject implements Destroyable {
 
     /**
      * 是否只读
