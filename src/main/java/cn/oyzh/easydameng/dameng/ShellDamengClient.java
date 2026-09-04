@@ -4,12 +4,12 @@ import cn.oyzh.common.log.JulLog;
 import cn.oyzh.common.util.CollectionUtil;
 import cn.oyzh.common.util.IOUtil;
 import cn.oyzh.common.util.StringUtil;
-import cn.oyzh.easydameng.dameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.check.DamengChecks;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
+import cn.oyzh.easydameng.dameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKey;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKeys;
 import cn.oyzh.easydameng.dameng.function.DamengAlertFunctionParam;
@@ -41,6 +41,7 @@ import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengUpdateRecordParam;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineParam;
+import cn.oyzh.easydameng.dameng.schema.DamengSchema;
 import cn.oyzh.easydameng.dameng.table.DamengAlertTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengCreateTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengSelectTableParam;
@@ -52,13 +53,14 @@ import cn.oyzh.easydameng.dameng.view.DamengCreateViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengSelectViewParam;
 import cn.oyzh.easydameng.dameng.view.DamengView;
 import cn.oyzh.easydameng.data.db.DBConnState;
-import cn.oyzh.easydameng.dameng.schema.DamengSchema;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.exception.ReadonlyOperationException;
 import cn.oyzh.easydameng.util.ShellDamengUtil;
+import cn.oyzh.fx.db.DBClient;
 import cn.oyzh.fx.db.DBConnConfig;
+import cn.oyzh.fx.db.DBConnManager;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBFeature;
 import cn.oyzh.fx.db.query.DBQueryResults;
@@ -90,7 +92,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author oyzh
  * @since 2023/11/06
  */
-public class ShellDamengClient {
+public class ShellDamengClient implements DBClient {
 
     /**
      * db信息
@@ -105,139 +107,33 @@ public class ShellDamengClient {
     /**
      * 数据库连接管理器
      */
-    protected DamengConnManager connManager;
+    protected DBConnManager connManager;
 
-    //    protected final DBConnConfig connConfig = new DBConnConfig();
-    //
-    //    private boolean isInvalid(Connection connection) throws SQLException {
-    //        if (connection == null || connection.isClosed()) {
-    //            return true;
-    //        }
-    //        return !connection.isValid(10);
-    //    }
-    //
-    //    public Connection connection() throws SQLException, ClassNotFoundException {
-    //        Connection connection = this.connManager.connectionManager.getServerConnection();
-    //        if (this.isInvalid(connection)) {
-    //            connection = this.initConnection(this.connConfig, null, this.dbConnect.getUser(), this.dbConnect.getPassword());
-    //            this.connManager.connectionManager.setServerConnection(connection);
-    //        }
-    //        return connection;
-    //    }
-    //
-    //    public Connection connection(String dbName) throws SQLException, ClassNotFoundException {
-    //        Connection connection = this.connManager.connectionManager.getConnection(dbName);
-    //        if (this.isInvalid(connection)) {
-    //            connection = this.initConnection(this.connConfig, dbName, this.dbConnect.getUser(), this.dbConnect.getPassword());
-    //            this.connManager.connectionManager.addConnection(dbName, connection);
-    //        }
-    //        connection.setAutoCommit(true);
-    //        return connection;
-    //    }
-    //
-    //    public Connection connection(String dbName, String schema) throws SQLException, ClassNotFoundException {
-    //        if (schema == null) {
-    //            return this.connManager.connection(dbName);
-    //        }
-    //        Connection connection = this.connManager.connectionManager.getSchemaConnection(dbName, schema);
-    //        if (this.isInvalid(connection)) {
-    //            connection = this.initConnection(this.connConfig, dbName, this.dbConnect.getUser(), this.dbConnect.getPassword());
-    //            this.connManager.connectionManager.addSchemaConnection(dbName, schema, connection);
-    //        }
-    //        connection.setAutoCommit(true);
-    //        return connection;
-    //    }
-    //
-    //    public Connection functionConnection(String dbName) throws SQLException, ClassNotFoundException {
-    //        return this.functionConnection(dbName, null);
-    //    }
-    //
-    //    public Connection functionConnection(String dbName, String schema) throws SQLException, ClassNotFoundException {
-    //        Connection connection = this.connManager.connectionManager.getFunctionConnection(dbName, schema);
-    //        if (this.isInvalid(connection)) {
-    //            connection = this.initConnection(this.connConfig, dbName, this.dbConnect.getUser(), this.dbConnect.getPassword());
-    //            this.connManager.connectionManager.addFunctionConnection(dbName, schema, connection);
-    //        }
-    //        connection.setAutoCommit(true);
-    //        return connection;
-    //    }
-    //
-    //    public Connection procedureConnection(String dbName) throws SQLException, ClassNotFoundException {
-    //        return this.procedureConnection(dbName, null);
-    //    }
-    //
-    //    public Connection procedureConnection(String dbName, String schema) throws SQLException, ClassNotFoundException {
-    //        Connection connection = this.connManager.connectionManager.getProcedureConnection(dbName, schema);
-    //        if (this.isInvalid(connection)) {
-    //            connection = this.initConnection(this.connConfig, dbName, this.dbConnect.getUser(), this.dbConnect.getPassword());
-    //            this.connManager.connectionManager.addProcedureConnection(dbName, schema, connection);
-    //        }
-    //        connection.setAutoCommit(true);
-    //        return connection;
-    //    }
-    //
-    //    public Connection newConnection(String dbName) throws SQLException, ClassNotFoundException {
-    //        Connection connection = this.initConnection(this.connConfig, dbName, this.dbConnect.getUser(), this.dbConnect.getPassword());
-    //        connection.setAutoCommit(true);
-    //        return connection;
-    //    }
-    //
-    //    protected Connection initConnection(DBConnConfig connConfig, String dbName, String user, String password) throws ClassNotFoundException, SQLException {
-    //        // 加载JDBC驱动
-    //        Class.forName("dm.jdbc.driver.DmDriver");
-    //        String host = connConfig.getConnectionString();
-    //        if (dbName != null) {
-    //            host += dbName;
-    //        }
-    //        // 创建数据库连接
-    //        return DriverManager.getConnection(host, user, password);
-    //    }
-
-    /**
-     * 连接状态
-     */
-    private final ReadOnlyObjectWrapper<DBConnState> state = new ReadOnlyObjectWrapper<>();
+    @Override
+    public DBConnManager getConnManager() {
+        if (this.connManager == null) {
+            this.connManager = new DamengConnManager();
+        }
+        return this.connManager;
+    }
 
     /**
      * 属性列表
      */
     private Map<String, Object> properties;
 
-    /**
-     * 获取属性
-     *
-     * @param key 键
-     * @param <T> 属性类型
-     * @return 属性
-     */
-    protected <T> T getProperty(String key) {
-        return this.properties == null || key == null ? null : (T) this.properties.get(key);
-    }
-
-    /**
-     * 是否有此属性
-     *
-     * @param key 键
-     * @return 结果
-     */
-    protected boolean hasProperty(String key) {
-        return this.properties != null && this.properties.containsKey(key);
-    }
-
-    /**
-     * 添加属性
-     *
-     * @param key   键
-     * @param value 值
-     */
-    protected void putProperty(String key, Object value) {
-        if (key != null && value != null) {
-            if (this.properties == null) {
-                this.properties = new HashMap<>();
-            }
-            this.properties.put(key, value);
+    @Override
+    public Map<String, Object> getProperties() {
+        if (this.properties == null) {
+            this.properties = new HashMap<>();
         }
+        return this.properties;
     }
+
+    /**
+     * 连接状态
+     */
+    private final ReadOnlyObjectWrapper<DBConnState> state = new ReadOnlyObjectWrapper<>();
 
     /**
      * 获取连接状态
@@ -744,6 +640,28 @@ public class ShellDamengClient {
         return version;
     }
 
+    @Override
+    public String selectProduct() {
+        if (this.hasProperty("product")) {
+            return this.getProperty("product");
+        }
+        String product = "";
+        try {
+            Connection conn = this.getConnManager().connection();
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT BANNER FROM V$VERSION;");
+            if (resultSet.next()) {
+                product = resultSet.getString(1);
+            }
+            this.putProperty("product", product);
+            IOUtil.close(resultSet);
+            IOUtil.close(stmt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return product;
+    }
+
     //public void dropEvent(String dbName, DamengEvent event) {
     //    try {
     //        String sql = "DROP EVENT " + DBUtil.wrap(event.getDbName(), event.getName(), DBDialect.DAMENG);
@@ -1178,13 +1096,13 @@ public class ShellDamengClient {
             }
             builder.append(")");
             builder.append(" VALUES(");
-//            for (String column : param.getRecord().columns()) {
-//                //                if (param.getRecord().isTypeGeometry(column)) {
-//                //                    builder.append("ST_GeomFromText(?),");
-//                //                } else {
-//                builder.append("?,");
-//                //                }
-//            }
+            //            for (String column : param.getRecord().columns()) {
+            //                //                if (param.getRecord().isTypeGeometry(column)) {
+            //                //                    builder.append("ST_GeomFromText(?),");
+            //                //                } else {
+            //                builder.append("?,");
+            //                //                }
+            //            }
             builder.append(")");
             String sql = builder.toString();
             sql = sql.replaceAll(",\\)", ")");
@@ -2283,17 +2201,17 @@ public class ShellDamengClient {
         }
     }
 
-//    /**
-//     * 重命名事件
-//     *
-//     * @param dbName       库名称
-//     * @param oldEventName 事件名称
-//     * @param newEventName 新事件名称
-//     */
-//    public void renameEvent(String dbName, String oldEventName, String newEventName) {
-//        // 达梦使用调度器JOB代替MySQL EVENT，重命名操作需通过DBMS_SCHEDULER包实现，暂不支持
-//        throw new DBException("达梦调度器JOB重命名暂不支持");
-//    }
+    //    /**
+    //     * 重命名事件
+    //     *
+    //     * @param dbName       库名称
+    //     * @param oldEventName 事件名称
+    //     * @param newEventName 新事件名称
+    //     */
+    //    public void renameEvent(String dbName, String oldEventName, String newEventName) {
+    //        // 达梦使用调度器JOB代替MySQL EVENT，重命名操作需通过DBMS_SCHEDULER包实现，暂不支持
+    //        throw new DBException("达梦调度器JOB重命名暂不支持");
+    //    }
 
     public void clearTable(String schema, String tableName) {
         try {
@@ -2334,46 +2252,46 @@ public class ShellDamengClient {
         }
     }
 
-//    public List<String> charsets() {
-//        if (this.hasProperty("charsets")) {
-//            return this.getProperty("charsets");
-//        }
-//        try {
-//            // 达梦常用字符集列表（系统视图查询可能因版本差异失败，直接返回静态列表）
-//            List<String> charsets = new ArrayList<>();
-//            charsets.add("UTF-8");
-//            charsets.add("GBK");
-//            charsets.add("GB18030");
-//            charsets.add("GB2312");
-//            charsets.add("ISO-8859-1");
-//            this.putProperty("charsets", charsets);
-//            return charsets;
-//        } catch (Exception ex) {
-//            throw new DBException(ex);
-//        }
-//    }
+    //    public List<String> charsets() {
+    //        if (this.hasProperty("charsets")) {
+    //            return this.getProperty("charsets");
+    //        }
+    //        try {
+    //            // 达梦常用字符集列表（系统视图查询可能因版本差异失败，直接返回静态列表）
+    //            List<String> charsets = new ArrayList<>();
+    //            charsets.add("UTF-8");
+    //            charsets.add("GBK");
+    //            charsets.add("GB18030");
+    //            charsets.add("GB2312");
+    //            charsets.add("ISO-8859-1");
+    //            this.putProperty("charsets", charsets);
+    //            return charsets;
+    //        } catch (Exception ex) {
+    //            throw new DBException(ex);
+    //        }
+    //    }
 
-//    public List<String> collation(String charset) {
-//        try {
-//            Map<String, List<String>> collations = this.getProperty("collation");
-//            if (collations == null) {
-//                collations = new HashMap<>();
-//                this.putProperty("collations", collations);
-//            }
-//            charset = charset.toUpperCase();
-//            if (collations.containsKey(charset)) {
-//                return collations.get(charset.toUpperCase());
-//            }
-//            // 达梦排序规则：返回默认列表
-//            List<String> list = new ArrayList<>();
-//            list.add("BINARY");
-//            list.add("BINARY_CI");
-//            collations.put(charset, list);
-//            return list;
-//        } catch (Exception ex) {
-//            throw new DBException(ex);
-//        }
-//    }
+    //    public List<String> collation(String charset) {
+    //        try {
+    //            Map<String, List<String>> collations = this.getProperty("collation");
+    //            if (collations == null) {
+    //                collations = new HashMap<>();
+    //                this.putProperty("collations", collations);
+    //            }
+    //            charset = charset.toUpperCase();
+    //            if (collations.containsKey(charset)) {
+    //                return collations.get(charset.toUpperCase());
+    //            }
+    //            // 达梦排序规则：返回默认列表
+    //            List<String> list = new ArrayList<>();
+    //            list.add("BINARY");
+    //            list.add("BINARY_CI");
+    //            collations.put(charset, list);
+    //            return list;
+    //        } catch (Exception ex) {
+    //            throw new DBException(ex);
+    //        }
+    //    }
 
     public boolean existSchema(String schema) {
         boolean result = false;
@@ -3043,12 +2961,12 @@ public class ShellDamengClient {
             DBUtil.printMetaData(resultSet);
             DamengColumns columns = DamengHelper.parseColumns(resultSet);
             DamengRecord record = new DamengRecord(columns);
-//            while (resultSet.next()) {
-//                for (DamengColumn column : columns) {
-//                    Object data = resultSet.getObject(column.getName());
-//                    record.putValue(column, data);
-//                }
-//            }
+            //            while (resultSet.next()) {
+            //                for (DamengColumn column : columns) {
+            //                    Object data = resultSet.getObject(column.getName());
+            //                    record.putValue(column, data);
+            //                }
+            //            }
             IOUtil.close(resultSet);
             IOUtil.close(statement);
             return record;
