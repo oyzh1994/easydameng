@@ -77,11 +77,11 @@ public class DamengHelper {
     //        DBUtil.close(statement);
     //        return createDefinition;
     //    }
-
-    public static String showCreateEvent(Connection connection, String eventName) throws Exception {
-        // Dameng does not support MySQL-style events; return empty string
-        return "";
-    }
+//
+//    public static String showCreateEvent(Connection connection, String eventName) throws Exception {
+//        // Dameng does not support MySQL-style events; return empty string
+//        return "";
+//    }
 
     //public static List<DamengRoutineParam> listRoutineParam(Connection connection, String dbName, String routineName, String routineType) throws Exception {
     //    String sql = """
@@ -312,19 +312,19 @@ public class DamengHelper {
     //        return null;
     //    }
 
-    public static Long lastInsertId(Connection connection) throws Exception {
-        //        String sql = "SELECT IDENTITY_VAL_LOCAL();";
-        String sql = "SELECT @@IDENTITY FROM DUAL";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
-        Long insertId = null;
-        if (resultSet.next()) {
-            insertId = resultSet.getLong(1);
-        }
-        IOUtil.close(statement);
-        IOUtil.close(resultSet);
-        return insertId;
-    }
+//    public static Long lastInsertId(Connection connection) throws Exception {
+//        //        String sql = "SELECT IDENTITY_VAL_LOCAL();";
+//        String sql = "SELECT @@IDENTITY FROM DUAL";
+//        Statement statement = connection.createStatement();
+//        ResultSet resultSet = statement.executeQuery(sql);
+//        Long insertId = null;
+//        if (resultSet.next()) {
+//            insertId = resultSet.getLong(1);
+//        }
+//        IOUtil.close(statement);
+//        IOUtil.close(resultSet);
+//        return insertId;
+//    }
 
     //    public static String columnType(Connection connection, String dbName, String tableName, String columnName) throws Exception {
     //        String sql = "SELECT DATA_TYPE FROM ALL_TAB_COLUMNS WHERE OWNER = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?";

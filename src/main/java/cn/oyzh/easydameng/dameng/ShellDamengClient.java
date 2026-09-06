@@ -23,10 +23,6 @@ import cn.oyzh.easydameng.dameng.generator.table.DamengTableCreateSqlGenerator;
 import cn.oyzh.easydameng.dameng.generator.view.DamengViewAlertSqlGenerator;
 import cn.oyzh.easydameng.dameng.generator.view.DamengViewCreateSqlGenerator;
 import cn.oyzh.easydameng.dameng.index.DamengIndex;
-import cn.oyzh.easydameng.procedure.DamengAlertProcedureParam;
-import cn.oyzh.easydameng.procedure.DamengCreateProcedureParam;
-import cn.oyzh.easydameng.procedure.DamengProcedure;
-import cn.oyzh.easydameng.procedure.DamengSelectProcedureParam;
 import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
@@ -53,6 +49,10 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.easydameng.exception.DBException;
 import cn.oyzh.easydameng.exception.ReadonlyOperationException;
+import cn.oyzh.easydameng.procedure.DamengAlertProcedureParam;
+import cn.oyzh.easydameng.procedure.DamengCreateProcedureParam;
+import cn.oyzh.easydameng.procedure.DamengProcedure;
+import cn.oyzh.easydameng.procedure.DamengSelectProcedureParam;
 import cn.oyzh.easydameng.util.ShellDamengUtil;
 import cn.oyzh.fx.db.DBClient;
 import cn.oyzh.fx.db.DBConnConfig;
@@ -815,6 +815,26 @@ public class ShellDamengClient implements DBClient {
         return this.isSupportFeature(DBFeature.CHECK);
     }
 
+    @Override
+    public Object getGeneratedKeys(Statement statement) throws Exception {
+        ResultSet rs = statement.getGeneratedKeys();
+        Long newId = null;
+        if (rs.next()) {
+            newId = rs.getLong(1);
+        } else {
+            IOUtil.close(statement);
+            String sql = "SELECT @@IDENTITY FROM DUAL";
+            statement = statement.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                newId = resultSet.getLong(1);
+            }
+        }
+        IOUtil.close(statement);
+        IOUtil.close(rs);
+        return newId;
+    }
+
     //    public boolean isSupportEventFeature() {
     //        return this.isSupportFeature(DBFeature.EVENT);
     //    }
@@ -1114,14 +1134,7 @@ public class ShellDamengClient implements DBClient {
             DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
             // 处理自动递增值
             if (primaryKey != null && primaryKey.shouldReturnData()) {
-                ResultSet rs = statement.getGeneratedKeys();
-                Long newId;
-                if (rs.next()) {
-                    newId = rs.getLong(1);
-                } else {
-                    newId = DamengHelper.lastInsertId(connection);
-                }
-                IOUtil.close(rs);
+                Long newId = (Long) this.getGeneratedKeys(statement);
                 primaryKey.setReturnData(newId);
             }
             IOUtil.close(statement);

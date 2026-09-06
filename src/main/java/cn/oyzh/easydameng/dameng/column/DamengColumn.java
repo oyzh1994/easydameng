@@ -458,18 +458,22 @@ public class DamengColumn extends DBObject implements DBColumn, ObjectCopier<Dam
         return BooleanUtil.isTrue(this.nullable);
     }
 
+    @Override
     public boolean isYearType() {
         return DamengColumnUtil.isYearType(this.getType());
     }
 
+    @Override
     public boolean isDateType() {
         return DamengColumnUtil.isDateType(this.getType());
     }
 
+    @Override
     public boolean isDateTimeType() {
         return DamengColumnUtil.isDateTimeType(this.getType());
     }
 
+    @Override
     public boolean isTimeType() {
         return DamengColumnUtil.isTimeType(this.getType());
     }
