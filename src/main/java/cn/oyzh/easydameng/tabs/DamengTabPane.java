@@ -172,8 +172,9 @@ public class DamengTabPane extends RichTabPane implements FXEventListener {
         String schema = event.getSchema();
         DamengTerminalTab tab = this.getTerminalTab(client, schema);
         if (tab == null) {
-            tab = new DamengTerminalTab(client, schema);
-            super.addTab(tab);
+            DamengTerminalTab tab1 = new DamengTerminalTab();
+            tab1.init(event.data(), event.getSchema());
+            super.addTab(tab1);
         }
         this.select(tab);
     }

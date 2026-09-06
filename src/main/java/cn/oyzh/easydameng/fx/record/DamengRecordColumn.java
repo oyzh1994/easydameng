@@ -1,6 +1,5 @@
 package cn.oyzh.easydameng.fx.record;
 
-import atlantafx.base.controls.Popover;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.popups.DamengFieldInfoPopupController;
@@ -22,7 +21,6 @@ import javafx.scene.control.OverrunStyle;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.PopupWindow;
 
 import java.util.List;
 
@@ -238,7 +236,7 @@ public class DamengRecordColumn extends FXTableColumn<DamengRecord, Object> impl
      * 显示字段信息
      */
     private void showColumnInfo() {
-        PopupAdapter popup = PopupManager.parsePopup(DamengFieldInfoPopupController.class, Popover.ArrowLocation.TOP_LEFT, PopupWindow.AnchorLocation.CONTENT_TOP_LEFT);
+        PopupAdapter popup = PopupManager.parsePopup(DamengFieldInfoPopupController.class);
         popup.setProp("column", this.column);
         popup.showPopup(this.getGraphic(), MouseUtil.getMouseX(), MouseUtil.getMouseY());
     }

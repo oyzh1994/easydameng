@@ -15,9 +15,9 @@ import javafx.scene.Cursor;
  */
 public class DamengTerminalTab extends RichTab {
 
-    public DamengTerminalTab(ShellDamengClient client, String schema) {
-        this.init(client, schema);
-    }
+    //public DamengTerminalTab(ShellDamengClient client, String schema) {
+    //    this.init(client, schema);
+    //}
 
     @Override
     public DamengTerminalTabController controller() {
@@ -54,7 +54,7 @@ public class DamengTerminalTab extends RichTab {
      * @param client dameng客户端
      * @param schema 模式
      */
-    private void init(ShellDamengClient client, String schema) {
+    public void init(ShellDamengClient client, String schema) {
         try {
             if (client == null) {
                 DamengConnect connect = new DamengConnect();
