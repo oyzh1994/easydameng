@@ -9,13 +9,13 @@ import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
 import cn.oyzh.easydameng.dameng.function.DamengFunction;
-import cn.oyzh.easydameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.dameng.table.DamengSelectTableParam;
 import cn.oyzh.easydameng.dameng.table.DamengTable;
 import cn.oyzh.easydameng.dameng.trigger.DamengTrigger;
 import cn.oyzh.easydameng.dameng.view.DamengView;
+import cn.oyzh.easydameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.util.DamengDataUtil;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.data.handler.DBDataDumpHandler;
@@ -36,7 +36,7 @@ public class DamengDataDumpHandler extends DBDataDumpHandler {
     protected ShellDamengClient dbClient;
 
     public DamengDataDumpHandler(ShellDamengClient dbClient, String dbName) {
-        super(dbName);
+        super(dbName, DBDialect.DAMENG);
         this.dbClient = dbClient;
     }
 
