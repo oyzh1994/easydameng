@@ -10,8 +10,8 @@ import cn.oyzh.easydameng.dameng.record.DamengRecord;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.util.DamengDataUtil;
 import cn.oyzh.fx.db.DBDialect;
-import cn.oyzh.fx.db.data.handler.DBDataTransportHandler;
 import cn.oyzh.fx.db.data.dto.DBDataTransportObject;
+import cn.oyzh.fx.db.data.handler.DBDataTransportHandler;
 import cn.oyzh.fx.db.util.DBUtil;
 
 import java.util.List;
@@ -56,6 +56,10 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
      * 过程
      */
     protected List<DBDataTransportObject> procedures;
+
+    public DamengDataTransportHandler() {
+        super(DBDialect.DAMENG);
+    }
 
     @Override
     public void doTransport() throws Exception {
