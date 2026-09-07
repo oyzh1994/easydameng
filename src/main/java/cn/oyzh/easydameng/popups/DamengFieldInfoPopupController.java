@@ -16,6 +16,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.stage.PopupWindow;
 import javafx.stage.WindowEvent;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.List;
  */
 @PopupAttribute(
         cssUrls = DamengStyle.MAIN,
+        anchorLocation = PopupWindow.AnchorLocation.CONTENT_TOP_LEFT,
         value = FXConst.POPUP_PATH + "damengFieldInfoPopup.fxml"
 )
 public class DamengFieldInfoPopupController extends PopupController {

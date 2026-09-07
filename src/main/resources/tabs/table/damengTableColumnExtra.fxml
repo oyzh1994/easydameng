@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import cn.oyzh.easydameng.fx.DBCharsetComboBox?>
-<?import cn.oyzh.easydameng.fx.DBCollationComboBox?>
 <?import cn.oyzh.easydameng.fx.table.DamengDefaultValueTextFiled?>
 <?import cn.oyzh.easydameng.fx.table.DBEnumTextFiled?>
 <?import cn.oyzh.fx.plus.controls.box.FXHBox?>
