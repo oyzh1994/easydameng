@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.test.projectcover;
 
-import cn.oyzh.fx.plus.util.CoverManager;
+import cn.oyzh.fx.plus.util.FXCoverChecker;
 import cn.oyzh.fx.plus.window.StageManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -16,10 +16,11 @@ public class EasyDamengCoverStarter extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         StageManager.setPrimaryStage(primaryStage);
-        CoverManager.setProjectPath(EasyDamengCoverStarter.class.getResource("").toExternalForm());
-        CoverManager.tabCheck();
-        //CoverManager.viewCheck();
-        //CoverManager.popupCheck();
+        FXCoverChecker coverChecker = new FXCoverChecker();
+        coverChecker.setProjectPath(EasyDamengCoverStarter.class.getResource("").toExternalForm());
+        coverChecker.tabCheck();
+        coverChecker.viewCheck();
+        coverChecker.popupCheck();
         StageManager.exit();
     }
 }
