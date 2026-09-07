@@ -3,8 +3,8 @@ package cn.oyzh.easydameng.controller.data;
 import cn.oyzh.common.system.SystemUtil;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.data.dameng.handler.DamengDataRunSqlFileHandler;
+import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.fx.gui.text.area.MsgTextArea;
 import cn.oyzh.fx.gui.text.field.ChooseFileTextField;
 import cn.oyzh.fx.gui.text.field.ReadOnlyTextField;
@@ -38,7 +38,7 @@ import java.io.IOException;
  */
 @StageAttribute(
         stageStyle = FXStageStyle.EXTENDED,
-//        modality = Modality.WINDOW_MODAL,
+        //        modality = Modality.WINDOW_MODAL,
         value = FXConst.FXML_PATH + "data/dbRunSqlFile.fxml"
 )
 public class ShellDamengDataRunSqlFileController extends StageController {
@@ -143,11 +143,7 @@ public class ShellDamengDataRunSqlFileController extends StageController {
             this.sqlFileHandler = new DamengDataRunSqlFileHandler(this.dbClient, this.database.getText());
             this.sqlFileHandler.setMessageHandler(str -> this.execMsg.appendLine(str))
                     .setProcessedHandler(count -> {
-                        if (count > 0) {
-                            this.counter.incrSuccess(count);
-                        } else {
-                            this.counter.incrFail(Math.abs(count));
-                        }
+                        this.counter.incr(count);
                         this.updateStatus(I18nHelper.execInProgress());
                     });
         } else {

@@ -4,16 +4,16 @@ import cn.oyzh.common.system.SystemUtil;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
-import cn.oyzh.easydameng.util.DBClientUtil;
-import cn.oyzh.easydameng.domain.DamengConnect;
-import cn.oyzh.easydameng.fx.DBSchemaComboBox;
-import cn.oyzh.easydameng.fx.DBInfoComboBox;
+import cn.oyzh.easydameng.data.dameng.handler.DamengDataTransportHandler;
 import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportFunctionListView;
 import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportProcedureListView;
 import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportTableListView;
 import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportTriggerListView;
 import cn.oyzh.easydameng.data.dameng.ui.DamengDataTransportViewListView;
-import cn.oyzh.easydameng.data.dameng.handler.DamengDataTransportHandler;
+import cn.oyzh.easydameng.domain.DamengConnect;
+import cn.oyzh.easydameng.fx.DBInfoComboBox;
+import cn.oyzh.easydameng.fx.DBSchemaComboBox;
+import cn.oyzh.easydameng.util.DBClientUtil;
 import cn.oyzh.fx.gui.text.area.MsgTextArea;
 import cn.oyzh.fx.plus.FXConst;
 import cn.oyzh.fx.plus.controller.StageController;
@@ -41,7 +41,7 @@ import javafx.stage.WindowEvent;
  */
 @StageAttribute(
         stageStyle = FXStageStyle.EXTENDED,
-//        modality = Modality.WINDOW_MODAL,
+        //        modality = Modality.WINDOW_MODAL,
         value = FXConst.FXML_PATH + "data/dbDataTransport.fxml"
 )
 public class ShellDamengDataTransportController extends StageController {
@@ -206,11 +206,11 @@ public class ShellDamengDataTransportController extends StageController {
     @FXML
     private FXTitledPane triggerPane;
 
-//    /**
-//     * 事件组件
-//     */
-//    @FXML
-//    private FXTab eventPane;
+    //    /**
+    //     * 事件组件
+    //     */
+    //    @FXML
+    //    private FXTab eventPane;
 
     /**
      * 表列表
@@ -218,11 +218,11 @@ public class ShellDamengDataTransportController extends StageController {
     @FXML
     private DamengDataTransportTableListView tableList;
 
-//    /**
-//     * 事件列表
-//     */
-//    @FXML
-//    private DataTransportEventListView eventList;
+    //    /**
+    //     * 事件列表
+    //     */
+    //    @FXML
+    //    private DataTransportEventListView eventList;
 
     /**
      * 视图列表
@@ -274,15 +274,11 @@ public class ShellDamengDataTransportController extends StageController {
         this.transportMsg.clear();
         this.transportStatus.clear();
         // 生成传输处理器
-        if (this.transportHandler == null ) {
+        if (this.transportHandler == null) {
             this.transportHandler = new DamengDataTransportHandler();
             this.transportHandler.setMessageHandler(str -> this.transportMsg.appendLine(str))
                     .setProcessedHandler(count -> {
-                        if (count > 0) {
-                            this.counter.incrSuccess(count);
-                        } else {
-                            this.counter.incrFail(Math.abs(count));
-                        }
+                        this.counter.incr(count);
                         this.updateStatus(I18nHelper.transportInProgress());
                     });
         } else {
@@ -422,7 +418,7 @@ public class ShellDamengDataTransportController extends StageController {
 
         this.viewList.setSelectedChanged(() -> this.flushPaneText("view"));
         this.tableList.setSelectedChanged(() -> this.flushPaneText("table"));
-//        this.eventList.setSelectedChanged(() -> this.flushPaneText("event"));
+        //        this.eventList.setSelectedChanged(() -> this.flushPaneText("event"));
         this.triggerList.setSelectedChanged(() -> this.flushPaneText("trigger"));
         this.functionList.setSelectedChanged(() -> this.flushPaneText("function"));
         this.procedureList.setSelectedChanged(() -> this.flushPaneText("procedure"));
@@ -513,9 +509,9 @@ public class ShellDamengDataTransportController extends StageController {
         if (this.viewList.isItemEmpty()) {
             this.viewList.of(this.sourceClient.selectViews(this.sourceDatabase.getSelectedItem()));
         }
-//        if (this.eventList.isItemEmpty()) {
-//            this.eventList.of(this.sourceClient.events(this.sourceDatabase.getSelectedItem()));
-//        }
+        //        if (this.eventList.isItemEmpty()) {
+        //            this.eventList.of(this.sourceClient.events(this.sourceDatabase.getSelectedItem()));
+        //        }
         if (this.tableList.isItemEmpty()) {
             this.tableList.of(this.sourceClient.selectTables(this.sourceDatabase.getSelectedItem()));
         }
@@ -544,7 +540,7 @@ public class ShellDamengDataTransportController extends StageController {
      */
     private void clearList() {
         this.viewList.clearItems();
-//        this.eventList.clearItems();
+        //        this.eventList.clearItems();
         this.tableList.clearItems();
         this.functionList.clearItems();
         this.procedureList.clearItems();
@@ -559,9 +555,9 @@ public class ShellDamengDataTransportController extends StageController {
         if (StringUtil.equalsIgnoreCase(name, "view")) {
             String viewTipText = "(" + this.viewList.getSelectedSize() + "/" + this.viewList.getItemSize() + ")";
             this.viewPane.setAppendText(viewTipText);
-//        } else if (StringUtil.equalsIgnoreCase(name, "event")) {
-//            String eventTipText = "(" + this.eventList.getSelectedSize() + "/" + this.eventList.getItemSize() + ")";
-//            this.eventPane.setAppendText(eventTipText);
+            //        } else if (StringUtil.equalsIgnoreCase(name, "event")) {
+            //            String eventTipText = "(" + this.eventList.getSelectedSize() + "/" + this.eventList.getItemSize() + ")";
+            //            this.eventPane.setAppendText(eventTipText);
         } else if (StringUtil.equalsIgnoreCase(name, "table")) {
             String tableTipText = "(" + this.tableList.getSelectedSize() + "/" + this.tableList.getItemSize() + ")";
             this.tablePane.setAppendText(tableTipText);

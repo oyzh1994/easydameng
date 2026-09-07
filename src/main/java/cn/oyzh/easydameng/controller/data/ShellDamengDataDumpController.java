@@ -4,9 +4,9 @@ import cn.oyzh.common.file.FileUtil;
 import cn.oyzh.common.system.SystemUtil;
 import cn.oyzh.common.thread.ThreadUtil;
 import cn.oyzh.easydameng.dameng.ShellDamengClient;
+import cn.oyzh.easydameng.data.dameng.handler.DamengDataDumpHandler;
 import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.easydameng.fx.data.DBDumpDataTypeComboBox;
-import cn.oyzh.easydameng.data.dameng.handler.DamengDataDumpHandler;
 import cn.oyzh.fx.gui.text.area.MsgTextArea;
 import cn.oyzh.fx.gui.text.field.ReadOnlyTextField;
 import cn.oyzh.fx.plus.FXConst;
@@ -178,11 +178,7 @@ public class ShellDamengDataDumpController extends StageController {
             this.dumpHandler.setQueryLimit(10_000)
                     .setMessageHandler(str -> this.dumpMsg.appendLine(str))
                     .setProcessedHandler(count -> {
-                        if (count > 0) {
-                            this.counter.incrSuccess(count);
-                        } else {
-                            this.counter.incrFail(Math.abs(count));
-                        }
+                        this.counter.incr(count);
                         this.updateStatus(I18nHelper.dumpInProgress());
                     });
         } else {
