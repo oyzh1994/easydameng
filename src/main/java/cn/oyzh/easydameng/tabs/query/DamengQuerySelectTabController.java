@@ -7,7 +7,6 @@ import cn.oyzh.easydameng.dameng.query.DamengExecuteResult;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengInsertRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
-import cn.oyzh.easydameng.dameng.record.DamengRecordData;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengUpdateRecordParam;
@@ -18,6 +17,7 @@ import cn.oyzh.easydameng.fx.DBStatusColumn;
 import cn.oyzh.easydameng.fx.record.DamengRecordColumn;
 import cn.oyzh.easydameng.fx.record.DamengRecordTableView;
 import cn.oyzh.easydameng.util.ShellDamengViewFactory;
+import cn.oyzh.fx.db.DBRecordData;
 import cn.oyzh.fx.db.listener.DBStatusListener;
 import cn.oyzh.fx.db.listener.DBStatusListenerManager;
 import cn.oyzh.fx.db.util.DBUtil;
@@ -232,7 +232,7 @@ public class DamengQuerySelectTabController extends RichTabController {
      * @param record 记录
      */
     private void insertRecord(DamengRecord record) {
-        DamengRecordData recordData = record.getRecordData();
+        DBRecordData recordData = record.getRecordData();
         DamengRecordPrimaryKey primaryKey = this.initPrimaryKey(record);
         DamengInsertRecordParam param = new DamengInsertRecordParam();
         param.setRecord(recordData);
@@ -264,7 +264,7 @@ public class DamengQuerySelectTabController extends RichTabController {
         // 主键存在，则根据主键更新
         if (primaryKey != null) {
             // 记录数据
-            DamengRecordData recordData = record.getChangedRecordData();
+            DBRecordData recordData = record.getChangedRecordData();
             // 如果主键未变更，则移除主键数据
             if (!record.isColumnChanged(primaryKey.getColumnName())) {
                 recordData.remove(primaryKey.getColumnName());
@@ -284,9 +284,9 @@ public class DamengQuerySelectTabController extends RichTabController {
             record.copy(this.dbItem.selectRecord(selectRecordParam));
         } else {// 主键不存在，则根据所有字段更新
             // 变更数据
-            DamengRecordData changedRecordData = record.getChangedRecordData();
+            DBRecordData changedRecordData = record.getChangedRecordData();
             // 原始数据
-            DamengRecordData originalRecordData = record.getOriginalRecordData();
+            DBRecordData originalRecordData = record.getOriginalRecordData();
             param.setUpdateRecord(originalRecordData);
             param.setUpdateRecord(changedRecordData);
             // 更新行

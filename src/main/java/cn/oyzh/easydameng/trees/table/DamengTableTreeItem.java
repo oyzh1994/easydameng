@@ -15,7 +15,6 @@ import cn.oyzh.easydameng.dameng.index.DamengIndex;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengInsertRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
-import cn.oyzh.easydameng.dameng.record.DamengRecordData;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
@@ -28,6 +27,7 @@ import cn.oyzh.easydameng.trees.DBTreeItem;
 import cn.oyzh.easydameng.trees.schema.DamengSchemaTreeItem;
 import cn.oyzh.easydameng.util.DamengI18nHelper;
 import cn.oyzh.fx.db.DBObjects;
+import cn.oyzh.fx.db.DBRecordData;
 import cn.oyzh.fx.gui.menu.MenuItemHelper;
 import cn.oyzh.fx.gui.svg.glyph.CopySVGGlyph;
 import cn.oyzh.fx.gui.tree.view.RichTreeView;
@@ -356,11 +356,11 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         return this.columns.primaryKeys().isEmpty();
     }
 
-    public int insertRecord(DamengRecordData recordData) {
+    public int insertRecord(DBRecordData recordData) {
         return this.insertRecord(recordData, null);
     }
 
-    public int insertRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
+    public int insertRecord(DBRecordData recordData, DamengRecordPrimaryKey primaryKey) {
         DamengInsertRecordParam param = new DamengInsertRecordParam();
         param.setRecord(recordData);
         param.setSchema(this.schema());
@@ -369,7 +369,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         return this.client().insertRecord(param);
     }
 
-    public int deleteRecord(DamengRecordData recordData) {
+    public int deleteRecord(DBRecordData recordData) {
         DamengDeleteRecordParam param = new DamengDeleteRecordParam();
         param.setSchema(this.schema());
         param.setTableName(this.tableName());
@@ -393,7 +393,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         return this.client().selectRecord(param);
     }
 
-    public int updateRecord(DamengRecordData recordData, DamengRecordPrimaryKey primaryKey) {
+    public int updateRecord(DBRecordData recordData, DamengRecordPrimaryKey primaryKey) {
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
         param.setSchema(this.schema());
         param.setTableName(this.tableName());
@@ -402,7 +402,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
         return this.client().updateRecord(param);
     }
 
-    public int updateRecord(DamengRecordData recordData, DamengRecordData originalRecordData) {
+    public int updateRecord(DBRecordData recordData, DBRecordData originalRecordData) {
         DamengUpdateRecordParam param = new DamengUpdateRecordParam();
         param.setSchema(this.schema());
         param.setTableName(this.tableName());

@@ -1,6 +1,8 @@
 package cn.oyzh.easydameng.dameng.record;
 
 
+import cn.oyzh.fx.db.DBRecordData;
+
 /**
  * @author oyzh
  * @since 2024-09-13
@@ -11,7 +13,7 @@ public class DamengDeleteRecordParam {
 
     private String tableName;
 
-    private DamengRecordData record;
+    private DBRecordData record;
 
     private DamengRecordPrimaryKey primaryKey;
 
@@ -31,11 +33,11 @@ public class DamengDeleteRecordParam {
         this.tableName = tableName;
     }
 
-    public DamengRecordData getRecord() {
+    public DBRecordData getRecord() {
         return record;
     }
 
-    public void setRecord(DamengRecordData record) {
+    public void setRecord(DBRecordData record) {
         this.record = record;
     }
 

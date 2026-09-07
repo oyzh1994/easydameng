@@ -28,7 +28,6 @@ import cn.oyzh.easydameng.dameng.query.DamengExplainResult;
 import cn.oyzh.easydameng.dameng.record.DamengDeleteRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengInsertRecordParam;
 import cn.oyzh.easydameng.dameng.record.DamengRecord;
-import cn.oyzh.easydameng.dameng.record.DamengRecordData;
 import cn.oyzh.easydameng.dameng.record.DamengRecordFilter;
 import cn.oyzh.easydameng.dameng.record.DamengRecordPrimaryKey;
 import cn.oyzh.easydameng.dameng.record.DamengSelectRecordParam;
@@ -60,6 +59,7 @@ import cn.oyzh.fx.db.DBConnManager;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBFeature;
 import cn.oyzh.fx.db.DBObjects;
+import cn.oyzh.fx.db.DBRecordData;
 import cn.oyzh.fx.db.query.DBQueryResults;
 import cn.oyzh.fx.db.sql.DBSqlParser;
 import cn.oyzh.fx.db.util.DBUtil;
@@ -816,7 +816,7 @@ public class ShellDamengClient implements DBClient {
     }
 
     @Override
-    public Object getGeneratedKeys(Statement statement) throws Exception {
+    public Long getGeneratedKeys(Statement statement) throws Exception {
         ResultSet rs = statement.getGeneratedKeys();
         Long newId = null;
         if (rs.next()) {
@@ -1134,7 +1134,7 @@ public class ShellDamengClient implements DBClient {
             DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
             // 处理自动递增值
             if (primaryKey != null && primaryKey.shouldReturnData()) {
-                Long newId = (Long) this.getGeneratedKeys(statement);
+                Long newId = this.getGeneratedKeys(statement);
                 primaryKey.setReturnData(newId);
             }
             IOUtil.close(statement);
@@ -1156,7 +1156,7 @@ public class ShellDamengClient implements DBClient {
                     .append(DBUtil.wrap(schema, tableName, DBDialect.DAMENG))
                     .append(" WHERE ");
             if (param.getPrimaryKey() == null) {
-                DamengRecordData recordData = param.getRecord();
+                DBRecordData recordData = param.getRecord();
                 boolean first = true;
                 for (String colName : recordData.columns()) {
                     if (first) {
@@ -1204,7 +1204,7 @@ public class ShellDamengClient implements DBClient {
             int updateCount;
             String schema = param.getSchema();
             String tableName = param.getTableName();
-            DamengRecordData recordData = param.getUpdateRecord();
+            DBRecordData recordData = param.getUpdateRecord();
             StringBuilder builder = new StringBuilder();
             builder.append("UPDATE ")
                     .append(DBUtil.wrap(schema, tableName, DBDialect.DAMENG))
@@ -1216,7 +1216,7 @@ public class ShellDamengClient implements DBClient {
             builder.append(" WHERE ");
             Connection connection = this.connManager.connection(schema);
             if (param.getPrimaryKey() == null) {
-                DamengRecordData originalRecordData = param.getRecord();
+                DBRecordData originalRecordData = param.getRecord();
                 // 参数
                 boolean first = true;
                 for (String column : originalRecordData.columns()) {
@@ -1253,7 +1253,7 @@ public class ShellDamengClient implements DBClient {
                 DamengRecordPrimaryKey primaryKey = param.getPrimaryKey();
                 builder.append(DBUtil.wrap(primaryKey.getColumnName(), DBDialect.DAMENG)).append(" = ?");
                 String sql = builder.toString();
-                ShellDamengUtil.printInfo(sql, recordData);
+                DBUtil.printInfo(sql, recordData);
                 PreparedStatement statement = connection.prepareStatement(sql);
                 int index = 1;
                 // 设置值
