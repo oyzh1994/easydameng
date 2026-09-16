@@ -51,7 +51,7 @@ public class EasyDamengApp extends FXApplication {
     public static void main(String[] args) {
         try {
             // 开启fx的预览功能
-            FXUtil.enablePreview();
+//            FXUtil.enablePreview();
             SysConst.projectName(PROJECT.getName());
             JulLog.info("项目启动中...");
             // 储存初始化
