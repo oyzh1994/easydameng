@@ -178,7 +178,7 @@ public class ShellDamengQueryEditor extends DBQueryEditor {
     }
 
     @Override
-    protected Font getEditorFont() {
+    public Font getEditorFont() {
         DamengSetting setting = DamengSettingStore.SETTING;
         return FontManager.toFont(setting.editorFontConfig());
     }

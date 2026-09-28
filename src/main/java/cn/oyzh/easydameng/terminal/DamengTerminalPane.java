@@ -29,7 +29,7 @@ import java.util.List;
 public class DamengTerminalPane extends TerminalPane {
 
     @Override
-    protected Font getEditorFont() {
+    public Font getEditorFont() {
         DamengSetting setting = DamengSettingStore.SETTING;
         return FontManager.toFont(setting.terminalFontConfig());
     }
