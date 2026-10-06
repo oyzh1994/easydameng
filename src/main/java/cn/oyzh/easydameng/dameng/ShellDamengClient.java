@@ -52,7 +52,6 @@ import cn.oyzh.easydameng.procedure.DamengAlertProcedureParam;
 import cn.oyzh.easydameng.procedure.DamengCreateProcedureParam;
 import cn.oyzh.easydameng.procedure.DamengProcedure;
 import cn.oyzh.easydameng.procedure.DamengSelectProcedureParam;
-import cn.oyzh.easydameng.util.ShellDamengUtil;
 import cn.oyzh.fx.db.DBClient;
 import cn.oyzh.fx.db.DBConnConfig;
 import cn.oyzh.fx.db.DBConnManager;
@@ -63,8 +62,6 @@ import cn.oyzh.fx.db.DBRecordData;
 import cn.oyzh.fx.db.query.DBQueryResults;
 import cn.oyzh.fx.db.sql.DBSqlParser;
 import cn.oyzh.fx.db.util.DBUtil;
-import com.alibaba.druid.DbType;
-import com.alibaba.druid.sql.SQLUtils;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
@@ -2490,10 +2487,7 @@ public class ShellDamengClient implements DBClient {
         return result;
     }
 
-    public DbType dbType() {
-        return DBDialect.DAMENG.dbType();
-    }
-
+    @Override
     public DBDialect dialect() {
         return DBDialect.DAMENG;
     }
@@ -3272,15 +3266,12 @@ public class ShellDamengClient implements DBClient {
      */
     private void printSql(String sql) {
         DBUtil.printSql(sql);
-        String compressedSql = sql;
+        String compressedSql;
         try {
-            // 压缩sql
-            SQLUtils.FormatOption formatOption = new SQLUtils.FormatOption();
-            formatOption.setUppCase(true);
-            formatOption.setPrettyFormat(false);
-            compressedSql = SQLUtils.format(sql, this.dbType(), formatOption);
+            compressedSql = DBSqlParser.getParser(sql, this.dialect()).compressSql();
         } catch (Exception ex) {
             ex.printStackTrace();
+            compressedSql = sql;
         }
         DamengEventUtil.printSql(compressedSql, this.dbConnect);
     }
