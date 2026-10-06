@@ -385,12 +385,8 @@ public class ShellDamengClient implements DBClient {
                     boolean isQuery = statement.execute(execSql);
                     if (isQuery) {
                         ResultSet resultSet = statement.getResultSet();
-                        if (parser.isSingle()) {
-                            result.setFullColumn(parser.isFullColumn());
-                        } else {
-                            result.setFullColumn(DBUtil.isFullColumn(this.dialect(), execSql));
-                        }
-                        result.parseResult(resultSet, connection, !parser.isSelect());
+                        result.setFullColumn(parser.isFullColumn(execSql));
+                        result.parseResult(resultSet, connection, !parser.isSelect(execSql));
                         IOUtil.close(resultSet);
                         result.setSuccess(true);
                     } else {
@@ -2412,12 +2408,8 @@ public class ShellDamengClient implements DBClient {
                 boolean isQuery = statement.execute(execSql);
                 if (isQuery) {
                     ResultSet resultSet = statement.getResultSet();
-                    if (parser.isSingle()) {
-                        result.setFullColumn(parser.isFullColumn());
-                    } else {
-                        result.setFullColumn(DBUtil.isFullColumn(this.dialect(), execSql));
-                    }
-                    result.parseResult(resultSet, connection, !parser.isSelect());
+                    result.setFullColumn(parser.isFullColumn(sql));
+                    result.parseResult(resultSet, connection, !parser.isSelect(sql));
                     IOUtil.close(resultSet);
                     result.setSuccess(true);
                 } else {
@@ -3266,13 +3258,7 @@ public class ShellDamengClient implements DBClient {
      */
     private void printSql(String sql) {
         DBUtil.printSql(sql);
-        String compressedSql;
-        try {
-            compressedSql = DBSqlParser.getParser(sql, this.dialect()).compressSql();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            compressedSql = sql;
-        }
+        String compressedSql = DBSqlParser.compressSql(sql, this.dialect());
         DamengEventUtil.printSql(compressedSql, this.dbConnect);
     }
 }
