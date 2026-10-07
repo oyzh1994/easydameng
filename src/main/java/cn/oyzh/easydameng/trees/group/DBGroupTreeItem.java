@@ -50,6 +50,12 @@ public class DBGroupTreeItem extends DBTreeItem<DBGroupTreeItemValue> implements
      */
     private final DamengGroupStore groupStore = DamengGroupStore.INSTANCE;
 
+    /**
+     * 构造分组树节点
+     *
+     * @param group    分组对象
+     * @param treeView 所属树视图
+     */
     public DBGroupTreeItem( DamengGroup group,  DBTreeView treeView) {
         super(treeView);
         this.value = group;
@@ -216,6 +222,11 @@ public class DBGroupTreeItem extends DBTreeItem<DBGroupTreeItemValue> implements
         }
     }
 
+    /**
+     * 获取分组对象
+     *
+     * @return 分组对象
+     */
     public DamengGroup value() {
         return value;
     }

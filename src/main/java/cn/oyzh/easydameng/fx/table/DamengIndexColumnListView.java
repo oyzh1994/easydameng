@@ -30,10 +30,19 @@ public class DamengIndexColumnListView extends FXListView<FXHBox> {
      */
     private List<String> columnNames;
 
+    /**
+     * 构造索引字段选择框
+     */
     public DamengIndexColumnListView() {
 
     }
 
+    /**
+     * 初始化索引字段列表
+     *
+     * @param dbIndex    索引
+     * @param columnList 字段列表
+     */
     public void init(DamengIndex dbIndex, List<DamengColumn> columnList) {
         this.clearItems();
         this.columnNames = columnList.parallelStream().map(DamengColumn::getName).collect(Collectors.toList());
@@ -44,6 +53,11 @@ public class DamengIndexColumnListView extends FXListView<FXHBox> {
         }
     }
 
+    /**
+     * 添加索引字段
+     *
+     * @param column 索引字段
+     */
     public void addColumn(DamengIndex.IndexColumn column) {
         FXComboBox<String> comboBox = new FXComboBox<>();
         comboBox.setRealWidth(300);
@@ -70,6 +84,11 @@ public class DamengIndexColumnListView extends FXListView<FXHBox> {
         this.addItem(comboBox);
     }
 
+    /**
+     * 获取索引字段列表
+     *
+     * @return 索引字段列表
+     */
     public List<DamengIndex.IndexColumn> getColumns() {
         List<DamengIndex.IndexColumn> list = new ArrayList<>();
         for (Node item : this.getItems()) {

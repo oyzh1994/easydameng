@@ -28,11 +28,21 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 达梦数据库记录工具类，负责记录字段节点的创建、格式化与右键菜单生成。
+ *
  * @author oyzh
  * @since 2024/7/17
  */
 public class DamengRecordUtil {
 
+    /**
+     * 根据字段信息创建记录字段节点
+     *
+     * @param property 记录属性
+     * @param object   字段值
+     * @param column   字段信息
+     * @return 字段节点
+     */
     public static Node getNode(DamengRecordProperty property, Object object, DamengColumn column) {
         object = DamengDataUtil.valueStandardization(object);
         Node node;
@@ -116,6 +126,13 @@ public class DamengRecordUtil {
         return node;
     }
 
+    /**
+     * 根据字段信息格式化字段值
+     *
+     * @param object 字段值
+     * @param column 字段信息
+     * @return 格式化后的字符串
+     */
     public static String formatValue(Object object, DamengColumn column) {
         object = DamengDataUtil.valueStandardization(object);
         String val = null;
@@ -184,12 +201,24 @@ public class DamengRecordUtil {
     //        return w3 + 30;
     //    }
 
+    /**
+     * 获取字段右键菜单
+     *
+     * @param property 记录属性
+     * @return 右键菜单
+     */
     public static ContextMenu getColumnContextMenu(DamengRecordProperty property) {
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.getItems().setAll(getColumnMenuItem(property));
         return contextMenu;
     }
 
+    /**
+     * 获取字段右键菜单项列表
+     *
+     * @param property 记录属性
+     * @return 菜单项列表
+     */
     public static List<FXMenuItem> getColumnMenuItem(DamengRecordProperty property) {
         List<FXMenuItem> menuItems = new ArrayList<>();
         FXMenuItem copy = MenuItemHelper.copy_no_graphic(property::vCopy);

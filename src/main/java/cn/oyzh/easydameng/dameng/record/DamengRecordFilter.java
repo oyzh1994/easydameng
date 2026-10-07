@@ -40,6 +40,7 @@ public class DamengRecordFilter extends DBRecordFilter {
      * 获取值
      *
      * @return 值
+     * @throws Exception 异常
      */
     public Object value() throws Exception {
         if (this.valueBox == null || this.valueBox.isChildEmpty()) {
@@ -128,9 +129,10 @@ public class DamengRecordFilter extends DBRecordFilter {
     }
 
     /**
-     * 获取条件
+     * 获取条件表达式
      *
-     * @return 条件
+     * @return 条件表达式
+     * @throws Exception 异常
      */
     public String condition() throws Exception {
         return this.condition.wrapCondition(this.value());
@@ -145,10 +147,20 @@ public class DamengRecordFilter extends DBRecordFilter {
         return this.condition.isRequireCondition();
     }
 
+    /**
+     * 获取条件对象
+     *
+     * @return 条件对象
+     */
     public DamengCondition getCondition() {
         return condition;
     }
 
+    /**
+     * 设置条件对象
+     *
+     * @param condition 条件对象
+     */
     public void setCondition(DamengCondition condition) {
         this.condition = condition;
     }

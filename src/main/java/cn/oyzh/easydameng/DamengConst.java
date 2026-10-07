@@ -4,7 +4,7 @@ package cn.oyzh.easydameng;
 import java.io.File;
 
 /**
- * db常量对象
+ * 达梦数据库客户端常量对象，集中定义存储路径、图标等全局常量。
  *
  * @author oyzh
  * @since 2023/06/16

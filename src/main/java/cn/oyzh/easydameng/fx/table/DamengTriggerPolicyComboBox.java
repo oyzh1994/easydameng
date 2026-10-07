@@ -3,6 +3,8 @@ package cn.oyzh.easydameng.fx.table;
 import cn.oyzh.fx.plus.controls.combo.FXComboBox;
 
 /**
+ * 触发器策略下拉框
+ *
  * @author oyzh
  * @since 2024/7/9
  */

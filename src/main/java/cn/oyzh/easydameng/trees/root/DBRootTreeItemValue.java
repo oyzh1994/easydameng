@@ -8,7 +8,7 @@ import cn.oyzh.i18n.I18nHelper;
 
 
 /**
- * redis 根节点值
+ * 数据库树根节点值
  *
  * @author oyzh
  * @since 2023/11/21

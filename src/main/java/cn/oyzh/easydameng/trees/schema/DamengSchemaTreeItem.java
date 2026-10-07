@@ -62,7 +62,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * db树database节点
+ * 数据库树模式节点
  *
  * @author oyzh
  * @since 2023/12/12
@@ -74,10 +74,21 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
      */
     private final DamengSchema value;
 
+    /**
+     * 获取当前模式对象
+     *
+     * @return 当前模式对象
+     */
     public DamengSchema value() {
         return value;
     }
 
+    /**
+     * 构造模式树节点
+     *
+     * @param database 模式对象
+     * @param treeView 所属树视图
+     */
     public DamengSchemaTreeItem(DamengSchema database, RichTreeView treeView) {
         super(treeView);
         super.setSortable(false);
@@ -91,10 +102,20 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         return (DBConnectTreeItem) super.parent();
     }
 
+    /**
+     * 获取模式名称
+     *
+     * @return 模式名称
+     */
     public String schema() {
         return this.value.getName();
     }
 
+    /**
+     * 获取用户名
+     *
+     * @return 用户名
+     */
     public String userName() {
         return this.info().getUser();
     }
@@ -275,7 +296,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
     /**
      * 获取函数节点列表
      *
-     * @return 过程节点列表
+     * @return 函数节点列表
      */
     public List<DamengFunctionTreeItem> getFunctionChild() {
         List<DamengFunctionTreeItem> list = new ArrayList<>();
@@ -336,9 +357,9 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
     //    }
 
     /**
-     * 获取查询类型子节点
+     * 获取视图类型子节点
      *
-     * @return 查询类型子节点
+     * @return 视图类型子节点
      */
     public DamengViewsTreeItem getViewTypeChild() {
         for (RichTreeItem<?> child : this.richChildren()) {
@@ -365,23 +386,28 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
     }
 
     /**
-     * 获取db客户端
+     * 获取数据库客户端
      *
-     * @return db客户端
+     * @return 数据库客户端
      */
     public ShellDamengClient client() {
         return this.parent().getClient();
     }
 
     /**
-     * 获取db信息
+     * 获取连接信息
      *
-     * @return db信息
+     * @return 连接信息
      */
     public DamengConnect info() {
         return this.parent().value();
     }
 
+    /**
+     * 获取表数量
+     *
+     * @return 表数量
+     */
     public Integer tableSize() {
         try {
             return this.client().tableSize(this.schema());
@@ -391,14 +417,29 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         return 0;
     }
 
+    /**
+     * 获取视图数量
+     *
+     * @return 视图数量
+     */
     public Integer viewSize() {
         return this.client().viewSize(this.schema());
     }
 
+    /**
+     * 获取连接名称
+     *
+     * @return 连接名称
+     */
     public String infoName() {
         return this.info().getName();
     }
 
+    /**
+     * 获取连接名称
+     *
+     * @return 连接名称
+     */
     public String connectName() {
         return this.info().getName();
     }
@@ -412,6 +453,16 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         }
     }
 
+    /**
+     * 创建表
+     *
+     * @param table       表对象
+     * @param columns     列集合
+     * @param indexes     索引集合
+     * @param foreignKeys 外键集合
+     * @param triggers    触发器集合
+     * @param checks      检查约束集合
+     */
     public void createTable(DamengTable table, DamengColumns columns, DBObjects<DamengIndex> indexes, DBObjects<DamengForeignKey> foreignKeys, DBObjects<DamengTrigger> triggers, DBObjects<DamengCheck> checks) {
         DamengCreateTableParam param = new DamengCreateTableParam();
         param.setTable(table);
@@ -423,10 +474,26 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().createTable(param);
     }
 
+    /**
+     * 创建表
+     *
+     * @param param 建表参数
+     */
     public void createTable(DamengCreateTableParam param) {
         this.client().createTable(param);
     }
 
+    /**
+     * 构建建表参数
+     *
+     * @param table       表对象
+     * @param columns     列集合
+     * @param indexes     索引集合
+     * @param foreignKeys 外键集合
+     * @param triggers    触发器集合
+     * @param checks      检查约束集合
+     * @return 建表参数
+     */
     public DamengCreateTableParam createTableParam(DamengTable table, DamengColumns columns, DBObjects<DamengIndex> indexes, DBObjects<DamengForeignKey> foreignKeys, DBObjects<DamengTrigger> triggers, DBObjects<DamengCheck> checks) {
         DamengCreateTableParam param = new DamengCreateTableParam();
         param.setTable(table);
@@ -438,6 +505,16 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         return param;
     }
 
+    /**
+     * 修改表
+     *
+     * @param table       表对象
+     * @param columns     列集合
+     * @param indexes     索引集合
+     * @param foreignKeys 外键集合
+     * @param triggers    触发器集合
+     * @param checks      检查约束集合
+     */
     public void alterTable(DamengTable table, DamengColumns columns, DBObjects<DamengIndex> indexes, DBObjects<DamengForeignKey> foreignKeys, DBObjects<DamengTrigger> triggers, DBObjects<DamengCheck> checks) {
         DamengAlertTableParam param = new DamengAlertTableParam();
         param.setTable(table);
@@ -451,10 +528,26 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().alertTable(param);
     }
 
+    /**
+     * 修改表
+     *
+     * @param param 改表参数
+     */
     public void alterTable(DamengAlertTableParam param) {
         this.client().alertTable(param);
     }
 
+    /**
+     * 构建改表参数
+     *
+     * @param table       表对象
+     * @param columns     列集合
+     * @param indexes     索引集合
+     * @param foreignKeys 外键集合
+     * @param triggers    触发器集合
+     * @param checks      检查约束集合
+     * @return 改表参数
+     */
     public DamengAlertTableParam alterTableParam(DamengTable table, DamengColumns columns, DBObjects<DamengIndex> indexes, DBObjects<DamengForeignKey> foreignKeys, DBObjects<DamengTrigger> triggers, DBObjects<DamengCheck> checks) {
         DamengAlertTableParam param = new DamengAlertTableParam();
         param.setTable(table);
@@ -468,10 +561,22 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         return param;
     }
 
+    /**
+     * 查询主键列
+     *
+     * @param tableName 表名称
+     * @return 主键列名称集合
+     */
     public List<String> selectePrimaryKeys(String tableName) {
         return this.client().selectePrimaryKeys(this.schema(), tableName);
     }
 
+    /**
+     * 是否存在自增列
+     *
+     * @param tableName 表名称
+     * @return 是否存在自增列
+     */
     public boolean existAutoIncrement(String tableName) {
         return this.client().existAutoIncrement(this.schema(), tableName);
     }
@@ -483,11 +588,23 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
     //    return this.client().selectFullTable(param);
     //}
 
+    /**
+     * 是否存在表
+     *
+     * @param tableName 表名称
+     * @return 是否存在表
+     */
     @Deprecated
     public boolean existTable(String tableName) {
         return this.client().existTable(this.schema(), tableName);
     }
 
+    /**
+     * 重命名表
+     *
+     * @param oldTableName 旧表名称
+     * @param newTableName 新表名称
+     */
     public void renameTable(String oldTableName, String newTableName) {
         this.client().renameTable(this.schema(), oldTableName, newTableName);
     }
@@ -502,30 +619,68 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
 //        this.client().renameEvent(this.schema(), oldEventName, newEventName);
 //    }
 
+    /**
+     * 清空表数据
+     *
+     * @param tableName 表名称
+     */
     public void clearTable(String tableName) {
         this.client().clearTable(this.schema(), tableName);
     }
 
+    /**
+     * 截断表
+     *
+     * @param tableName 表名称
+     */
     public void truncateTable(String tableName) {
         this.client().truncateTable(this.schema(), tableName);
     }
 
+    /**
+     * 删除表
+     *
+     * @param tableName 表名称
+     */
     public void dropTable(String tableName) {
         this.client().dropTable(this.schema(), tableName);
     }
 
+    /**
+     * 执行sql
+     *
+     * @param sql sql语句
+     * @return 执行结果集
+     */
     public DBQueryResults<DamengExecuteResult> executeSql(String sql) {
         return this.client().executeSql(this.schema(), sql);
     }
 
+    /**
+     * 执行单条sql
+     *
+     * @param sql sql语句
+     * @return 执行结果
+     */
     public DamengExecuteResult executeSingleSql(String sql) {
         return this.client().executeSingleSql(this.schema(), sql);
     }
 
+    /**
+     * 解析sql执行计划
+     *
+     * @param sql sql语句
+     * @return 解析结果集
+     */
     public DBQueryResults<DamengExplainResult> explainSql(String sql) {
         return this.client().explainSql(this.schema(), sql);
     }
 
+    /**
+     * 创建函数
+     *
+     * @param function 函数对象
+     */
     public void createFunction(DamengFunction function) {
         DamengCreateFunctionParam param = new DamengCreateFunctionParam();
         param.setFunction(function);
@@ -533,6 +688,11 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().createFunction(param);
     }
 
+    /**
+     * 修改函数
+     *
+     * @param function 函数对象
+     */
     public void alertFunction(DamengFunction function) {
         DamengAlertFunctionParam param = new DamengAlertFunctionParam();
         param.setFunction(function);
@@ -540,15 +700,31 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().alertFunction(param);
     }
 
+    /**
+     * 删除函数
+     *
+     * @param function 函数对象
+     */
     public void dropFunction(DamengFunction function) {
         function.setSchema(this.schema());
         this.client().dropFunction(function);
     }
 
+    /**
+     * 查询存储过程
+     *
+     * @param procedureName 存储过程名称
+     * @return 存储过程对象
+     */
     public DamengProcedure selectProcedure(String procedureName) {
         return this.client().selectProcedure(this.schema(), procedureName);
     }
 
+    /**
+     * 创建存储过程
+     *
+     * @param procedure 存储过程对象
+     */
     public void createProcedure(DamengProcedure procedure) {
         DamengCreateProcedureParam param = new DamengCreateProcedureParam();
         param.setProcedure(procedure);
@@ -556,6 +732,11 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().createProcedure(param);
     }
 
+    /**
+     * 修改存储过程
+     *
+     * @param procedure 存储过程对象
+     */
     public void alertProcedure(DamengProcedure procedure) {
         DamengAlertProcedureParam param = new DamengAlertProcedureParam();
         param.setProcedure(procedure);
@@ -563,22 +744,50 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().alertProcedure(param);
     }
 
+    /**
+     * 删除存储过程
+     *
+     * @param procedure 存储过程对象
+     */
     public void dropProcedure(DamengProcedure procedure) {
         this.client().dropProcedure(this.schema(), procedure);
     }
 
+    /**
+     * 查询函数
+     *
+     * @param functionName 函数名称
+     * @return 函数对象
+     */
     public DamengFunction selectFunction(String functionName) {
         return this.client().selectFunction(this.schema(), functionName);
     }
 
+    /**
+     * 查询视图
+     *
+     * @param viewName 视图名称
+     * @return 视图对象
+     */
     public DamengView selectView(String viewName) {
         return this.client().selectView(this.schema(), viewName);
     }
 
+    /**
+     * 查询表
+     *
+     * @param tableName 表名称
+     * @return 表对象
+     */
     public DamengTable selectTable(String tableName) {
         return this.client().selectTable(this.schema(), tableName);
     }
 
+    /**
+     * 创建视图
+     *
+     * @param view 视图对象
+     */
     public void createView(DamengView view) {
         DamengCreateViewParam param = new DamengCreateViewParam();
         param.setView(view);
@@ -586,6 +795,11 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().createView(param);
     }
 
+    /**
+     * 修改视图
+     *
+     * @param view 视图对象
+     */
     public void alertView(DamengView view) {
         DamengAlertViewParam param = new DamengAlertViewParam();
         param.setView(view);
@@ -593,11 +807,22 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         this.client().alertView(param);
     }
 
+    /**
+     * 删除视图
+     *
+     * @param view 视图对象
+     */
     public void dropView(DamengView view) {
         view.setSchema(this.schema());
         this.client().dropView(view);
     }
 
+    /**
+     * 是否存在视图
+     *
+     * @param viewName 视图名称
+     * @return 是否存在视图
+     */
     public boolean existView(String viewName) {
         return this.client().existView(this.schema(), viewName);
     }
@@ -629,26 +854,60 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
     //    this.client().dropEvent(this.schema(), event);
     //}
 
+    /**
+     * 是否支持检查约束特性
+     *
+     * @return 是否支持
+     */
     public boolean isSupportCheckFeature() {
         return this.client().isSupportCheckFeature();
     }
 
+    /**
+     * 获取数据库方言
+     *
+     * @return 数据库方言
+     */
     public DBDialect dialect() {
         return this.client().dialect();
     }
 
+    /**
+     * 删除记录
+     *
+     * @param param 删除记录参数
+     * @return 影响行数
+     */
     public int deleteRecord(DamengDeleteRecordParam param) {
         return this.client().deleteRecord(param);
     }
 
+    /**
+     * 获取表检查约束
+     *
+     * @param tableName 表名称
+     * @return 检查约束集合
+     */
     public DBObjects<DamengCheck> checks(String tableName) {
         return this.client().checks(this.schema(), tableName);
     }
 
+    /**
+     * 获取表触发器
+     *
+     * @param tableName 表名称
+     * @return 触发器集合
+     */
     public DBObjects<DamengTrigger> triggers(String tableName) {
         return this.client().selectTriggers(this.schema(), tableName);
     }
 
+    /**
+     * 获取表列信息
+     *
+     * @param tableName 表名称
+     * @return 表列集合
+     */
     public DamengColumns columns(String tableName) {
         DamengSelectColumnParam param = new DamengSelectColumnParam();
         param.setSchema(this.schema());
@@ -656,22 +915,52 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         return this.client().selectColumns(param);
     }
 
+    /**
+     * 获取表索引
+     *
+     * @param tableName 表名称
+     * @return 索引集合
+     */
     public DBObjects<DamengIndex> indexes(String tableName) {
         return this.client().indexes(this.schema(), tableName);
     }
 
+    /**
+     * 获取表外键
+     *
+     * @param tableName 表名称
+     * @return 外键集合
+     */
     public DBObjects<DamengForeignKey> foreignKeys(String tableName) {
         return this.client().foreignKeys(this.schema(), tableName);
     }
 
+    /**
+     * 查询单条记录
+     *
+     * @param param 查询记录参数
+     * @return 记录
+     */
     public DamengRecord selectRecord(DamengSelectRecordParam param) {
         return this.client().selectRecord(param);
     }
 
+    /**
+     * 获取数据库连接
+     *
+     * @return 数据库连接
+     */
     public DamengConnect dbConnect() {
         return this.client().getDbConnect();
     }
 
+    /**
+     * 克隆表
+     *
+     * @param tableName     表名称
+     * @param includeRecord 是否包含记录
+     * @return 克隆后的表名称
+     */
     public String cloneTable(String tableName, boolean includeRecord) {
         return this.client().cloneTable(this.schema(), tableName, includeRecord);
     }

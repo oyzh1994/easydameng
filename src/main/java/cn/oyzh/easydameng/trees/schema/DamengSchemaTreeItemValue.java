@@ -7,13 +7,18 @@ import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
 import javafx.scene.paint.Color;
 
 /**
- * database值
+ * 数据库模式节点值
  *
  * @author oyzh
  * @since 2023/12/20
  */
 public class DamengSchemaTreeItemValue extends RichTreeItemValue {
 
+    /**
+     * 构造模式节点值
+     *
+     * @param item 所属模式树节点
+     */
     public DamengSchemaTreeItemValue(DamengSchemaTreeItem item) {
         super(item);
     }

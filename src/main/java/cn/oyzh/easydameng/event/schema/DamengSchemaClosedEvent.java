@@ -5,6 +5,8 @@ import cn.oyzh.event.Event;
 import cn.oyzh.event.EventFormatter;
 
 /**
+ * 达梦数据库已关闭事件
+ *
  * @author oyzh
  * @since 2024/01/26
  */

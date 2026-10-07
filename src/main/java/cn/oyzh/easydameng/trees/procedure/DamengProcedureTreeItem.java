@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * db树视图节点
+ * 数据库树存储过程节点
  *
  * @author oyzh
  * @since 2024/12/27
@@ -30,10 +30,21 @@ public class DamengProcedureTreeItem extends DBTreeItem<DamengProcedureTreeItemV
      */
     private final DamengProcedure value;
 
+    /**
+     * 获取当前存储过程对象
+     *
+     * @return 当前存储过程对象
+     */
     public DamengProcedure value() {
         return value;
     }
 
+    /**
+     * 构造存储过程树节点
+     *
+     * @param procedure 存储过程对象
+     * @param treeView  所属树视图
+     */
     public DamengProcedureTreeItem(DamengProcedure procedure, RichTreeView treeView) {
         super(treeView);
         super.setFilterable(true);
@@ -47,18 +58,18 @@ public class DamengProcedureTreeItem extends DBTreeItem<DamengProcedureTreeItemV
     }
 
     /**
-     * 获取db客户端
+     * 获取数据库客户端
      *
-     * @return db客户端
+     * @return 数据库客户端
      */
     public ShellDamengClient client() {
         return this.parent().client();
     }
 
     /**
-     * 获取redis信息
+     * 获取连接信息
      *
-     * @return redis信息
+     * @return 连接信息
      */
     public DamengConnect info() {
         return this.parent().info();
@@ -78,6 +89,9 @@ public class DamengProcedureTreeItem extends DBTreeItem<DamengProcedureTreeItemV
         return items;
     }
 
+    /**
+     * 查看存储过程信息
+     */
     private void procedureInfo() {
         ShellDamengViewFactory.procedureInfo(this);
     }
@@ -95,14 +109,29 @@ public class DamengProcedureTreeItem extends DBTreeItem<DamengProcedureTreeItemV
         }
     }
 
+    /**
+     * 获取所属模式树节点
+     *
+     * @return 模式树节点
+     */
     public DamengSchemaTreeItem dbItem() {
         return this.parent().parent();
     }
 
+    /**
+     * 获取所属模式名称
+     *
+     * @return 模式名称
+     */
     public String schema() {
         return this.parent().schema();
     }
 
+    /**
+     * 获取连接名称
+     *
+     * @return 连接名称
+     */
     public String infoName() {
         return this.parent().infoName();
     }
@@ -112,6 +141,11 @@ public class DamengProcedureTreeItem extends DBTreeItem<DamengProcedureTreeItemV
         DamengEventUtil.designProcedure(this.value, this.dbItem());
     }
 
+    /**
+     * 获取存储过程名称
+     *
+     * @return 存储过程名称
+     */
     public String procedureName() {
         return this.value.getName();
     }

@@ -12,11 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 达梦字段控件
+ *
  * @author oyzh
  * @since 2024/09/14
  */
 public class DamengColumnControl extends DamengColumn {
 
+    /**
+     * 获取名称控件
+     *
+     * @return 名称控件
+     */
     public ClearableTextField getNameControl() {
         ClearableTextField textField = new ClearableTextField();
         textField.setPromptText(I18nHelper.pleaseInputName());
@@ -27,6 +34,11 @@ public class DamengColumnControl extends DamengColumn {
         return textField;
     }
 
+    /**
+     * 获取注释控件
+     *
+     * @return 注释控件
+     */
     public ClearableTextField getCommentControl() {
         ClearableTextField textField = new ClearableTextField();
         textField.setPromptText(I18nHelper.pleaseInputComment());
@@ -38,6 +50,11 @@ public class DamengColumnControl extends DamengColumn {
         return textField;
     }
 
+    /**
+     * 获取长度控件
+     *
+     * @return 长度控件
+     */
     public NumberTextField getSizeControl() {
         NumberTextField textField = new NumberTextField();
         textField.setFlexWidth("100% - 12");
@@ -52,6 +69,11 @@ public class DamengColumnControl extends DamengColumn {
         return textField;
     }
 
+    /**
+     * 获取小数位数控件
+     *
+     * @return 小数位数控件
+     */
     public NumberTextField getDigitsControl() {
         NumberTextField textField = new NumberTextField();
         textField.setFlexWidth("100% - 12");
@@ -62,6 +84,11 @@ public class DamengColumnControl extends DamengColumn {
         return textField;
     }
 
+    /**
+     * 获取类型控件
+     *
+     * @return 类型控件
+     */
     public DBFiledTypeComboBox getTypeControl() {
         DBFiledTypeComboBox comboBox = new DBFiledTypeComboBox();
         comboBox.setDialect(DBDialect.DAMENG);
@@ -72,6 +99,11 @@ public class DamengColumnControl extends DamengColumn {
         return comboBox;
     }
 
+    /**
+     * 获取可空控件
+     *
+     * @return 可空控件
+     */
     public FXCheckBox getNullableControl() {
         FXCheckBox checkBox = new FXCheckBox();
         checkBox.setSelected(this.isNullable());
@@ -87,6 +119,11 @@ public class DamengColumnControl extends DamengColumn {
         return checkBox;
     }
 
+    /**
+     * 获取主键控件
+     *
+     * @return 主键控件
+     */
     public FXCheckBox getPrimaryKeyControl() {
         FXCheckBox checkBox = new FXCheckBox();
         checkBox.setSelected(this.isPrimaryKey());
@@ -110,12 +147,24 @@ public class DamengColumnControl extends DamengColumn {
     //     return glyph;
     // }
 
+    /**
+     * 转换字段为控件对象
+     *
+     * @param column 字段
+     * @return 字段控件
+     */
     public static DamengColumnControl of(DamengColumn column) {
         DamengColumnControl control = new DamengColumnControl();
         control.copy(column);
         return control;
     }
 
+    /**
+     * 批量转换字段为控件对象
+     *
+     * @param columns 字段列表
+     * @return 字段控件列表
+     */
     public static List<DamengColumnControl> of(List<DamengColumn> columns) {
         List<DamengColumnControl> controls = new ArrayList<>();
         for (DamengColumn column : columns) {

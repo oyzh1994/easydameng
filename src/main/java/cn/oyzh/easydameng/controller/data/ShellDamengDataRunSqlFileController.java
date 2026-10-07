@@ -31,7 +31,7 @@ import java.io.IOException;
 
 
 /**
- * db运行sql业务
+ * 运行sql文件业务
  *
  * @author oyzh
  * @since 2024/08/29

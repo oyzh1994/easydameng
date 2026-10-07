@@ -5,13 +5,18 @@ import cn.oyzh.fx.gui.tree.view.RichTreeItemValue;
 import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
 
 /**
- * db树表节点值
+ * 数据库树视图节点值
  *
  * @author oyzh
  * @since 2023/12/22
  */
 public class DamengViewTreeItemValue extends RichTreeItemValue {
 
+    /**
+     * 构造视图节点值
+     *
+     * @param item 所属视图树节点
+     */
     public DamengViewTreeItemValue(DamengViewTreeItem item) {
         super(item);
     }

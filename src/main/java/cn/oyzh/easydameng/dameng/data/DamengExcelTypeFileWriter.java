@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 达梦 Excel 类型文件写出器
+ *
  * @author oyzh
  * @since 2024-09-04
  */
@@ -43,8 +45,17 @@ public class DamengExcelTypeFileWriter extends DamengTypeFileWriter {
      */
     private int xlsRowIndex = 1;
 
+    /** 文件路径 */
     private String filePath;
 
+    /**
+     * 构造 Excel 类型文件写出器
+     *
+     * @param filePath 目标文件路径
+     * @param config   导出配置
+     * @param columns  字段列表
+     * @throws IOException 工作薄创建异常
+     */
     public DamengExcelTypeFileWriter(String filePath, DamengDataExportConfig config, DamengColumns columns) throws IOException {
         this.columns = columns;
         this.config = config;
@@ -71,6 +82,13 @@ public class DamengExcelTypeFileWriter extends DamengTypeFileWriter {
         WorkbookHelper.write(this.workbook, this.filePath);
     }
 
+    /**
+     * 写入单条对象数据
+     *
+     * @param object 待写入的对象
+     * @param flush  是否立即写入文件
+     * @throws Exception 写入异常
+     */
     private void writeObject(Map<String, Object> object, boolean flush) throws Exception {
         // 处理数据
         Object[] values = new Object[this.columns.size()];

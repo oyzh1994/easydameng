@@ -9,15 +9,19 @@ import cn.oyzh.fx.db.util.DBUtil;
 import java.util.Collection;
 
 /**
- * 不介于列表条件
+ * 不介于条件
  *
  * @author oyzh
  * @since 2024/6/28
  */
 public class DamengNotBetweenCondition extends DamengCondition {
 
+    /** 不介于条件实例 */
     public final static DamengNotBetweenCondition INSTANCE = new DamengNotBetweenCondition();
 
+    /**
+     * 构造不介于条件
+     */
     public DamengNotBetweenCondition() {
         super(I18nHelper.notBetween(), "NOT BETWEEN");
     }

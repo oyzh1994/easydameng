@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 达梦查询解释标签内容组件
+ *
  * @author oyzh
  * @since 2024/08/16
  */

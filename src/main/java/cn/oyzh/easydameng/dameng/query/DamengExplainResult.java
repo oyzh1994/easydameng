@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
+ * 达梦执行计划结果
+ *
  * @author oyzh
  * @since 2024/08/16
  */

@@ -57,5 +57,10 @@ public enum DBConnState {
         }
     };
 
+    /**
+     * 获取是否已连接
+     *
+     * @return 是否已连接
+     */
     public abstract boolean isConnected();
 }

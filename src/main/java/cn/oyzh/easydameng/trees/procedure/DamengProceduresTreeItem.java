@@ -20,13 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * db树过程类型节点
+ * 数据库树存储过程分类节点
  *
  * @author oyzh
  * @since 2024/06/29
  */
 public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeItemValue> {
 
+    /**
+     * 构造存储过程分类树节点
+     *
+     * @param treeView 所属树视图
+     */
     public DamengProceduresTreeItem(RichTreeView treeView) {
         super(treeView);
         super.setFilterable(true);
@@ -48,6 +53,9 @@ public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeIte
         return items;
     }
 
+    /**
+     * 新增存储过程
+     */
     private void add() {
         DamengProcedure procedure = new DamengProcedure();
         procedure.setSchema(this.schema());
@@ -123,18 +131,38 @@ public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeIte
         this.loadChild();
     }
 
+    /**
+     * 获取所属模式名称
+     *
+     * @return 模式名称
+     */
     public String schema() {
         return this.parent().schema();
     }
 
+    /**
+     * 获取数据库客户端
+     *
+     * @return 数据库客户端
+     */
     public ShellDamengClient client() {
         return this.parent().client();
     }
 
+    /**
+     * 获取连接信息
+     *
+     * @return 连接信息
+     */
     public DamengConnect info() {
         return this.parent().info();
     }
 
+    /**
+     * 获取连接名称
+     *
+     * @return 连接名称
+     */
     public String infoName() {
         return this.parent().infoName();
     }
@@ -154,10 +182,20 @@ public class DamengProceduresTreeItem extends DBTreeItem<DamengProceduresTreeIte
     //    this.refresh();
     //}
 
+    /**
+     * 获取存储过程数量
+     *
+     * @return 存储过程数量
+     */
     public Integer procedureSize() {
         return this.client().procedureSize(this.schema());
     }
 
+    /**
+     * 添加存储过程子节点
+     *
+     * @param procedure 存储过程对象
+     */
     public void addProcedure(DamengProcedure procedure) {
         this.addChild(new DamengProcedureTreeItem(procedure, this.getTreeView()));
         this.sortChild(this.isSortAsc());

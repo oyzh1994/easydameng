@@ -7,13 +7,16 @@ import cn.oyzh.fx.plus.i18n.I18nResourceBundle;
 import javafx.scene.Cursor;
 
 /**
- * redis主页tab
+ * 数据库主页标签
  *
  * @author oyzh
  * @since 2023/6/24
  */
 public class DBHomeTab extends RichTab {
 
+    /**
+     * 构造数据库主页标签
+     */
     public DBHomeTab() {
         super();
         super.flush();

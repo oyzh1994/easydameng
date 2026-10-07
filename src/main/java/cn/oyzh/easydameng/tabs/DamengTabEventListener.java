@@ -43,33 +43,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 达梦标签页事件监听器，负责响应各类事件并增删、切换标签页
+ *
  * @author oyzh
  * @since 2024-09-12
  */
 public class DamengTabEventListener implements EventListener {
 
+    /**
+     * 标签页面板
+     */
     private final DamengTabPane tabPane;
 
+    /**
+     * 构造达梦标签页事件监听器
+     *
+     * @param tabPane 标签页面板
+     */
     public DamengTabEventListener(DamengTabPane tabPane) {
         this.tabPane = tabPane;
     }
 
+    /**
+     * 获取全部标签
+     *
+     * @return 标签列表
+     */
     private List<Tab> getTabs() {
         return this.tabPane.getTabs();
     }
 
+    /**
+     * 添加标签
+     *
+     * @param tab 标签
+     */
     private void addTab(Tab tab) {
         this.tabPane.addTab(tab);
     }
 
+    /**
+     * 选中标签
+     *
+     * @param tab 标签
+     */
     private void select(Tab tab) {
         this.tabPane.select(tab);
     }
 
+    /**
+     * 移除标签
+     *
+     * @param tab 标签
+     */
     private void removeTab(Tab tab) {
         this.tabPane.removeTab(tab);
     }
 
+    /**
+     * 批量移除标签
+     *
+     * @param tab 标签列表
+     */
     private void removeTab(List<? extends Tab> tab) {
         this.tabPane.removeTab(tab);
     }
@@ -89,6 +124,12 @@ public class DamengTabEventListener implements EventListener {
         return list;
     }
 
+    /**
+     * 获取指定数据库节点的标签列表
+     *
+     * @param dbItem 数据库节点
+     * @return 标签列表
+     */
     private List<DamengTab> getDamengTabs(DamengSchemaTreeItem dbItem) {
         List<DamengTab> list = new ArrayList<>();
         for (Tab tab : this.getTabs()) {
@@ -99,6 +140,13 @@ public class DamengTabEventListener implements EventListener {
         return list;
     }
 
+    /**
+     * 获取表数据标签
+     *
+     * @param dbItem    数据库节点
+     * @param tableName 表名称
+     * @return 表数据标签
+     */
     private DamengTableRecordTab getDamengTableRecordTab(DamengSchemaTreeItem dbItem, String tableName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengTableRecordTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(tableName, tab1.tableName())) {
@@ -283,6 +331,12 @@ public class DamengTabEventListener implements EventListener {
         }
     }
 
+    /**
+     * 获取查询标签
+     *
+     * @param queryId 查询编号
+     * @return 查询标签
+     */
     private DamengQueryMainTab getDamengQueryMainTab(String queryId) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengQueryMainTab tab1 && StringUtil.equals(tab1.queryId(), queryId)) {
@@ -384,6 +438,13 @@ public class DamengTabEventListener implements EventListener {
         this.removeTab(this.getDamengTabs(event.data()));
     }
 
+    /**
+     * 获取函数设计标签
+     *
+     * @param dbItem       数据库节点
+     * @param functionName 函数名称
+     * @return 函数设计标签
+     */
     private DamengFunctionDesignTab getDamengFunctionTab(DamengSchemaTreeItem dbItem, String functionName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengFunctionDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(functionName, tab1.functionName())) {
@@ -413,6 +474,13 @@ public class DamengTabEventListener implements EventListener {
         }
     }
 
+    /**
+     * 获取过程设计标签
+     *
+     * @param dbItem        数据库节点
+     * @param procedureName 过程名称
+     * @return 过程设计标签
+     */
     private DamengProcedureDesignTab getDamengProcedureTab(DamengSchemaTreeItem dbItem, String procedureName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengProcedureDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(procedureName, tab1.procedureName())) {
@@ -471,6 +539,13 @@ public class DamengTabEventListener implements EventListener {
 //        }
 //    }
 
+    /**
+     * 获取视图设计标签
+     *
+     * @param dbItem   数据库节点
+     * @param viewName 视图名称
+     * @return 视图设计标签
+     */
     private DamengViewDesignTab getDamengViewDesignTab(DamengSchemaTreeItem dbItem, String viewName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengViewDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(viewName, tab1.viewName())) {
@@ -500,6 +575,13 @@ public class DamengTabEventListener implements EventListener {
         }
     }
 
+    /**
+     * 获取表设计标签
+     *
+     * @param dbItem    数据库节点
+     * @param tableName 表名称
+     * @return 表设计标签
+     */
     private DamengTableDesignTab getDamengTableDesignTab(DamengSchemaTreeItem dbItem, String tableName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengTableDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equalsIgnoreCase(tableName, tab1.tableName())) {
@@ -539,6 +621,13 @@ public class DamengTabEventListener implements EventListener {
         this.removeTab(this.getDamengTabs());
     }
 
+    /**
+     * 获取视图数据标签
+     *
+     * @param dbItem   数据库节点
+     * @param viewName 视图名称
+     * @return 视图数据标签
+     */
     private DamengViewRecordTab getViewRecordTab(DamengSchemaTreeItem dbItem, String viewName) {
         for (Tab tab : this.getTabs()) {
             if (tab instanceof DamengViewRecordTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(viewName, tab1.viewName())) {

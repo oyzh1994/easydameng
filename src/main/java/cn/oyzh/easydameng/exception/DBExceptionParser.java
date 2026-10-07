@@ -6,7 +6,7 @@ import cn.oyzh.ssh.SSHException;
 import java.util.function.Function;
 
 /**
- * redis异常信息解析
+ * 达梦数据库异常信息解析器，将各类异常转换为可展示的提示信息。
  *
  * @author oyzh
  * @since 2023/7/2

@@ -21,7 +21,7 @@ import cn.oyzh.fx.plus.window.StageAdapter;
 import cn.oyzh.fx.plus.window.StageManager;
 
 /**
- * msyql页面工厂
+ * 达梦数据库页面工厂，统一负责各类功能页面的创建与展示。
  *
  * @author oyzh
  * @since 2025-11-07

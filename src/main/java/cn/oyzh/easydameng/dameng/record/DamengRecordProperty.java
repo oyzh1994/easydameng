@@ -31,6 +31,14 @@ public class DamengRecordProperty extends DBRecordProperty {
      */
     private DamengRecord record;
 
+    /**
+     * 使用记录、字段、值和只读标识构造记录属性
+     *
+     * @param record   表记录
+     * @param column   表字段
+     * @param value    值
+     * @param readonly 是否只读
+     */
     public DamengRecordProperty(DamengRecord record, DamengColumn column, Object value, boolean readonly) {
         super(value);
         this.column = column;
@@ -100,6 +108,9 @@ public class DamengRecordProperty extends DBRecordProperty {
         super.setChanged(changed);
     }
 
+    /**
+     * 更新原始数据
+     */
     public void updateOriginal() {
         try {
             if (this.node != null) {
@@ -129,10 +140,20 @@ public class DamengRecordProperty extends DBRecordProperty {
         ClipboardUtil.copy(sql);
     }
 
+    /**
+     * 获取表字段
+     *
+     * @return 表字段
+     */
     public DamengColumn getColumn() {
         return column;
     }
 
+    /**
+     * 设置表字段
+     *
+     * @param column 表字段
+     */
     public void setColumn(DamengColumn column) {
         this.column = column;
     }

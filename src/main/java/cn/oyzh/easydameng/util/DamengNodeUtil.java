@@ -28,13 +28,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * db节点工具类
+ * 达梦数据库表单节点工具类，负责根据字段类型创建、赋值与标记表单节点。
  *
  * @author oyzh
  * @since 2023/12/27
  */
 public class DamengNodeUtil {
 
+    /**
+     * 获取节点当前值
+     *
+     * @param node 节点
+     * @return 节点当前值
+     * @throws Exception 获取值异常
+     */
     public static Object getNodeVal(Node node) throws Exception {
         Object val = null;
         if (node instanceof TimeTextField node1) {
@@ -73,6 +80,12 @@ public class DamengNodeUtil {
         return val;
     }
 
+    /**
+     * 设置节点值
+     *
+     * @param node 节点
+     * @param val  值
+     */
     public static void setNodeVal(Node node, Object val) {
         if (node == null || val == null) {
             return;
@@ -99,10 +112,23 @@ public class DamengNodeUtil {
         }
     }
 
+    /**
+     * 根据字段信息生成表单节点，并处理默认值
+     *
+     * @param column 字段信息
+     * @return 表单节点
+     */
     public static Node generateNode(DamengColumn column) {
         return generateNode(column, true);
     }
 
+    /**
+     * 根据字段信息生成表单节点
+     *
+     * @param column              字段信息
+     * @param handlerDefaultValue 是否处理默认值
+     * @return 表单节点
+     */
     public static Node generateNode(DamengColumn column, boolean handlerDefaultValue) {
         Node node;
         if (column == null) {
@@ -159,6 +185,12 @@ public class DamengNodeUtil {
         return node;
     }
 
+    /**
+     * 根据字段信息生成标签列表
+     *
+     * @param column 字段信息
+     * @return 标签列表
+     */
     public static List<FXLabel> generateTags(DamengColumn column) {
         List<FXLabel> labels = new ArrayList<>();
         if (column.isNullable()) {
@@ -225,7 +257,7 @@ public class DamengNodeUtil {
     }
 
     /**
-     * 处理注释
+     * 处理默认值
      *
      * @param node         节点
      * @param defaultValue 默认值
@@ -250,10 +282,10 @@ public class DamengNodeUtil {
     }
 
     /**
-     * 处理注释
+     * 处理示例值
      *
      * @param node         节点
-     * @param defaultValue 默认值
+     * @param defaultValue 示例值
      */
     public static void handlerExampleValue(Node node, Object defaultValue) {
         if (defaultValue == null) {

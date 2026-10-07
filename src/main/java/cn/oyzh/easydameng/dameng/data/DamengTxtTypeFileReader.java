@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * 达梦 TXT 类型文件读取器
+ *
  * @author oyzh
  * @since 2024-09-04
  */
@@ -32,6 +34,13 @@ public class DamengTxtTypeFileReader extends DamengTypeFileReader {
      */
     private SkipAbleFileReader reader;
 
+    /**
+     * 构造 TXT 类型文件读取器
+     *
+     * @param file   待读取的文件
+     * @param config 导入配置
+     * @throws IOException 读取初始化异常
+     */
     public DamengTxtTypeFileReader( File file, DamengDataImportConfig config) throws IOException {
         // super(file, null);
         this.config = config;

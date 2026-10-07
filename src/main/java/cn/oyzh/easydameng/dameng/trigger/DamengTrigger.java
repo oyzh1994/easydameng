@@ -61,6 +61,11 @@ public class DamengTrigger extends DBObject implements DBTrigger, ObjectCopier<D
     //     return textField;
     // }
 
+    /**
+     * 设置策略
+     *
+     * @param policy 策略
+     */
     public void setPolicy(String policy) {
         this.policy = policy;
         super.putOriginalData("policy", policy);
@@ -77,6 +82,11 @@ public class DamengTrigger extends DBObject implements DBTrigger, ObjectCopier<D
     //     return comboBox;
     // }
 
+    /**
+     * 设置定义
+     *
+     * @param definition 定义
+     */
     public void setDefinition(String definition) {
         this.definition = definition;
         super.putOriginalData("definition", definition);
@@ -100,10 +110,21 @@ public class DamengTrigger extends DBObject implements DBTrigger, ObjectCopier<D
     //     return textField;
     // }
 
+    /**
+     * 设置策略
+     *
+     * @param timing       触发时机
+     * @param manipulation 触发操作
+     */
     public void setPolicy(String timing, String manipulation) {
         this.setPolicy(timing.toUpperCase() + " " + manipulation.toUpperCase());
     }
 
+    /**
+     * 设置表名
+     *
+     * @param tableName 表名
+     */
     public void setTableName(String tableName) {
         this.tableName = tableName;
         super.putOriginalData("tableName", tableName);
@@ -123,14 +144,17 @@ public class DamengTrigger extends DBObject implements DBTrigger, ObjectCopier<D
         return name;
     }
 
+    /** 获取策略 */
     public String getPolicy() {
         return policy;
     }
 
+    /** 获取定义 */
     public String getDefinition() {
         return definition;
     }
 
+    /** 获取表名 */
     public String getTableName() {
         return tableName;
     }

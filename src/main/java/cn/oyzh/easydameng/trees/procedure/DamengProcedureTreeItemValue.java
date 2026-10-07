@@ -5,13 +5,18 @@ import cn.oyzh.fx.gui.tree.view.RichTreeItemValue;
 import cn.oyzh.fx.plus.controls.svg.SVGGlyph;
 
 /**
- * db树表节点值
+ * 数据库树存储过程节点值
  *
  * @author oyzh
  * @since 2023/12/22
  */
 public class DamengProcedureTreeItemValue extends RichTreeItemValue {
 
+    /**
+     * 构造存储过程节点值
+     *
+     * @param item 所属存储过程树节点
+     */
     public DamengProcedureTreeItemValue(DamengProcedureTreeItem item) {
         super(item);
     }

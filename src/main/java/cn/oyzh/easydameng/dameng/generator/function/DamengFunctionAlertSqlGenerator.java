@@ -12,13 +12,18 @@ import cn.oyzh.fx.db.util.DBUtil;
 import java.util.List;
 
 /**
- * 函数sql生成器
+ * 达梦函数修改 sql 生成器
  *
  * @author oyzh
  * @since 2024/08/09
  */
 public class DamengFunctionAlertSqlGenerator extends DBSqlGenerator {
 
+    /**
+     * 生成函数修改 sql
+     *
+     * @param param 函数参数
+     */
     private void _generate(DamengAlertFunctionParam param) {
         DamengFunction function = param.getFunction();
         this.sqlBuilder.append("CREATE OR REPLACE FUNCTION ");
@@ -70,11 +75,23 @@ public class DamengFunctionAlertSqlGenerator extends DBSqlGenerator {
                 .append(function.getDefinition());
     }
 
+    /**
+     * 生成单条函数修改 sql
+     *
+     * @param param 函数参数
+     * @return 修改 sql
+     */
     public String generateSingle(DamengAlertFunctionParam param) {
         this._generate(param);
         return this.buildSqlSingle();
     }
 
+    /**
+     * 生成单条函数修改 sql
+     *
+     * @param param 函数参数
+     * @return 修改 sql
+     */
     public static String generateSqlSingle(DamengAlertFunctionParam param) {
         return new DamengFunctionAlertSqlGenerator().generateSingle(param);
     }

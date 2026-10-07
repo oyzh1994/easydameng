@@ -43,6 +43,11 @@ public class DamengQueryMainTabController extends RichTabController {
      */
     private boolean unsaved;
 
+    /**
+     * 获取查询对象
+     *
+     * @return 查询对象
+     */
     public DamengQuery getQuery() {
         return query;
     }
@@ -52,6 +57,11 @@ public class DamengQueryMainTabController extends RichTabController {
      */
     private DamengSchemaTreeItem dbItem;
 
+    /**
+     * 获取数据库树节点
+     *
+     * @return 数据库树节点
+     */
     public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
@@ -386,6 +396,11 @@ public class DamengQueryMainTabController extends RichTabController {
         }
     }
 
+    /**
+     * 是否未保存
+     *
+     * @return 是否未保存
+     */
     public boolean isUnsaved() {
         return unsaved;
     }

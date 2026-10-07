@@ -10,8 +10,12 @@ import cn.oyzh.i18n.I18nHelper;
  */
 public class DamengNotEqCondition extends DamengCondition {
 
+    /** 不等于条件实例 */
     public final static DamengNotEqCondition INSTANCE = new DamengNotEqCondition();
 
+    /**
+     * 构造不等于条件
+     */
     public DamengNotEqCondition() {
         super(I18nHelper.notEq(), "!=");
     }

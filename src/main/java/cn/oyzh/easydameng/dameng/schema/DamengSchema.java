@@ -4,6 +4,8 @@ package cn.oyzh.easydameng.dameng.schema;
 import cn.oyzh.fx.db.DBSchema;
 
 /**
+ * 达梦模式（库）
+ *
  * @author oyzh
  * @since 2024/1/30
  */

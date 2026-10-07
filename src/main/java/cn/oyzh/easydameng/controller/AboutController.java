@@ -28,18 +28,33 @@ import javafx.stage.WindowEvent;
 )
 public class AboutController extends SubStageController {
 
+    /**
+     * 名称
+     */
     @FXML
     private FXText name;
 
+    /**
+     * 类型
+     */
     @FXML
     private FXText type;
 
+    /**
+     * 版本
+     */
     @FXML
     private FXText version;
 
+    /**
+     * 更新日期
+     */
     @FXML
     private FXText updateDate;
 
+    /**
+     * 版权
+     */
     @FXML
     private FXText copyright;
 

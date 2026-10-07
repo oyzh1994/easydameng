@@ -17,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 达梦数据库操作工具类
+ *
  * @author oyzh
  * @since 2024/7/1
  */
@@ -145,6 +147,15 @@ public class DamengHelper {
     //        return null;
     //    }
 
+    /**
+     * 是否视图可更新
+     *
+     * @param connection 数据库连接
+     * @param schema     库名称或者模式名称
+     * @param viewName   视图名称
+     * @return 结果
+     * @throws Exception 异常
+     */
     public static boolean isViewUpdatable(Connection connection, String schema, String viewName) throws Exception {
         try {
             String sql = """
@@ -342,10 +353,25 @@ public class DamengHelper {
     //        return colType;
     //    }
 
+    /**
+     * 解析结果集字段列表
+     *
+     * @param resultSet 结果集
+     * @return 字段集合
+     * @throws SQLException 异常
+     */
     public static DamengColumns parseColumns(ResultSet resultSet) throws SQLException {
         return parseColumns(resultSet, Collections.emptyList());
     }
 
+    /**
+     * 解析结果集字段列表
+     *
+     * @param resultSet 结果集
+     * @param excludes  排除的字段名称列表
+     * @return 字段集合
+     * @throws SQLException 异常
+     */
     public static DamengColumns parseColumns(ResultSet resultSet, List<String> excludes) throws SQLException {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
         int columnCount = resultSetMetaData.getColumnCount();

@@ -11,6 +11,8 @@ import cn.oyzh.i18n.I18nHelper;
 import javafx.fxml.FXML;
 
 /**
+ * 达梦查询信息标签页内容组件
+ *
  * @author oyzh
  * @since 2024/08/12
  */
@@ -22,6 +24,11 @@ public class DamengQueryInfoTabController extends RichTabController {
     @FXML
     private Editor infoArea;
 
+    /**
+     * 初始化查询结果信息
+     *
+     * @param results 查询结果集
+     */
     public void init(DBQueryResults<?> results) {
         this.infoArea.clear();
         if (results.isSuccess()) {

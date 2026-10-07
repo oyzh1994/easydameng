@@ -20,13 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * db树查询类型节点
+ * 数据库树查询分类节点
  *
  * @author oyzh
  * @since 2024/01/31
  */
 public class DamengQueriesTreeItem extends DBTreeItem<DamengQueriesTreeItemValue> {
 
+    /**
+     * 构造查询分类树节点
+     *
+     * @param treeView 所属树视图
+     */
     public DamengQueriesTreeItem(RichTreeView treeView) {
         super(treeView);
         super.setFilterable(true);
@@ -48,6 +53,9 @@ public class DamengQueriesTreeItem extends DBTreeItem<DamengQueriesTreeItemValue
         return items;
     }
 
+    /**
+     * 新增查询
+     */
     private void addQuery() {
         DamengEventUtil.queryAdd(this.parent());
     }
@@ -89,18 +97,38 @@ public class DamengQueriesTreeItem extends DBTreeItem<DamengQueriesTreeItemValue
         this.loadChild();
     }
 
+    /**
+     * 添加查询子节点
+     *
+     * @param query 查询对象
+     */
     public void addChild(DamengQuery query) {
         this.addChild(new DamengQueryTreeItem(query, this.getTreeView()));
     }
 
+    /**
+     * 获取所属模式名称
+     *
+     * @return 模式名称
+     */
     public String schema() {
         return this.parent().schema();
     }
 
+    /**
+     * 获取数据库客户端
+     *
+     * @return 数据库客户端
+     */
     public ShellDamengClient client() {
         return this.parent().client();
     }
 
+    /**
+     * 获取连接信息
+     *
+     * @return 连接信息
+     */
     public DamengConnect info() {
         return this.parent().info();
     }
@@ -120,15 +148,30 @@ public class DamengQueriesTreeItem extends DBTreeItem<DamengQueriesTreeItemValue
     //    this.refresh();
     //}
 
+    /**
+     * 获取查询数量
+     *
+     * @return 查询数量
+     */
     public Integer querySize() {
         List<DamengQuery> dbQueries = DamengQueryStore.INSTANCE.list(this.info().getId(), this.schema());
         return dbQueries == null ? 0 : dbQueries.size();
     }
 
+    /**
+     * 获取数据库连接
+     *
+     * @return 数据库连接
+     */
     public DamengConnect dbConnect() {
         return this.parent().dbConnect();
     }
 
+    /**
+     * 添加查询子节点
+     *
+     * @param query 查询对象
+     */
     public void addQuery(DamengQuery query) {
         this.addChild(new DamengQueryTreeItem(query, this.getTreeView()));
         this.sortChild(this.isSortAsc());

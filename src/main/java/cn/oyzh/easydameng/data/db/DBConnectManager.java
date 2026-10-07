@@ -23,7 +23,7 @@ public interface DBConnectManager {
     void addConnect( DamengConnect redisInfo);
 
     /**
-     * 删除多个连接
+     * 添加多个连接
      *
      * @param redisInfos 连接列表
      */

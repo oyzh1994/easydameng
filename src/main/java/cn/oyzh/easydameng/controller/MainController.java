@@ -62,6 +62,9 @@ public class MainController extends ParentStageController {
      */
     private final DamengSetting setting = DamengSettingStore.SETTING;
 
+    /**
+     * 设置存储
+     */
     private final DamengSettingStore settingStore = DamengSettingStore.INSTANCE;
 //
 //    /**

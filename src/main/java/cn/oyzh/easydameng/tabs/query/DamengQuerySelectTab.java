@@ -18,6 +18,13 @@ public class DamengQuerySelectTab extends RichTab {
         return DamengTab.BASE_PATH + "query/damengQuerySelectTab.fxml";
     }
 
+    /**
+     * 初始化查询结果
+     *
+     * @param title  标题
+     * @param result 执行结果
+     * @param dbItem 数据库节点
+     */
     public void init(String title, DamengExecuteResult result, DamengSchemaTreeItem dbItem) {
         this.setTitle(title);
         this.controller().init(result, dbItem);

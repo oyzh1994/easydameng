@@ -10,8 +10,12 @@ import cn.oyzh.i18n.I18nHelper;
  */
 public class DamengNotNullCondition extends DamengCondition {
 
+    /** 非空值条件实例 */
     public final static DamengNotNullCondition INSTANCE = new DamengNotNullCondition();
 
+    /**
+     * 构造非空值条件
+     */
     public DamengNotNullCondition() {
         super(I18nHelper.notIsNull(), "IS NOT NULL", false);
     }

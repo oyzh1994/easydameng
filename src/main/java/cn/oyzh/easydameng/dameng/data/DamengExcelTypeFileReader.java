@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 达梦 Excel 类型文件读取器
+ *
  * @author oyzh
  * @since 2024-09-03
  */
@@ -41,6 +43,13 @@ public class DamengExcelTypeFileReader extends DamengTypeFileReader {
      */
     private Integer currentRowIndex;
 
+    /**
+     * 构造 Excel 类型文件读取器
+     *
+     * @param file   待读取的文件
+     * @param config 导入配置
+     * @throws Exception 工作薄创建或初始化异常
+     */
     public DamengExcelTypeFileReader( File file, DamengDataImportConfig config) throws Exception {
         this.config = config;
         boolean isXlsx = StringUtil.endWithIgnoreCase(file.getName(), ".xlsx");

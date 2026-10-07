@@ -5,6 +5,8 @@ import cn.oyzh.event.Event;
 import cn.oyzh.event.EventFormatter;
 
 /**
+ * 达梦连接已新增事件
+ *
  * @author oyzh
  * @since 2024/01/30
  */

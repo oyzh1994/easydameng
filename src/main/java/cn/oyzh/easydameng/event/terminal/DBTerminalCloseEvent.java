@@ -4,6 +4,8 @@ import cn.oyzh.easydameng.dameng.ShellDamengClient;
 import cn.oyzh.event.Event;
 
 /**
+ * 数据库终端关闭事件
+ *
  * @author oyzh
  * @since 2023/11/20
  */

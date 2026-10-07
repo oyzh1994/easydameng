@@ -28,7 +28,7 @@ import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 
 /**
- * 添加db信息业务
+ * 添加连接信息业务
  *
  * @author oyzh
  * @since 2023/12/22

@@ -7,13 +7,18 @@ import javafx.scene.paint.Color;
 
 
 /**
- * db树 Group节点值
+ * 数据库树分组节点值
  *
  * @author oyzh
  * @since 2023/12/21
  */
 public class DBGroupTreeItemValue extends RichTreeItemValue {
 
+    /**
+     * 构造分组节点值
+     *
+     * @param item 所属分组树节点
+     */
     public DBGroupTreeItemValue(DBGroupTreeItem item) {
         super(item);
     }

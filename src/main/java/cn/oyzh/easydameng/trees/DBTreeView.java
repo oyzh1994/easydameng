@@ -21,7 +21,7 @@ import javafx.scene.control.TreeView;
 import javafx.util.Callback;
 
 /**
- * db树
+ * 数据库树视图组件
  *
  * @author oyzh
  * @since 2023/12/27
@@ -42,6 +42,9 @@ public class DBTreeView extends RichTreeView implements FXEventListener {
         return (DBTreeItemFilter) this.itemFilter;
     }
 
+    /**
+     * 构造数据库树视图
+     */
     public DBTreeView() {
         this.dragContent = "db_tree_drag";
         this.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

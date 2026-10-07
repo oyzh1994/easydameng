@@ -10,8 +10,12 @@ import cn.oyzh.i18n.I18nHelper;
  */
 public class DamengLtCondition extends DamengCondition {
 
+    /** 小于条件实例 */
     public final static DamengLtCondition INSTANCE = new DamengLtCondition();
 
+    /**
+     * 构造小于条件
+     */
     public DamengLtCondition() {
         super(I18nHelper.lt(), "<");
     }

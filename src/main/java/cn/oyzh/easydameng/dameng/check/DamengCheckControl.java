@@ -10,11 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 达梦检查约束控件
+ *
  * @author oyzh
  * @since 2024/09/11
  */
 public class DamengCheckControl extends DamengCheck {
 
+    /**
+     * 获取名称控件
+     *
+     * @return 名称控件
+     */
     public ClearableTextField getNameControl() {
         ClearableTextField textField = new ClearableTextField();
         textField.setPromptText(I18nHelper.pleaseInputName());
@@ -28,6 +35,11 @@ public class DamengCheckControl extends DamengCheck {
         return textField;
     }
 
+    /**
+     * 获取子语句控件
+     *
+     * @return 子语句控件
+     */
     public ClearableTextField getClauseControl() {
         ClearableTextField textField = new ClearableTextField();
         textField.setPromptText(I18nHelper.pleaseInputName());
@@ -38,12 +50,24 @@ public class DamengCheckControl extends DamengCheck {
         return textField;
     }
 
+    /**
+     * 转换检查约束为控件对象
+     *
+     * @param check 检查约束
+     * @return 检查约束控件
+     */
     public static DamengCheckControl of(DamengCheck check) {
         DamengCheckControl control = new DamengCheckControl();
         control.copy(check);
         return control;
     }
 
+    /**
+     * 批量转换检查约束为控件对象
+     *
+     * @param checks 检查约束列表
+     * @return 检查约束控件列表
+     */
     public static List<DamengCheckControl> of(List<DamengCheck> checks) {
         List<DamengCheckControl> controls = new ArrayList<>();
         for (DamengCheck check : checks) {

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * 达梦字段类型工具类
+ *
  * @author oyzh
  * @since 2024/1/29
  */
@@ -234,10 +236,20 @@ public class DamengColumnUtil {
 //        putFiled(jsonField);
     }
 
+    /**
+     * 注册字段类型
+     *
+     * @param columnField 字段类型
+     */
     private static void putFiled(DBColumnField columnField) {
         DBColumnFieldManager.putFiled(DBDialect.DAMENG, columnField);
     }
 
+    /**
+     * 获取字段类型名称列表
+     *
+     * @return 字段类型名称列表
+     */
     public static List<String> fields() {
         return DBColumnFieldManager.fields(DBDialect.DAMENG).parallelStream().map(DBColumnField::getName).collect(Collectors.toList());
     }
@@ -622,54 +634,132 @@ public class DamengColumnUtil {
     //        }
     //        return null;
     //    }
+    /**
+     * 是否年份类型
+     *
+     * @param type 字段类型
+     * @return 是否年份类型
+     */
     public static boolean isYearType(String type) {
         return "YEAR".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否日期类型
+     *
+     * @param type 字段类型
+     * @return 是否日期类型
+     */
     public static boolean isDateType(String type) {
         return "DATE".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否日期时间类型
+     *
+     * @param type 字段类型
+     * @return 是否日期时间类型
+     */
     public static boolean isDateTimeType(String type) {
         return "DATETIME".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否时间类型
+     *
+     * @param type 字段类型
+     * @return 是否时间类型
+     */
     public static boolean isTimeType(String type) {
         return "TIME".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否多边形类型
+     *
+     * @param type 字段类型
+     * @return 是否多边形类型
+     */
     public static boolean isPolygonType(String type) {
         return "POLYGON".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否多多边形类型
+     *
+     * @param type 字段类型
+     * @return 是否多多边形类型
+     */
     public static boolean isMultiPolygonType(String type) {
         return "MULTIPOLYGON".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否点类型
+     *
+     * @param type 字段类型
+     * @return 是否点类型
+     */
     public static boolean isPointType(String type) {
         return "Point".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否多点类型
+     *
+     * @param type 字段类型
+     * @return 是否多点类型
+     */
     public static boolean isMultiPointType(String type) {
         return "MultiPoint".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否线类型
+     *
+     * @param type 字段类型
+     * @return 是否线类型
+     */
     public static boolean isLineStringType(String type) {
         return "LineString".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否多线类型
+     *
+     * @param type 字段类型
+     * @return 是否多线类型
+     */
     public static boolean isMultiLineStringType(String type) {
         return "MultiLineString".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否几何集合类型
+     *
+     * @param type 字段类型
+     * @return 是否几何集合类型
+     */
     public static boolean isGeomCollectionType(String type) {
         return "GeomCollection".equalsIgnoreCase(type);
     }
 
+    /**
+     * 是否几何类型
+     *
+     * @param type 字段类型
+     * @return 是否几何类型
+     */
     public static boolean isGeometryType(String type) {
         return "Geometry".equalsIgnoreCase(type);
     }
 
+    /**
+     * 获取字段类型默认值
+     *
+     * @param type 字段类型
+     * @return 默认值
+     */
     public static Object defaultValue(String type) {
         if (DBColumnFieldManager.supportDefaultValue(DBDialect.DAMENG, type)) {
             if (DBColumnFieldManager.supportDigits(DBDialect.DAMENG, type)) {

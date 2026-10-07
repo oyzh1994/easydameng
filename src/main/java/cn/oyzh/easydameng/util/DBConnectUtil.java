@@ -7,7 +7,7 @@ import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.window.StageAdapter;
 
 /**
- * db连接工具类
+ * 达梦数据库连接工具类。
  *
  * @author oyzh
  * @since 2023/07/01
@@ -18,7 +18,7 @@ public class DBConnectUtil {
      * 测试连接
      *
      * @param view   页面
-     * @param dbInfo db信息
+     * @param dbInfo 连接信息
      */
     public static void testConnect(StageAdapter view, DamengConnect dbInfo) {
         ThreadUtil.start(() -> {
@@ -72,7 +72,7 @@ public class DBConnectUtil {
      * 解析连接
      *
      * @param input 输入内容
-     * @return 连接
+     * @return 连接对象
      */
     public static cn.oyzh.easydameng.dto.DamengConnect parse(String input) {
         if (input == null) {

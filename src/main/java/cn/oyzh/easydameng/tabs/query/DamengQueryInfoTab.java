@@ -17,6 +17,11 @@ public class DamengQueryInfoTab extends RichTab {
         return DamengTab.BASE_PATH + "query/damengQueryInfoTab.fxml";
     }
 
+    /**
+     * 初始化查询结果信息
+     *
+     * @param results 查询结果集
+     */
     public void init(DBQueryResults<?> results) {
         this.controller().init(results);
     }

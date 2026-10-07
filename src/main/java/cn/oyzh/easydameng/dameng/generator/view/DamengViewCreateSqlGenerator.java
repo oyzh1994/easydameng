@@ -10,11 +10,18 @@ import cn.oyzh.fx.db.util.DBUtil;
 import java.util.List;
 
 /**
+ * 达梦视图创建 sql 生成器
+ *
  * @author oyzh
  * @since 2024/09/11
  */
 public class DamengViewCreateSqlGenerator extends DBSqlGenerator {
 
+    /**
+     * 生成视图创建 sql
+     *
+     * @param param 视图参数
+     */
     private void _generate(DamengCreateViewParam param) {
         DamengView view = param.getView();
         String schema = param.getSchema();
@@ -48,20 +55,44 @@ public class DamengViewCreateSqlGenerator extends DBSqlGenerator {
         }
     }
 
+    /**
+     * 生成视图创建 sql
+     *
+     * @param param 视图参数
+     * @return 创建 sql 列表
+     */
     public List<String> generate(DamengCreateViewParam param) {
         this._generate(param);
         return this.buildSql();
     }
 
+    /**
+     * 生成单条视图创建 sql
+     *
+     * @param param 视图参数
+     * @return 创建 sql
+     */
     public String generateSingle(DamengCreateViewParam param) {
         this._generate(param);
         return this.buildSqlSingle();
     }
 
+    /**
+     * 生成视图创建 sql
+     *
+     * @param param 视图参数
+     * @return 创建 sql 列表
+     */
     public static List<String> generateSql(DamengCreateViewParam param) {
         return new DamengViewCreateSqlGenerator().generate(param);
     }
 
+    /**
+     * 生成单条视图创建 sql
+     *
+     * @param param 视图参数
+     * @return 创建 sql
+     */
     public static String generateSqlSingle(DamengCreateViewParam param) {
         return new DamengViewCreateSqlGenerator().generateSingle(param);
     }

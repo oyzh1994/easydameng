@@ -9,6 +9,8 @@ import cn.oyzh.fx.terminal.standard.HelpTerminalCommandHandler;
 import cn.oyzh.fx.terminal.util.TerminalManager;
 
 /**
+ * 达梦终端管理器，负责注册终端命令处理器
+ *
  * @author oyzh
  * @since 2024-12-30
  */

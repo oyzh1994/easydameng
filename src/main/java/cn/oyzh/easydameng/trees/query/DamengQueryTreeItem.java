@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * db树查询节点
+ * 数据库树查询节点
  *
  * @author oyzh
  * @since 2023/12/27
@@ -32,10 +32,21 @@ public class DamengQueryTreeItem extends DBTreeItem<DamengQueryTreeItemValue> {
      */
     private final DamengQuery value;
 
+    /**
+     * 获取当前查询对象
+     *
+     * @return 当前查询对象
+     */
     public DamengQuery value() {
         return value;
     }
 
+    /**
+     * 构造查询树节点
+     *
+     * @param query    查询对象
+     * @param treeView 所属树视图
+     */
     public DamengQueryTreeItem(DamengQuery query, RichTreeView treeView) {
         super(treeView);
         super.setFilterable(true);
@@ -49,18 +60,18 @@ public class DamengQueryTreeItem extends DBTreeItem<DamengQueryTreeItemValue> {
     }
 
     /**
-     * 获取db客户端
+     * 获取数据库客户端
      *
-     * @return db客户端
+     * @return 数据库客户端
      */
     public ShellDamengClient client() {
         return this.parent().client();
     }
 
     /**
-     * 获取redis信息
+     * 获取连接信息
      *
-     * @return redis信息
+     * @return 连接信息
      */
     public DamengConnect info() {
         return this.parent().info();
@@ -114,14 +125,29 @@ public class DamengQueryTreeItem extends DBTreeItem<DamengQueryTreeItemValue> {
         }
     }
 
+    /**
+     * 获取所属模式树节点
+     *
+     * @return 模式树节点
+     */
     public DamengSchemaTreeItem dbItem() {
         return this.parent().parent();
     }
 
+    /**
+     * 获取所属模式名称
+     *
+     * @return 模式名称
+     */
     public String schema() {
         return this.parent().schema();
     }
 
+    /**
+     * 获取查询名称
+     *
+     * @return 查询名称
+     */
     public String queryName() {
         return this.value.getName();
     }
@@ -131,6 +157,11 @@ public class DamengQueryTreeItem extends DBTreeItem<DamengQueryTreeItemValue> {
         DamengEventUtil.queryOpen(this.value, this.dbItem());
     }
 
+    /**
+     * 获取数据库连接
+     *
+     * @return 数据库连接
+     */
     public DamengConnect dbConnect() {
         return this.client().getDbConnect();
     }

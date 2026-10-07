@@ -18,11 +18,18 @@ import cn.oyzh.fx.db.util.DBUtil;
 import java.util.List;
 
 /**
+ * 达梦数据表修改 sql 生成器
+ *
  * @author oyzh
  * @since 2024/09/11
  */
 public class DamengTableAlertSqlGenerator extends DBSqlGenerator {
 
+    /**
+     * 生成数据表修改 sql
+     *
+     * @param param 数据表参数
+     */
     private void _generate(DamengAlertTableParam param) {
         DamengTable table = param.getTable();
         String fullName = DBUtil.wrap(param.getSchema(), param.tableName(), DBDialect.DAMENG);
@@ -423,6 +430,10 @@ public class DamengTableAlertSqlGenerator extends DBSqlGenerator {
 
     /**
      * 追加列类型定义（类型、长度、默认值、NULL、IDENTITY等）
+     *
+     * @param builder 语句构造器
+     * @param column  字段
+     * @param created 是否为新增字段
      */
     private void appendColumnType(StringBuilder builder, DamengColumn column, boolean created) {
         builder.append(" ").append(column.getType());
@@ -449,20 +460,44 @@ public class DamengTableAlertSqlGenerator extends DBSqlGenerator {
         }
     }
 
+    /**
+     * 生成数据表修改 sql
+     *
+     * @param param 数据表参数
+     * @return 修改 sql 列表
+     */
     public List<String> generate(DamengAlertTableParam param) {
         this._generate(param);
         return this.buildSql();
     }
 
+    /**
+     * 生成单条数据表修改 sql
+     *
+     * @param param 数据表参数
+     * @return 修改 sql
+     */
     public String generateSingle(DamengAlertTableParam param) {
         this._generate(param);
         return this.buildSqlSingle();
     }
 
+    /**
+     * 生成数据表修改 sql
+     *
+     * @param param 数据表参数
+     * @return 修改 sql 列表
+     */
     public static List<String> generateSql(DamengAlertTableParam param) {
         return new DamengTableAlertSqlGenerator().generate(param);
     }
 
+    /**
+     * 生成单条数据表修改 sql
+     *
+     * @param param 数据表参数
+     * @return 修改 sql
+     */
     public static String generateSqlSingle(DamengAlertTableParam param) {
         return new DamengTableAlertSqlGenerator().generateSingle(param);
     }

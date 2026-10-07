@@ -30,6 +30,12 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
      */
     private final DamengFunction value;
 
+    /**
+     * 构造函数树节点
+     *
+     * @param function 函数
+     * @param treeView 所属树视图
+     */
     public DamengFunctionTreeItem(DamengFunction function, RichTreeView treeView) {
         super(treeView);
         this.value = function;
@@ -52,9 +58,9 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
     }
 
     /**
-     * 获取redis信息
+     * 获取连接信息
      *
-     * @return redis信息
+     * @return 连接信息
      */
     public DamengConnect info() {
         return this.parent().info();
@@ -74,6 +80,9 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
         return items;
     }
 
+    /**
+     * 查看函数信息
+     */
     private void functionInfo() {
         ShellDamengViewFactory.functionInfo(this);
     }
@@ -91,14 +100,29 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
         }
     }
 
+    /**
+     * 获取所属模式节点
+     *
+     * @return 模式节点
+     */
     public DamengSchemaTreeItem dbItem() {
         return this.parent().parent();
     }
 
+    /**
+     * 获取模式名称
+     *
+     * @return 模式名称
+     */
     public String schema() {
         return this.parent().schema();
     }
 
+    /**
+     * 获取连接名称
+     *
+     * @return 连接名称
+     */
     public String infoName() {
         return this.parent().infoName();
     }
@@ -108,6 +132,11 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
         DamengEventUtil.designFunction(this.value, this.dbItem());
     }
 
+    /**
+     * 获取函数名称
+     *
+     * @return 函数名称
+     */
     public String functionName() {
         return this.value.getName();
     }
@@ -146,6 +175,11 @@ public class DamengFunctionTreeItem extends DBTreeItem<DamengFunctionTreeItemVal
         }
     }
 
+    /**
+     * 获取函数
+     *
+     * @return 函数
+     */
     public DamengFunction value() {
         return value;
     }

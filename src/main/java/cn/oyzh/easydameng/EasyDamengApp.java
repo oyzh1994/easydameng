@@ -48,6 +48,11 @@ public class EasyDamengApp extends FXApplication {
      */
     private static final Project PROJECT = Project.load();
 
+    /**
+     * 程序入口，完成存储初始化并启动应用。
+     *
+     * @param args 启动参数
+     */
     public static void main(String[] args) {
         try {
             // 开启fx的预览功能

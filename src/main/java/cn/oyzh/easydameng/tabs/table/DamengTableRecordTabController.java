@@ -152,6 +152,11 @@ public class DamengTableRecordTabController extends RichTabController {
         }
     }
 
+    /**
+     * 获取表树节点
+     *
+     * @return 表树节点
+     */
     public DamengTableTreeItem getItem() {
         return this.itemProperty.get();
     }
@@ -615,10 +620,20 @@ public class DamengTableRecordTabController extends RichTabController {
     //     }
     // }
 
+    /**
+     * 获取过滤条件
+     *
+     * @return 过滤条件
+     */
     public List<DamengRecordFilter> getFilters() {
         return filters;
     }
 
+    /**
+     * 设置过滤条件
+     *
+     * @param filters 过滤条件
+     */
     public void setFilters(List<DamengRecordFilter> filters) {
         this.filters = filters;
     }

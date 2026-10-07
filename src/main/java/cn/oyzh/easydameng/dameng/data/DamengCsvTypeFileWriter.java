@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
+ * 达梦 CSV 类型文件写出器
+ *
  * @author oyzh
  * @since 2024-09-04
  */
@@ -29,6 +31,14 @@ public class DamengCsvTypeFileWriter extends DamengTypeFileWriter {
      */
     private final LineFileWriter writer;
 
+    /**
+     * 构造 CSV 类型文件写出器
+     *
+     * @param filePath 目标文件路径
+     * @param config   导出配置
+     * @param columns  字段列表
+     * @throws FileNotFoundException 文件不存在异常
+     */
     public DamengCsvTypeFileWriter(String filePath, DamengDataExportConfig config, DamengColumns columns) throws FileNotFoundException {
         this.columns = columns;
         this.config = config;

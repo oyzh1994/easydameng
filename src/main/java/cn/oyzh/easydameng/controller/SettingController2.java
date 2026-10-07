@@ -495,31 +495,49 @@ public class SettingController2 extends StageController {
         this.fontWeight.selectWeight(AppSetting.defaultFontWeight());
     }
 
+    /**
+     * 重置编辑器字体
+     */
     @FXML
     private void resetEditorFontFamily() {
         this.editorFontFamily.select(AppSetting.defaultEditorFontFamily());
     }
 
+    /**
+     * 重置编辑器字号
+     */
     @FXML
     private void resetEditorFontSize() {
         this.editorFontSize.selectSize(AppSetting.defaultEditorFontSize());
     }
 
+    /**
+     * 重置编辑器字重
+     */
     @FXML
     private void resetEditorFontWeight() {
         this.editorFontWeight.selectWeight(AppSetting.defaultEditorFontWeight());
     }
 
+    /**
+     * 重置终端字体
+     */
     @FXML
     private void resetTerminalFontFamily() {
         this.terminalFontFamily.select(AppSetting.defaultTerminalFontFamily());
     }
 
+    /**
+     * 重置终端字号
+     */
     @FXML
     private void resetTerminalFontSize() {
         this.terminalFontSize.selectSize(AppSetting.defaultTerminalFontSize());
     }
 
+    /**
+     * 重置终端字重
+     */
     @FXML
     private void resetTerminalFontWeight() {
         this.terminalFontWeight.selectWeight(AppSetting.defaultTerminalFontWeight());

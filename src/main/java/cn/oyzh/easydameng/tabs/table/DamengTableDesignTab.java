@@ -12,7 +12,7 @@ import javafx.event.Event;
 import javafx.scene.Cursor;
 
 /**
- * db表设计tab
+ * 达梦表设计标签
  *
  * @author oyzh
  * @since 2024/08/07
@@ -48,10 +48,20 @@ public class DamengTableDesignTab extends DamengTab {
         }
     }
 
+    /**
+     * 获取表名称
+     *
+     * @return 表名称
+     */
     public String tableName() {
         return this.controller().tableName();
     }
 
+    /**
+     * 获取模式
+     *
+     * @return 模式
+     */
     public String schema() {
         return this.controller().schema();
     }
@@ -59,8 +69,9 @@ public class DamengTableDesignTab extends DamengTab {
     /**
      * 初始化
      *
-     * @param table 表
-     * @param dbItem    db数据库树节点
+     * @param table  表
+     * @param dbItem db数据库树节点
+     * @throws Exception 处理异常
      */
     public void init(DamengTable table, DamengSchemaTreeItem dbItem) throws Exception {
         StageManager.showMask(() -> {
@@ -78,6 +89,11 @@ public class DamengTableDesignTab extends DamengTab {
         return (DamengTableDesignTabController) super.controller();
     }
 
+    /**
+     * 是否未保存
+     *
+     * @return 是否未保存
+     */
     public boolean isUnsaved() {
         return this.controller().isUnsaved();
     }

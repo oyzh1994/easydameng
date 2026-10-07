@@ -6,7 +6,7 @@ import cn.oyzh.store.jdbc.JdbcKeyValueStore;
 
 
 /**
- * db设置储存
+ * 达梦数据库设置储存。
  *
  * @author oyzh
  * @since 2022/8/26
@@ -23,6 +23,11 @@ public class DamengSettingStore extends JdbcKeyValueStore<DamengSetting> {
      */
     public static final DamengSetting SETTING = INSTANCE.load();
 
+    /**
+     * 加载设置，加载失败或不存在时返回默认设置
+     *
+     * @return 设置对象
+     */
     public DamengSetting load() {
         DamengSetting setting = null;
         try {
@@ -37,6 +42,12 @@ public class DamengSettingStore extends JdbcKeyValueStore<DamengSetting> {
         return setting;
     }
 
+    /**
+     * 保存设置
+     *
+     * @param model 设置对象
+     * @return 结果
+     */
     public boolean replace(DamengSetting model) {
         if (model != null) {
             return this.update(model);

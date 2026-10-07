@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 达梦 CSV 类型文件读取器
+ *
  * @author oyzh
  * @since 2024-09-03
  */
@@ -31,6 +33,13 @@ public class DamengCsvTypeFileReader extends DamengTypeFileReader {
      */
     private SkipAbleFileReader reader;
 
+    /**
+     * 构造 CSV 类型文件读取器
+     *
+     * @param file   待读取的文件
+     * @param config 导入配置
+     * @throws IOException 读取初始化异常
+     */
     public DamengCsvTypeFileReader( File file, DamengDataImportConfig config) throws IOException {
         this.config = config;
         this.reader = new SkipAbleFileReader(file, Charset.forName(config.getCharset()));

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 枚举值文本框
+ *
  * @author oyzh
  * @since 2024/7/10
  */
@@ -23,17 +25,34 @@ public class DBEnumTextFiled extends ChooseTextField {
         this.setPromptText(I18nHelper.pleaseSelectContent());
     }
 
+    /**
+     * 枚举值列表
+     */
     private List<String> values;
 
+    /**
+     * 构造枚举值文本框
+     */
     public DBEnumTextFiled() {
     }
 
+    /**
+     * 构造枚举值文本框
+     *
+     * @param values 枚举值列表
+     */
     public DBEnumTextFiled(List<String> values) {
         this.values = values;
     }
 
+    /**
+     * 弹窗
+     */
     private PopupAdapter popup;
 
+    /**
+     * 初始化弹窗
+     */
     protected void initPopup() {
         this.popup = PopupManager.parsePopup(DamengColumnEnumPopupController.class);
         this.popup.setProp("values", this.values);
@@ -50,6 +69,9 @@ public class DBEnumTextFiled extends ChooseTextField {
         this.popup.showPopup(this);
     }
 
+    /**
+     * 初始化文本
+     */
     public void initText() {
         if (CollectionUtil.isEmpty(this.values)) {
             this.setText("");
@@ -62,6 +84,11 @@ public class DBEnumTextFiled extends ChooseTextField {
         }
     }
 
+    /**
+     * 设置枚举值
+     *
+     * @param values 枚举值列表
+     */
     public void setValues(List<String> values) {
         this.values = values;
         FXListView listView = this.listView();
@@ -71,6 +98,11 @@ public class DBEnumTextFiled extends ChooseTextField {
         this.initText();
     }
 
+    /**
+     * 获取列表视图
+     *
+     * @return 列表视图
+     */
     protected FXListView<ClearableTextField> listView() {
         if (this.popup != null) {
             return (FXListView<ClearableTextField>) this.popup.content().lookup("#listView");

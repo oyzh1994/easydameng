@@ -17,6 +17,8 @@ import cn.oyzh.fx.db.util.DBUtil;
 import java.util.List;
 
 /**
+ * 达梦数据传输处理器
+ *
  * @author oyzh
  * @since 2024/09/06
  */
@@ -57,6 +59,9 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
      */
     protected List<DBDataTransportObject> procedures;
 
+    /**
+     * 构造数据传输处理器
+     */
     public DamengDataTransportHandler() {
         super(DBDialect.DAMENG);
     }
@@ -101,7 +106,7 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
      * 传输表
      *
      * @param tableName 表名称
-     * @throws InterruptedException 异常
+     * @throws Exception 异常
      */
     private void transportTable(String tableName) throws Exception {
         this.checkInterrupt();
@@ -260,58 +265,128 @@ public class DamengDataTransportHandler extends DBDataTransportHandler<String> {
         }
     }
 
+    /**
+     * 获取来源客户端
+     *
+     * @return 来源客户端
+     */
     public ShellDamengClient getSourceClient() {
         return sourceClient;
     }
 
+    /**
+     * 设置来源客户端
+     *
+     * @param sourceClient 来源客户端
+     */
     public void setSourceClient(ShellDamengClient sourceClient) {
         this.sourceClient = sourceClient;
     }
 
+    /**
+     * 获取目标客户端
+     *
+     * @return 目标客户端
+     */
     public ShellDamengClient getTargetClient() {
         return targetClient;
     }
 
+    /**
+     * 设置目标客户端
+     *
+     * @param targetClient 目标客户端
+     */
     public void setTargetClient(ShellDamengClient targetClient) {
         this.targetClient = targetClient;
     }
 
+    /**
+     * 获取视图集合
+     *
+     * @return 视图集合
+     */
     public List<DBDataTransportObject> getViews() {
         return views;
     }
 
+    /**
+     * 设置视图集合
+     *
+     * @param views 视图集合
+     */
     public void setViews(List<DBDataTransportObject> views) {
         this.views = views;
     }
 
+    /**
+     * 获取表集合
+     *
+     * @return 表集合
+     */
     public List<DBDataTransportObject> getTables() {
         return tables;
     }
 
+    /**
+     * 设置表集合
+     *
+     * @param tables 表集合
+     */
     public void setTables(List<DBDataTransportObject> tables) {
         this.tables = tables;
     }
 
+    /**
+     * 获取触发器集合
+     *
+     * @return 触发器集合
+     */
     public List<DBDataTransportObject> getTriggers() {
         return triggers;
     }
 
+    /**
+     * 设置触发器集合
+     *
+     * @param triggers 触发器集合
+     */
     public void setTriggers(List<DBDataTransportObject> triggers) {
         this.triggers = triggers;
     }
 
+    /**
+     * 获取函数集合
+     *
+     * @return 函数集合
+     */
     public List<DBDataTransportObject> getFunctions() {
         return functions;
     }
 
+    /**
+     * 设置函数集合
+     *
+     * @param functions 函数集合
+     */
     public void setFunctions(List<DBDataTransportObject> functions) {
         this.functions = functions;
     }
 
+    /**
+     * 获取过程集合
+     *
+     * @return 过程集合
+     */
     public List<DBDataTransportObject> getProcedures() {
         return procedures;
     }
 
+    /**
+     * 设置过程集合
+     *
+     * @param procedures 过程集合
+     */
     public void setProcedures(List<DBDataTransportObject> procedures) {
         this.procedures = procedures;
     }

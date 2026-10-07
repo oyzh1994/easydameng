@@ -10,8 +10,12 @@ import cn.oyzh.i18n.I18nHelper;
  */
 public class DamengContainsCondition extends DamengCondition {
 
+    /** 包含条件实例 */
     public final static DamengContainsCondition INSTANCE = new DamengContainsCondition();
 
+    /**
+     * 构造包含条件
+     */
     public DamengContainsCondition() {
         super(I18nHelper.contains(), "LIKE");
     }

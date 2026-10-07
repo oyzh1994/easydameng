@@ -10,8 +10,12 @@ import cn.oyzh.i18n.I18nHelper;
  */
 public class DamengGtCondition extends DamengCondition {
 
+    /** 大于条件实例 */
     public final static DamengGtCondition INSTANCE = new DamengGtCondition();
 
+    /**
+     * 构造大于条件
+     */
     public DamengGtCondition() {
         super(I18nHelper.gt(), ">");
     }

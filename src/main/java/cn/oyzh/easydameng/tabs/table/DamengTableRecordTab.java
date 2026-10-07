@@ -12,7 +12,7 @@ import javafx.scene.Cursor;
 import java.util.List;
 
 /**
- * db表tab
+ * 达梦表数据标签
  *
  * @author oyzh
  * @since 2023/12/24
@@ -71,18 +71,38 @@ public class DamengTableRecordTab extends DamengTab {
         this.controller().reload();
     }
 
+    /**
+     * 获取达梦客户端
+     *
+     * @return 达梦客户端
+     */
     public ShellDamengClient client() {
         return this.item().client();
     }
 
+    /**
+     * 设置过滤条件
+     *
+     * @param filters 过滤条件列表
+     */
     public void setFilters(List<DamengRecordFilter> filters) {
         this.controller().setFilters(filters);
     }
 
+    /**
+     * 获取表树节点
+     *
+     * @return 表树节点
+     */
     public DamengTableTreeItem item(){
         return this.controller().getItem();
     }
-    
+
+    /**
+     * 获取表名称
+     *
+     * @return 表名称
+     */
     public String tableName() {
         return this.item().tableName();
     }
@@ -92,6 +112,11 @@ public class DamengTableRecordTab extends DamengTab {
         return this.item().dbItem();
     }
 
+    /**
+     * 获取模式
+     *
+     * @return 模式
+     */
     public String schema() {
         return this.item().schema();
     }

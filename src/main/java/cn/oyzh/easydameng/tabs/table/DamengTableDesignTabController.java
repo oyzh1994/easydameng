@@ -165,10 +165,20 @@ public class DamengTableDesignTabController extends ParentTabController {
     @FXML
     private DamengTableColumnExtraController tableColumnExtraController;
 
+    /**
+     * 构建建表参数
+     *
+     * @return 建表参数
+     */
     private DamengCreateTableParam initCreateParam() {
         return (DamengCreateTableParam) this.initParam(true);
     }
 
+    /**
+     * 构建改表参数
+     *
+     * @return 改表参数
+     */
     private DamengAlertTableParam initAlertParam() {
         return (DamengAlertTableParam) this.initParam(false);
     }
@@ -698,6 +708,9 @@ public class DamengTableDesignTabController extends ParentTabController {
         this.initTable();
     }
 
+    /**
+     * 初始化索引表
+     */
     private void initIndexTable() {
         List list = this.columnTable.getItems();
         for (DamengIndexControl index : this.indexTable.itemList()) {
@@ -705,6 +718,9 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
     }
 
+    /**
+     * 初始化外键表
+     */
     private void initForeignKeyTable() {
         List list = this.columnTable.getItems();
         for (DamengForeignKeyControl foreignKey : this.foreignKeyTable.itemList()) {
@@ -902,10 +918,20 @@ public class DamengTableDesignTabController extends ParentTabController {
         }
     }
 
+    /**
+     * 获取表名称
+     *
+     * @return 表名称
+     */
     public String tableName() {
         return this.table.getName();
     }
 
+    /**
+     * 获取模式名称
+     *
+     * @return 模式名称
+     */
     public String schema() {
         return this.table.getSchema();
     }
@@ -915,6 +941,11 @@ public class DamengTableDesignTabController extends ParentTabController {
         return List.of(this.tableColumnExtraController);
     }
 
+    /**
+     * 获取模式树节点
+     *
+     * @return 模式树节点
+     */
     public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
@@ -923,6 +954,11 @@ public class DamengTableDesignTabController extends ParentTabController {
     //     this.dbItem = dbItem;
     // }
 
+    /**
+     * 是否未保存
+     *
+     * @return 是否未保存
+     */
     public boolean isUnsaved() {
         return unsaved;
     }

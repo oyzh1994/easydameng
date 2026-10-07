@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 达梦数据工具类
+ *
  * @author oyzh
  * @since 2024/08/26
  */

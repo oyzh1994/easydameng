@@ -15,7 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 
 /**
- * 添加db库业务
+ * 添加数据库模式业务
  *
  * @author oyzh
  * @since 2024/01/30

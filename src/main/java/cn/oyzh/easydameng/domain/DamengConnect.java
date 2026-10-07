@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * db信息
+ * 达梦数据库连接信息。
  *
  * @author oyzh
  * @since 2020/3/6
@@ -98,14 +98,20 @@ public class DamengConnect implements Serializable, Comparable<DamengConnect>, O
      */
     private DamengSSHConfig sshConfig;
 
+    /**
+     * 达梦服务标识
+     */
     private String sid;
 
+    /**
+     * 服务名
+     */
     private String serviceName;
 
     /**
      * 复制对象
      *
-     * @param info db信息
+     * @param info 连接信息
      * @return 当前对象
      */
     public DamengConnect copy( DamengConnect info) {
@@ -241,126 +247,281 @@ public class DamengConnect implements Serializable, Comparable<DamengConnect>, O
         return StringUtil.equals(this.name, t1.name);
     }
 
+    /**
+     * 获取服务名，优先取 sid
+     *
+     * @return 服务名
+     */
     public String serviceName() {
         return this.sid == null ? this.serviceName : this.sid;
     }
 
+    /**
+     * 获取当前配置使用的服务类型
+     *
+     * @return 服务类型，sid 或 serviceName
+     */
     public String checkServiceType() {
         return this.sid == null ? "sid" : "serviceName";
     }
 
+    /**
+     * 获取数据id
+     *
+     * @return 数据id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * 设置数据id
+     *
+     * @param id 数据id
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * 获取连接地址
+     *
+     * @return 连接地址
+     */
     public String getHost() {
         return host;
     }
 
+    /**
+     * 设置连接地址
+     *
+     * @param host 连接地址
+     */
     public void setHost(String host) {
         this.host = host;
     }
 
+    /**
+     * 获取名称
+     *
+     * @return 名称
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * 设置名称
+     *
+     * @param name 名称
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * 获取认证用户
+     *
+     * @return 认证用户
+     */
     public String getUser() {
         return user;
     }
 
+    /**
+     * 设置认证用户
+     *
+     * @param user 认证用户
+     */
     public void setUser(String user) {
         this.user = user;
     }
 
+    /**
+     * 获取类型
+     *
+     * @return 类型
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * 设置类型
+     *
+     * @param type 类型
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * 获取认证密码
+     *
+     * @return 认证密码
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * 设置认证密码
+     *
+     * @param password 认证密码
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * 获取备注信息
+     *
+     * @return 备注信息
+     */
     public String getRemark() {
         return remark;
     }
 
+    /**
+     * 设置备注信息
+     *
+     * @param remark 备注信息
+     */
     public void setRemark(String remark) {
         this.remark = remark;
     }
 
+    /**
+     * 获取只读模式
+     *
+     * @return 只读模式
+     */
     public Boolean getReadonly() {
         return readonly;
     }
 
+    /**
+     * 设置只读模式
+     *
+     * @param readonly 只读模式
+     */
     public void setReadonly(Boolean readonly) {
         this.readonly = readonly;
     }
 
+    /**
+     * 获取分组id
+     *
+     * @return 分组id
+     */
     public String getGroupId() {
         return groupId;
     }
 
+    /**
+     * 设置分组id
+     *
+     * @param groupId 分组id
+     */
     public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 
+    /**
+     * 获取收藏列表
+     *
+     * @return 收藏列表
+     */
     public List<String> getCollects() {
         return collects;
     }
 
+    /**
+     * 设置收藏列表
+     *
+     * @param collects 收藏列表
+     */
     public void setCollects(List<String> collects) {
         this.collects = collects;
     }
 
+    /**
+     * 设置连接超时时间
+     *
+     * @param connectTimeOut 连接超时时间
+     */
     public void setConnectTimeOut(Integer connectTimeOut) {
         this.connectTimeOut = connectTimeOut;
     }
 
+    /**
+     * 获取是否开启ssh转发
+     *
+     * @return 是否开启ssh转发
+     */
     public Boolean getSshForward() {
         return sshForward;
     }
 
+    /**
+     * 设置是否开启ssh转发
+     *
+     * @param sshForward 是否开启ssh转发
+     */
     public void setSshForward(Boolean sshForward) {
         this.sshForward = sshForward;
     }
 
+    /**
+     * 获取ssh信息
+     *
+     * @return ssh信息
+     */
     public DamengSSHConfig getSshConfig() {
         return sshConfig;
     }
 
+    /**
+     * 设置ssh信息
+     *
+     * @param sshConfig ssh信息
+     */
     public void setSshConfig(DamengSSHConfig sshConfig) {
         this.sshConfig = sshConfig;
     }
 
+    /**
+     * 获取达梦服务标识
+     *
+     * @return 达梦服务标识
+     */
     public String getSid() {
         return sid;
     }
 
+    /**
+     * 设置达梦服务标识
+     *
+     * @param sid 达梦服务标识
+     */
     public void setSid(String sid) {
         this.sid = sid;
     }
 
+    /**
+     * 获取服务名
+     *
+     * @return 服务名
+     */
     public String getServiceName() {
         return serviceName;
     }
 
+    /**
+     * 设置服务名
+     *
+     * @param serviceName 服务名
+     */
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
     }

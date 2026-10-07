@@ -12,13 +12,18 @@ import cn.oyzh.fx.db.util.DBUtil;
 import java.util.List;
 
 /**
- * 函数sql生成器
+ * 达梦存储过程创建 sql 生成器
  *
  * @author oyzh
  * @since 2024/08/09
  */
 public class DamengProcedureCreateSqlGenerator extends DBSqlGenerator {
 
+    /**
+     * 生成存储过程创建 sql
+     *
+     * @param param 存储过程参数
+     */
     private void _generate(DamengCreateProcedureParam param) {
         DamengProcedure procedure = param.getProcedure();
         this.sqlBuilder.append("CREATE PROCEDURE ");
@@ -50,11 +55,23 @@ public class DamengProcedureCreateSqlGenerator extends DBSqlGenerator {
                 .append(procedure.getDefinition());
     }
 
+    /**
+     * 生成单条存储过程创建 sql
+     *
+     * @param param 存储过程参数
+     * @return 创建 sql
+     */
     public String generateSingle(DamengCreateProcedureParam param) {
         this._generate(param);
         return this.buildSqlSingle();
     }
 
+    /**
+     * 生成单条存储过程创建 sql
+     *
+     * @param param 存储过程参数
+     * @return 创建 sql
+     */
     public static String generateSqlSingle(DamengCreateProcedureParam param) {
         return new DamengProcedureCreateSqlGenerator().generateSingle(param);
     }

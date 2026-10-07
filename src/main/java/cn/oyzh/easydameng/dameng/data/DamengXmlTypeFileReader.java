@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * 达梦 XML 类型文件读取器
+ *
  * @author oyzh
  * @since 2024-09-03
  */
@@ -28,6 +30,13 @@ public class DamengXmlTypeFileReader extends DamengTypeFileReader {
      */
     private DamengDataImportConfig config;
 
+    /**
+     * 构造 XML 类型文件读取器
+     *
+     * @param file   待读取的文件
+     * @param config 导入配置
+     * @throws Exception 读取器创建或初始化异常
+     */
     public DamengXmlTypeFileReader( File file, DamengDataImportConfig config) throws Exception {
         this.config = config;
         this.reader = XMLInputFactory.newInstance().createXMLEventReader(new FileInputStream(file), config.getCharset());

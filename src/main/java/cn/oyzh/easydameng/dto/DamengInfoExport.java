@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * db连接导出对象
+ * 达梦数据库连接信息导出对象，用于连接配置的导出与导入。
  *
  * @author oyzh
  * @since 2023/06/22
@@ -33,10 +33,10 @@ public class DamengInfoExport {
     private List<DamengConnect> connects;
 
     /**
-     * 从db连接数据生成
+     * 根据连接列表生成导出对象
      *
      * @param dbInfos 连接列表
-     * @return DBInfoExport
+     * @return 导出对象
      */
     public static DamengInfoExport fromConnects(List<DamengConnect> dbInfos) {
         DamengInfoExport export = new DamengInfoExport();
@@ -48,10 +48,10 @@ public class DamengInfoExport {
     }
 
     /**
-     * 从json对象数据生成
+     * 从json对象数据生成导出对象
      *
      * @param json json字符串
-     * @return RedisInfoExport
+     * @return 导出对象
      */
     public static DamengInfoExport fromJSON(String json) {
         JulLog.info("json: {}", json);
@@ -72,26 +72,56 @@ public class DamengInfoExport {
         return JSONUtil.toJson(this);
     }
 
+    /**
+     * 获取导出程序版本号
+     *
+     * @return 导出程序版本号
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     * 设置导出程序版本号
+     *
+     * @param version 导出程序版本号
+     */
     public void setVersion(String version) {
         this.version = version;
     }
 
+    /**
+     * 获取生成平台
+     *
+     * @return 生成平台
+     */
     public String getPlatform() {
         return platform;
     }
 
+    /**
+     * 设置生成平台
+     *
+     * @param platform 生成平台
+     */
     public void setPlatform(String platform) {
         this.platform = platform;
     }
 
+    /**
+     * 获取导出连接数据
+     *
+     * @return 导出连接数据
+     */
     public List<DamengConnect> getConnects() {
         return connects;
     }
 
+    /**
+     * 设置导出连接数据
+     *
+     * @param connects 导出连接数据
+     */
     public void setConnects(List<DamengConnect> connects) {
         this.connects = connects;
     }

@@ -52,6 +52,11 @@ public class DBRootTreeItem extends DBTreeItem<DBRootTreeItemValue> implements D
      */
     private final DamengGroupStore groupStore = DamengGroupStore.INSTANCE;
 
+    /**
+     * 构造数据库树根节点
+     *
+     * @param treeView 所属树视图
+     */
     public DBRootTreeItem( DBTreeView treeView) {
         super(treeView);
         this.setValue(new DBRootTreeItemValue());

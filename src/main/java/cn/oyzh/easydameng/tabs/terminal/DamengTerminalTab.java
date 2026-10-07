@@ -80,10 +80,20 @@ public class DamengTerminalTab extends RichTab {
         return this.controller().shellConnect();
     }
 
+    /**
+     * 获取达梦客户端
+     *
+     * @return 达梦客户端
+     */
     public ShellDamengClient client() {
         return this.controller().client();
     }
 
+    /**
+     * 获取模式
+     *
+     * @return 模式
+     */
     public String schema() {
         return this.controller().getSchema();
     }

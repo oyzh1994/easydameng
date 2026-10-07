@@ -4,6 +4,8 @@ import cn.oyzh.common.object.ObjectCopier;
 import cn.oyzh.easydameng.dameng.routine.DamengRoutineSchema;
 
 /**
+ * 达梦存储过程对象，支持在对象间复制存储过程信息。
+ *
  * @author oyzh
  * @since 2024/06/29
  */

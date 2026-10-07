@@ -11,13 +11,24 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
+ * 达梦SQL文件执行处理器
+ *
  * @author oyzh
  * @since 2024/09/10
  */
 public class DamengDataRunSqlFileHandler extends DBDataRunFileHandler<String> {
 
+    /**
+     * db客户端
+     */
     private final ShellDamengClient dbClient;
 
+    /**
+     * 构造SQL文件执行处理器
+     *
+     * @param dbClient db客户端
+     * @param dbName   库名称
+     */
     public DamengDataRunSqlFileHandler(ShellDamengClient dbClient, String dbName) {
         super(dbName);
         this.dbClient = dbClient;

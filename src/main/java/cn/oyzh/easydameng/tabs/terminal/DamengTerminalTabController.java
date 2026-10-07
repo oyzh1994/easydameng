@@ -37,6 +37,11 @@ public class DamengTerminalTabController extends RichTabController {
         this.schema = schema;
     }
 
+    /**
+     * 获取模式
+     *
+     * @return 模式
+     */
     public String getSchema() {
         return schema;
     }
@@ -50,6 +55,11 @@ public class DamengTerminalTabController extends RichTabController {
         return this.terminal.shellConnect();
     }
 
+    /**
+     * 获取达梦客户端
+     *
+     * @return 达梦客户端
+     */
     public ShellDamengClient client() {
         return this.terminal.getClient();
     }

@@ -27,6 +27,11 @@ import java.util.List;
  */
 public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemValue> {
 
+    /**
+     * 构造函数类型树节点
+     *
+     * @param treeView 所属树视图
+     */
     public DamengFunctionsTreeItem(RichTreeView treeView) {
         super(treeView);
         super.setFilterable(true);
@@ -48,6 +53,9 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
         return items;
     }
 
+    /**
+     * 新建设计函数
+     */
     private void add() {
         DamengFunction function = new DamengFunction();
         function.setSchema(this.schema());
@@ -125,18 +133,38 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
         this.loadChild();
     }
 
+    /**
+     * 获取模式名称
+     *
+     * @return 模式名称
+     */
     public String schema() {
         return this.parent().schema();
     }
 
+    /**
+     * 获取达梦客户端
+     *
+     * @return 达梦客户端
+     */
     public ShellDamengClient client() {
         return this.parent().client();
     }
 
+    /**
+     * 获取连接信息
+     *
+     * @return 连接信息
+     */
     public DamengConnect info() {
         return this.parent().info();
     }
 
+    /**
+     * 获取连接名称
+     *
+     * @return 连接名称
+     */
     public String infoName() {
         return this.parent().infoName();
     }
@@ -156,10 +184,20 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
     //    this.refresh();
     //}
 
+    /**
+     * 获取函数数量
+     *
+     * @return 函数数量
+     */
     public Integer functionSize() {
         return this.client().functionSize(this.schema());
     }
 
+    /**
+     * 添加函数节点
+     *
+     * @param function 函数
+     */
     public void addFunction(DamengFunction function) {
         this.addChild(new DamengFunctionTreeItem(function, this.getTreeView()));
         this.sortChild(this.isSortAsc());

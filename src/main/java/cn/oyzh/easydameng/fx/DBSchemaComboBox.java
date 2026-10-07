@@ -15,10 +15,21 @@ import java.util.List;
  */
 public class DBSchemaComboBox extends FXComboBox<String> {
 
+    /**
+     * 初始化
+     *
+     * @param client 达梦客户端
+     */
     public void init(ShellDamengClient client) {
         this.init(client, null);
     }
 
+    /**
+     * 初始化
+     *
+     * @param client 达梦客户端
+     * @param schema 模式名称
+     */
     public void init(ShellDamengClient client, String schema) {
         this.clearItems();
         List<DamengSchema> schemas = client.schemas();

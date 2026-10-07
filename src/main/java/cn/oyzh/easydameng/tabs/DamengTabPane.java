@@ -21,6 +21,9 @@ import java.util.List;
  */
 public class DamengTabPane extends RichTabPane implements FXEventListener {
 
+    /**
+     * 标签页事件监听器
+     */
     private final DamengTabEventListener listener = new DamengTabEventListener(this);
 
     @Override

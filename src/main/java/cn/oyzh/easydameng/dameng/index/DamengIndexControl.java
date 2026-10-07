@@ -14,17 +14,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 达梦索引控件
+ *
  * @author oyzh
  * @since 2024/09/14
  */
 public class DamengIndexControl extends DamengIndex {
 
+    /**
+     * 字段列表
+     */
     private List<DamengColumn> columnList;
 
+    /**
+     * 设置字段列表
+     *
+     * @param columnList 字段列表
+     */
     public void setColumnList(List<DamengColumn> columnList) {
         this.columnList = columnList;
     }
 
+    /**
+     * 获取名称控件
+     *
+     * @return 名称控件
+     */
     public ClearableTextField getNameControl() {
         ClearableTextField textField = new ClearableTextField();
         if (StringUtil.isEmpty(this.getName())) {
@@ -38,6 +53,11 @@ public class DamengIndexControl extends DamengIndex {
         return textField;
     }
 
+    /**
+     * 获取字段控件
+     *
+     * @return 字段控件
+     */
     public DamengIndexFieldTextFiled getColumnControl() {
         //List<DamengColumn> columnList = CacheHelper.get("dameng:columnList");
         if (this.columnList == null) {
@@ -51,6 +71,11 @@ public class DamengIndexControl extends DamengIndex {
         return textField;
     }
 
+    /**
+     * 获取类型控件
+     *
+     * @return 类型控件
+     */
     public DamengIndexTypeComboBox getTypeControl() {
         DamengIndexTypeComboBox comboBox = new DamengIndexTypeComboBox();
         comboBox.selectFirstIfNull(this.getType());
@@ -62,6 +87,11 @@ public class DamengIndexControl extends DamengIndex {
         return comboBox;
     }
 
+    /**
+     * 获取方式控件
+     *
+     * @return 方式控件
+     */
     public DamengIndexMethodComboBox getMethodControl() {
         DamengIndexMethodComboBox comboBox = new DamengIndexMethodComboBox();
         comboBox.selectFirstIfNull(this.getMethod());
@@ -71,12 +101,24 @@ public class DamengIndexControl extends DamengIndex {
         return comboBox;
     }
 
+    /**
+     * 转换索引为控件对象
+     *
+     * @param index 索引
+     * @return 索引控件
+     */
     public static DamengIndexControl of(DamengIndex index) {
         DamengIndexControl control = new DamengIndexControl();
         control.copy(index);
         return control;
     }
 
+    /**
+     * 批量转换索引为控件对象
+     *
+     * @param indices 索引列表
+     * @return 索引控件列表
+     */
     public static List<DamengIndexControl> of(List<DamengIndex> indices) {
         List<DamengIndexControl> controls = new ArrayList<>();
         for (DamengIndex index : indices) {

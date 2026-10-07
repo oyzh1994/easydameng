@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 达梦数据导入处理器
+ *
  * @author oyzh
  * @since 2024/08/27
  */
@@ -44,6 +46,12 @@ public class DamengDataImportHandler extends DBDataImportHandler<String> {
      */
     private final DamengDataImportConfig config;
 
+    /**
+     * 构造数据导入处理器
+     *
+     * @param dbClient db客户端
+     * @param name     模式
+     */
     public DamengDataImportHandler(ShellDamengClient dbClient, String name) {
         super(name);
         this.dbClient = dbClient;
@@ -66,6 +74,7 @@ public class DamengDataImportHandler extends DBDataImportHandler<String> {
     /**
      * 导入表
      *
+     * @param file 导入文件
      * @throws Exception 异常
      */
     protected void importRecord(DamengDataImportFile file) throws Exception {
@@ -104,6 +113,13 @@ public class DamengDataImportHandler extends DBDataImportHandler<String> {
         }
     }
 
+    /**
+     * 初始化文件读取器
+     *
+     * @param file 文件
+     * @return 文件读取器
+     * @throws Exception 异常
+     */
     private DamengTypeFileReader initReader(File file) throws Exception {
         if (this.isCsvType()) {
             return new DamengCsvTypeFileReader(file, this.config);
@@ -123,6 +139,14 @@ public class DamengDataImportHandler extends DBDataImportHandler<String> {
         return null;
     }
 
+    /**
+     * 读取记录
+     *
+     * @param reader 文件读取器
+     * @param count  读取数量
+     * @return 记录集合
+     * @throws Exception 异常
+     */
     private List<DamengRecord> readRecords(DamengTypeFileReader reader, int count) throws Exception {
         List<DamengRecord> records = new ArrayList<>();
         List<Map<String, Object>> list = reader.readObjects(count);
@@ -141,6 +165,7 @@ public class DamengDataImportHandler extends DBDataImportHandler<String> {
      *
      * @param columns 字段列表
      * @param records 记录列表
+     * @throws Exception 异常
      */
     private void writeRecord(DamengColumns columns, List<DamengRecord> records) throws Exception {
         List<String> sqlList = DamengDataImportHelper.toInsertSql(columns, records, this.config);
@@ -238,30 +263,65 @@ public class DamengDataImportHandler extends DBDataImportHandler<String> {
         this.config.setAttrToColumn(attrToColumn);
     }
 
+    /**
+     * 设置记录分隔符
+     *
+     * @param recordSeparator 记录分隔符
+     */
     public void recordSeparator(String recordSeparator) {
         this.config.setRecordSeparator(recordSeparator);
     }
 
+    /**
+     * 设置文本限定符
+     *
+     * @param txtIdentifier 文本限定符
+     */
     public void txtIdentifier(String txtIdentifier) {
         this.config.setTxtIdentifier(txtIdentifier);
     }
 
+    /**
+     * 设置字段分隔符
+     *
+     * @param fieldSeparator 字段分隔符
+     */
     public void fieldSeparator(String fieldSeparator) {
         this.config.setFieldSeparator(fieldSeparator);
     }
 
+    /**
+     * 获取db客户端
+     *
+     * @return db客户端
+     */
     public ShellDamengClient getDbClient() {
         return dbClient;
     }
 
+    /**
+     * 获取导入文件集合
+     *
+     * @return 导入文件集合
+     */
     public List<DamengDataImportFile> getFiles() {
         return files;
     }
 
+    /**
+     * 设置导入文件集合
+     *
+     * @param files 导入文件集合
+     */
     public void setFiles(List<DamengDataImportFile> files) {
         this.files = files;
     }
 
+    /**
+     * 获取导入配置
+     *
+     * @return 导入配置
+     */
     public DamengDataImportConfig getConfig() {
         return config;
     }

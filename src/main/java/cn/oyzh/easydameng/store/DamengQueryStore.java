@@ -10,7 +10,7 @@ import cn.oyzh.store.jdbc.param.SelectParam;
 import java.util.List;
 
 /**
- * zk查询存储
+ * 达梦数据库查询存储。
  *
  * @author oyzh
  * @since 2025/01/20
@@ -23,11 +23,11 @@ public class DamengQueryStore extends JdbcStandardStore<DamengQuery> {
     public static final DamengQueryStore INSTANCE = new DamengQueryStore();
 
     /**
-     * 根据zk连接id加载列表
+     * 根据连接id和数据库名称加载查询列表
      *
-     * @param iid    zk连接id
-     * @param dbName db名称
-     * @return 收藏列表
+     * @param iid    连接id
+     * @param dbName 数据库名称
+     * @return 查询列表
      */
     public List<DamengQuery> list(String iid, String dbName) {
         QueryParam param1 = QueryParam.of("iid", iid);
@@ -39,9 +39,9 @@ public class DamengQueryStore extends JdbcStandardStore<DamengQuery> {
     }
 
     /**
-     * 替换
+     * 保存查询，不存在则新增，存在则更新
      *
-     * @param model 模型
+     * @param model 查询对象
      * @return 结果
      */
     public boolean replace(DamengQuery model) {
@@ -55,9 +55,9 @@ public class DamengQueryStore extends JdbcStandardStore<DamengQuery> {
     }
 
     /**
-     * 根据zk连接id删除查询
+     * 根据连接id删除查询
      *
-     * @param iid zk连接id
+     * @param iid 连接id
      * @return 结果
      * @see cn.oyzh.easydameng.domain.DamengConnect
      */

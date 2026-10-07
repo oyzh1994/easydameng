@@ -16,6 +16,9 @@ import java.util.List;
  */
 public class DamengTerminalCompleteHandler extends BaseTerminalCompleteHandler<DamengTerminalPane> {
 
+    /**
+     * sql关键字
+     */
     private static final String[] SQL_KEYWORDS = {
             "SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "UPDATE", "SET",
             "DELETE", "CREATE", "TABLE", "ALTER", "DROP", "INDEX", "VIEW",
@@ -29,6 +32,12 @@ public class DamengTerminalCompleteHandler extends BaseTerminalCompleteHandler<D
             "BOOLEAN", "FLOAT", "DOUBLE", "DECIMAL", "CHAR", "ENUM"
     };
 
+    /**
+     * 构建命令处理器
+     *
+     * @param name 命令名称
+     * @return 命令处理器
+     */
     private DamengTerminalCommandHandler<TerminalCommand> newCommandHandler(String name) {
         return new DamengTerminalCommandHandler<>() {
 

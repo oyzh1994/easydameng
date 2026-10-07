@@ -13,11 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 达梦触发器控件
+ *
  * @author oyzh
  * @since 2024/09/14
  */
 public class DamengTriggerControl extends DamengTrigger {
 
+    /**
+     * 获取名称控件
+     *
+     * @return 名称控件
+     */
     public ClearableTextField getNameControl() {
         ClearableTextField textField = new ClearableTextField();
         textField.setPromptText(I18nHelper.pleaseInputName());
@@ -33,6 +40,11 @@ public class DamengTriggerControl extends DamengTrigger {
         return textField;
     }
 
+    /**
+     * 获取策略控件
+     *
+     * @return 策略控件
+     */
     public DamengTriggerPolicyComboBox getPolicyControl() {
         DamengTriggerPolicyComboBox comboBox = new DamengTriggerPolicyComboBox();
         comboBox.selectedItemChanged((observable, oldValue, newValue) -> {
@@ -44,6 +56,11 @@ public class DamengTriggerControl extends DamengTrigger {
         return comboBox;
     }
 
+    /**
+     * 获取定义控件
+     *
+     * @return 定义控件
+     */
     public EditorEnlargeTextFiled getDefinitionControl() {
         EditorEnlargeTextFiled textField = new EditorEnlargeTextFiled();
         textField.setFormatType(EditorFormatType.SQL);
@@ -55,12 +72,24 @@ public class DamengTriggerControl extends DamengTrigger {
         return textField;
     }
 
+    /**
+     * 转换触发器为控件对象
+     *
+     * @param trigger 触发器
+     * @return 触发器控件
+     */
     public static DamengTriggerControl of(DamengTrigger trigger) {
         DamengTriggerControl control = new DamengTriggerControl();
         control.copy(trigger);
         return control;
     }
 
+    /**
+     * 批量转换触发器为控件对象
+     *
+     * @param triggers 触发器列表
+     * @return 触发器控件列表
+     */
     public static List<DamengTriggerControl> of(List<DamengTrigger> triggers) {
         List<DamengTriggerControl> controls = new ArrayList<>();
         for (DamengTrigger trigger : triggers) {

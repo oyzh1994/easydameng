@@ -12,11 +12,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 达梦类型文件写出器抽象基类
+ *
  * @author oyzh
  * @since 2024-09-04
  */
 public abstract class DamengTypeFileWriter implements Closeable {
 
+    /**
+     * 初始化写出器
+     *
+     * @throws Exception 初始化异常
+     */
     protected void init() throws Exception {
 
     }
@@ -116,10 +123,28 @@ public abstract class DamengTypeFileWriter implements Closeable {
         }
     }
 
+    /**
+     * 格式化数据行为一行文本
+     *
+     * @param objects         数据数组
+     * @param fieldSeparator  字段分割符号
+     * @param txtIdentifier   文本识别符号
+     * @param recordSeparator 记录分割符号
+     * @return 格式化后的文本行
+     */
     protected String formatLine(Object[] objects, String fieldSeparator, String txtIdentifier, String recordSeparator) {
         return this.formatLine(List.of(objects), fieldSeparator, txtIdentifier, recordSeparator);
     }
 
+    /**
+     * 格式化数据列表为一行文本
+     *
+     * @param list            数据列表
+     * @param fieldSeparator  字段分割符号
+     * @param txtIdentifier   文本识别符号
+     * @param recordSeparator 记录分割符号
+     * @return 格式化后的文本行
+     */
     protected String formatLine(List<?> list, String fieldSeparator, String txtIdentifier, String recordSeparator) {
         StringBuilder sb = new StringBuilder();
         for (Object val : list) {

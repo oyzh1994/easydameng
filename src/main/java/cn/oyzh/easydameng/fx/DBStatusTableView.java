@@ -9,24 +9,42 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
+ * 数据库对象状态表格视图
+ *
  * @author oyzh
  * @since 2024/07/22
  */
 public class DBStatusTableView<S extends DBObject> extends FXTableView<S> {
 
+    /**
+     * 待删除项列表
+     */
     private List<S> deleteItems;
 
+    /**
+     * 重置状态，清空待删除项并清除全部对象状态
+     *
+     * @throws Exception 异常
+     */
     public void reset() throws Exception {
         this.deleteItems = null;
         this.clearStatus();
     }
 
+    /**
+     * 清除全部对象的状态
+     *
+     * @throws Exception 异常
+     */
     public void clearStatus() throws Exception {
         for (DBObject object : this.getItems()) {
             object.clearStatus();
         }
     }
 
+    /**
+     * 状态监听器
+     */
     private DBStatusListener statusListener;
 
     {
@@ -69,18 +87,38 @@ public class DBStatusTableView<S extends DBObject> extends FXTableView<S> {
         });
     }
 
+    /**
+     * 获取待删除项列表
+     *
+     * @return 待删除项列表
+     */
     public List<S> getDeleteItems() {
         return deleteItems;
     }
 
+    /**
+     * 设置待删除项列表
+     *
+     * @param deleteItems 待删除项列表
+     */
     public void setDeleteItems(List<S> deleteItems) {
         this.deleteItems = deleteItems;
     }
 
+    /**
+     * 获取状态监听器
+     *
+     * @return 状态监听器
+     */
     public DBStatusListener getStatusListener() {
         return statusListener;
     }
 
+    /**
+     * 设置状态监听器
+     *
+     * @param statusListener 状态监听器
+     */
     public void setStatusListener(DBStatusListener statusListener) {
         this.statusListener = statusListener;
     }

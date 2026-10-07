@@ -20,7 +20,7 @@ import javafx.util.Callback;
 import java.util.List;
 
 /**
- * 字段列表弹窗业务
+ * 字段值列表弹窗业务
  *
  * @author oyzh
  * @since 2024/07/12
@@ -81,6 +81,12 @@ public class DamengColumnEnumPopupController extends PopupController {
         this.listView.removeSelectedItem();
     }
 
+    /**
+     * 创建值输入组件
+     *
+     * @param text 初始文本
+     * @return 输入组件
+     */
     private ClearableTextField createNode(String text) {
         ClearableTextField textField = new ClearableTextField(text);
         textField.setRealHeight(22);

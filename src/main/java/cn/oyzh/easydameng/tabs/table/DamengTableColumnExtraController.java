@@ -142,6 +142,9 @@ public class DamengTableColumnExtraController extends SubTabController {
         }
     }
 
+    /**
+     * 是否忽略变更
+     */
     private boolean ignoreChanged = false;
 
     @Override
@@ -181,10 +184,20 @@ public class DamengTableColumnExtraController extends SubTabController {
         column.typeProperty().addListener(this::listenColumnTypeChanged);
     }
 
+    /**
+     * 监听字段类型变更
+     *
+     * @param observableValue 可观察值
+     * @param s               旧值
+     * @param s1              新值
+     */
     private void listenColumnTypeChanged(ObservableValue<? extends String> observableValue, String s, String s1) {
         this.doInit();
     }
 
+    /**
+     * 执行初始化
+     */
     public void doInit() {
         this.ignoreChanged = true;
         // 值

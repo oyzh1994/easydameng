@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 达梦终端历史命令处理器
+ *
  * @author oyzh
  * @since 2023/8/28
  */

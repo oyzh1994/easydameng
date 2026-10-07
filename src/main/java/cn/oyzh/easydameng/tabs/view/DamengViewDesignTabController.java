@@ -330,18 +330,38 @@ public class DamengViewDesignTabController extends RichTabController {
         });
     }
 
+    /**
+     * 获取模式
+     *
+     * @return 模式
+     */
     public String schema() {
         return this.dbItem.schema();
     }
 
+    /**
+     * 获取视图名称
+     *
+     * @return 视图名称
+     */
     public String viewName() {
         return this.view.getName();
     }
 
+    /**
+     * 获取数据库树节点
+     *
+     * @return 数据库树节点
+     */
     public DamengSchemaTreeItem getDbItem() {
         return dbItem;
     }
 
+    /**
+     * 是否未保存
+     *
+     * @return 是否未保存
+     */
     public boolean isUnsaved() {
         return unsaved;
     }

@@ -11,7 +11,7 @@ import javafx.event.Event;
 import javafx.scene.Cursor;
 
 /**
- * db查询tab
+ * 达梦过程设计标签
  *
  * @author oyzh
  * @since 2024/02/18
@@ -47,10 +47,20 @@ public class DamengProcedureDesignTab extends DamengTab {
         }
     }
 
+    /**
+     * 获取过程对象
+     *
+     * @return 过程对象
+     */
     public DamengProcedure procedure() {
         return this.controller().getProcedure();
     }
 
+    /**
+     * 获取过程名称
+     *
+     * @return 过程名称
+     */
     public String procedureName() {
         return this.procedure().getName();
     }
@@ -60,10 +70,20 @@ public class DamengProcedureDesignTab extends DamengTab {
         return this.controller().getDbItem();
     }
 
+    /**
+     * 获取模式
+     *
+     * @return 模式
+     */
     public String schema() {
         return this.dbItem().schema();
     }
 
+    /**
+     * 获取连接名称
+     *
+     * @return 连接名称
+     */
     public String connectName() {
         return this.dbItem().connectName();
     }
@@ -85,6 +105,11 @@ public class DamengProcedureDesignTab extends DamengTab {
         return (DamengProcedureDesignTabController) super.controller();
     }
 
+    /**
+     * 是否未保存
+     *
+     * @return 是否未保存
+     */
     public boolean isUnsaved() {
         return this.controller().isUnsaved();
     }

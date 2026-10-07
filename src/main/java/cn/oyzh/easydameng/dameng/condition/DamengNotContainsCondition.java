@@ -10,8 +10,12 @@ import cn.oyzh.i18n.I18nHelper;
  */
 public class DamengNotContainsCondition extends DamengCondition {
 
+    /** 不包含条件实例 */
     public final static DamengNotContainsCondition INSTANCE = new DamengNotContainsCondition();
 
+    /**
+     * 构造不包含条件
+     */
     public DamengNotContainsCondition() {
         super(I18nHelper.notContains(), "NOT LIKE");
     }

@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 达梦数据导入辅助工具
+ *
  * @author oyzh
  * @since 2024/09/02
  */
@@ -26,6 +28,7 @@ public class DamengDataImportHelper {
      * @param column 字段
      * @param value  值
      * @return 参数化后的值
+     * @throws ParseException 日期解析异常
      */
     public static Object parameterized(DamengColumn column, Object value, DamengDataImportConfig config) throws ParseException {
         if (value == null) {
@@ -62,6 +65,7 @@ public class DamengDataImportHelper {
      * @param records 记录
      * @param config  配置
      * @return 插入sql
+     * @throws Exception 生成插入语句时的异常
      */
     public static List<String> toInsertSql(DamengColumns columns, List<DamengRecord> records, DamengDataImportConfig config) throws Exception {
         List<String> insertSql = new ArrayList<>();

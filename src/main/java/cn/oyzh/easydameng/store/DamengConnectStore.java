@@ -7,6 +7,8 @@ import cn.oyzh.store.jdbc.JdbcStandardStore;
 import java.util.List;
 
 /**
+ * 达梦数据库连接存储。
+ *
  * @author oyzh
  * @since 2024/09/26
  */
@@ -23,18 +25,18 @@ public class DamengConnectStore extends JdbcStandardStore<DamengConnect> {
     private final DamengSSHConfigStore sshConfigStore = DamengSSHConfigStore.INSTANCE;
 
     /**
-     * 加载列表
+     * 加载连接列表
      *
-     * @return redis连接列表
+     * @return 连接列表
      */
     public List<DamengConnect> load() {
         return super.selectList();
     }
 
     /**
-     * 替换
+     * 保存连接，存在则更新，否则新增，并同步维护关联的 SSH 配置
      *
-     * @param model 模型
+     * @param model 连接对象
      * @return 结果
      */
     public boolean replace(DamengConnect model) {

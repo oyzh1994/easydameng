@@ -18,13 +18,16 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
- * db工具类
+ * 达梦数据库工具类
  *
  * @author oyzh
  * @since 2023/12/27
  */
 public class ShellDamengUtil {
 
+    /**
+     * 是否启用元数据打印
+     */
     public static boolean ENABLE_PRINT_METADATA = true;
 
     /**

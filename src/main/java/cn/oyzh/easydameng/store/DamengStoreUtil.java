@@ -9,6 +9,8 @@ import cn.oyzh.store.jdbc.JdbcDialect;
 import cn.oyzh.store.jdbc.JdbcManager;
 
 /**
+ * 达梦数据库本地存储初始化工具。
+ *
  * @author oyzh
  * @since 2024-09-23
  */

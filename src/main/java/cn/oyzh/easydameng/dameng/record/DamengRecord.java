@@ -36,23 +36,50 @@ public class DamengRecord extends DBObject implements Destroyable {
      */
     private DamengColumns columns;
 
+    /**
+     * 使用字段列表构造记录
+     *
+     * @param columns 字段列表
+     */
     public DamengRecord(DamengColumns columns) {
         this(columns, false);
     }
 
+    /**
+     * 使用字段列表构造记录
+     *
+     * @param columns 字段列表
+     */
     public DamengRecord(List<DamengColumn> columns) {
         this(new DamengColumns(columns), false);
     }
 
+    /**
+     * 使用字段列表和只读标识构造记录
+     *
+     * @param columns  字段列表
+     * @param readonly 是否只读
+     */
     public DamengRecord(List<DamengColumn> columns, boolean readonly) {
         this(new DamengColumns(columns), readonly);
     }
 
+    /**
+     * 使用字段列表和只读标识构造记录
+     *
+     * @param columns  字段列表
+     * @param readonly 是否只读
+     */
     public DamengRecord(DamengColumns columns, boolean readonly) {
         this.columns = columns;
         this.readonly = readonly;
     }
 
+    /**
+     * 获取字段列表
+     *
+     * @return 字段列表
+     */
     public DamengColumns getColumns() {
         return columns;
     }
@@ -143,7 +170,7 @@ public class DamengRecord extends DBObject implements Destroyable {
      * 是否存在记录属性
      *
      * @param recordProperty 记录属性
-     * @return 属性
+     * @return 是否存在
      */
     public boolean hasProperty(DamengRecordProperty recordProperty) {
         return this.properties.containsValue(recordProperty);
@@ -193,6 +220,8 @@ public class DamengRecord extends DBObject implements Destroyable {
 
     /**
      * 抛弃变更
+     *
+     * @throws Exception 异常
      */
     public void discard() throws Exception {
         for (DamengRecordProperty property : this.properties.values()) {
@@ -201,6 +230,11 @@ public class DamengRecord extends DBObject implements Destroyable {
         super.clearStatus();
     }
 
+    /**
+     * 复制指定记录的数据
+     *
+     * @param record 记录
+     */
     public void copy(DamengRecord record) {
         if (record != null) {
             for (String column : record.columns()) {
@@ -284,6 +318,11 @@ public class DamengRecord extends DBObject implements Destroyable {
         return property != null && property.isChanged();
     }
 
+    /**
+     * 转换为映射
+     *
+     * @return 映射
+     */
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         for (Map.Entry<String, DamengRecordProperty> value : this.properties.entrySet()) {
@@ -292,10 +331,20 @@ public class DamengRecord extends DBObject implements Destroyable {
         return map;
     }
 
+    /**
+     * 是否可编辑
+     *
+     * @return 是否可编辑
+     */
     public boolean isEditable() {
         return editable;
     }
 
+    /**
+     * 设置是否可编辑
+     *
+     * @param editable 是否可编辑
+     */
     public void setEditable(boolean editable) {
         this.editable = editable;
     }

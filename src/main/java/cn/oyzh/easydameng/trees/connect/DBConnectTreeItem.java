@@ -56,10 +56,16 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     private boolean canceled;
 
     /**
-     * redis信息储存
+     * 连接信息存储
      */
     private final DamengConnectStore connectStore = DamengConnectStore.INSTANCE;
 
+    /**
+     * 构造连接树节点
+     *
+     * @param value   连接信息
+     * @param treeView 所属树视图
+     */
     public DBConnectTreeItem(DamengConnect value, DBTreeView treeView) {
         super(treeView);
         this.value(value);
@@ -123,6 +129,11 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         }
     }
 
+    /**
+     * 添加模式节点
+     *
+     * @param schema 模式名称
+     */
     public void addSchema(String schema) {
         DamengSchema dbSchema = this.client.schema(schema);
         super.addChild(new DamengSchemaTreeItem(dbSchema, this.getTreeView()));
@@ -261,9 +272,9 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     }
 
     /**
-     * 设置值
+     * 设置连接信息
      *
-     * @param value redis信息
+     * @param value 连接信息
      */
     public void value(DamengConnect value) {
         this.value = value;
@@ -271,6 +282,11 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         this.setValue(new DBConnectTreeItemValue(this));
     }
 
+    /**
+     * 获取连接信息
+     *
+     * @return 连接信息
+     */
     public DamengConnect value() {
         return value;
     }
@@ -294,9 +310,9 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     }
 
     /**
-     * 获取当前父节点
+     * 获取所属的连接管理器
      *
-     * @return 父节点
+     * @return 连接管理器
      */
     public DBConnectManager connectManager() {
         Object object = this.getParent();
@@ -333,14 +349,31 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         }
     }
 
+    /**
+     * 判断模式是否存在
+     *
+     * @param schema 模式名称
+     * @return 是否存在
+     */
     public boolean existSchema(String schema) {
         return this.client.existSchema(schema);
     }
 
+    /**
+     * 创建模式
+     *
+     * @param schema 模式
+     */
     public void createSchema(DamengSchema schema) {
         this.client.createSchema(schema);
     }
 
+    /**
+     * 修改模式
+     *
+     * @param schema 模式
+     * @return 是否成功
+     */
     public boolean alterSchema(DamengSchema schema) {
         return this.client.alterSchema(schema);
     }
@@ -349,15 +382,31 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
     //        return this.client.databaseCollation(dbName);
     //    }
 
+    /**
+     * 删除模式
+     *
+     * @param schema 模式名称
+     * @return 是否成功
+     */
     public boolean dropSchema(String schema) {
         return this.client.dropSchema(schema);
     }
 
+    /**
+     * 获取连接类型
+     *
+     * @return 连接类型
+     */
     public String type() {
         return this.value.getType();
     }
 
 
+    /**
+     * 获取达梦客户端
+     *
+     * @return 达梦客户端
+     */
     public ShellDamengClient getClient() {
         return client;
     }

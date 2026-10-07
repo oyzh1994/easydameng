@@ -6,13 +6,19 @@ import cn.oyzh.easydameng.domain.DamengConnect;
 import cn.oyzh.fx.db.DBDialect;
 
 /**
- * db客户端封装
+ * 达梦数据库客户端工具类。
  *
  * @author oyzh
  * @since 2020/6/8
  */
 public class DBClientUtil {
 
+    /**
+     * 根据连接信息创建客户端
+     *
+     * @param info 连接信息
+     * @return 客户端实例，不支持的连接类型时返回 null
+     */
     public static ShellDamengClient newClient(DamengConnect info) {
         if (StringUtil.isBlank(info.getType()) || DBDialect.valueOf(info.getType()) == DBDialect.DAMENG) {
             return new ShellDamengClient(info);

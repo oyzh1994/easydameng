@@ -24,7 +24,7 @@ import java.util.List;
 
 
 /**
- * db主页
+ * 数据库主页
  *
  * @author oyzh
  * @since 2023/06/22

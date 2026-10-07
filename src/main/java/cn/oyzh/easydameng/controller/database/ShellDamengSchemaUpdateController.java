@@ -14,7 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 
 /**
- * 编辑db库业务
+ * 编辑数据库模式业务
  *
  * @author oyzh
  * @since 2024/01/30

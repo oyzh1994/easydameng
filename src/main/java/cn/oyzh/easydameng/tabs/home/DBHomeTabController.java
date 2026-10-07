@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * redis主页tab内容组件
+ * 数据库主页标签内容组件
  *
  * @author oyzh
  * @since 2023/6/24

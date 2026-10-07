@@ -29,6 +29,11 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
      */
     private boolean changeFlag;
 
+    /**
+     * 生成建表 sql
+     *
+     * @param param 建表参数
+     */
     private void _generate(DamengCreateTableParam param) {
         String schema = param.schema();
         DamengTable table = param.getTable();
@@ -89,6 +94,11 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         }
     }
 
+    /**
+     * 触发器处理
+     *
+     * @param param 建表参数
+     */
     protected void triggerHandle(DamengCreateTableParam param) {
         DBObjects<DamengTrigger> triggers = param.getTriggers();
         for (DamengTrigger trigger : triggers) {
@@ -109,6 +119,12 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         }
     }
 
+    /**
+     * 字段处理
+     *
+     * @param builder 语句构造器
+     * @param param   建表参数
+     */
     protected void columnHandle(StringBuilder builder, DamengCreateTableParam param) {
         for (DamengColumn column : param.getColumns()) {
             builder.append(DBUtil.wrap(column.getName(), DBDialect.DAMENG));
@@ -163,6 +179,12 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         }
     }
 
+    /**
+     * 主键处理
+     *
+     * @param builder 语句构造器
+     * @param param   建表参数
+     */
     protected void primaryKeyHandle(StringBuilder builder, DamengCreateTableParam param) {
         builder.append(" PRIMARY KEY (");
         for (DamengColumn column : param.primaryKeys()) {
@@ -174,6 +196,12 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         this.changeFlag = true;
     }
 
+    /**
+     * 索引处理
+     *
+     * @param builder 语句构造器
+     * @param param   建表参数
+     */
     protected void indexHandle(StringBuilder builder, DamengCreateTableParam param) {
         DBObjects<DamengIndex> indexes = param.getIndexes();
         for (DamengIndex index : indexes) {
@@ -200,6 +228,12 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         }
     }
 
+    /**
+     * 外键处理
+     *
+     * @param builder 语句构造器
+     * @param param   建表参数
+     */
     protected void foreignKeyHandle(StringBuilder builder, DamengCreateTableParam param) {
         DBObjects<DamengForeignKey> foreignKeys = param.getForeignKeys();
         for (DamengForeignKey foreignKey : foreignKeys) {
@@ -227,6 +261,12 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         }
     }
 
+    /**
+     * 检查处理
+     *
+     * @param builder 语句构造器
+     * @param table   建表参数
+     */
     protected void checkHandle(StringBuilder builder, DamengCreateTableParam table) {
         DBObjects<DamengCheck> checks = table.getChecks();
         for (DamengCheck check : checks) {
@@ -241,20 +281,44 @@ public class DamengTableCreateSqlGenerator extends DBSqlGenerator {
         }
     }
 
+    /**
+     * 生成建表 sql
+     *
+     * @param param 建表参数
+     * @return 建表 sql 列表
+     */
     public List<String> generate(DamengCreateTableParam param) {
         this._generate(param);
         return this.buildSql();
     }
 
+    /**
+     * 生成单条建表 sql
+     *
+     * @param param 建表参数
+     * @return 建表 sql
+     */
     public String generateSingle(DamengCreateTableParam param) {
         this._generate(param);
         return this.buildSqlSingle();
     }
 
+    /**
+     * 生成建表 sql
+     *
+     * @param param 建表参数
+     * @return 建表 sql 列表
+     */
     public static List<String> generateSql(DamengCreateTableParam param) {
         return new DamengTableCreateSqlGenerator().generate(param);
     }
 
+    /**
+     * 生成单条建表 sql
+     *
+     * @param param 建表参数
+     * @return 建表 sql
+     */
     public static String generateSqlSingle(DamengCreateTableParam param) {
         return new DamengTableCreateSqlGenerator().generateSingle(param);
     }

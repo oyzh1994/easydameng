@@ -47,10 +47,20 @@ public class DamengViewDesignTab extends DamengTab {
         }
     }
 
+    /**
+     * 获取模式
+     *
+     * @return 模式
+     */
     public String schema() {
         return this.controller().schema();
     }
 
+    /**
+     * 获取视图名称
+     *
+     * @return 视图名称
+     */
     public String viewName() {
         return this.controller().viewName();
     }
@@ -76,6 +86,11 @@ public class DamengViewDesignTab extends DamengTab {
         return (DamengViewDesignTabController) super.controller();
     }
 
+    /**
+     * 是否未保存
+     *
+     * @return 是否未保存
+     */
     public boolean isUnsaved() {
         return this.controller().isUnsaved();
     }

@@ -14,6 +14,9 @@ import javafx.scene.Cursor;
  */
 public class ShellMessageTab extends RichTab {
 
+    /**
+     * 构造shell消息标签
+     */
     public ShellMessageTab() {
         super();
         super.flush();

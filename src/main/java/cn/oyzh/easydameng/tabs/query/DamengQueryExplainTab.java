@@ -17,6 +17,12 @@ public class DamengQueryExplainTab extends RichTab {
         return DamengTab.BASE_PATH + "query/damengQueryExplainTab.fxml";
     }
 
+    /**
+     * 初始化解释结果
+     *
+     * @param title  标题
+     * @param result 解释结果
+     */
     public void init(String title, DamengExplainResult result) {
         this.setTitle(title);
         this.controller().init(result);

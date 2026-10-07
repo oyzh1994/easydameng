@@ -26,17 +26,33 @@ import java.util.List;
 
 
 /**
+ * 达梦记录表格列
+ *
  * @author oyzh
  * @since 2024/7/17
  */
 public class DamengRecordColumn extends FXTableColumn<DamengRecord, Object> implements MenuItemAdapter, ContextMenuAdapter {
 
+    /**
+     * 字段
+     */
     private final DamengColumn column;
 
+    /**
+     * 构造记录表格列
+     *
+     * @param column 字段
+     */
     public DamengRecordColumn(DamengColumn column) {
         this(column, true);
     }
 
+    /**
+     * 构造记录表格列
+     *
+     * @param column      字段
+     * @param showComment 是否显示注释
+     */
     public DamengRecordColumn(DamengColumn column, boolean showComment) {
         this.column = column;
         this.setReorderable(true);
@@ -248,6 +264,11 @@ public class DamengRecordColumn extends FXTableColumn<DamengRecord, Object> impl
         ClipboardUtil.copy(this.getName());
     }
 
+    /**
+     * 获取字体
+     *
+     * @return 字体
+     */
     public Font getFont() {
         //        FXVBox vBox = (FXVBox) this.getGraphic();
         //        if (vBox == null) {
@@ -257,18 +278,38 @@ public class DamengRecordColumn extends FXTableColumn<DamengRecord, Object> impl
         //        return label.getFont();
     }
 
+    /**
+     * 获取字段名称
+     *
+     * @return 字段名称
+     */
     public String getName() {
         return this.column.getName();
     }
 
+    /**
+     * 获取字段类型
+     *
+     * @return 字段类型
+     */
     public String getType() {
         return this.column.getType();
     }
 
+    /**
+     * 是否支持长度
+     *
+     * @return 是否支持长度
+     */
     public boolean supportSize() {
         return this.column.supportSize();
     }
 
+    /**
+     * 获取字段长度
+     *
+     * @return 字段长度
+     */
     public Integer getSize() {
         return this.column.getSize();
     }

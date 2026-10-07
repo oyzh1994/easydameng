@@ -17,13 +17,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
- * db查询文本域
+ * 达梦查询词法分析器
  *
  * @author oyzh
  * @since 2024/02/18
  */
 public class ShellDamengQueryTokenAnalyzer extends DBQueryTokenAnalyzer<ShellDamengQueryPromptItem, ShellDamengQueryToken> {
 
+    /** 单例实例 */
     public static final ShellDamengQueryTokenAnalyzer INSTANCE = new ShellDamengQueryTokenAnalyzer();
 
     @Override

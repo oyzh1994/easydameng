@@ -6,6 +6,8 @@ import cn.oyzh.fx.plus.window.StageManager;
 import java.io.IOException;
 
 /**
+ * 达梦数据库客户端进程工具。
+ *
  * @author oyzh
  * @since 2024-12-18
  */

@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * 显示表列表终端命令处理器
+ *
  * @author oyzh
  * @since 2024-12-30
  */

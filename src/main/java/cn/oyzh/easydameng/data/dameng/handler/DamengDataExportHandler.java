@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 达梦数据导出处理器
+ *
  * @author oyzh
  * @since 2024/08/27
  */
@@ -46,6 +48,12 @@ public class DamengDataExportHandler extends DBDataExportHandler {
      */
     private List<ShellDamengDataExportTable> tables;
 
+    /**
+     * 构造数据导出处理器
+     *
+     * @param dbClient db客户端
+     * @param schema   模式
+     */
     public DamengDataExportHandler(ShellDamengClient dbClient, String schema) {
         super(schema);
         this.dbClient = dbClient;
@@ -65,6 +73,14 @@ public class DamengDataExportHandler extends DBDataExportHandler {
         this.message("Export Finished");
     }
 
+    /**
+     * 初始化文件写入器
+     *
+     * @param filePath 文件路径
+     * @param columns  字段集合
+     * @return 文件写入器
+     * @throws IOException IO异常
+     */
     private DamengTypeFileWriter initWriter(String filePath, DamengColumns columns) throws IOException {
         if (this.isSqlType()) {
             return new DamengSqlTypeFileWriter(filePath, this.config, columns);
@@ -147,9 +163,10 @@ public class DamengDataExportHandler extends DBDataExportHandler {
     /**
      * 写入头
      *
+     * @param writer  文件写入器
      * @param table   导出表
      * @param columns 字段列表
-     * @throws IOException 异常
+     * @throws Exception 异常
      */
     private void writeHeader(DamengTypeFileWriter writer, ShellDamengDataExportTable table, DamengColumns columns) throws Exception {
         writer.writeHeader();
@@ -158,10 +175,11 @@ public class DamengDataExportHandler extends DBDataExportHandler {
     /**
      * 写入记录
      *
+     * @param writer  文件写入器
      * @param table   导出表
      * @param columns 字段列表
      * @param records 记录列表
-     * @throws IOException 异常
+     * @throws Exception 异常
      */
     private void writeRecord(DamengTypeFileWriter writer, ShellDamengDataExportTable table, DamengColumns columns, List<DamengRecord> records) throws Exception {
         List<Map<String, Object>> objects = new ArrayList<>();
@@ -180,7 +198,8 @@ public class DamengDataExportHandler extends DBDataExportHandler {
     /**
      * 写入尾
      *
-     * @throws IOException 异常
+     * @param writer 文件写入器
+     * @throws Exception 异常
      */
     private void writeTail(DamengTypeFileWriter writer) throws Exception {
         writer.writeTrial();
@@ -199,46 +218,101 @@ public class DamengDataExportHandler extends DBDataExportHandler {
         }
     }
 
+    /**
+     * 设置记录分隔符
+     *
+     * @param recordSeparator 记录分隔符
+     */
     public void recordSeparator(String recordSeparator) {
         this.config.setRecordSeparator(recordSeparator);
     }
 
+    /**
+     * 设置文本限定符
+     *
+     * @param txtIdentifier 文本限定符
+     */
     public void txtIdentifier(String txtIdentifier) {
         this.config.setTxtIdentifier(txtIdentifier);
     }
 
+    /**
+     * 设置字段分隔符
+     *
+     * @param fieldSeparator 字段分隔符
+     */
     public void fieldSeparator(String fieldSeparator) {
         this.config.setFieldSeparator(fieldSeparator);
     }
 
+    /**
+     * 设置是否包含字段名
+     *
+     * @param includeFields 是否包含字段名
+     */
     public void includeFields(boolean includeFields) {
         this.config.setIncludeFields(includeFields);
     }
 
+    /**
+     * 设置字段名转为属性名
+     *
+     * @param fieldToAttr 字段名转为属性名
+     */
     public void fieldToAttr(boolean fieldToAttr) {
         this.config.setFieldToAttr(fieldToAttr);
     }
 
+    /**
+     * 设置是否兼容早期版本
+     *
+     * @param earlyVersion 是否兼容早期版本
+     */
     public void earlyVersion(boolean earlyVersion) {
         this.config.setEarlyVersion(earlyVersion);
     }
 
+    /**
+     * 获取db客户端
+     *
+     * @return db客户端
+     */
     public ShellDamengClient getDbClient() {
         return dbClient;
     }
 
+    /**
+     * 设置db客户端
+     *
+     * @param dbClient db客户端
+     */
     public void setDbClient(ShellDamengClient dbClient) {
         this.dbClient = dbClient;
     }
 
+    /**
+     * 获取导出表集合
+     *
+     * @return 导出表集合
+     */
     public List<ShellDamengDataExportTable> getTables() {
         return tables;
     }
 
+    /**
+     * 设置导出表集合
+     *
+     * @param tables 导出表集合
+     */
     public void setTables(List<ShellDamengDataExportTable> tables) {
         this.tables = tables;
     }
 
+    /**
+     * 获取导出配置
+     *
+     * @return 导出配置
+     */
     public DamengDataExportConfig getConfig() {
         return config;
     }

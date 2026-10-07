@@ -16,8 +16,12 @@ import java.util.Collection;
  */
 public class DamengBetweenCondition extends DamengCondition {
 
+    /** 介于条件实例 */
     public final static DamengBetweenCondition INSTANCE = new DamengBetweenCondition();
 
+    /**
+     * 构造介于条件
+     */
     public DamengBetweenCondition() {
         super(I18nHelper.between(), "BETWEEN");
     }

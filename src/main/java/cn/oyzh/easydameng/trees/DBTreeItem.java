@@ -13,6 +13,11 @@ import cn.oyzh.fx.gui.tree.view.RichTreeView;
  */
 public abstract class DBTreeItem<V extends RichTreeItemValue> extends RichTreeItem<V> {
 
+    /**
+     * 构造基础树节点
+     *
+     * @param treeView 所属树视图
+     */
     public DBTreeItem(RichTreeView treeView) {
         super(treeView);
     }

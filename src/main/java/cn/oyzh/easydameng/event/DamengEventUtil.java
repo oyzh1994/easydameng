@@ -65,13 +65,19 @@ import javafx.scene.control.TreeItem;
 import java.util.List;
 
 /**
- * redis事件工具
+ * 达梦事件工具
  *
  * @author oyzh
  * @since 2023/11/20
  */
 public class DamengEventUtil {
 
+    /**
+     * 打开表事件
+     *
+     * @param item   表树节点
+     * @param dbItem 数据库树节点
+     */
     public static void tableOpen(DamengTableTreeItem item, DamengSchemaTreeItem dbItem) {
         DamengTableOpenEvent event = new DamengTableOpenEvent();
         event.data(item);
@@ -83,12 +89,23 @@ public class DamengEventUtil {
     //     EventUtil.post(new DamengRecordDeleteEvent());
     // }
 
+    /**
+     * 表已新增事件
+     *
+     * @param item 数据库树节点
+     */
     public static void tableAdded(DamengSchemaTreeItem item) {
         DamengTableAddedEvent event = new DamengTableAddedEvent();
         event.data(item);
         EventUtil.post(event);
     }
 
+    /**
+     * 表已刷新事件
+     *
+     * @param tableName 表名
+     * @param dbItem    数据库树节点
+     */
     public static void tableAlerted(String tableName, DamengSchemaTreeItem dbItem) {
         DamengTableAlertedEvent event = new DamengTableAlertedEvent();
         event.data(tableName);
@@ -96,12 +113,23 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 存储过程已新增事件
+     *
+     * @param dbItem 数据库树节点
+     */
     public static void procedureAdded(DamengSchemaTreeItem dbItem) {
         DamengProcedureAddedEvent event = new DamengProcedureAddedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }
 
+    /**
+     * 存储过程已刷新事件
+     *
+     * @param procedureName 存储过程名称
+     * @param dbItem        数据库树节点
+     */
     public static void procedureAlerted(String procedureName, DamengSchemaTreeItem dbItem) {
         DamengProcedureAlertedEvent event = new DamengProcedureAlertedEvent();
         event.data(procedureName);
@@ -122,12 +150,23 @@ public class DamengEventUtil {
 //        EventUtil.post(event);
 //    }
 
+    /**
+     * 函数已新增事件
+     *
+     * @param dbItem 数据库树节点
+     */
     public static void functionAdded(DamengSchemaTreeItem dbItem) {
         DamengFunctionAddedEvent event = new DamengFunctionAddedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }
 
+    /**
+     * 函数已刷新事件
+     *
+     * @param functionName 函数名称
+     * @param dbItem       数据库树节点
+     */
     public static void functionAlerted(String functionName, DamengSchemaTreeItem dbItem) {
         DamengFunctionAlertedEvent event = new DamengFunctionAlertedEvent();
         event.data(functionName);
@@ -135,6 +174,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 表已重命名事件
+     *
+     * @param tableItem 表树节点
+     * @param dbItem    数据库树节点
+     */
     public static void tableRenamed(DamengTableTreeItem tableItem, DamengSchemaTreeItem dbItem) {
         DamengTableRenamedEvent event = new DamengTableRenamedEvent();
         event.setDbItem(dbItem);
@@ -142,6 +187,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 视图已重命名事件
+     *
+     * @param viewItem 视图树节点
+     * @param dbItem   数据库树节点
+     */
     public static void viewRenamed(DamengViewTreeItem viewItem, DamengSchemaTreeItem dbItem) {
         DamengViewRenamedEvent event = new DamengViewRenamedEvent();
         event.setDbItem(dbItem);
@@ -156,6 +207,12 @@ public class DamengEventUtil {
     //        EventUtil.post(event);
     //    }
 
+    /**
+     * 表已清空事件
+     *
+     * @param tableItem 表树节点
+     * @param dbItem    数据库树节点
+     */
     public static void tableCleared(DamengTableTreeItem tableItem, DamengSchemaTreeItem dbItem) {
         DamengTableClearedEvent event = new DamengTableClearedEvent();
         event.setDbItem(dbItem);
@@ -163,6 +220,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 表已过滤事件
+     *
+     * @param item    表树节点
+     * @param filters 过滤条件列表
+     */
     public static void tableFiltered(DamengTableTreeItem item, List<DamengRecordFilter> filters) {
         DamengTableFilteredEvent event = new DamengTableFilteredEvent();
         event.data(item);
@@ -170,6 +233,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 视图已过滤事件
+     *
+     * @param item    视图树节点
+     * @param filters 过滤条件列表
+     */
     public static void viewFiltered(DamengViewTreeItem item, List<DamengRecordFilter> filters) {
         DamengViewFilteredEvent event = new DamengViewFilteredEvent();
         event.data(item);
@@ -177,6 +246,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 表已截断事件
+     *
+     * @param tableItem 表树节点
+     * @param dbItem    数据库树节点
+     */
     public static void tableTruncated(DamengTableTreeItem tableItem, DamengSchemaTreeItem dbItem) {
         DamengTableTruncatedEvent event = new DamengTableTruncatedEvent();
         event.setDbItem(dbItem);
@@ -184,6 +259,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 表已删除事件
+     *
+     * @param tableItem 表树节点
+     * @param dbItem    数据库树节点
+     */
     public static void tableDropped(DamengTableTreeItem tableItem, DamengSchemaTreeItem dbItem) {
         DamengTableDroppedEvent event = new DamengTableDroppedEvent();
         event.setDbItem(dbItem);
@@ -191,12 +272,23 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 数据库已关闭事件
+     *
+     * @param dbItem 数据库树节点
+     */
     public static void schemaClosed(DamengSchemaTreeItem dbItem) {
         DamengSchemaClosedEvent event = new DamengSchemaClosedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }
 
+    /**
+     * 数据库已新增事件
+     *
+     * @param connectItem 连接树节点
+     * @param schema      数据库
+     */
     public static void schemaAdded(DBConnectTreeItem connectItem, DamengSchema schema) {
         DamengSchemaAddedEvent event = new DamengSchemaAddedEvent();
         event.data(schema);
@@ -204,6 +296,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 数据库已修改事件
+     *
+     * @param connectItem 连接树节点
+     * @param schema      数据库
+     */
     public static void schemaUpdated(DBConnectTreeItem connectItem, DamengSchema schema) {
         DamengSchemaUpdatedEvent event = new DamengSchemaUpdatedEvent();
         event.data(schema);
@@ -211,18 +309,34 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 数据库已删除事件
+     *
+     * @param dbItem 数据库树节点
+     */
     public static void schemaDropped(DamengSchemaTreeItem dbItem) {
         DamengSchemaDroppedEvent event = new DamengSchemaDroppedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }
 
+    /**
+     * 查询添加事件
+     *
+     * @param item 数据库树节点
+     */
     public static void queryAdd(DamengSchemaTreeItem item) {
         DamengQueryAddEvent event = new DamengQueryAddEvent();
         event.data(item);
         EventUtil.post(event);
     }
 
+    /**
+     * 查询已新增事件
+     *
+     * @param query 查询
+     * @param item  数据库树节点
+     */
     public static void queryAdded(DamengQuery query, DamengSchemaTreeItem item) {
         DamengQueryAddedEvent event = new DamengQueryAddedEvent();
         event.data(query);
@@ -230,12 +344,23 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 查询已删除事件
+     *
+     * @param item 查询树节点
+     */
     public static void queryDeleted(DamengQueryTreeItem item) {
         DamengQueryDeletedEvent event = new DamengQueryDeletedEvent();
         event.data(item);
         EventUtil.post(event);
     }
 
+    /**
+     * 查询打开事件
+     *
+     * @param query 查询
+     * @param item  数据库树节点
+     */
     public static void queryOpen(DamengQuery query, DamengSchemaTreeItem item) {
         DamengQueryOpenEvent event = new DamengQueryOpenEvent();
         event.data(query);
@@ -243,6 +368,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 查询已重命名事件
+     *
+     * @param query 查询
+     * @param item  数据库树节点
+     */
     public static void queryRenamed(DamengQuery query, DamengSchemaTreeItem item) {
         DamengQueryRenamedEvent event = new DamengQueryRenamedEvent();
         event.data(query);
@@ -250,6 +381,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 视图打开事件
+     *
+     * @param item   视图树节点
+     * @param dbItem 数据库树节点
+     */
     public static void viewOpen(DamengViewTreeItem item, DamengSchemaTreeItem dbItem) {
         DamengViewOpenEvent event = new DamengViewOpenEvent();
         event.data(item);
@@ -257,6 +394,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 设计函数事件
+     *
+     * @param function 函数
+     * @param dbItem   数据库树节点
+     */
     public static void designFunction(DamengFunction function, DamengSchemaTreeItem dbItem) {
         DamengFunctionDesignEvent event = new DamengFunctionDesignEvent();
         event.data(function);
@@ -264,6 +407,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 设计存储过程事件
+     *
+     * @param procedure 存储过程
+     * @param dbItem    数据库树节点
+     */
     public static void designProcedure(DamengProcedure procedure, DamengSchemaTreeItem dbItem) {
         DamengProcedureDesignEvent event = new DamengProcedureDesignEvent();
         event.data(procedure);
@@ -278,6 +427,12 @@ public class DamengEventUtil {
 //        EventUtil.post(event1);
 //    }
 
+    /**
+     * 视图已刷新事件
+     *
+     * @param viewName 视图名称
+     * @param dbItem   数据库树节点
+     */
     public static void viewAlerted(String viewName, DamengSchemaTreeItem dbItem) {
         DamengViewAlertedEvent event = new DamengViewAlertedEvent();
         event.data(viewName);
@@ -285,6 +440,12 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 设计视图事件
+     *
+     * @param dbView 视图
+     * @param dbItem 数据库树节点
+     */
     public static void designView(DamengView dbView, DamengSchemaTreeItem dbItem) {
         DamengViewDesignEvent event = new DamengViewDesignEvent();
         event.data(dbView);
@@ -292,18 +453,34 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 视图已新增事件
+     *
+     * @param dbItem 数据库树节点
+     */
     public static void viewAdded(DamengSchemaTreeItem dbItem) {
         DamengViewAddedEvent event = new DamengViewAddedEvent();
         event.data(dbItem);
         EventUtil.post(event);
     }
 
+    /**
+     * 连接已删除事件
+     *
+     * @param info 连接
+     */
     public static void infoDeleted(DamengConnect info) {
         DamengConnectDeletedEvent event = new DamengConnectDeletedEvent();
         event.data(info);
         EventUtil.post(event);
     }
 
+    /**
+     * 设计表事件
+     *
+     * @param table  表
+     * @param dbItem 数据库树节点
+     */
     public static void designTable(DamengTable table, DamengSchemaTreeItem dbItem) {
         DamengTableDesignEvent event = new DamengTableDesignEvent();
         event.data(table);
@@ -314,7 +491,7 @@ public class DamengEventUtil {
     /**
      * 连接关闭事件
      *
-     * @param client redis客户端
+     * @param client 达梦客户端
      */
     public static void connectionClosed(ShellDamengClient client) {
         DBConnectionClosedEvent event = new DBConnectionClosedEvent();
@@ -325,7 +502,7 @@ public class DamengEventUtil {
     /**
      * 连接成功事件
      *
-     * @param client redis客户端
+     * @param client 达梦客户端
      */
     public static void connectionConnected(ShellDamengClient client) {
         DBConnectionConnectedEvent event = new DBConnectionConnectedEvent();
@@ -335,6 +512,9 @@ public class DamengEventUtil {
 
     /**
      * 终端打开事件
+     *
+     * @param client 达梦客户端
+     * @param schema 数据库模式
      */
     public static void terminalOpen(ShellDamengClient client, String schema) {
         DBTerminalOpenEvent event = new DBTerminalOpenEvent();
@@ -378,24 +558,43 @@ public class DamengEventUtil {
         EventUtil.post(event);
     }
 
+    /**
+     * 添加连接事件
+     */
     public static void addConnect() {
         EventUtil.post(new DBAddConnectEvent());
     }
 
+    /**
+     * 添加分组事件
+     */
     public static void addGroup() {
         EventUtil.post(new DBAddGroupEvent());
     }
 
+    /**
+     * 更新日志事件
+     */
     public static void changelog() {
         EventUtil.post(new ChangelogEvent());
     }
 
+    /**
+     * 连接已新增事件
+     *
+     * @param connect 连接
+     */
     public static void connectAdded(DamengConnect connect) {
         DamengConnectAddedEvent event = new DamengConnectAddedEvent();
         event.data(connect);
         EventUtil.post(event);
     }
 
+    /**
+     * 连接已删除事件
+     *
+     * @param connect 连接
+     */
     public static void connectDeleted(DamengConnect connect) {
         DamengConnectDeletedEvent event = new DamengConnectDeletedEvent();
         event.data(connect);
@@ -434,6 +633,12 @@ public class DamengEventUtil {
         EventUtil.post(new ShellShowMessageEvent());
     }
 
+    /**
+     * 打印SQL事件
+     *
+     * @param sql     SQL语句
+     * @param connect 连接
+     */
     public static void printSql(String sql, DamengConnect connect) {
         ShellPrintSqlEvent event = new ShellPrintSqlEvent();
         event.data(sql);

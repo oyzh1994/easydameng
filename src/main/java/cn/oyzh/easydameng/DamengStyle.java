@@ -2,7 +2,7 @@ package cn.oyzh.easydameng;
 
 
 /**
- * db样式文件常量对象
+ * 达梦数据库客户端样式文件常量对象，定义界面所使用的 css 样式文件路径。
  *
  * @author oyzh
  * @since 2023/06/16

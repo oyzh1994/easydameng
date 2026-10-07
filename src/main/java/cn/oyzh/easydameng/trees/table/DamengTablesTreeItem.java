@@ -24,13 +24,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * db树表类型节点
+ * 数据库树表分类节点
  *
  * @author oyzh
  * @since 2023/12/08
  */
 public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> {
 
+    /**
+     * 构造表分类树节点
+     *
+     * @param treeView 所属树视图
+     */
     public DamengTablesTreeItem(RichTreeView treeView) {
         super(treeView);
         super.setFilterable(true);
@@ -79,6 +84,9 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
         fxView.display();
     }
 
+    /**
+     * 新增表
+     */
     private void addTable() {
         DamengTable table = new DamengTable();
         table.setSchema(this.schema());
@@ -152,22 +160,47 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
         this.loadChild();
     }
 
+    /**
+     * 获取所属模式名称
+     *
+     * @return 模式名称
+     */
     public String schema() {
         return this.parent().schema();
     }
 
+    /**
+     * 获取数据库客户端
+     *
+     * @return 数据库客户端
+     */
     public ShellDamengClient client() {
         return this.parent().client();
     }
 
+    /**
+     * 获取表数量
+     *
+     * @return 表数量
+     */
     public Integer tableSize() {
         return this.parent().tableSize();
     }
 
+    /**
+     * 获取连接信息
+     *
+     * @return 连接信息
+     */
     public DamengConnect info() {
         return this.parent().info();
     }
 
+    /**
+     * 获取连接名称
+     *
+     * @return 连接名称
+     */
     public String infoName() {
         return this.parent().infoName();
     }
@@ -187,6 +220,11 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
     //    this.refresh();
     //}
 
+    /**
+     * 添加表子节点
+     *
+     * @param table 表对象
+     */
     public void addTable(DamengTable table) {
         this.addChild(new DamengTableTreeItem(table, this.getTreeView()));
         this.sortChild(this.isSortAsc());

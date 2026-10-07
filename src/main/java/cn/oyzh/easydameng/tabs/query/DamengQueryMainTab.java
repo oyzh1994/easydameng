@@ -9,7 +9,7 @@ import cn.oyzh.i18n.I18nHelper;
 import javafx.scene.Cursor;
 
 /**
- * db查询tab
+ * 达梦查询标签
  *
  * @author oyzh
  * @since 2024/02/18
@@ -55,10 +55,20 @@ public class DamengQueryMainTab extends DamengTab {
         }
     }
 
+    /**
+     * 获取查询对象
+     *
+     * @return 查询对象
+     */
     public DamengQuery query() {
         return this.controller().getQuery();
     }
 
+    /**
+     * 获取查询编号
+     *
+     * @return 查询编号
+     */
     public String queryId() {
         return this.query().getUid();
     }
@@ -68,10 +78,20 @@ public class DamengQueryMainTab extends DamengTab {
         return this.controller().getDbItem();
     }
 
+    /**
+     * 获取模式
+     *
+     * @return 模式
+     */
     public String schema() {
         return this.dbItem().schema();
     }
 
+    /**
+     * 获取连接名称
+     *
+     * @return 连接名称
+     */
     public String connectName() {
         return this.dbItem().connectName();
     }
