@@ -19,4 +19,9 @@ public class DamengNullCondition extends DamengCondition {
     public DamengNullCondition() {
         super(I18nHelper.isNull(), "IS NULL", false);
     }
+
+    @Override
+    public String wrapCondition(Object condition) {
+        return condition == null ? null : condition.toString();
+    }
 }

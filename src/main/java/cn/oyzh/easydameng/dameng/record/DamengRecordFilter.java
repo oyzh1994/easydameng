@@ -1,16 +1,15 @@
 package cn.oyzh.easydameng.dameng.record;
 
+import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.condition.DamengCondition;
 import cn.oyzh.easydameng.dameng.condition.DamengConditionUtil;
-import cn.oyzh.easydameng.dameng.column.DamengColumn;
-import cn.oyzh.easydameng.fx.table.DBJoinSymbolComboBox;
 import cn.oyzh.fx.db.DBDialect;
 import cn.oyzh.fx.db.DBRecordFilter;
 import cn.oyzh.fx.db.condition.ui.DBConditionComboBox;
 import cn.oyzh.fx.db.ui.DBColumnComboBox;
 import cn.oyzh.fx.plus.controls.box.FXHBox;
-import cn.oyzh.fx.plus.controls.button.FXCheckBox;
 import cn.oyzh.fx.plus.flex.FlexUtil;
+import cn.oyzh.fx.plus.node.NodeUtil;
 import cn.oyzh.fx.plus.tableview.TableViewUtil;
 import cn.oyzh.i18n.I18nHelper;
 import javafx.scene.Node;
@@ -31,20 +30,10 @@ public class DamengRecordFilter extends DBRecordFilter {
      */
     private DamengCondition condition;
 
-    /**
-     * 值组件
-     */
-    private FXHBox valueBox;
-
-    /**
-     * 获取值
-     *
-     * @return 值
-     * @throws Exception 异常
-     */
+    @Override
     public Object value() throws Exception {
-        if (this.valueBox == null || this.valueBox.isChildEmpty()) {
-            return this.value;
+        if (this.valueBox == null || this.valueBox.isChildEmpty() || this.valueBox.isDisable()) {
+            return this.condition == null ? this.value : this.condition.getValue();
         }
         return this.value = DamengConditionUtil.getNodeVal(this.valueBox.getChildren());
     }
@@ -59,14 +48,17 @@ public class DamengRecordFilter extends DBRecordFilter {
         return this.valueBox;
     }
 
-    /**
-     * 更新值组件
-     */
-    private void updateValueControl() {
+    @Override
+    protected void updateValueControl() {
+        if (this.condition != null && !this.condition.isRequireCondition()) {
+            NodeUtil.disable(this.valueBox);
+            return;
+        }
         if (this.valueBox == null) {
             this.valueBox = new FXHBox();
             FlexUtil.flexWidth(this.valueBox, "100%");
         }
+        NodeUtil.enable(this.valueBox);
         List<Node> nodes = DamengConditionUtil.generateNode((DamengColumn) this.column, this.condition);
         DamengConditionUtil.setNodeVal(nodes, this.value);
         if (nodes.size() == 1) {
