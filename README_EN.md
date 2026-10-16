@@ -4,6 +4,9 @@ English | [简体中文](README.md)
 
 EasyDameng is a JavaFX desktop client for Dameng databases. It provides connection management, database object maintenance, SQL querying, data import and export, data transport, and database dump capabilities.
 
+Follow-up updates  
+https://github.com/oyzh1994/easyshell  
+
 ## Features
 
 - Manage multiple Dameng database connections and their configuration.
