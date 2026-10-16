@@ -352,7 +352,6 @@ public class DamengRecord extends DBObject implements Destroyable {
     @Override
     public void destroy() {
         if (this.properties != null) {
-            this.columns.clear();
             this.columns = null;
             for (DamengRecordProperty property : this.properties.values()) {
                 property.destroy();
