@@ -6,7 +6,7 @@ import cn.oyzh.easydameng.event.DamengEventUtil;
 import cn.oyzh.event.EventSubscribe;
 import cn.oyzh.fx.gui.event.Layout1Event;
 import cn.oyzh.fx.gui.event.Layout2Event;
-import cn.oyzh.fx.gui.svg.pane.LayoutSVGPane;
+import cn.oyzh.fx.gui.svg.label.LayoutSVGLabel;
 import cn.oyzh.fx.plus.controller.SubStageController;
 import cn.oyzh.fx.plus.information.MessageBox;
 import cn.oyzh.fx.plus.window.StageAdapter;
@@ -27,7 +27,7 @@ public class HeaderController extends SubStageController {
      * 布局组件
      */
     @FXML
-    private LayoutSVGPane layoutPane;
+    private LayoutSVGLabel layoutPane;
 
     /**
      * 布局
