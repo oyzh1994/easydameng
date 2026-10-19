@@ -88,7 +88,7 @@ public class DamengForeignKeyControl extends DamengForeignKey {
             return textField;
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex, StageManager.getPrimaryStage());
+            MessageBox.exception(ex, StageManager.getFrontWindow());
         }
         return null;
     }

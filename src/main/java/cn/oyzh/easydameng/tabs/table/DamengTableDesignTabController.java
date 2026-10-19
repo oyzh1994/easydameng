@@ -293,7 +293,7 @@ public class DamengTableDesignTabController extends ParentTabController {
      */
     @FXML
     private void save() {
-        StageManager.showMask(this::doSave);
+        StageManager.showMask(this.getWindow(), this::doSave);
     }
 
     /**
@@ -767,7 +767,7 @@ public class DamengTableDesignTabController extends ParentTabController {
         // 更新新数据标志位
         this.newData = table.isNew();
         this.table.setSchema(this.dbItem.schema());
-        StageManager.showMask(this::doInit);
+        StageManager.showMask(this.getWindow(), this::doInit);
     }
 
     /**

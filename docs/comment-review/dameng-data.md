@@ -509,7 +509,7 @@
   | `ObjectProperty<File> fileProperty()` | 文件属性 | 懒建 `SimpleObjectProperty` |
   | `File getFile()` / `void setFile(File)` / `String getFilePath()` / `String getFileName()` | 文件读写 | 由 `fileProperty` 派生路径与文件名 |
   | `ChooseFileTextField getFilePathControl()` | 文件选择控件 | `setOnSelectedFile(this::setFile)`，双向同步路径 |
-  | `DamengTableComboBox getTargetTableControl()` | 目标表控件 | `StageManager.showMask(() -> comboBox.init(dbName, getTableName(), dbClient))`，选中变更 `setTargetTableName` |
+  | `DamengTableComboBox getTargetTableControl()` | 目标表控件 | `StageManager.showMask(this.getWindow(), () -> comboBox.init(dbName, getTableName(), dbClient))`，选中变更 `setTargetTableName` |
   | `String getTableName()` | 由文件名推断表名 | 去掉最后一个 `.` 后的后缀 |
   | `String getTargetTableName()` / `void setTargetTableName(String)` | 目标表名读写 | 为空时回退 `getTableName()` |
 

@@ -74,7 +74,7 @@ public class DamengTableDesignTab extends DamengTab {
      * @throws Exception 处理异常
      */
     public void init(DamengTable table, DamengSchemaTreeItem dbItem) throws Exception {
-        StageManager.showMask(() -> {
+        StageManager.showMask(this.getWindow(), () -> {
             try {
                 this.controller().init(table, dbItem);
                 this.flush();

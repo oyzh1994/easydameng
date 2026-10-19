@@ -123,7 +123,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
         this.procedure = procedure;
         // 更新新数据标志位
         this.newData = procedure.isNew();
-        StageManager.showMask(this::doInit);
+        StageManager.showMask(this.getWindow(), this::doInit);
     }
 
     /**
@@ -232,7 +232,7 @@ public class DamengProcedureDesignTabController extends RichTabController {
      */
     @FXML
     private void save() {
-        StageManager.showMask(this::doSave);
+        StageManager.showMask(this.getWindow(), this::doSave);
     }
 
     /**

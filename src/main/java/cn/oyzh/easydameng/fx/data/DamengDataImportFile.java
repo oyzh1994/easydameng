@@ -128,7 +128,7 @@ public class DamengDataImportFile {
      */
     public DamengTableComboBox getTargetTableControl() {
         DamengTableComboBox comboBox = new DamengTableComboBox();
-        StageManager.showMask(() -> comboBox.init(this.schema, this.getTableName(), this.dbClient));
+        StageManager.showMask(StageManager.getFrontWindow(), () -> comboBox.init(this.schema, this.getTableName(), this.dbClient));
         comboBox.selectedItemChanged((observable, oldValue, newValue) -> {
             this.setTargetTableName(newValue);
         });

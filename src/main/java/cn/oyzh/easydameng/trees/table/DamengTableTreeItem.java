@@ -148,7 +148,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
      * @param includeRecord 是否包含记录
      */
     private void cloneTable(boolean includeRecord) {
-        StageManager.showMask(() -> this.doCloneTable(includeRecord));
+        StageManager.showMask(this.getWindow(), () -> this.doCloneTable(includeRecord));
     }
 
     /**

@@ -180,7 +180,7 @@
   | 方法 | 说明 | 关键逻辑/调用 |
   |---|---|---|
   | `initInfo()` | 初始化信息 | `treeItem.dbItem().selectTable(名)` 后回填各控件 |
-  | `onWindowShown(WindowEvent)` | 显示 | 取 `item` 属性，`StageManager.showMask(this::initInfo)` |
+  | `onWindowShown(WindowEvent)` | 显示 | 取 `item` 属性，`StageManager.showMask(this.getWindow(), this::initInfo)` |
   | `getViewTitle()` | 标题 | `I18nHelper.tableInfo()` |
 
 - 调用链：`ShellDamengViewFactory.tableInfo → ShellDamengTableInfoController.onWindowShown → initInfo → dbItem.selectTable`

@@ -259,7 +259,7 @@
 //     */
 //    @FXML
 //    private void save() {
-//        StageManager.showMask(this::doSave);
+//        StageManager.showMask(this.getWindow(), this::doSave);
 //    }
 //
 //    /**
