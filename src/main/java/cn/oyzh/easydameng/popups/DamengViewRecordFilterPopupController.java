@@ -85,7 +85,7 @@ public class DamengViewRecordFilterPopupController extends PopupController {
             this.submit(this.filterTable.getItems());
             this.closeWindow();
         } catch (Exception ex) {
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 
@@ -158,7 +158,7 @@ public class DamengViewRecordFilterPopupController extends PopupController {
                 this.filterTable.getItems().remove(filter);
             }
         } catch (Exception ex) {
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 }

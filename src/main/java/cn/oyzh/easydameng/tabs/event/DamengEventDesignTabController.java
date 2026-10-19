@@ -306,7 +306,7 @@
 //            // 初始化预览
 //            this.initPreview();
 //        } catch (Exception ex) {
-//            MessageBox.exception(ex);
+//            MessageBox.exception(ex, this.getWindow());
 //        } finally {
 //            // this.enableTab();
 //            this.flushTab();

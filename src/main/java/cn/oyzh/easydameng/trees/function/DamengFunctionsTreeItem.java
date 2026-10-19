@@ -113,7 +113,7 @@ public class DamengFunctionsTreeItem extends DBTreeItem<DamengFunctionsTreeItemV
                     })
                     .onError(ex -> {
                         this.setLoaded(false);
-                        MessageBox.exception(ex);
+                        MessageBox.exception(ex, this.getWindow());
                     })
                     .onSuccess(this::refresh)
                     .onFinish(() -> {

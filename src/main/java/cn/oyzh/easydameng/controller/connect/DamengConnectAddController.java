@@ -196,7 +196,7 @@ public class DamengConnectAddController extends StageController {
         // 检查连接地址
         String host = this.getHost();
         if (StringUtil.isBlank(host) || StringUtil.isBlank(host.split(":")[0])) {
-            MessageBox.warn(I18nHelper.contentCanNotEmpty());
+            MessageBox.warn(I18nHelper.contentCanNotEmpty(), this.getWindow());
         } else {
             // 创建redis连接
             DamengConnect redisConnect = new DamengConnect();
@@ -246,11 +246,11 @@ public class DamengConnectAddController extends StageController {
                 DamengEventUtil.connectAdded(damengConnect);
                 this.closeWindow();
             } else {
-                MessageBox.warn(I18nHelper.operationFail());
+                MessageBox.warn(I18nHelper.operationFail(), this.getWindow());
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 

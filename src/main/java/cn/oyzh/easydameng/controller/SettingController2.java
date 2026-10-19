@@ -362,13 +362,13 @@ public class SettingController2 extends StageController {
                 // 应用透明度配置
                 OpacityManager.apply(this.setting.opacityConfig());
                 // 提示不为空，说明需要重启，则执行重启
-                if (StringUtil.isNotBlank(tips) && MessageBox.confirm(tips)) {
+                if (StringUtil.isNotBlank(tips) && MessageBox.confirm(tips, this.getWindow())) {
                     DamengProcessUtil.restartApplication();
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 

@@ -79,7 +79,7 @@ public class DamengTableDesignTab extends DamengTab {
                 this.controller().init(table, dbItem);
                 this.flush();
             } catch (Exception ex) {
-                MessageBox.exception(ex);
+                MessageBox.exception(ex, this.getWindow());
             }
         });
     }
@@ -100,7 +100,7 @@ public class DamengTableDesignTab extends DamengTab {
 
     @Override
     protected void onTabCloseRequest(Event event) {
-        if (this.isUnsaved() && !MessageBox.confirm(I18nHelper.unsavedAndContinue())) {
+        if (this.isUnsaved() && !MessageBox.confirm(I18nHelper.unsavedAndContinue(), this.getWindow())) {
             event.consume();
         } else {
             this.closeTab();

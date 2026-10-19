@@ -285,11 +285,11 @@ public class ShellDamengDataImportController extends StageController {
             } catch (Exception e) {
                 if (e.getClass().isAssignableFrom(InterruptedException.class)) {
                     this.updateStatus(I18nHelper.operationCancel());
-                    MessageBox.okToast(I18nHelper.operationCancel());
+                    MessageBox.okToast(I18nHelper.operationCancel(), this.getWindow());
                 } else {
                     e.printStackTrace();
                     this.updateStatus(I18nHelper.operationFail());
-                    MessageBox.warn(I18nHelper.operationFail());
+                    MessageBox.warn(I18nHelper.operationFail(), this.getWindow());
                 }
             } finally {
                 // 结束处理
@@ -413,7 +413,7 @@ public class ShellDamengDataImportController extends StageController {
     private void showStep2() {
         RadioButton button = this.fileType.selectedToggle();
         if (button == null) {
-            MessageBox.warn(I18nHelper.pleaseSelectType());
+            MessageBox.warn(I18nHelper.pleaseSelectType(), this.getWindow());
             return;
         }
         this.step1.disappear();
@@ -427,7 +427,7 @@ public class ShellDamengDataImportController extends StageController {
     @FXML
     private void showStep3() {
         if (this.importFileTableView.isItemEmpty()) {
-            MessageBox.warn(I18nHelper.pleaseSelectFile());
+            MessageBox.warn(I18nHelper.pleaseSelectFile(), this.getWindow());
             return;
         }
         // 文件类型

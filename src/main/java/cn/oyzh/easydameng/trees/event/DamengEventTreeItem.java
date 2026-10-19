@@ -97,7 +97,7 @@
 //            this.dbItem().dropEvent(this.value);
 //            super.remove();
 //        } catch (Exception ex) {
-//            MessageBox.exception(ex);
+//            MessageBox.exception(ex, this.getWindow());
 //        }
 //    }
 //
@@ -143,7 +143,7 @@
 //            DamengEventUtil.eventRenamed(this, this.dbItem());
 //        } catch (Exception ex) {
 //            ex.printStackTrace();
-//            MessageBox.exception(ex);
+//            MessageBox.exception(ex, this.getWindow());
 //        }
 //    }
 //}

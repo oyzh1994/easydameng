@@ -162,7 +162,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
             DamengTable damengTable = this.dbItem().selectTable(cloneTable);
             this.dbItem().getTableTypeChild().addTable(damengTable);
         } catch (Exception ex) {
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 
@@ -204,13 +204,13 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
      * 截断表
      */
     private void truncateTable() {
-        if (MessageBox.confirm(I18nHelper.truncateTable() + "[" + this.tableName() + "]")) {
+        if (MessageBox.confirm(I18nHelper.truncateTable() + "[" + this.tableName() + "]", this.getWindow())) {
             try {
                 this.dbItem().truncateTable(this.tableName());
                 DamengEventUtil.tableTruncated(this, this.dbItem());
             } catch (Exception ex) {
                 ex.printStackTrace();
-                MessageBox.exception(ex);
+                MessageBox.exception(ex, this.getWindow());
             }
         }
     }
@@ -220,25 +220,25 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
      */
     private void clearTableData() {
         try {
-            if (MessageBox.confirm(I18nHelper.clearTableData() + "[" + this.tableName() + "]")) {
+            if (MessageBox.confirm(I18nHelper.clearTableData() + "[" + this.tableName() + "]", this.getWindow())) {
                 this.dbItem().clearTable(this.tableName());
                 DamengEventUtil.tableCleared(this, this.dbItem());
             }
         } catch (Exception ex) {
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 
     @Override
     public void delete() {
         try {
-            if (MessageBox.confirm(I18nHelper.deleteTable() + "[" + this.tableName() + "]")) {
+            if (MessageBox.confirm(I18nHelper.deleteTable() + "[" + this.tableName() + "]", this.getWindow())) {
                 this.dbItem().dropTable(this.tableName());
                 DamengEventUtil.tableDropped(this, this.dbItem());
                 this.remove();
             }
         } catch (Exception ex) {
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 
@@ -257,14 +257,14 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
             // if (!MessageBox.confirm(DBI18nHelper.tableTip2())) {
             //     return;
             // }
-            String tableName = MessageBox.prompt(I18nHelper.pleaseInputName(), this.value.getName());
+            String tableName = MessageBox.prompt(I18nHelper.pleaseInputName(), this.value.getName(), this.getWindow());
             // 名称为null或者跟当前名称相同，则忽略
             if (tableName == null || Objects.equals(tableName, this.value.getName())) {
                 return;
             }
             // 检查名称
             if (StringUtil.isBlank(tableName)) {
-                MessageBox.warn(I18nHelper.pleaseInputContent());
+                MessageBox.warn(I18nHelper.pleaseInputContent(), this.getWindow());
                 return;
             }
             // if (this.dbItem().existTable(tableName)) {
@@ -279,7 +279,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
             DamengEventUtil.tableRenamed(this, this.dbItem());
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 

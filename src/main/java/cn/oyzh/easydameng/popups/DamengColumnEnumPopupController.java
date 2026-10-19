@@ -52,7 +52,7 @@ public class DamengColumnEnumPopupController extends PopupController {
             }
             this.closeWindow();
         } catch (Exception ex) {
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 

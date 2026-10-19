@@ -116,7 +116,7 @@ public class DamengProcedureDesignTab extends DamengTab {
 
     @Override
     protected void onTabCloseRequest(Event event) {
-        if (this.isUnsaved() && !MessageBox.confirm(I18nHelper.unsavedAndContinue())) {
+        if (this.isUnsaved() && !MessageBox.confirm(I18nHelper.unsavedAndContinue(), this.getWindow())) {
             event.consume();
         } else {
             this.closeTab();

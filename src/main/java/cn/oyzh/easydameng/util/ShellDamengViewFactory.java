@@ -59,7 +59,7 @@ public class ShellDamengViewFactory {
             adapter.display();
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, StageManager.getPrimaryStage());
         }
     }
 
@@ -77,7 +77,7 @@ public class ShellDamengViewFactory {
             adapter.display();
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, StageManager.getPrimaryStage());
         }
     }
 
@@ -99,7 +99,7 @@ public class ShellDamengViewFactory {
             adapter.display();
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, StageManager.getPrimaryStage());
         }
     }
 
@@ -117,7 +117,7 @@ public class ShellDamengViewFactory {
             adapter.display();
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, StageManager.getPrimaryStage());
         }
     }
 
@@ -135,7 +135,7 @@ public class ShellDamengViewFactory {
     //            adapter.display();
     //        } catch (Exception ex) {
     //            ex.printStackTrace();
-    //            MessageBox.exception(ex);
+    //            MessageBox.exception(ex, StageManager.getPrimaryStage());
     //        }
     //    }
 
@@ -153,7 +153,7 @@ public class ShellDamengViewFactory {
             adapter.display();
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, StageManager.getPrimaryStage());
         }
     }
 
@@ -171,7 +171,7 @@ public class ShellDamengViewFactory {
     //            return adapter;
     //        } catch (Exception ex) {
     //            ex.printStackTrace();
-    //            MessageBox.exception(ex);
+    //            MessageBox.exception(ex, StageManager.getPrimaryStage());
     //        }
     //        return null;
     //    }
@@ -188,7 +188,7 @@ public class ShellDamengViewFactory {
             fxView.display();
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, StageManager.getPrimaryStage());
         }
     }
 
@@ -204,7 +204,7 @@ public class ShellDamengViewFactory {
             fxView.display();
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, StageManager.getPrimaryStage());
         }
     }
 
@@ -220,7 +220,7 @@ public class ShellDamengViewFactory {
             fxView.display();
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, StageManager.getPrimaryStage());
         }
     }
 
@@ -236,7 +236,7 @@ public class ShellDamengViewFactory {
             fxView.display();
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, StageManager.getPrimaryStage());
         }
     }
 

@@ -3,14 +3,14 @@ package cn.oyzh.easydameng.tabs;
 import cn.oyzh.common.util.StringUtil;
 import cn.oyzh.easydameng.domain.DamengQuery;
 import cn.oyzh.easydameng.event.connect.DBConnectionClosedEvent;
-import cn.oyzh.easydameng.event.schema.DamengSchemaClosedEvent;
-import cn.oyzh.easydameng.event.schema.DamengSchemaDroppedEvent;
 import cn.oyzh.easydameng.event.function.DamengFunctionDesignEvent;
 import cn.oyzh.easydameng.event.procedure.DamengProcedureDesignEvent;
 import cn.oyzh.easydameng.event.query.DamengQueryAddEvent;
 import cn.oyzh.easydameng.event.query.DamengQueryDeletedEvent;
 import cn.oyzh.easydameng.event.query.DamengQueryOpenEvent;
 import cn.oyzh.easydameng.event.query.DamengQueryRenamedEvent;
+import cn.oyzh.easydameng.event.schema.DamengSchemaClosedEvent;
+import cn.oyzh.easydameng.event.schema.DamengSchemaDroppedEvent;
 import cn.oyzh.easydameng.event.table.DamengTableAlertedEvent;
 import cn.oyzh.easydameng.event.table.DamengTableClearedEvent;
 import cn.oyzh.easydameng.event.table.DamengTableDesignEvent;
@@ -38,6 +38,7 @@ import cn.oyzh.event.EventListener;
 import cn.oyzh.event.EventSubscribe;
 import cn.oyzh.fx.plus.information.MessageBox;
 import javafx.scene.control.Tab;
+import javafx.stage.Window;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,10 @@ public class DamengTabEventListener implements EventListener {
      * 标签页面板
      */
     private final DamengTabPane tabPane;
+
+    private Window getWindow() {
+        return tabPane != null ? tabPane.getWindow() : null;
+    }
 
     /**
      * 构造达梦标签页事件监听器
@@ -309,7 +314,7 @@ public class DamengTabEventListener implements EventListener {
             this.select(tab);
             tab.init(event.data());
         } catch (Exception ex) {
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 
@@ -510,34 +515,34 @@ public class DamengTabEventListener implements EventListener {
         }
     }
 
-//    private DamengEventDesignTab getDamengEventTab(DamengSchemaTreeItem dbItem, String eventName) {
-//        for (Tab tab : this.getTabs()) {
-//            if (tab instanceof DamengEventDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(eventName, tab1.eventName())) {
-//                return tab1;
-//            }
-//        }
-//        return null;
-//    }
-//
-//    /**
-//     * 事件设计事件
-//     *
-//     * @param event 事件
-//     */
-//    @EventSubscribe
-//    private void onDamengEventDesign(DamengEventDesignEvent event) {
-//        try {
-//            DamengEventDesignTab tab = this.getDamengEventTab(event.getDbItem(), event.eventName());
-//            if (tab == null) {
-//                tab = new DamengEventDesignTab();
-//                tab.init(event.data(), event.getDbItem());
-//                this.addTab(tab);
-//            }
-//            this.select(tab);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//    }
+    //    private DamengEventDesignTab getDamengEventTab(DamengSchemaTreeItem dbItem, String eventName) {
+    //        for (Tab tab : this.getTabs()) {
+    //            if (tab instanceof DamengEventDesignTab tab1 && tab1.dbItem() == dbItem && StringUtil.equals(eventName, tab1.eventName())) {
+    //                return tab1;
+    //            }
+    //        }
+    //        return null;
+    //    }
+    //
+    //    /**
+    //     * 事件设计事件
+    //     *
+    //     * @param event 事件
+    //     */
+    //    @EventSubscribe
+    //    private void onDamengEventDesign(DamengEventDesignEvent event) {
+    //        try {
+    //            DamengEventDesignTab tab = this.getDamengEventTab(event.getDbItem(), event.eventName());
+    //            if (tab == null) {
+    //                tab = new DamengEventDesignTab();
+    //                tab.init(event.data(), event.getDbItem());
+    //                this.addTab(tab);
+    //            }
+    //            this.select(tab);
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //        }
+    //    }
 
     /**
      * 获取视图设计标签

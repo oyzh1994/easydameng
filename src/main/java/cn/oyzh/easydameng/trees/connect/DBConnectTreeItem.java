@@ -160,7 +160,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
                         this.client.start();
                         if (!this.isConnected()) {
                             if (!this.canceled) {
-                                MessageBox.warn("[" + this.value.getName() + "] " + I18nHelper.connectFail());
+                                MessageBox.warn("[" + this.value.getName() + "] " + I18nHelper.connectFail(), this.getWindow());
                             }
                             this.canceled = false;
                             this.closeConnect(false);
@@ -170,7 +170,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
                     })
                     .onFinish(this::refresh)
                     .onSuccess(this::expend)
-                    .onError(MessageBox::exception)
+                    .onError(ex -> MessageBox.exception(ex, this.getWindow()))
                     .build();
             // 执行连接
             this.startWaiting(task);
@@ -200,7 +200,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
             Task task = TaskBuilder.newBuilder()
                     .onStart(func::run)
                     .onSuccess(this::refresh)
-                    .onError(MessageBox::exception)
+                    .onError(ex -> MessageBox.exception(ex, this.getWindow()))
                     .build();
             this.startWaiting(task);
         } else {
@@ -213,7 +213,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
      */
     private void editConnect() {
         if (this.isConnected()) {
-            if (!MessageBox.confirm(I18nHelper.closeAndContinue())) {
+            if (!MessageBox.confirm(I18nHelper.closeAndContinue(), this.getWindow())) {
                 return;
             }
             this.closeConnect();
@@ -234,32 +234,32 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         if (this.connectStore.insert(dbInfo)) {
             this.connectManager().addConnect(dbInfo);
         } else {
-            MessageBox.warn(I18nHelper.operationFail());
+            MessageBox.warn(I18nHelper.operationFail(), this.getWindow());
         }
     }
 
     @Override
     public void delete() {
-        if (MessageBox.confirm(I18nHelper.delete() + " [" + this.value().getName() + "]")) {
+        if (MessageBox.confirm(I18nHelper.delete() + " [" + this.value().getName() + "]", this.getWindow())) {
             this.closeConnect(false);
             if (this.connectManager().delConnectItem(this)) {
                 DamengEventUtil.connectDeleted(this.value);
             } else {
-                MessageBox.warn(I18nHelper.operationFail());
+                MessageBox.warn(I18nHelper.operationFail(), this.getWindow());
             }
         }
     }
 
     @Override
     public void rename() {
-        String connectName = MessageBox.prompt(I18nHelper.contentTip1(), this.value.getName());
+        String connectName = MessageBox.prompt(I18nHelper.contentTip1(), this.value.getName(), this.getWindow());
         // 名称为null或者跟当前名称相同，则忽略
         if (connectName == null || Objects.equals(connectName, this.value.getName())) {
             return;
         }
         // 检查名称
         if (StringUtil.isBlank(connectName)) {
-            MessageBox.warn(I18nHelper.contentCanNotEmpty());
+            MessageBox.warn(I18nHelper.contentCanNotEmpty(), this.getWindow());
             return;
         }
         this.value.setName(connectName);
@@ -267,7 +267,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
         if (this.connectStore.update(this.value)) {
             this.setValue(new DBConnectTreeItemValue(this));
         } else {
-            MessageBox.warn(I18nHelper.operationFail());
+            MessageBox.warn(I18nHelper.operationFail(), this.getWindow());
         }
     }
 

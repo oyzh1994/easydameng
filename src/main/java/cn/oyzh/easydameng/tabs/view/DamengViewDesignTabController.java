@@ -220,14 +220,14 @@ public class DamengViewDesignTabController extends RichTabController {
      */
     @FXML
     private void refresh() {
-        if (!MessageBox.confirm(I18nHelper.refreshData() + "?")) {
+        if (!MessageBox.confirm(I18nHelper.refreshData() + "?", this.getWindow())) {
             return;
         }
         try {
             this.init(this.view, this.dbItem);
             this.flushTab();
         } catch (Exception ex) {
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
     }
 
@@ -254,7 +254,7 @@ public class DamengViewDesignTabController extends RichTabController {
 
             // 视图名称
             if (this.newData) {
-                this.viewName = MessageBox.prompt(I18nHelper.pleaseInputViewName(), this.viewName);
+                this.viewName = MessageBox.prompt(I18nHelper.pleaseInputViewName(), this.viewName, this.getWindow());
                 if (this.viewName == null) {
                     return;
                 }
@@ -285,7 +285,7 @@ public class DamengViewDesignTabController extends RichTabController {
             // 初始化预览
             this.initPreview();
         } catch (Exception ex) {
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         } finally {
             this.flushTab();
         }

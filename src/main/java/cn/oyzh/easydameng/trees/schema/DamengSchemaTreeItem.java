@@ -173,12 +173,12 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
     public void delete() {
         Task task = TaskBuilder.newBuilder()
                 .onStart(() -> {
-                    if (MessageBox.confirm(I18nHelper.deleteSchema() + "[" + this.schema() + "]")) {
+                    if (MessageBox.confirm(I18nHelper.deleteSchema() + "[" + this.schema() + "]", this.getWindow())) {
                         if (this.parent().dropSchema(this.schema())) {
                             DamengEventUtil.schemaDropped(this);
                             super.remove();
                         } else {
-                            MessageBox.warn(I18nHelper.operationFail());
+                            MessageBox.warn(I18nHelper.operationFail(), this.getWindow());
                         }
                     }
                 })
@@ -227,7 +227,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
                     .onSuccess(this::expend)
                     .onError(ex -> {
                         this.setLoaded(false);
-                        MessageBox.error(ex.getMessage());
+                        MessageBox.error(ex.getMessage(), this.getWindow());
                     })
                     .onFinish(() -> this.setLoading(false))
                     .build();
@@ -412,7 +412,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
         try {
             return this.client().tableSize(this.schema());
         } catch (Exception ex) {
-            MessageBox.exception(ex);
+            MessageBox.exception(ex, this.getWindow());
         }
         return 0;
     }
