@@ -161,7 +161,7 @@
   | `tableInfo(DamengTableTreeItem)` | 表信息页 | 创建 `ShellDamengTableInfoController`，设置 item |
   | `viewInfo(DamengViewTreeItem)` | 视图信息页 | 创建 `DamengViewInfoController`，设置 item |
   | `functionInfo(DamengFunctionTreeItem)` | 函数信息页 | 创建 `ShellDamengFunctionInfoController`，设置 item |
-  | `procedureInfo(DamengProcedureTreeItem)` | 过程信息页 | 创建 `ShellDamengProcedureInfoController`，设置 item |
+  | `procedureInfo(DamengProcedureTreeItem)` | 过程信息页 | 创建 `ShellDamengSequenceInfoController`，设置 item |
 
 - 调用链：`表树右键 → ShellDamengViewFactory.exportData → ShellDamengDataExportController.display`；`表树双击 → tableInfo → ShellDamengTableInfoController`
 
