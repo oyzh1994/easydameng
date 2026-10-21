@@ -129,7 +129,7 @@ public class DamengViewTreeItem extends DBTreeItem<DamengViewTreeItemValue> {
      * 查看视图信息
      */
      private void viewInfo() {
-//         StageAdapter fxView = StageManager.parseStage(DamengViewInfoController.class, this.window());
+//         StageAdapter fxView = StageManager.parseStage(DamengViewInfoController.class, this.getWindow());
 //         fxView.setProp("item", this);
 //         fxView.display();
          ShellDamengViewFactory.viewInfo(this);

@@ -142,7 +142,7 @@ public class DBGroupTreeItem extends DBTreeItem<DBGroupTreeItemValue> implements
      * 添加连接
      */
     private void addConnect() {
-        StageAdapter fxView = StageManager.parseStage(DamengConnectAddController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(DamengConnectAddController.class, this.getWindow());
         fxView.setProp("group", this.value);
         fxView.display();
     }

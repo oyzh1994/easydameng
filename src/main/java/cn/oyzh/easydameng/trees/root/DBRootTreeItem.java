@@ -205,7 +205,7 @@ public class DBRootTreeItem extends DBTreeItem<DBRootTreeItemValue> implements D
      * 添加连接
      */
     private void addConnect() {
-        StageManager.showStage(DamengConnectAddController.class, this.window());
+        StageManager.showStage(DamengConnectAddController.class, this.getWindow());
     }
 
     /**

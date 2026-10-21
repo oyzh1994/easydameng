@@ -144,7 +144,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
      * 运行sql文件
      */
     private void runSqlFile() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengDataRunSqlFileController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataRunSqlFileController.class, this.getWindow());
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.schema());
         fxView.setProp("dbClient", this.client());
@@ -155,7 +155,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
      * 转储
      */
     private void dump() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengDataDumpController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataDumpController.class, this.getWindow());
         fxView.setProp("dumpType", 1);
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.schema());
@@ -191,7 +191,7 @@ public class DamengSchemaTreeItem extends DBTreeItem<DamengSchemaTreeItemValue> 
      * 编辑数据库
      */
     public void editDB() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengSchemaUpdateController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengSchemaUpdateController.class, this.getWindow());
         fxView.setProp("database", this.value);
         fxView.setProp("connectItem", this.parent());
         fxView.display();

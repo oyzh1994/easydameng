@@ -120,7 +120,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
      */
     @FXML
     private void addSchema() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengSchemaAddController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengSchemaAddController.class, this.getWindow());
         fxView.setProp("connectItem", this);
         fxView.showAndWait();
         String databaseName = fxView.getProp("databaseName");
@@ -218,7 +218,7 @@ public class DBConnectTreeItem extends DBTreeItem<DBConnectTreeItemValue> {
             }
             this.closeConnect();
         }
-        StageAdapter fxView = StageManager.parseStage(DamengConnectUpdateController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(DamengConnectUpdateController.class, this.getWindow());
         fxView.setProp("info", this.value());
         fxView.display();
     }

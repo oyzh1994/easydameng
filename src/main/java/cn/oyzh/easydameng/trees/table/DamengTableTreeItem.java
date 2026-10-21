@@ -170,7 +170,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
      * 转储
      */
     private void dump() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengDataDumpController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataDumpController.class, this.getWindow());
         fxView.setProp("dumpType", 2);
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.schema());
@@ -183,7 +183,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
      * 导出
      */
     private void export() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengDataExportController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataExportController.class, this.getWindow());
         fxView.setProp("dumpType", 2);
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.schema());
@@ -246,7 +246,7 @@ public class DamengTableTreeItem extends DBTreeItem<DamengTableTreeItemValue> {
      * 查看表信息
      */
     private void tableInfo() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengTableInfoController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengTableInfoController.class, this.getWindow());
         fxView.setProp("item", this);
         fxView.display();
     }

@@ -65,7 +65,7 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
      * 导出数据
      */
     private void exportData() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengDataExportController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataExportController.class, this.getWindow());
         fxView.setProp("dumpType", 2);
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.schema());
@@ -77,7 +77,7 @@ public class DamengTablesTreeItem extends DBTreeItem<DamengTablesTreeItemValue> 
      * 导入数据
      */
     private void importData() {
-        StageAdapter fxView = StageManager.parseStage(ShellDamengDataImportController.class, this.window());
+        StageAdapter fxView = StageManager.parseStage(ShellDamengDataImportController.class, this.getWindow());
         fxView.setProp("dbInfo", this.info());
         fxView.setProp("dbName", this.schema());
         fxView.setProp("dbClient", this.client());
