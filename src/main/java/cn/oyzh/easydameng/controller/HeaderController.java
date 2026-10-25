@@ -48,7 +48,7 @@ public class HeaderController extends SubStageController {
     private void transport() {
         StageAdapter wrapper = StageManager.getStage(ShellDamengDataTransportController.class);
         if (wrapper != null) {
-            wrapper.toFront();
+            wrapper.front();
         } else {
             StageManager.showStage(ShellDamengDataTransportController.class, StageManager.getFrontWindow());
         }
@@ -59,9 +59,9 @@ public class HeaderController extends SubStageController {
      */
     @FXML
     private void setting() {
-        StageAdapter fxView = StageManager.getStage(SettingController2.class);
-        if (fxView != null) {
-            fxView.toFront();
+        StageAdapter adapter = StageManager.getStage(SettingController2.class);
+        if (adapter != null) {
+            adapter.front();
         } else {
             StageManager.showStage(SettingController2.class, this.stage);
         }

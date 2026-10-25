@@ -174,10 +174,10 @@ public class EasyDamengApp extends FXApplication {
      */
     private void showMain() {
         FXUtil.runLater(() -> {
-            StageAdapter wrapper = StageManager.getStage(MainController.class);
-            if (wrapper != null) {
+            StageAdapter adapter = StageManager.getStage(MainController.class);
+            if (adapter != null) {
                 JulLog.info("front main.");
-                wrapper.toFront();
+                adapter.front();
             } else {
                 JulLog.info("show main.");
                 StageManager.showStage(MainController.class, StageManager.getFrontWindow());
@@ -190,10 +190,10 @@ public class EasyDamengApp extends FXApplication {
      */
     private void showSetting() {
         FXUtil.runLater(() -> {
-            StageAdapter wrapper = StageManager.getStage(SettingController2.class);
-            if (wrapper != null) {
+            StageAdapter adapter = StageManager.getStage(SettingController2.class);
+            if (adapter != null) {
                 JulLog.info("front setting.");
-                wrapper.toFront();
+                adapter.front();
             } else {
                 JulLog.info("show setting.");
                 StageManager.showStage(SettingController2.class, StageManager.getFrontWindow());
