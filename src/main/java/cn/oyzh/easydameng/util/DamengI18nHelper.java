@@ -1,6 +1,6 @@
 package cn.oyzh.easydameng.util;
 
-import cn.oyzh.fx.plus.i18n.I18nResourceBundle;
+import cn.oyzh.i18n.I18nResourceBundle;
 
 /**
  * 达梦数据库国际化资源帮助类。
