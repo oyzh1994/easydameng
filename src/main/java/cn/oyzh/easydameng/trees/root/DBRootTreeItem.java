@@ -57,7 +57,7 @@ public class DBRootTreeItem extends DBTreeItem<DBRootTreeItemValue> implements D
      *
      * @param treeView 所属树视图
      */
-    public DBRootTreeItem( DBTreeView treeView) {
+    public DBRootTreeItem(DBTreeView treeView) {
         super(treeView);
         this.setValue(new DBRootTreeItemValue());
         // 初始化子节点
@@ -92,10 +92,10 @@ public class DBRootTreeItem extends DBTreeItem<DBRootTreeItemValue> implements D
     @Override
     public List<MenuItem> getMenuItems() {
         List<MenuItem> items = new ArrayList<>();
-        FXMenuItem addConnect = MenuItemHelper.addConnect( this::addConnect);
-        FXMenuItem exportConnect = MenuItemHelper.exportConnect( this::exportConnect);
-        FXMenuItem importConnect = MenuItemHelper.importConnect( this::importConnect);
-        FXMenuItem addGroup = MenuItemHelper.addFolder1( this::addGroup);
+        FXMenuItem addConnect = MenuItemHelper.addConnect(this::addConnect);
+        FXMenuItem exportConnect = MenuItemHelper.exportConnect(this::exportConnect);
+        FXMenuItem importConnect = MenuItemHelper.importConnect(this::importConnect);
+        FXMenuItem addGroup = MenuItemHelper.addFolder1(this::addGroup);
 
         exportConnect.setDisable(this.isChildEmpty());
 
@@ -117,7 +117,7 @@ public class DBRootTreeItem extends DBTreeItem<DBRootTreeItemValue> implements D
         }
         DamengInfoExport export = DamengInfoExport.fromConnects(infos);
         FileExtensionFilter extensionFilter = FXChooser.jsonExtensionFilter();
-        File file = FileChooserHelper.save(I18nHelper.saveConnection(), I18nResourceBundle.i18nString("base.database", "base.connect", "base._json"), extensionFilter);
+        File file = FileChooserHelper.save(I18nHelper.saveConnection(), I18nResourceBundle.i18nString("base.database", "base.connect", "base._json"), extensionFilter, this.getWindow());
         if (file != null) {
             try {
                 FileUtil.writeUtf8String(export.toJSONString(), file);
@@ -151,7 +151,7 @@ public class DBRootTreeItem extends DBTreeItem<DBRootTreeItemValue> implements D
      */
     public void importConnect() {
         FileExtensionFilter filter1 = FXChooser.jsonExtensionFilter();
-        File file = FileChooserHelper.choose(I18nHelper.chooseFile(), filter1);
+        File file = FileChooserHelper.choose(I18nHelper.chooseFile(), filter1, this.getWindow());
         // 解析文件
         this.parseConnect(file);
     }
@@ -301,7 +301,7 @@ public class DBRootTreeItem extends DBTreeItem<DBRootTreeItemValue> implements D
     }
 
     @Override
-    public void addConnect( DamengConnect info) {
+    public void addConnect(DamengConnect info) {
         DBGroupTreeItem groupItem = this.getGroupItem(info.getGroupId());
         if (groupItem == null) {
             super.addChild(new DBConnectTreeItem(info, this.getTreeView()));
@@ -311,7 +311,7 @@ public class DBRootTreeItem extends DBTreeItem<DBRootTreeItemValue> implements D
     }
 
     @Override
-    public void addConnectItem( DBConnectTreeItem item) {
+    public void addConnectItem(DBConnectTreeItem item) {
         if (!this.containsChild(item)) {
             if (item.value().getGroupId() != null) {
                 item.value().setGroupId(null);
@@ -323,7 +323,7 @@ public class DBRootTreeItem extends DBTreeItem<DBRootTreeItemValue> implements D
     }
 
     @Override
-    public void addConnectItems( List<DBConnectTreeItem> items) {
+    public void addConnectItems(List<DBConnectTreeItem> items) {
         if (CollectionUtil.isNotEmpty(items)) {
             this.addChild((List) items);
             this.expend();
@@ -331,7 +331,7 @@ public class DBRootTreeItem extends DBTreeItem<DBRootTreeItemValue> implements D
     }
 
     @Override
-    public boolean delConnectItem( DBConnectTreeItem item) {
+    public boolean delConnectItem(DBConnectTreeItem item) {
         // 删除连接
         if (this.connectStore.delete(item.value())) {
             this.removeChild(item);
