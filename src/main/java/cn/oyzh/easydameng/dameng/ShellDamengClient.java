@@ -3758,12 +3758,8 @@ public class ShellDamengClient implements DBClient {
         return listRoutineParam(schema, procedureName, "PROCEDURE");
     }
 
-    /**
-     * 打印sql
-     *
-     * @param sql sql
-     */
-    private void printSql(String sql) {
+    @Override
+    public void printSql(String sql) {
         DBUtil.printSql(sql);
         String compressedSql = DBSqlParser.compressSql(sql, this.dialect());
         DamengEventUtil.printSql(compressedSql, this.dbConnect);
