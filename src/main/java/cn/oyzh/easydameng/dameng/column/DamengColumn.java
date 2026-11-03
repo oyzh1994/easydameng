@@ -347,6 +347,11 @@ public class DamengColumn extends DBObject implements DBColumn, ObjectCopier<Dam
         return DBColumnFieldManager.supportSize(DBDialect.DAMENG, this.getType());
     }
 
+    @Override
+    public DBDialect getDialect() {
+        return DBDialect.DAMENG;
+    }
+
     /**
      * 获取推荐长度
      *
@@ -354,76 +359,6 @@ public class DamengColumn extends DBObject implements DBColumn, ObjectCopier<Dam
      */
     public Integer suggestSize() {
         return DBColumnFieldManager.suggestSize(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportUnsigned() {
-        return DBColumnFieldManager.supportUnsigned(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportDigits() {
-        return DBColumnFieldManager.supportDigits(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportInteger() {
-        return DBColumnFieldManager.supportInteger(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportAutoIncrement() {
-        return DBColumnFieldManager.supportAutoIncrement(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportDefaultValue() {
-        return DBColumnFieldManager.supportDefaultValue(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportTimestamp() {
-        return DBColumnFieldManager.supportTimestamp(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportValue() {
-        return DBColumnFieldManager.supportValue(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportBit() {
-        return DBColumnFieldManager.supportBit(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportBoolean() {
-        return DBColumnFieldManager.supportBoolean(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportJson() {
-        return DBColumnFieldManager.supportJson(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportJsonArray() {
-        return DBColumnFieldManager.supportJsonArray(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportText() {
-        return DBColumnFieldManager.supportText(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportKeySize() {
-        return DBColumnFieldManager.supportKeySize(DBDialect.DAMENG, this.getType());
-    }
-
-    @Override
-    public boolean supportString() {
-        return DBColumnFieldManager.supportString(DBDialect.DAMENG, this.getType());
     }
 
     @Override
@@ -617,11 +552,6 @@ public class DamengColumn extends DBObject implements DBColumn, ObjectCopier<Dam
     @Override
     public boolean isTimeType() {
         return DamengColumnUtil.isTimeType(this.getType());
-    }
-
-    @Override
-    public boolean supportBinary() {
-        return DBColumnFieldManager.supportBinary(DBDialect.DAMENG, this.getType());
     }
 
     @Override
