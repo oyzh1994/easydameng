@@ -28,7 +28,7 @@ public class DamengForeignKey extends DBObject implements DBForeignKey, ObjectCo
     /**
      * 外键字段列表
      */
-    private Set<String> columns;
+    private List<String> columns;
 
     /**
      * 引用库名称
@@ -43,7 +43,7 @@ public class DamengForeignKey extends DBObject implements DBForeignKey, ObjectCo
     /**
      * 引用字段列表
      */
-    private Set<String> primaryKeyColumns;
+    private List<String> primaryKeyColumns;
 
     /**
      * 外键删除策略
@@ -115,7 +115,7 @@ public class DamengForeignKey extends DBObject implements DBForeignKey, ObjectCo
     }
 
     @Override
-    public void setColumns(Set<String> columns) {
+    public void setColumns(List<String> columns) {
         this.columns = columns;
         super.putOriginalData("columns", columns);
     }
@@ -141,12 +141,12 @@ public class DamengForeignKey extends DBObject implements DBForeignKey, ObjectCo
     }
 
     @Override
-    public Set<String> getReferencedColumns() {
+    public List<String> getReferencedColumns() {
         return this.getPrimaryKeyColumns();
     }
 
     @Override
-    public void setReferencedColumns(Set<String> referencedColumns) {
+    public void setReferencedColumns(List<String> referencedColumns) {
         this.setPrimaryKeyColumns(referencedColumns);
     }
 
@@ -200,7 +200,7 @@ public class DamengForeignKey extends DBObject implements DBForeignKey, ObjectCo
      *
      * @param primaryKeyColumns 引用字段列表
      */
-    public void setPrimaryKeyColumns(Set<String> primaryKeyColumns) {
+    public void setPrimaryKeyColumns(List<String> primaryKeyColumns) {
         this.primaryKeyColumns = primaryKeyColumns;
         super.putOriginalData("primaryKeyColumns", primaryKeyColumns);
     }
@@ -212,7 +212,7 @@ public class DamengForeignKey extends DBObject implements DBForeignKey, ObjectCo
      */
     public void addPrimaryKeyColumn(String columnName) {
         if (this.primaryKeyColumns == null) {
-            this.setPrimaryKeyColumns(new HashSet<>());
+            this.setPrimaryKeyColumns(new ArrayList<>());
         }
         this.primaryKeyColumns.add(columnName);
     }
@@ -242,9 +242,9 @@ public class DamengForeignKey extends DBObject implements DBForeignKey, ObjectCo
     }
 
     @Override
-    public Set<String> getColumns() {
+    public List<String> getColumns() {
         if (this.columns == null) {
-            this.columns = new HashSet<>();
+            this.columns = new ArrayList<>();
         }
         return columns;
     }
@@ -266,7 +266,7 @@ public class DamengForeignKey extends DBObject implements DBForeignKey, ObjectCo
     /**
      * 获取引用字段列表
      */
-    public Set<String> getPrimaryKeyColumns() {
+    public List<String> getPrimaryKeyColumns() {
         return primaryKeyColumns;
     }
 }
