@@ -120,6 +120,36 @@ public class DamengForeignKey extends DBObject implements DBForeignKey, ObjectCo
         super.putOriginalData("columns", columns);
     }
 
+    @Override
+    public String getReferencedDatabase() {
+        return this.getPrimaryKeyDatabase();
+    }
+
+    @Override
+    public void setReferencedDatabase(String referencedDatabase) {
+        this.setPrimaryKeyDatabase(referencedDatabase);
+    }
+
+    @Override
+    public String getReferencedTable() {
+        return this.getPrimaryKeyTable();
+    }
+
+    @Override
+    public void setReferencedTable(String referencedTable) {
+        this.setPrimaryKeyTable(referencedTable);
+    }
+
+    @Override
+    public Set<String> getReferencedColumns() {
+        return this.getPrimaryKeyColumns();
+    }
+
+    @Override
+    public void setReferencedColumns(Set<String> referencedColumns) {
+        this.setPrimaryKeyColumns(referencedColumns);
+    }
+
     /**
      * 设置引用库名称
      *
