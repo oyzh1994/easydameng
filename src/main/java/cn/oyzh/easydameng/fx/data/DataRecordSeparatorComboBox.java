@@ -24,11 +24,7 @@ public class DataRecordSeparatorComboBox extends FXComboBox<String> {
         }
     }
 
-    /**
-     * 获取选中的记录分隔符
-     *
-     * @return 记录分隔符
-     */
+    @Override
     public String value() {
         int itemIndex = this.getSelectedIndex();
         if (itemIndex == 0) {
