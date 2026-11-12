@@ -8,7 +8,7 @@ import cn.oyzh.i18n.I18nHelper;
  * @author oyzh
  * @since 2024/6/27
  */
-public class DamengNotStartWithCondition extends DamengCondition {
+public class DamengNotStartWithCondition extends DamengStartWithCondition {
 
     /** 不以指定值开头条件实例 */
     public final static DamengNotStartWithCondition INSTANCE = new DamengNotStartWithCondition();
@@ -18,13 +18,5 @@ public class DamengNotStartWithCondition extends DamengCondition {
      */
     public DamengNotStartWithCondition() {
         super(I18nHelper.notStartWith(), "NOT LIKE");
-    }
-
-    @Override
-    public String wrapCondition(Object condition) {
-        if (condition != null) {
-            return super.wrapCondition("%" + condition);
-        }
-        return super.wrapCondition(condition);
     }
 }

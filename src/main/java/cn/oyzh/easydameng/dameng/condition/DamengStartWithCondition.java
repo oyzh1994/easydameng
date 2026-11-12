@@ -10,7 +10,9 @@ import cn.oyzh.i18n.I18nHelper;
  */
 public class DamengStartWithCondition extends DamengCondition {
 
-    /** 以指定值开头条件实例 */
+    /**
+     * 以指定值开头条件实例
+     */
     public final static DamengStartWithCondition INSTANCE = new DamengStartWithCondition();
 
     /**
@@ -20,11 +22,15 @@ public class DamengStartWithCondition extends DamengCondition {
         super(I18nHelper.startWith(), "LIKE");
     }
 
+    public DamengStartWithCondition(String name, String value) {
+        super(name, value);
+    }
+
     @Override
     public String wrapCondition(Object condition) {
         if (condition != null) {
-            return super.wrapCondition("%" + condition);
+            return super.wrapValue("%" + condition);
         }
-        return super.wrapCondition(condition);
+        return super.wrapValue(condition);
     }
 }

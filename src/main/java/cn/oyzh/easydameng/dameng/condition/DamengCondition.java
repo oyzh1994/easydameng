@@ -40,13 +40,13 @@ public abstract class DamengCondition extends DBCondition {
         super(name, value, requireCondition);
     }
 
-    @Override
-    public String wrapCondition(String columnName, Object condition) {
-        if (this.isRequireCondition()) {
-            return condition == null ? this.getValue() : this.getValue() + " " + this.wrapCondition(condition);
-        }
-        return this.wrapCondition(condition);
-    }
+//    @Override
+//    public String wrapCondition(String columnName, Object condition) {
+//        if (this.isRequireCondition()) {
+//            return condition == null ? this.getValue() : this.getValue() + " " + this.wrapCondition(condition);
+//        }
+//        return super.wrapValue(condition);
+//    }
 
     @Override
     public DBDialect getDialect() {
