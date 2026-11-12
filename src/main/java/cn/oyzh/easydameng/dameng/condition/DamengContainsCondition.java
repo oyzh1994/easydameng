@@ -10,7 +10,9 @@ import cn.oyzh.i18n.I18nHelper;
  */
 public class DamengContainsCondition extends DamengCondition {
 
-    /** 包含条件实例 */
+    /**
+     * 包含条件实例
+     */
     public final static DamengContainsCondition INSTANCE = new DamengContainsCondition();
 
     /**
@@ -20,11 +22,15 @@ public class DamengContainsCondition extends DamengCondition {
         super(I18nHelper.contains(), "LIKE");
     }
 
+    public DamengContainsCondition(String name, String value) {
+        super(name, value);
+    }
+
     @Override
     public String wrapCondition(Object condition) {
         if (condition != null) {
-            return super.wrapValue("%" + condition + "%");
+            return this.getValue() + " " + super.wrapValue("%" + condition + "%");
         }
-        return super.wrapValue(condition);
+        return null;
     }
 }

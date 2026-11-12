@@ -8,7 +8,7 @@ import cn.oyzh.i18n.I18nHelper;
  * @author oyzh
  * @since 2024/6/27
  */
-public class DamengNotEndWithCondition extends DamengCondition {
+public class DamengNotEndWithCondition extends DamengEndWithCondition {
 
     /** 不以指定值结尾条件实例 */
     public final static DamengNotEndWithCondition INSTANCE = new DamengNotEndWithCondition();
@@ -18,13 +18,5 @@ public class DamengNotEndWithCondition extends DamengCondition {
      */
     public DamengNotEndWithCondition() {
         super(I18nHelper.notEndWith(), "NOT LIKE");
-    }
-
-    @Override
-    public String wrapCondition(Object condition) {
-        if (condition != null) {
-            return super.wrapValue(condition + "%");
-        }
-        return super.wrapValue(condition);
     }
 }

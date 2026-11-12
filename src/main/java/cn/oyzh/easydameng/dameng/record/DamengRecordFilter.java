@@ -120,16 +120,6 @@ public class DamengRecordFilter extends DBRecordFilter {
         return this.column.getName();
     }
 
-//    /**
-//     * 获取条件表达式
-//     *
-//     * @return 条件表达式
-//     * @throws Exception 异常
-//     */
-//    public String condition() throws Exception {
-//        return this.condition.wrapCondition(this.column.getName(),this.value());
-//    }
-
     /**
      * 是否需要条件
      *
