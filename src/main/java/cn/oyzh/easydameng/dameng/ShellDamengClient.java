@@ -442,7 +442,7 @@ public class ShellDamengClient implements DBClient {
     public int procedureSize(String schema) {
         int size = 0;
         try {
-            Connection connection = this.connManager.procedureConnection(schema);
+            Connection connection = this.connManager.connection(schema);
             String sql = """
                     SELECT
                         COUNT(*)
@@ -478,7 +478,7 @@ public class ShellDamengClient implements DBClient {
     public int functionSize(String schema) {
         int size = 0;
         try {
-            Connection connection = this.connManager.functionConnection(schema);
+            Connection connection = this.connManager.connection(schema);
             String sql = """
                     SELECT
                         COUNT(*)
@@ -512,7 +512,7 @@ public class ShellDamengClient implements DBClient {
      */
     public void alertFunction(DamengAlertFunctionParam param) {
         try {
-            Connection connection = this.connManager.functionConnection(param.getSchema());
+            Connection connection = this.connManager.connection(param.getSchema());
             Statement statement = connection.createStatement();
             String sql = DamengFunctionAlertSqlGenerator.generateSqlSingle(param);
             this.printSql(sql);
@@ -742,7 +742,7 @@ public class ShellDamengClient implements DBClient {
 
     //    public DamengEvent selectEvent(String dbName, String eventName) {
     //        try {
-    //            Connection connection = this.functionConnection(dbName, null);
+    //            Connection connection = this.connection(dbName, null);
     //            String sql = """
     //                    SELECT
     //                        t1.ENABLED AS STATUS,
@@ -779,7 +779,7 @@ public class ShellDamengClient implements DBClient {
     //    public Integer eventSize(String dbName) {
     //        int size = 0;
     //        try {
-    //            Connection connection = this.functionConnection(dbName, null);
+    //            Connection connection = this.connection(dbName, null);
     //            String sql = """
     //                    SELECT
     //                        COUNT(*)
@@ -803,7 +803,7 @@ public class ShellDamengClient implements DBClient {
 
     //    public List<DamengEvent> events(String dbName) {
     //        try {
-    //            Connection connection = this.functionConnection(dbName, null);
+    //            Connection connection = this.connection(dbName, null);
     //            String sql = """
     //                    SELECT
     //                        t1.JOB_NAME AS NAME,
@@ -1446,7 +1446,7 @@ public class ShellDamengClient implements DBClient {
      */
     public String showCreateFunction(String schema, String functionName) {
         try {
-            Connection connection = this.connManager.functionConnection(schema);
+            Connection connection = this.connManager.connection(schema);
             String sql = "SELECT DBMS_METADATA.GET_DDL('FUNCTION', ?) FROM DUAL";
             this.printSql(sql);
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -1474,7 +1474,7 @@ public class ShellDamengClient implements DBClient {
      */
     public String showCreateProcedure(String schema, String procedureName) {
         try {
-            Connection connection = this.connManager.procedureConnection(schema);
+            Connection connection = this.connManager.connection(schema);
             String sql = "SELECT DBMS_METADATA.GET_DDL('PROCEDURE', ?) FROM DUAL";
             this.printSql(sql);
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -2903,7 +2903,7 @@ public class ShellDamengClient implements DBClient {
                         O.OBJECT_TYPE = 'FUNCTION'
                     """;
             this.printSql(sql);
-            PreparedStatement statement = this.connManager.functionConnection(schema).prepareStatement(sql);
+            PreparedStatement statement = this.connManager.connection(schema).prepareStatement(sql);
             statement.setString(1, schema);
             // 执行SQL查询并获取结果集
             ResultSet resultSet = statement.executeQuery();
@@ -3011,7 +3011,7 @@ public class ShellDamengClient implements DBClient {
                         O.OBJECT_TYPE = 'PROCEDURE'
                     """;
             this.printSql(sql);
-            PreparedStatement statement = this.connManager.procedureConnection(schema).prepareStatement(sql);
+            PreparedStatement statement = this.connManager.connection(schema).prepareStatement(sql);
             statement.setString(1, schema);
             // 执行SQL查询并获取结果集
             ResultSet resultSet = statement.executeQuery();
@@ -3124,7 +3124,7 @@ public class ShellDamengClient implements DBClient {
                         O.OBJECT_TYPE = 'PROCEDURE'
                     """;
             this.printSql(sql);
-            PreparedStatement statement = this.connManager.procedureConnection(schema).prepareStatement(sql);
+            PreparedStatement statement = this.connManager.connection(schema).prepareStatement(sql);
             statement.setString(1, schema);
             statement.setString(2, produceName);
             // 执行SQL查询并获取结果集
@@ -3190,7 +3190,7 @@ public class ShellDamengClient implements DBClient {
         try {
             String sql = "DROP PROCEDURE IF EXISTS " + DBUtil.wrap(schema, routine.getName(), DBDialect.DAMENG);
             this.printSql(sql);
-            Statement statement = this.connManager.procedureConnection(schema).createStatement();
+            Statement statement = this.connManager.connection(schema).createStatement();
             statement.executeUpdate(sql);
             IOUtil.close(statement);
         } catch (Exception ex) {
@@ -3208,7 +3208,7 @@ public class ShellDamengClient implements DBClient {
         try {
             String sql = DamengProcedureCreateSqlGenerator.generateSqlSingle(param);
             this.printSql(sql);
-            Statement statement = this.connManager.procedureConnection(param.getSchema()).createStatement();
+            Statement statement = this.connManager.connection(param.getSchema()).createStatement();
             statement.executeUpdate(sql);
             IOUtil.close(statement);
         } catch (Exception ex) {
@@ -3226,7 +3226,7 @@ public class ShellDamengClient implements DBClient {
         try {
             String sql = DamengProcedureAlertSqlGenerator.generateSqlSingle(param);
             this.printSql(sql);
-            Statement statement = this.connManager.procedureConnection(param.getSchema()).createStatement();
+            Statement statement = this.connManager.connection(param.getSchema()).createStatement();
             statement.executeUpdate(sql);
             IOUtil.close(statement);
         } catch (Exception ex) {
@@ -3244,7 +3244,7 @@ public class ShellDamengClient implements DBClient {
         try {
             String sql = "DROP function IF EXISTS " + DBUtil.wrap(function.getSchema(), function.getName(), DBDialect.DAMENG);
             this.printSql(sql);
-            Statement statement = this.connManager.functionConnection(function.getSchema()).createStatement();
+            Statement statement = this.connManager.connection(function.getSchema()).createStatement();
             statement.executeUpdate(sql);
             IOUtil.close(statement);
         } catch (Exception ex) {
@@ -3311,7 +3311,7 @@ public class ShellDamengClient implements DBClient {
                         O.OBJECT_TYPE = 'FUNCTION'
                     """;
             this.printSql(sql);
-            PreparedStatement statement = this.connManager.functionConnection(schema).prepareStatement(sql);
+            PreparedStatement statement = this.connManager.connection(schema).prepareStatement(sql);
             statement.setString(1, schema);
             statement.setString(2, functionName);
             // 执行SQL查询并获取结果集
@@ -3376,7 +3376,7 @@ public class ShellDamengClient implements DBClient {
         try {
             String sql = DamengFunctionCreateSqlGenerator.generateSqlSingle(param);
             this.printSql(sql);
-            Statement statement = this.connManager.functionConnection(param.getSchema()).createStatement();
+            Statement statement = this.connManager.connection(param.getSchema()).createStatement();
             statement.executeUpdate(sql);
             IOUtil.close(statement);
         } catch (Exception ex) {
