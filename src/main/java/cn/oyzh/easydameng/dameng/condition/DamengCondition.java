@@ -40,17 +40,6 @@ public abstract class DamengCondition extends DBCondition {
         super(name, value, requireCondition);
     }
 
-    /**
-     * 包装条件值
-     *
-     * @param condition 条件值
-     * @return 包装后的条件
-     */
-    public String wrapCondition(Object condition) {
-        Object d = DBUtil.wrapData(condition, DBDialect.MYSQL);
-        return d == null ? null : d.toString();
-    }
-
     @Override
     public String wrapCondition(String columnName, Object condition) {
         if (this.isRequireCondition()) {
