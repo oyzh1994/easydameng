@@ -8,7 +8,6 @@ import cn.oyzh.easydameng.dameng.check.DamengCheck;
 import cn.oyzh.easydameng.dameng.column.DamengColumn;
 import cn.oyzh.easydameng.dameng.column.DamengColumns;
 import cn.oyzh.easydameng.dameng.column.DamengSelectColumnParam;
-import cn.oyzh.easydameng.dameng.condition.DamengConditionUtil;
 import cn.oyzh.easydameng.dameng.foreignKey.DamengForeignKey;
 import cn.oyzh.easydameng.dameng.function.DamengAlertFunctionParam;
 import cn.oyzh.easydameng.dameng.function.DamengCreateFunctionParam;
@@ -2813,14 +2812,14 @@ public class ShellDamengClient implements DBClient {
      *
      * @param schema   库名称或者模式名称
      * @param sqlList  SQL语句列表
-     * @param parallel 是否并行执行
+     * @param newConnection 是否使用新连接
      * @return 受影响的行数
      */
-    public int insertBatch(String schema, List<String> sqlList, boolean parallel) {
+    public int insertBatch(String schema, List<String> sqlList, boolean newConnection) {
         Connection connection = null;
         int result = 0;
         try {
-            connection = parallel ? this.connManager.newConnection(schema) : this.connManager.connection(schema);
+            connection = newConnection ? this.connManager.newConnection(schema) : this.connManager.connection(schema);
             connection.setAutoCommit(false);
             Statement statement = connection.createStatement();
             for (String sql : sqlList) {
@@ -2830,9 +2829,6 @@ public class ShellDamengClient implements DBClient {
             int[] results = statement.executeBatch();
             connection.commit();
             IOUtil.close(statement);
-            if (parallel) {
-                IOUtil.close(connection);
-            }
             for (int i : results) {
                 result += i;
             }
@@ -2841,6 +2837,10 @@ public class ShellDamengClient implements DBClient {
             ex.printStackTrace();
             DBUtil.rollback(connection);
             throw new DBException(ex);
+        } finally {
+            if (newConnection) {
+                IOUtil.close(connection);
+            }
         }
         return result;
     }
@@ -3669,6 +3669,7 @@ public class ShellDamengClient implements DBClient {
     //    }
     //    return null;
     //}
+
     /**
      * 查询例程参数列表
      *
