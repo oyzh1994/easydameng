@@ -25,10 +25,10 @@ import java.util.Map;
  */
 public class ShellDamengUtil {
 
-    /**
-     * 是否启用元数据打印
-     */
-    public static boolean ENABLE_PRINT_METADATA = true;
+//    /**
+//     * 是否启用元数据打印
+//     */
+//    public static boolean ENABLE_PRINT_METADATA = true;
 
     /**
      * 是否内部库
@@ -135,27 +135,27 @@ public class ShellDamengUtil {
 //        return true;
 //    }
 
-    /**
-     * 打印元数据
-     *
-     * @param resultSet 结果集
-     * @throws SQLException 异常
-     */
-    public static void printMetaData(ResultSet resultSet) throws SQLException {
-        if (ENABLE_PRINT_METADATA) {
-            // 获取结果集元数据
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            // 获取列数
-            int columnCount = metaData.getColumnCount();
-            // 遍历结果集并输出列名
-            for (int i = 1; i <= columnCount; i++) {
-                // 获取列名
-                String columnName = metaData.getColumnName(i);
-                JulLog.info("Column Name: {}", columnName);
-            }
-            JulLog.info("printMetaData======================>");
-        }
-    }
+//    /**
+//     * 打印元数据
+//     *
+//     * @param resultSet 结果集
+//     * @throws SQLException 异常
+//     */
+//    public static void printMetaData(ResultSet resultSet) throws SQLException {
+//        if (ENABLE_PRINT_METADATA) {
+//            // 获取结果集元数据
+//            ResultSetMetaData metaData = resultSet.getMetaData();
+//            // 获取列数
+//            int columnCount = metaData.getColumnCount();
+//            // 遍历结果集并输出列名
+//            for (int i = 1; i <= columnCount; i++) {
+//                // 获取列名
+//                String columnName = metaData.getColumnName(i);
+//                JulLog.info("Column Name: {}", columnName);
+//            }
+//            JulLog.info("printMetaData======================>");
+//        }
+//    }
 
 //    /**
 //     * 打印sql
