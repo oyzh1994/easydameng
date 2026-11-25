@@ -209,14 +209,14 @@ public class DamengRecord extends DBObject implements Destroyable {
         return false;
     }
 
-    @Override
-    public void clearStatus() {
-        for (DamengRecordProperty property : this.properties.values()) {
-            property.setChanged(false);
-            property.updateOriginal();
-        }
-        super.clearStatus();
-    }
+//    @Override
+//    public void clearStatus() {
+//        for (DamengRecordProperty property : this.properties.values()) {
+//            property.setChanged(false);
+//            property.updateOriginal();
+//        }
+//        super.clearStatus();
+//    }
 
     /**
      * 抛弃变更
